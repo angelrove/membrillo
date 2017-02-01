@@ -1,0 +1,26 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+.WListBasic {
+  background-color: #FFF;
+  border-collapse:collapse;
+  border: 1px solid #666;
+}
+.WListBasic .field_title {
+  background-color: #FFFFc7;
+  text-align: center;
+  font-weight: bold;
+}
+.WListBasic td {
+  border: 1px solid #999;
+}
+
+/*----------------------------*/
+
+#WListBasic_form {
+ text-align:center;
+}
+#WListBasic_form textarea {
+  min-width:600px; height:100px;
+}

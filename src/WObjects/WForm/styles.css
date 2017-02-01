@@ -1,0 +1,12 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+.WForm td {
+  padding:3px;
+}
+.WForm .oper_buttons input[type="button"] {
+  font-weight:bold;
+  min-width:80px;
+  margin-left:5px;
+}

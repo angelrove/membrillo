@@ -1,0 +1,96 @@
+body {
+  font-size: 14px;
+}
+h1, h2, h3, h4 {
+ margin: 0;
+}
+hr {
+ margin-top: 6px;
+ margin-bottom: 7px;
+}
+
+/*----------------*/
+.font-monospace {
+ font-family: monospace;
+}
+.display-table {
+ display:table;
+}
+.strip-margin {
+ margin:0;
+}
+.center-block2 {
+ display:table;
+ margin-left: auto;
+ margin-right: auto;
+}
+
+/* ---- Panels ----*/
+.alert {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.well {
+  box-shadow: none;
+}
+.panel-heading {
+  padding-bottom: 0px;
+}
+/* ----- INPUTS ----- */
+.form-control {
+ height: inherit;
+ padding: 5px 10px;
+ font-size: 13px;
+}
+.checkbox, .WInputRadios {
+  display:inline-block;
+  margin-right: 14px;
+}
+.WInputFile td {
+  padding: 0 2px;
+}
+/*---- BUTTONS ------*/
+.btn {
+  padding: 7px 12px;
+}
+.btn-sm {
+  padding: 5px 10px;
+}
+.btn-xs {
+  padding: 3px 6px;
+}
+
+/* ----- HEADER ----- */
+.page-header {
+  margin: 0px;
+  padding: 6px 15px;
+  border-width: 0;
+  background-color: #191c22;
+  color: #eee;
+}
+.page-header h1 {
+  font-size: 21px;
+}
+/*--- Navbar ---- */
+.dropdown-menu>li>a {
+  padding: 9px 15px;
+}
+/* ----- BODY ----- */
+main.container-fluid {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+/* ----- FOOTER ----- */
+footer {
+ padding: 12px 20px;
+ font-size: 88%;
+ color: #999;
+}
+/*----- Form ---------*/
+legend {
+  font-size: 15px;
+  font-weight: bold;
+}
+form .oper_buttons .btn {
+  min-width: 80px;
+}

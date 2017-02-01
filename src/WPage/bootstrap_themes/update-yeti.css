@@ -1,0 +1,22 @@
+
+/* ------------------- */
+fieldset {
+ border:1px solid #999;
+ padding-bottom:10px;
+ padding-left:  10px;
+ padding-right: 10px;
+}
+legend {
+ font-weight: bold;
+}
+/* ----- Navbar ----- */
+.navbar {
+  /*min-height: inherit;*/
+}
+.navbar-nav>li>a {
+  /*padding-top: 9px;*/
+  /*padding-bottom: 9px;*/
+}
+.navbar .dropdown-menu>li>a {
+  padding: 6px 20px;
+}

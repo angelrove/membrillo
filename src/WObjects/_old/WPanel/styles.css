@@ -1,0 +1,12 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+.panel {
+  border:1px solid #888;
+  background-color:#FFF;
+  padding:5px;
+}
+
+.panel_contenido {
+}

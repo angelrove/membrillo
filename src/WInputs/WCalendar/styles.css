@@ -1,0 +1,87 @@
+#WCalendar {
+  border:1px solid #888; background-color:#fff;
+}
+#WCalendar div.year {
+  text-align:center;
+  font-weight:bold;
+}
+/* ------------------- */
+#WCalendar table.objMes {
+  border:1px solid #bbb;
+  border-collapse: collapse;
+  background-color: #fff;
+  margin:2px;
+}
+#WCalendar .bar_mesActual {
+  color:#444;
+}
+#WCalendar .dia_semana td {
+  width:27px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* ------------------- */
+#WCalendar tr.dias td {
+  border:1px solid #bbb;
+}
+
+/* ------------------- */
+#WCalendar div.dia         { border:1px solid #FFFFFF; padding-top:5px; padding-bottom:5px; text-align:center; cursor:default; }
+#WCalendar div.dia:hover   { border:1px solid #FFFFFF; background:#9999ff; color:#000; }
+#WCalendar div.dia_hoy     { border:1px solid #CCFFCC; background:#ccFFcc; font-weight:bold; }
+#WCalendar div.dia_otroMes { border:1px solid #eeeeee; background:#eeeeee; color:#888888; }
+#WCalendar div.dia_weekend { border:1px solid #eeeeee; background:#ffdddd; }
+
+#WCalendar div.rango_resaltado { background:#FF3300 !important; border-color:#FF3300 !important; }
+
+/* ToolTip ----------- */
+#WCalendar div.dia span {
+ display:none; padding:6px 6px; margin:10px 0px 0px -10px; text-align:left;
+}
+
+#WCalendar div.dia:hover span {
+ display:inline; position:absolute;
+ border:2px solid rgb(35,79,128);
+ background:#ddeeff;
+ font-weight:normal;
+ color:#222;
+}
+
+/* Colors ------------ */
+#WCalendar div.color_1  { background:#222277; border-color:#222277; color:#fff; }
+#WCalendar div.color_2  { background:#4444AA; border-color:#4444AA; color:#fff; }
+#WCalendar div.color_3  { background:#6666FF; border-color:#6666FF; color:#fff; }
+#WCalendar div.color_4  { background:#0000FF; border-color:#0000FF; color:#fff; }
+#WCalendar div.color_5  { background:#003333; border-color:#003333; color:#fff; }
+#WCalendar div.color_6  { background:#006666; border-color:#006666; color:#fff; }
+#WCalendar div.color_7  { background:#009999; border-color:#009999; color:#fff; }
+#WCalendar div.color_8  { background:#00CCCC; border-color:#00CCCC; color:#fff; }
+#WCalendar div.color_9  { background:#00FFFF; border-color:#00FFFF; color:#fff; }
+#WCalendar div.color_10 { background:#660000; border-color:#660000; color:#fff; }
+#WCalendar div.color_11 { background:#CC0000; border-color:#CC0000; color:#fff; }
+#WCalendar div.color_12 { background:#FE5E00; border-color:#FE5E00; color:#fff; }
+#WCalendar div.color_13 { background:#440000; border-color:#440000; color:#fff; }
+#WCalendar div.color_14 { background:#666600; border-color:#666600; color:#fff; }
+#WCalendar div.color_15 { background:#990000; border-color:#990000; color:#fff; }
+#WCalendar div.color_16 { background:#330033; border-color:#330033; color:#fff; }
+#WCalendar div.color_17 { background:#660066; border-color:#660066; color:#fff; }
+#WCalendar div.color_18 { background:#aa33aa; border-color:#aa33aa; color:#fff; }
+#WCalendar div.color_19 { background:#004400; border-color:#004400; color:#fff; }
+#WCalendar div.color_20 { background:#006600; border-color:#006600; color:#fff; }
+#WCalendar div.color_21 { background:#33aa33; border-color:#33aa33; color:#fff; }
+#WCalendar div.color_22 { background:#006600; border-color:#006600; color:#fff; }
+#WCalendar div.color_23 { background:#333300; border-color:#333300; color:#fff; }
+#WCalendar div.color_24  { background:#222277; border-color:#222277; color:#fff; }
+#WCalendar div.color_25  { background:#4444AA; border-color:#4444AA; color:#fff; }
+#WCalendar div.color_26  { background:#6666FF; border-color:#6666FF; color:#fff; }
+#WCalendar div.color_27 { background:#660066; border-color:#660066; color:#fff; }
+#WCalendar div.color_28 { background:#aa33aa; border-color:#aa33aa; color:#fff; }
+#WCalendar div.color_29 { background:#004400; border-color:#004400; color:#fff; }
+#WCalendar div.color_30 { background:#006600; border-color:#006600; color:#fff; }
+#WCalendar div.color_31 { background:#33aa33; border-color:#33aa33; color:#fff; }
+#WCalendar div.color_32 { background:#006600; border-color:#006600; color:#fff; }
+#WCalendar div.color_33 { background:#333300; border-color:#333300; color:#fff; }
+#WCalendar div.color_34  { background:#222277; border-color:#222277; color:#fff; }
+#WCalendar div.color_35  { background:#4444AA; border-color:#4444AA; color:#fff; }
+#WCalendar div.color_36  { background:#6666FF; border-color:#6666FF; color:#fff; }

@@ -1,0 +1,26 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+.WInputRadios,
+.WInputRadios .WInputRadio {
+  display:inline-block;
+}
+
+.WInputRadios input[type=radio] {
+  vertical-align: text-bottom;
+}
+.WInputRadios.with-color label {
+  padding: 1px 4px;
+}
+
+/*----------*/
+.WInputRadios2 .WInputRadio {
+  margin:0px;
+  padding:0px;
+}
+
+.WInputRadios2 .WInputRadiosLabel {
+  margin:0px;
+  padding:0px;
+}

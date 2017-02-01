@@ -1,0 +1,105 @@
+/**
+* @author José A. Romero Vegas <jangel.romero@gmail.com>
+*/
+
+/****** Search *******/
+.FormSearch {
+  display:table; margin:auto;
+  background-color:#FFF;
+  border:1px solid #ccc;
+  border-radius:3px;
+  padding:9px;
+}
+
+/******* WList *******/
+.WList {
+  display:table; margin:auto;
+  background-color: #FFFFFF;
+}
+.WList .color_head {
+  background-color: #DEDCC7;
+}
+
+.WList_paginacion,
+.WList_tuplas thead th,
+.WList_tuplas tbody td {
+  border:1px solid #ccc;
+}
+
+/****** Paginación ***/
+.WList_paginacion.top    { border-bottom:0; }
+.WList_paginacion.bottom { border-top:0; }
+
+/****** Title ********/
+.WList_tuplas .title {
+  padding:3px 0px;
+}
+
+/****** Columnas *****/
+.WList_tuplas thead {
+  /*background-color:#DEDCC7;*/
+  background-color:#fff;
+}
+.WList_tuplas thead th {
+  padding:2px 4px;
+  height:20px;
+  text-align:center;
+}
+.WList_tuplas thead a:hover {
+  text-decoration:none;
+}
+.WList_tuplas thead input[type="button"] {
+  font-weight: bold;
+}
+
+/******* Datos *******/
+.WList_tuplas {
+ border-collapse:collapse;
+}
+.WList_tuplas tbody td {
+  padding:3px 6px;
+  cursor:pointer;
+}
+
+/* solo datos */
+/* par/impar */
+.WList_tuplas tbody tr:nth-child(odd) {
+  background-color:rgb(245,245,245);
+}
+/* selected */
+.WList_tuplas tbody tr.selected {
+  /*background-color:#bbbbFF*/
+  background-color:#dff0d8;
+}
+.WList_tuplas tbody tr.selected td {
+  border-bottom: 1px solid #88bb88;
+}
+/* hover */
+.WList_tuplas tbody tr:hover {
+ background-color:#eee;
+}
+/* onClickUser */
+.WList_tuplas tbody .onClickUser {
+ color:blue;
+}
+
+/******* optionsBar *******/
+.WList_tuplas .optionsBar {
+  text-align:center;
+  white-space:nowrap;
+  cursor: default;
+}
+.WList_tuplas .optionsBar a,
+.WList_tuplas .optionsBar span {
+  display:inline-block;
+  margin:0 5px;
+}
+.WList_tuplas .optionsBar span { display:inline-block; vertical-align:middle; }
+
+.WList_tuplas .optionsBar .icon {
+  width:19px; height:19px;
+  background-position: center; background-repeat: no-repeat;
+}
+.WList_tuplas .optionsBar a.on_delete i  {
+  color:#ef2c2a;
+}

@@ -1,0 +1,28 @@
+{
+    "name": "angelrove/membrillo",
+    "type": "library",
+    "description": "My little and pretty framework ",
+    "authors": [
+        {
+            "name": "Jose Angel Romero",
+            "email": "jangel.romero@gmail.com"
+        }
+    ],
+
+    "repositories": [
+       { "type": "git", "url": "https://github.com/angelrove/utils.git" }
+    ],
+
+    "require-dev": {
+        "angelrove/utils": "dev-master"
+    },
+    "require": {
+    },
+
+    "autoload": {
+        "psr-4": {
+
+        }
+    }
+
+}

@@ -1,0 +1,76 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+/**********************/
+#sidetree {
+  border:1px solid #555; background-color:#fff;
+}
+#sidetree td {
+  padding:0px;
+}
+img {
+  vertical-align:top;
+}
+
+/****** CABECERA ******/
+.WTree_cabecera {
+  border-bottom:1px solid #999; border-collapse: collapse;
+  font-weight:bold;
+  background-color: #DEDCC7;
+}
+.WTree_cabecera td.sidetreecontrol { width:45px; }
+#sidetreecontrol a { border:1px solid #33F; background-color:#fff; }
+.WTree_cabecera td.title {
+  height:16px; text-align:center;
+}
+.WTree_cabecera td.btNuevo {
+  color:#0076AE; text-align:center; width:70px;
+}
+
+/****** LISTADO ******/
+.WTree_tuplas {
+  padding:2px;
+  padding-left:5px;
+}
+/* -------------------------- */
+.WTree_tuplas .columnOp {
+  border-left:1px solid #aaa;
+  text-align:center
+}
+/* -------------------------- */
+.WTree_tuplas table.tupla {  }
+.WTree_tuplas table.tupla2 {  }
+
+.WTree_tuplas a {
+  height:16px;
+  background-color: #FFF;
+  color:#000; text-decoration:none;
+}
+.WTree_tuplas a:hover {
+  text-decoration:none;
+  background-color: #CDD6FA;
+}
+/* -------------------------- */
+.WTree_tuplas .tuplaL {
+  font-weight:normal;
+}
+.WTree_tuplas .tuplaL1 {
+  font-weight:bold;
+}
+.WTree_tuplas .tuplaL2 {
+  font-weight:bold;
+}
+.WTree_tuplas .tuplaSelected {
+  border:2px solid #AAF;
+}
+
+.WTree_tuplas span.bt_del {
+  border:1px solid #999;
+  font-weight:bold; color:red;
+  padding:0px;padding-left:1px; padding-right:1px;
+  cursor: pointer;
+}
+.WTree_tuplas input.check{
+  margin:0px
+}

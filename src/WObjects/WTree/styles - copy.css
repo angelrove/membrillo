@@ -1,0 +1,68 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+/**********************/
+.WTree {
+  border: 1px solid #ccc;
+  background-color: #FFF;
+}
+
+/****** CABECERA ******/
+.WTree_cabecera {
+  border-bottom:1px solid #ccc;
+  border-collapse: collapse;
+}
+.WTree_cabecera td.cabecera_title {
+  background-color: #DEDCC7;
+  font-weight:bold;
+  color: #000;
+  border: 0px solid #333;
+  border-right:0px solid #999;
+  height:16px;
+  text-align: center;
+}
+.WTree_cabecera .btNuevo {
+  color: #0076AE;
+  font-weight: bold;
+}
+.WTree_cabecera input.bt_new { font-weight: bold; }
+
+/****** LISTADO ******/
+.WTree_tuplas {
+  padding:2px;
+}
+/* -------------------------- */
+.WTree_tuplas .columnOp {
+  border-left:1px solid #ccc;
+  text-align:center
+}
+/* -------------------------- */
+.WTree_tuplas table.tupla {
+  margin: 4px 2px;
+}
+.WTree_tuplas table.tupla2 {
+}
+
+.WTree_tuplas a {
+  height:16px;
+  background-color: #FFF;
+  color:#000; text-decoration:none;
+  padding: 2px;
+}
+.WTree_tuplas a:hover {
+  text-decoration:none;
+  background-color: #ddd;
+}
+.WTree_tuplas .tuplaSelected {
+  background-color: #ccccFA;
+  /*color:#fff;*/
+}
+/* -------------------------- */
+.WTree_tuplas .tuplaL1 {
+  font-weight:bold;
+}
+.WTree_tuplas .tuplaL2 {
+  font-weight:bold;
+
+}

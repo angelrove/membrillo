@@ -1,0 +1,23 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+.WInputFile {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+.WForm .WInputFile td {
+  padding: 5px;
+}
+
+.WInputFile .prevFile {
+  text-align:left;
+}
+.WInputFile .bt_del {
+  color: #ee0000;
+}
+.WInputFile .img-thumbnail img.img-responsive {
+  max-width: 200px;
+  display: initial;
+}
