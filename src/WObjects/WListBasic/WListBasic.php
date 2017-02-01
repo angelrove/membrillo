@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\WObjects\WList;
+namespace angelrove\membrillo2\WObjects\WList;
 
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;

@@ -6,7 +6,7 @@
  *
  */
 
-namespace angelrove\membrillo\WApp;
+namespace angelrove\membrillo2\WApp;
 
 use angelrove\utils\Db_mysql;
 

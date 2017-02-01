@@ -6,9 +6,9 @@
  *
  */
 
-namespace angelrove\membrillo\WInputs\WInputFile;
+namespace angelrove\membrillo2\WInputs\WInputFile;
 
-use angelrove\membrillo\SysTrazas\SysTrazas;
+use angelrove\membrillo2\SysTrazas\SysTrazas;
 
 use angelrove\utils\FileUpload;
 use angelrove\utils\Db_mysql;

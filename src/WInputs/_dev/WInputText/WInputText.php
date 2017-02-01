@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo;
+namespace angelrove\membrillo2;
 
 
 class WInputText

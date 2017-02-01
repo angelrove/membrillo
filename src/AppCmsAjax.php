@@ -4,14 +4,14 @@
  *
  */
 
-namespace angelrove\membrillo;
+namespace angelrove\membrillo2;
 
-use angelrove\membrillo\Application;
-use angelrove\membrillo\Login\Login;
+use angelrove\membrillo2\Application;
+use angelrove\membrillo2\Login\Login;
 
-use angelrove\membrillo\WApp\Session;
-use angelrove\membrillo\WApp\Config_Secciones;
-use angelrove\membrillo\WApp\SeccCtrl;
+use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo2\WApp\Config_Secciones;
+use angelrove\membrillo2\WApp\SeccCtrl;
 
 
 

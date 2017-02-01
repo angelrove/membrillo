@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\WApp;
+namespace angelrove\membrillo2\WApp;
 
 
 class Config_Secciones_Item {

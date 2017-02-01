@@ -4,19 +4,24 @@
  *
  */
 
-namespace angelrove\membrillo\WObjects\WForm;
+namespace angelrove\membrillo2\WObjects\WForm;
 
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;
 
+use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo2\WObjectsStatus\EventComponent;
+use angelrove\membrillo2\WPage\WPage;
 
-class WForm
+
+class WForm extends EventComponent
 {
-  private $control;
-  private $multipart;
+  private $sql_row = '';
+  private $datos = array();
+
+  private $multipart = true;
   private $onSubmit;
   private $readOnly = false;
-  private $isUpdate = false;
 
   // Buttons
   private $bt_ok     = true;
@@ -30,51 +35,89 @@ class WForm
   private $setButtons_top = false;
 
   //------------------------------------------------------------------
-  public function __construct($control, $multipart=false)
+  public function __construct($id_object, $sql_row='')
   {
-    $this->control   = $control;
-    $this->multipart = $multipart;
+    CssJsLoad::set(__DIR__.'/libs.js');
 
     //----------
-    CssJsLoad::set(__DIR__.'/styles.css');
-    CssJsLoad::set(__DIR__.'/libs.js');
+    parent::__construct($id_object);
+
+    $this->sql_row = $sql_row;
+
+    // Title ---
+    global $seccCtrl;
+    if(!WPage::$title) {
+       WPage::$title = $seccCtrl->title;
+    }
+
+    //---------
+    $this->parse_event($this->WEvent);
   }
-  //------------------------------------------------------------------
-  public function auto_init($DB_TABLE, $sqlQ='')
+  //--------------------------------------------------------------
+  function parse_event($WEvent)
   {
-    global $seccCtrl, $errors;
-
-    $datos = array();
-    $title = ' - Insertar -';
-
-    if($seccCtrl->EVENT == 'editUpdate') {
-       $title = ' - Modificar -';
-
-       // Datos
-       if($sqlQ) {
-          $datos = Db_mysql::getRow($sqlQ, false);
-       } else {
-          $id = $seccCtrl->ROW_ID; //$id = $seccCtrl->getRowId($this->control);
-          $datos = Db_mysql::getRow(GenQuery::selectRow($DB_TABLE, $id), false);
-       }
+    switch($WEvent->EVENT) {
+      //----------
+      case 'editUpdate':
+        WPage::$title .= ' - Update';
+        $this->datos = Db_mysql::getRow($this->sql_row);
+      break;
+      //----------
+      case 'editNew':
+        WPage::$title .=  ' - New';
+        //Db_mysql::getList("SHOW COLUMNS FROM $db_table");
+      break;
+      //----------
     }
-    WApplication::$title = $seccCtrl->title . $title;
 
-    // Errors
+    global $errors;
     if($errors) {
-       $datos = array_merge($datos, $_POST);
+       $this->datos = array_merge($this->datos, $_POST);
+    }
+  }
+  //------------------------------------------------------------------
+  public function isUpdate($row_id)
+  {
+    $this->WEvent->EVENT  = 'editUpdate';
+    $this->WEvent->ROW_ID = $row_id;
+    $this->parse_event($this->WEvent);
+  }
+  //--------------------------------------------------------------
+  function getDatos()
+  {
+    return $this->datos;
+  }
+  //------------------------------------------------------------------
+  public function getFormEvent()
+  {
+    $event  = 'form_insert';
+    $oper   = 'insert';
+    $row_id = '';
+
+    if($this->WEvent->EVENT == 'editUpdate') {
+       $event  = 'form_update';
+       $oper   = 'update';
+       $row_id = $this->WEvent->ROW_ID;
     }
 
-    return $datos;
+/*    echo '<div style="border:1px solid #bbb">'.
+          '$this->WEvent->EVENT: '.$this->WEvent->EVENT.
+          '<br><br>$event: '.$event.
+          '<br>$oper:      '.$oper.
+          '<br>$row_id:    '.$row_id.
+         '</div>'
+         ;
+*/
+    return array(
+        'event' => $event,
+        'oper'  => $oper,
+        'row_id'=> $row_id,
+      );
   }
   //------------------------------------------------------------------
-  /* Definir una función onSubmit */
-  public function setListenerOnSubmit($onSubmit) {
+  public function setListenerOnSubmit($onSubmit)
+  {
     $this->onSubmit = $onSubmit.'()';
-  }
-  //------------------------------------------------------------------
-  public function isUpdate($row_id) {
-    $this->isUpdate = $row_id;
   }
   //------------------------------------------------------------------
   public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del=false) {
@@ -98,221 +141,171 @@ class WForm
   }
   //------------------------------------------------------------------
   //------------------------------------------------------------------
-  public function getWForm() {
+  public function getWForm()
+  {
     // setButtons_top ---
     $htmButtons = '';
     if($this->setButtons_top) {
        $htmButtons = $this->getButtons('TOP');
-       $htmButtons = '<tr><td align="right" colspan="10">'.$htmButtons.'</td></tr>';
     }
 
     //----
     if($this->readOnly) {
-       echo '<table class="WForm" cellspacing="0" cellpadding="0">'; return;
-    }
-
-    global $CONFIG_APP, $seccCtrl;
-
-    // EVENT
-    $event = 'form_insert';
-    $oper  = 'insert';
-
-    /*echo '$seccCtrl->CONTROL: '   .$seccCtrl->CONTROL.
-         '<br>$this->control: '   .$this->control.
-         '<br>$seccCtrl->EVENT: ' .$seccCtrl->EVENT.
-         '<br>$seccCtrl->getEvent($this->control): '.$seccCtrl->getEvent($this->control).
-         '<br>$this->isUpdate:'   .$this->isUpdate;*/
-
-    $row_id = '';
-    if(($seccCtrl->CONTROL == $this->control && $seccCtrl->getEvent($this->control) == 'editUpdate') ||
-       $this->isUpdate)
-    {
-       $event = 'form_update';
-       $oper  = 'update';
-       if($this->isUpdate) $row_id = $this->isUpdate;
-       else                $row_id = $seccCtrl->getRowId($this->control);
+       echo '<form class="">';
+       return;
     }
 
     // Multipart
     $strMultipart = ($this->multipart)? 'enctype="multipart/form-data"' : '';
 
+    // Datos evento
+    $datosEv = $this->getFormEvent();
+    $event  = $datosEv['event'];
+    $oper   = $datosEv['oper'];
+    $row_id = $datosEv['row_id'];
+
     // Out
+    $isUpdate = ($this->bt_ok || $this->bt_upd) ? 'true' : 'false';
+
     echo <<<EOD
    <script>
-   //-----------------------------------
-   // shortcuts
-   //-----------------------------------
-   $(document).keydown(function(e)
-   {
-     //----------------
-     // Esc
-     if(e.keyCode == 27)
-     {
-        closeWForm_$this->control();
-        return false;
-     }
-     //----------------
-
-EOD;
-if($this->bt_ok || $this->bt_upd) {
-    echo <<<EOD
-
-     //----------------
-     // Ctrl+Enter
-     if(e.keyCode == 13 && e.ctrlKey)
-     {
-        var focused = document.activeElement;
-        var focused_type = $(focused).attr('type');
-        //var focused_tag = $(focused).get(0).tagName; // INPUT
-        if(focused_type == 'text') {
-           submitWForm_$this->control();
-        }
-
-        return false;
-     }
-     //----------------
-
-EOD;
-}
-
-    echo <<<EOD
-   });
-   //-----------------------------------
-
-   //-----------------------------------
-   // Other
-   //-----------------------------------
-   function closeWForm_$this->control()
-   {
-     //var res = confirm("¿Seguro?");
-     var res = true;
-     if(res == true) {
-        window.location = "?CONTROL=$seccCtrl->CONTROL&EVENT=form_close";
-     } else {
-        return false;
-     }
-   }
-   //-------------------
-   function submitWForm_$this->control(event)
-   {
-     var formEdit = document.getElementById('form_edit_$this->control');
-
-     if(event != '') {
-        formEdit.EVENT.value = event;
-     }
-
-     // Submit
-     //formEdit.action = './?CONTROL=$this->control&EVENT='+formEdit.EVENT.value+'&OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
-     formEdit.action = './?CONTROL=$this->control&EVENT='+formEdit.EVENT.value+'&ROW_ID='+formEdit.ROW_ID.value;
-     formEdit.submit();
-   }
-   //-------------------
-   function deleteWForm_$this->control()
-   {
-     var formEdit = document.getElementById('form_edit_$this->control');
-
-     formEdit.EVENT.value = 'form_delete';
-     formEdit.OPER.value  = 'delete';
-
-     // Submit
-     formEdit.action = './?CONTROL=$this->control&EVENT='+formEdit.EVENT.value+'&OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
-     formEdit.submit();
-   }
-   //-----------------------------------
+   var scut_id_object = '$this->id_object';
+   var scut_close     = '$this->bt_cancel';
    </script>
 
-   <form id="form_edit_$this->control" name="form_edit_$this->control" class="WForm_form" method="POST" action="" $strMultipart>
-   <input type="hidden" name="CONTROL" value="$this->control">
+   <form class="form-horizontal"
+         id="form_edit_$this->id_object"
+         name="form_edit_$this->id_object"
+         onsubmit = "WForm_submit('$this->id_object', '')"
+         method   = "POST"
+         action   = ""
+         $strMultipart>
+   <input type="hidden" name="CONTROL" value="$this->id_object">
    <input type="hidden" name="EVENT"   value="$event">
    <input type="hidden" name="OPER"    value="$oper">
-   <input type="hidden" id="ROW_ID" name="ROW_ID"  value="$row_id">
+   <input type="hidden" name="ROW_ID"  value="$row_id">
 
-    <table class="WForm" cellspacing="0" cellpadding="0">
-      $htmButtons
+   $htmButtons
+
 EOD;
   }
   //------------------------------------------------------------------
   public function getWForm_END()
   {
-    $htmButtons = $this->getButtons();
+    echo $this->getButtons();
 
-    if($this->readOnly) {
-       echo '
-          <tr><td align="right" colspan="10">'.$htmButtons.'</td></tr>
-        </table>';
-       return;
+    if(!$this->readOnly) {
+       echo '</form>';
     }
-
-    echo <<<EOD
-       <tr><td class="oper_buttons" align="right" colspan="10">$htmButtons</td></tr>
-     </table>
-    </form>
-EOD;
   }
   //------------------------------------------------------------------
   // $flag: '', 'top'
   public function getButtons($flag='')
   {
-   global $seccCtrl, $LOCAL;
+   global $app;
 
    $strOnsubmit = ($this->onSubmit)? "if($this->onSubmit)" : '';
 
    $str_js = <<<EOD
-   <script>
-   $(document).ready(function() {
-     //-----------------------------------
-     // EVENTOS
-     //-----------------------------------
-     $("#WForm_btAceptar$flag").click(function() {
-       //$(this).attr('disabled', 'disabled');
-       $strOnsubmit submitWForm_$this->control('');
-     });
-     $("#WForm_btUpdate$flag").click(function() {
-       $strOnsubmit submitWForm_$this->control('editUpdate');
-     });
-     $("#WForm_btDelete$flag").click(function() {
-       $strOnsubmit deleteWForm_$this->control();
-     });
-     $("#WForm_btInsert$flag").click(function() {
-       $strOnsubmit submitWForm_$this->control('editNew');
-     });
-     $("#WForm_btClose$flag").click(function() {
-       closeWForm_$this->control();
-     });
-     //-----------------------------------
-   });
-   </script>
+//-----------------------------------
+// WForm EVENTS
+$(document).ready(function()
+{
+  $("#WForm_btAceptar$flag").click(function() {
+    //$(this).attr('disabled', 'disabled');
+    $strOnsubmit WForm_submit('$this->id_object', '');
+  });
+  $("#WForm_btUpdate$flag").click(function() {
+    $strOnsubmit WForm_submit('$this->id_object', 'editUpdate');
+  });
+  $("#WForm_btDelete$flag").click(function() {
+    $strOnsubmit WForm_delete('$this->id_object');
+  });
+  $("#WForm_btInsert$flag").click(function() {
+    $strOnsubmit WForm_submit('$this->id_object', 'editNew');
+  });
+  $("#WForm_btClose$flag").click(function() {
+    WForm_close('$this->id_object');
+  });
+});
+//-----------------------------------
 EOD;
 
-   $bt_aceptar  = '<input type="button" id="WForm_btAceptar'.$flag.'" value="'.$LOCAL['WForm_aceptar'].'">';
-   $bt_guardar  = '<input type="button" id="WForm_btUpdate' .$flag.'" value="'.$LOCAL['WForm_update'].'">';
-   $bt_eliminar = '<input type="button" id="WForm_btDelete' .$flag.'" value="Eliminar">';
-   $bt_saveNext = '<input type="button" id="WForm_btInsert' .$flag.'" value="Insertar otro &raquo;">';
-   $bt_cancelar = '<input type="button" id="WForm_btClose'  .$flag.'" value="'.$LOCAL['WForm_close'].'">';
+   CssJsLoad::set_script($str_js);
+
+   $bt_aceptar  = '<button type="submit" class="btn btn-primary btn-sm" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
+   $bt_guardar  = '<button type="button" class="btn btn-primary btn-sm" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
+   $bt_eliminar = '<button type="button" class="btn btn-danger  btn-sm" id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
+   $bt_saveNext = '<button type="button" class="btn btn-primary btn-sm" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
+   $bt_cancelar = '<button type="button" class="btn btn-default btn-sm" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
+
+   $datosEv = $this->getFormEvent();
 
    if(!$this->bt_ok)  $bt_aceptar  = '';
    if(!$this->bt_upd) $bt_guardar  = '';
    if(!$this->bt_saveNext) $bt_saveNext = '';
 
-   if(!$this->bt_del      || $flag == 'TOP') $bt_eliminar = '';
-   if(!$this->bt_cancel   || $flag == 'TOP') $bt_cancelar = '';
+   if(!$this->bt_cancel || $flag == 'TOP') $bt_cancelar = '';
+   if(!$this->bt_del    || $flag == 'TOP' || $datosEv['event'] == 'form_insert') $bt_eliminar = '';
+
+   // $strButtons
    $strButtons = $bt_aceptar.$bt_guardar.$bt_eliminar.$bt_saveNext.$bt_cancelar;
 
-   // ReadOnly
-   if($this->readOnly) $strButtons = $bt_cancelar;
+   if($this->readOnly) {
+      $strButtons = $bt_cancelar;
+   }
 
    // OUT
    if(!$strButtons) {
       return '';
    }
 
-   return "
-     <!-- Botones -->
-     $str_js
-     $strButtons
-     <!-- /Botones -->
-   ";
+   return '
+<!-- Botones -->
+<div class="form-group oper_buttons">
+  <div class="col-lg-10 col-lg-offset-2">
+    '.$strButtons.'
+  </div>
+</div>
+<!-- /Botones -->
+
+   ';
+  }
+  //------------------------------------------------------------------
+  //------------------------------------------------------------------
+  /*
+  public function setFieldsText($listFields, $datos)
+  {
+    foreach($listFields as $name => $title) {
+       $htmInput = '<input type="text" class="form-control" name="'.$name.'" value="'.$datos[$name].'">';
+       $this->setField($title, $htmInput);
+    }
+  }
+  */
+  //------------------------------------------------------------------
+  public function setFields($listFields, $datos)
+  {
+    foreach($listFields as $key => $field) {
+       if(is_array($field)) {
+          $this->setField($field[0], $field[1]);
+       }
+       else {
+          $htmInput = '<input type="text" class="form-control" name="'.$key.'" value="'.$datos[$key].'">';
+          $this->setField($field, $htmInput);
+       }
+    }
+  }
+  //------------------------------------------------------------------
+  public function setField($title, $htmInput)
+  {
+    ?>
+    <div class="form-group">
+       <label class="col-sm-2 control-label"><?=$title?></label>
+       <div class="col-sm-10">
+         <?=$htmInput?>
+       </div>
+    </div>
+    <?
   }
   //------------------------------------------------------------------
 }
-?>

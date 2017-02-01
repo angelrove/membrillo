@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\WPage;
+namespace angelrove\membrillo2\WPage;
 
 use angelrove\utils\CssJsLoad;
 

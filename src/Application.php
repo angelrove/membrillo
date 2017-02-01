@@ -7,7 +7,7 @@
  *
  */
 
-namespace angelrove\membrillo;
+namespace angelrove\membrillo2;
 
 use angelrove\utils\MyErrorHandler;
 use angelrove\utils\UtilsBasic;
@@ -18,6 +18,8 @@ include_once('print_r2.php');
 
 class Application
 {
+  private $lang;
+
   //-----------------------------------------------------------------
   function __construct($document_root)
   {

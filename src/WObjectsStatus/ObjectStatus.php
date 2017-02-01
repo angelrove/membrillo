@@ -5,7 +5,7 @@
  *
  */
 
-namespace angelrove\membrillo\WObjectsStatus;
+namespace angelrove\membrillo2\WObjectsStatus;
 
 
 class ObjectStatus

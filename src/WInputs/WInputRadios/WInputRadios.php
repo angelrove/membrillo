@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\WInputs\WInputRadios;
+namespace angelrove\membrillo2\WInputs\WInputRadios;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;

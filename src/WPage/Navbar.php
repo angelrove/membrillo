@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo\WPage;
+namespace angelrove\membrillo2\WPage;
 
-use angelrove\membrillo\utils\CssJs_load;
+use angelrove\membrillo2\utils\CssJs_load;
 
 
 class Navbar

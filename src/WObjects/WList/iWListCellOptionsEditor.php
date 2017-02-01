@@ -1,5 +1,6 @@
 <?
-namespace angelrove\membrillo\WObjects\WList;
+namespace angelrove\membrillo2\WObjects\WList;
+
 
 interface iWListCellOptionsEditor
 {

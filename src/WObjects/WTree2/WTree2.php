@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\WObjects\WTree2;
+namespace angelrove\membrillo2\WObjects\WTree2;
 
 use angelrove\utils\CssJsLoad;
 

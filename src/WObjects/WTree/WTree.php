@@ -12,7 +12,7 @@
  *   'list_rowSelected' & 'ROW_ID'
  */
 
-namespace angelrove\membrillo\WObjects\WTree;
+namespace angelrove\membrillo2\WObjects\WTree;
 
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;

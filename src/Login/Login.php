@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo\Login;
+namespace angelrove\membrillo2\Login;
 
-use angelrove\membrillo\WApp\Session;
+use angelrove\membrillo2\WApp\Session;
 
 
 class Login

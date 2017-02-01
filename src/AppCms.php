@@ -10,22 +10,22 @@
  *                   $LOCAL
  */
 
-namespace angelrove\membrillo;
+namespace angelrove\membrillo2;
 
 use angelrove\utils\MyErrorHandler;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
 
-use angelrove\membrillo\Application;
+use angelrove\membrillo2\Application;
 
-use angelrove\membrillo\WApp\Session;
-use angelrove\membrillo\WApp\Config_Secciones;
-use angelrove\membrillo\WApp\SeccCtrl;
+use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo2\WApp\Config_Secciones;
+use angelrove\membrillo2\WApp\SeccCtrl;
 
-use angelrove\membrillo\WObjectsStatus\ObjectsStatus;
-use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
+use angelrove\membrillo2\WObjectsStatus\Event;
 
-use angelrove\membrillo\Login\LoginCtrl;
+use angelrove\membrillo2\Login\LoginCtrl;
 
 
 
@@ -35,7 +35,6 @@ class AppCms extends Application
   function __construct($document_root)
   {
     parent::__construct($document_root);
-    $app = $this;
   }
   //-----------------------------------------------------------------
   function run()
@@ -46,6 +45,8 @@ class AppCms extends Application
   //-----------------------------------------------------------------
   function runrun()
   {
+     $app = $this;
+
      //----------------------------------------------------
      /* Globals */
       global $CONFIG_APP,
@@ -60,7 +61,7 @@ class AppCms extends Application
       CssJsLoad::__init(CACHE_PATH, CACHE_URL);
 
       Vendor::usef('front-basics');
-      include_once('local.inc');
+      include_once('lang/es.inc');
 
      //----------------------------------------------------
      /* System Events */

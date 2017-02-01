@@ -4,38 +4,14 @@
  *
  */
 
-namespace angelrove\membrillo\WObjects\WList;
+namespace angelrove\membrillo2\WObjects\WList;
+
+use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo2\WObjectsStatus\EventComponent;
 
 use angelrove\utils\Db_mysql;
-use angelrove\utils\Paging;
 use angelrove\utils\CssJsLoad;
-use angelrove\membrillo\WObjectsStatus\Event;
-use angelrove\membrillo\WObjectsStatus\EventComponent;
-
-
-/**
- * Interfaces
- */
-interface iWListRowEditor {
-  public function getBgColorAt($id, $idSelected, $values);
-}
-
-interface iWListCellEditor {
-  public function getValueAt($id, $columnName, $value, $values);
-  public function getBgColorAt($id, $columnName, $value, $values);
-  public function getOnClick($id, $columnName, $value, $values);
-}
-
-interface iWListCellOptionsEditor {
-  public function showBtDelete($id, $values);
-  public function showBtUpdate($id, $values);
-  /*
-   * return:
-   *     true/false
-   *     array('label'=>'[lable]', 'disabled'=>[true/false], 'href'=>'[xxx]');
-   */
-  public function showBtOp($key, $id, $values);
-}
+use angelrove\front_components\Pagination;
 
 
 class WList extends EventComponent
@@ -87,9 +63,8 @@ class WList extends EventComponent
   //-------------------------------------------------------
   function __construct($id_control, $sqlQ, $dbFields)
   {
-    CssJsLoad::set(__DIR__.'/_vendor/shortcut.js');
-    CssJsLoad::set(__DIR__.'/components/WList/style.css');
-    CssJsLoad::set(__DIR__.'/components/WList/lib.js');
+    CssJsLoad::set(__DIR__.'/style.css');
+    CssJsLoad::set(__DIR__.'/lib.js');
 
     //------
     parent::__construct($id_control);
@@ -374,7 +349,8 @@ EOD;
      return $sqlQ;
   }
   //--------------------------------------------------------------
-  private function getPaginacion($sqlQuery) {
+  private function getPaginacion($sqlQuery)
+  {
     $htmPaginacion = '';
     $rows          = '';
 
@@ -384,7 +360,7 @@ EOD;
     $id_page = $this->wObjectStatus->getDato('id_page');
     if(!$id_page) $id_page = 1;
 
-    $htmPaginacion = new Paging($sqlQuery, $this->paging_numRows, $id_page);
+    $htmPaginacion = new Pagination($sqlQuery, $this->paging_numRows, $id_page);
     if($this->paging_config == 'basic') {
        $htmPaginacion->setNumPages(3);
     } else {

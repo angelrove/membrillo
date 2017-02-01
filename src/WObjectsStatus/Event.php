@@ -3,9 +3,9 @@
 * WEvent: current event
 */
 
-namespace angelrove\membrillo\WObjectsStatus;
+namespace angelrove\membrillo2\WObjectsStatus;
 
-use angelrove\membrillo\WApp\Session;
+use angelrove\membrillo2\WApp\Session;
 
 
 class Event

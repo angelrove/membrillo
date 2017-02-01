@@ -1,5 +1,5 @@
 <?
-namespace angelrove\membrillo\WObjects\WTree;
+namespace angelrove\membrillo2\WObjects\WTree;
 
 
 interface iWTreeData

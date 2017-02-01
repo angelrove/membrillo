@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo\Login;
+namespace angelrove\membrillo2\Login;
 
 use angelrove\utils\Db_mysql;
 

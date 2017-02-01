@@ -5,7 +5,7 @@
  *
  */
 
-namespace angelrove\membrillo\WInputs\WInputColor;
+namespace angelrove\membrillo2\WInputs\WInputColor;
 
 
 class WInputColor
