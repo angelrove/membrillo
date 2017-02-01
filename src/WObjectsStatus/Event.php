@@ -1,7 +1,8 @@
 <?
 /**
-* WEvent: current event
-*/
+ *  @author José A. Romero Vegas <jangel.romero@gmail.com>
+ *  WEvent: current event
+ */
 
 namespace angelrove\membrillo2\WObjectsStatus;
 
@@ -15,6 +16,7 @@ class Event
   private static $EVENT_PREV;
   public  static $OPER;
   public  static $ROW_ID;
+  public  static $RELOAD;
 
   //----------------------------------------------------------------------------
   public static function updateEvent()
@@ -40,18 +42,22 @@ class Event
   // EVENT
   //----------------------------------------------------------------------------
   // in session
-  private static function setEvent($event) {
+  private static function setEvent($event)
+  {
     Session::set('WEvent_EVENT_PREV', Session::get('WEvent_EVENT'));
     Session::set('WEvent_EVENT', $event);
 
     self::$EVENT_PREV = Session::get('WEvent_EVENT_PREV');
     self::$EVENT      = $event;
+    self::$RELOAD = false;
   }
   //----------------------------------------------------------------------------
-  public static function revertEvent() {
+  public static function reload()
+  {
     Session::set('WEvent_EVENT', Session::get('WEvent_EVENT_PREV'));
 
     self::$EVENT = Session::get('WEvent_EVENT_PREV');
+    self::$RELOAD = true;
   }
   //----------------------------------------------------------------------------
   // ROW_ID

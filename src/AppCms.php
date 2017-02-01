@@ -12,11 +12,7 @@
 
 namespace angelrove\membrillo2;
 
-use angelrove\utils\MyErrorHandler;
-use angelrove\utils\CssJsLoad;
-use angelrove\utils\Vendor;
-
-use angelrove\membrillo2\Application;
+use angelrove\membrillo2\Login\LoginCtrl;
 
 use angelrove\membrillo2\WApp\Session;
 use angelrove\membrillo2\WApp\Config_Secciones;
@@ -25,8 +21,8 @@ use angelrove\membrillo2\WApp\SeccCtrl;
 use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
 use angelrove\membrillo2\WObjectsStatus\Event;
 
-use angelrove\membrillo2\Login\LoginCtrl;
-
+use angelrove\utils\CssJsLoad;
+use angelrove\utils\Vendor;
 
 
 class AppCms extends Application
@@ -110,7 +106,7 @@ class AppCms extends Application
       $objectsStatus->initPage();
 
      //----------------------------------------------------
-     /* Section */
+     /* User */
       $path_secc = './app/'.$CONFIG_SECCIONES->getFolder($seccCtrl->secc);
 
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');
@@ -119,43 +115,35 @@ class AppCms extends Application
       // Events -----------
       if(Event::$EVENT)
       {
-         $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL.'/';
-         $errors = '';
+         $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
 
          // oper
-         if(Event::$OPER)
-         {
-            if(isset($_REQUEST['appstatus-reload'])) {
-            }
-            else {
-               include($path_ctrl.'oper.inc');
+         if(Event::$OPER) {
+            include($path_ctrl.'/oper.inc');
 
-               // Redirigir al flow (evita problema de recargas)
-               if(!$errors) {
-                  header('Location:/'.$seccCtrl->secc.'/?CONTROL='.Event::$CONTROL.
-                                                       '&EVENT='  .Event::$EVENT.
-                                                       '&ROW_ID=' .Event::$ROW_ID.
-                                                       '&OPERED=' .Event::$OPER);
-               }
+            if(!EVENT::$RELOAD) {
+               header('Location:/'.$seccCtrl->secc.'/?CONTROL='.Event::$CONTROL.
+                                                    '&EVENT='  .Event::$EVENT.
+                                                    '&ROW_ID=' .Event::$ROW_ID.
+                                                    '&OPERED=' .Event::$OPER);
             }
          }
 
          // flow
-         if(file_exists($path_ctrl.'flow.inc')) {
-            include($path_ctrl.'flow.inc');
+         if(file_exists($path_ctrl.'/flow.inc')) {
+            include($path_ctrl.'/flow.inc');
+         }
+         else if(file_exists($path_secc.'/tmpl_main.inc')) {
+            include($path_secc.'/tmpl_main.inc');
          }
          else {
-            if(!(include $path_secc.'/tmpl_main.inc')) {
-               WFrame_error('Default "tmpl_main" not found in secc "/'.$seccCtrl->secc.'/".<br />See log for more details.');
-            }
+            throw new \Exception('membrillo2: Default "flow.inc" or "tmpl_main.inc" not found in secc "/'.$seccCtrl->secc.'/".');
          }
       }
       // Default out ------
       else
       {
-        if(!(include $path_secc.'/tmpl_main.inc')) {
-           echo('Default "tmpl_main" not found in secc "/'.$seccCtrl->secc.'/".<br />See log for more details.');
-         }
+        include($path_secc.'/tmpl_main.inc');
       }
 
   }

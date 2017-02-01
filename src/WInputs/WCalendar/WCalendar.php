@@ -1,11 +1,10 @@
 <?
 /**
- * José A. Romero Vegas, 2012
- * jangel.romero@gmail.com
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo2\WInputs\WCalendar;
 
 use angelrove\utils\CssJsLoad;
 
@@ -63,7 +62,8 @@ class WCalendar
     $this->getMes($PARAM_MES, $PARAM_ANHO);
   }
   //------------------------------------------------------------------
-  public function getObjYear($year='', $show_prev_next=true) {
+  public function getObjYear($year='', $show_prev_next=true)
+  {
     if(!$year) {
        $hoy = getdate();
        $year = $hoy['year'];

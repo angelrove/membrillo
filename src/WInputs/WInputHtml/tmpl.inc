@@ -1,4 +1,9 @@
 <!-- WInputHtml -->
+<script>
+var WInputHtml_selector = "<?=$params['selector']?>";
+var WInputHtml_height   = <?=$params['height']?>;
+</script>
+
 <style>
 textarea.mce-textbox {
   font-family: "Courier New";

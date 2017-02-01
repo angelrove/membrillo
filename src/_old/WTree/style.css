@@ -1,0 +1,68 @@
+/**
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ */
+
+/**********************/
+.WTree {
+  border: 1px solid #ccc;
+  background-color: #FFF;
+}
+
+/****** CABECERA ******/
+.WTree_cabecera {
+}
+.WTree_cabecera td.cabecera_title {
+  font-weight:bold;
+  text-align: center;
+  padding: 2px;
+}
+
+/****** LISTADO ******/
+.WTree_tuplas a {
+  color:#000;
+  text-decoration:none;
+}
+.WTree_tuplas a:hover {
+  text-decoration:none;
+}
+/*----------*/
+.WTree_tuplas .tupla {
+  width: 100%;
+  border-top:1px solid #ddd;
+}
+.WTree_tuplas .tupla td {
+  padding: 8px 1px;
+}
+.WTree_tuplas .tupla .tab_0 {
+  color:#ccc;
+}
+.WTree_tuplas .tupla .tab {
+  display: inline-block;
+  width: 14px;
+}
+/*----------*/
+.WTree_tuplas .title {
+  padding: 4px 5px;
+  cursor: pointer;
+}
+.WTree_tuplas .title:hover {
+  background-color: #eee;
+}
+.WTree_tuplas .tuplaSelected {
+  background-color: #dff0d8;
+}
+.WTree_tuplas .title a {
+  /*display: inline-block;*/
+  width: 100%;
+}
+/*----------*/
+.WTree_tuplas .columnOp {
+  width: 85px;
+}
+.WTree_tuplas .columnOp a {
+  margin: 0 5px;
+}
+.WTree_tuplas .columnOp a.op_delete {
+  color: red;
+}
+/*----------*/

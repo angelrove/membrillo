@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WInputSelect;
+namespace angelrove\membrillo2\WInputs;
 
 use angelrove\utils\Db_mysql;
 

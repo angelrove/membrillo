@@ -2,27 +2,27 @@ body {
   font-size: 14px;
 }
 h1, h2, h3, h4 {
- margin: 0;
+  margin: 0;
 }
 hr {
- margin-top: 6px;
- margin-bottom: 7px;
+  margin-top: 6px;
+  margin-bottom: 7px;
 }
 
 /*----------------*/
 .font-monospace {
- font-family: monospace;
+  font-family: monospace;
 }
 .display-table {
- display:table;
+  display:table;
 }
 .strip-margin {
- margin:0;
+  margin:0;
 }
 .center-block2 {
- display:table;
- margin-left: auto;
- margin-right: auto;
+  display:table;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ---- Panels ----*/
@@ -40,11 +40,6 @@ hr {
 .form-control {
   padding: 5px 10px;
   height: inherit;
-  /* font-size: 13px; */
-}
-.checkbox, .WInputRadios {
-  display:inline-block;
-  margin-right: 14px;
 }
 .WInputFile td {
   padding: 0 2px;
@@ -63,7 +58,7 @@ hr {
 /* ----- HEADER ----- */
 .page-header {
   margin: 0px;
-  padding: 6px 15px;
+  padding: 10px 15px;
   border-width: 0;
   background-color: #191c22;
   color: #eee;
@@ -71,20 +66,23 @@ hr {
 .page-header h1 {
   font-size: 21px;
 }
+
 /*--- Navbar ---- */
 .dropdown-menu>li>a {
   padding: 9px 15px;
 }
+
 /* ----- BODY ----- */
 main.container-fluid {
   padding-left: 25px;
   padding-right: 25px;
 }
+
 /* ----- FOOTER ----- */
 footer {
- padding: 12px 20px;
- font-size: 88%;
- color: #999;
+  padding: 12px 20px;
+  font-size: 88%;
+  color: #999;
 }
 /*----- Form ---------*/
 legend {

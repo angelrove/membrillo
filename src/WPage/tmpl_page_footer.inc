@@ -1,9 +1,6 @@
-<?
-global $CONFIG_APP;
-?>
 
  <!-- footer -->
- <footer>
-   <?=$CONFIG_APP['data']['COPYRIGHT']?>
+ <footer class="font-size-small">
+   &copy; <?=COMPANY_NAME.' '.date('Y')?>
  </footer>
  <!-- /footer -->

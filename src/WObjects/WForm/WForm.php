@@ -12,6 +12,7 @@ use angelrove\utils\CssJsLoad;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\WPage\WPage;
+use angelrove\membrillo2\Messages;
 
 
 class WForm extends EventComponent
@@ -34,6 +35,8 @@ class WForm extends EventComponent
 
   private $setButtons_top = false;
 
+  public static $errors = false;
+
   //------------------------------------------------------------------
   public function __construct($id_object, $sql_row='')
   {
@@ -54,7 +57,7 @@ class WForm extends EventComponent
     $this->parse_event($this->WEvent);
   }
   //--------------------------------------------------------------
-  function parse_event($WEvent)
+  public function parse_event($WEvent)
   {
     switch($WEvent->EVENT) {
       //----------
@@ -70,11 +73,47 @@ class WForm extends EventComponent
       //----------
     }
 
-    global $errors;
-    if($errors) {
-       $this->datos = array_merge($this->datos, $_POST);
-    }
+    // If Errors ----
+    $this->datos = array_merge($this->datos, $_POST);
   }
+  //------------------------------------------------------------------
+  // Static
+  //------------------------------------------------------------------
+  public static function update_setErrors($listErrors)
+  {
+     if($listErrors) {
+        self::$errors = $listErrors;
+
+        // Mantenerse en la misma pantalla
+        Event::reload();
+
+        // Show errors
+        self::update_showErrors($listErrors);
+     }
+     else {
+        Messages::set("Guardado correctamente.");
+     }
+  }
+  //------------------------------------------------------------------
+  private static function update_showErrors($listErrors)
+  {
+    $js = '';
+
+    // resaltar campos ---
+    foreach($listErrors as $name => $err)
+    {
+        Messages::set($err, 'danger');
+        $js .= '$("[name='.$name.']").css("border", "2px solid red");';
+    }
+
+    // foco en el primer input erroneo
+    end($listErrors);
+    $js .= '$("[name='.key($listErrors).']").focus();'."\n";
+
+    // Out
+    CssJsLoad::set_script('$(document).ready(function() {'.$js.'});');
+  }
+  //------------------------------------------------------------------
   //------------------------------------------------------------------
   public function isUpdate($row_id)
   {
@@ -120,23 +159,27 @@ class WForm extends EventComponent
     $this->onSubmit = $onSubmit.'()';
   }
   //------------------------------------------------------------------
-  public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del=false) {
+  public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del=false)
+  {
     $this->bt_ok     = $bt_ok;
     $this->bt_upd    = $bt_upd;
     $this->bt_del    = $bt_del;
     $this->bt_cancel = $bt_cancel;
   }
   //------------------------------------------------------------------
-  public function show_btSaveNext($label='') {
+  public function show_btSaveNext($label='')
+  {
     $this->bt_saveNext       = true;
     $this->bt_saveNext_label = $label;
   }
   //---------------------------------------------------------------------
-  public function setButtons_top() {
+  public function setButtons_top()
+  {
     $this->setButtons_top = true;
   }
   //---------------------------------------------------------------------
-  public function setReadOnly($isReadonly) {
+  public function setReadOnly($isReadonly)
+  {
     $this->readOnly = $isReadonly;
   }
   //------------------------------------------------------------------
@@ -301,9 +344,7 @@ EOD;
     ?>
     <div class="form-group">
        <label class="col-sm-2 control-label"><?=$title?></label>
-       <div class="col-sm-10">
-         <?=$htmInput?>
-       </div>
+       <div class="col-sm-10"><?=$htmInput?></div>
     </div>
     <?
   }

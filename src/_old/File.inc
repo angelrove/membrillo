@@ -6,14 +6,14 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\WInputs\WInputFile;
+namespace membrillo\ComponentsInputs;
 
-use angelrove\utils\CssJsLoad;
-use angelrove\utils\Vendor;
-use angelrove\utils\FileUploaded;
+use membrillo\utils\CssJs_load;
+use membrillo\utils\FileUpload;
+use membrillo\utils\UtilsBasic;
 
 
-class WInputFile
+class File
 {
   private $name  = '';
   private $label = '';
@@ -48,8 +48,6 @@ class WInputFile
     $this->name      = $name;
     $this->label     = $label;
     $this->fileDatos = $fileDatos;
-
-    Vendor::usef('lightbox');
   }
   //---------------------------------------------------------------------
   public function setLabelDownloadFile($labelDownload) {
@@ -120,7 +118,7 @@ class WInputFile
   //---------------------------------------------------------------------
   private function get_btDel()
   {
-     CssJs_load::set_script('
+    CssJs_load::set_script('
 $(document).ready(function() {
   $("#'.$this->name.'_del").click(function()
   {
@@ -146,11 +144,11 @@ $(document).ready(function() {
      }
   });
 });
-     ');
+');
 
-     return '<button class="btn btn-danger btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-lg"></i></button>';
+    return '<button class="btn btn-danger btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-lg"></i></button>';
   }
-  //---------------------------------------------------------------------
+  //-----------------------------
   public function getHtm()
   {
     $htmFilePrev  = '';
@@ -180,7 +178,7 @@ $(document).ready(function() {
          <div class="well well-sm">
            <table class="WInputFile"><tr>
               <td>$this->label</td>
-              <td id="'.$this->name.'_htmFilePrev" class="prevFile">$htmFilePrev</td>
+              <td id="'.$this->name.'_htmFilePrev">$htmFilePrev</td>
            </tr></table>
          </div>
          <!-- /WInputFile -->
@@ -189,9 +187,9 @@ EOD;
 
     /** HTM **/
      // NOTA: Los parámetros que configuran el upload se pasan por POST con hidden.
-     //       Este sistema no es seguro. Sería mejor utilizar sesiones ("$seccCtrl->setDato()")
+     //       Este sistema no es seguro. Sería mejor utilizar sesiones ("$this->objectStatus->setDato()")
      $htmLabel = '';
-     if($htmFilePrev) $htmFilePrev = '<td id="'.$this->name.'_htmFilePrev" class="prevFile">'.$htmFilePrev.'</td>';
+     if($htmFilePrev) $htmFilePrev = '<td id="'.$this->name.'_htmFilePrev">'.$htmFilePrev.'</td>';
      if($this->label) $htmLabel    = '<td>'.$this->label.'</td>';
 
      return '
@@ -250,7 +248,7 @@ EOD;
    /** Datos del archivo **/
     $listDatos = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
     $dir = ($listDatos['dir'])? '/'.$listDatos['dir'] : '';
-    $listDatos['ruta_completa'] = $CONFIG_APP['url_uploads'].$dir.'/'.$listDatos['name'];
+    $listDatos['ruta_completa'] = $CONFIG_APP['rutas']['URL_UPLOADS'].$dir.'/'.$listDatos['name'];
 
     // Compatibilidad
     if(!$listDatos['nameUser']) {
@@ -302,29 +300,52 @@ EOD;
     // linkFile ------------
     $linkFile = '';
 
-    // Show: image ---
-    if($fileProp_TYPE == 'IMAGE')
-    {
-       $linkFile = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
-    }
-    // Open: "pdf" and "txt" or if not a MIME Type ---
-    elseif(!$listDatos['mime'] ||
-            $listDatos['mime'] == 'application/pdf' ||
-            $listDatos['mime'] == 'text/plain')
-    {
-       $linkFile =  '<a href="'.$fileProp_URL.'" target="_blank">'.$bt_varLabel.'</a>';
-    }
-    // Download
-    else
-    {
-       $linkFile = '<a href="'.$fileProp_URL.'" download>'.$bt_varLabel.'</a>';
+    // Show image: $htmShowImage ----
+    $htmShowImage = '';
+    if($this->showImg) {
+       if($fileProp_TYPE == 'IMAGE') {
+          $showImgHeight = ($this->showImgHeight)? ' height="'.$this->showImgHeight.'"' : '';
+          $htmShowImage = '<img class="img-thumbnail" src="'.$fileProp_URL.'" width="'.$this->showImgWidth.'"'.$showImgHeight.' border="1">';
+       }
     }
 
-    return '
-      <!-- File info -->
-      '.$linkFile.'
-      <!-- /File info -->
-    ';
+    // Show image
+    if($fileProp_TYPE == 'IMAGE') {
+       return '
+        <!-- File info -->
+        <a href="#" data-toggle="modal" data-target=".WInputFile-modal-'.$this->name.'">
+         '.$bt_varLabel.'
+         '.$htmShowImage.'
+        </a>
+        '.$this->getModal($fileProp_URL).'
+        <!-- /File info -->
+      ';
+    }
+    // Link to files
+    else {
+       // $linkFile = $this->getFileLink();
+       $linkFile = '';
+
+       // Show (if documents "pdf" or "txt", if no MIME Type)
+       if(!$listDatos['mime'] ||
+           $listDatos['mime'] == 'application/pdf' ||
+           $listDatos['mime'] == 'text/plain') {
+           $onclick = "window.open('$fileProp_URL', 'w_popup').focus();";
+           $linkFile = '<a href="#" onclick="'.$onclick.'">';
+       }
+       // Download
+       else {
+          $onclick = "location.href = '/?APP_EVENT=download&f=$fileProp_URL&fu=$listDatos[nameUser]&mime=".$listDatos['mime']."';";
+          $linkFile = '<a href="#" onclick="'.$onclick.'">';
+       }
+
+       return '
+        <!-- File info -->
+        '.$linkFile.'
+        '.$bt_varLabel.'
+        </a>
+        <!-- /File info -->
+      ';
+    }
   }
   //---------------------------------------------------------------------
-}

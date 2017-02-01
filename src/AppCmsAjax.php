@@ -6,8 +6,7 @@
 
 namespace angelrove\membrillo2;
 
-use angelrove\membrillo2\Application;
-use angelrove\membrillo2\Login\Login;
+use angelrove\membrillo2\Login\LoginCtrl;
 
 use angelrove\membrillo2\WApp\Session;
 use angelrove\membrillo2\WApp\Config_Secciones;
@@ -15,18 +14,18 @@ use angelrove\membrillo2\WApp\SeccCtrl;
 
 
 
-class AppAjax extends Application
+class AppCmsAjax extends Application
 {
   //-----------------------------------------------------------------
   function __construct($document_root)
   {
     parent::__construct($document_root);
-    $app = $this;
   }
   //-----------------------------------------------------------------
   function run()
   {
      parent::run();
+     $app = $this;
 
      //----------------------------------------------------
      /* Globals */
@@ -69,9 +68,10 @@ class AppAjax extends Application
 
      switch($_REQUEST['sys_service'])
      {
-       case 'Messages_get':
-         Messages::ajax_show_msg();
-       break;
+        case 'Messages_get':
+          Messages::ajax_show_msg();
+          // echo 'ajax_show_msg-'.date('s');
+        break;
      }
 
      exit();

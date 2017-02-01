@@ -13,16 +13,23 @@ class Navbar
 {
   private static $submenu_sep = '/';
   private static $listSep = array();
+  private static $set_inverse = '';
 
+  //---------------------------------------------------
+  public static function setInverse($flag)
+  {
+    self::$set_inverse = ($flag)? 'navbar-inverse' : '';
+  }
   //---------------------------------------------------
   public static function show()
   {
     $buttons = self::getButtons();
+    $set_inverse = self::$set_inverse;
 
     echo <<<EOD
 
 <!-- Menú -->
-<nav id="WMain_menu" class="navbar navbar-default navbar-static-top">
+<nav id="WMain_menu" class="navbar navbar-default navbar-static-top $set_inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">

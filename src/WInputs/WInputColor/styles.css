@@ -1,11 +1,11 @@
 
-#WInputColor input[type="text"] {
+.WInputColor input[type="text"] {
   text-align:center;
   width:72px;
   font-family: monospace;
 }
 
-#WInputColor input[type="color"] {
+.WInputColor input[type="color"] {
   padding: 0;
   vertical-align: middle;
   height: 25px;

@@ -4,22 +4,16 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WInputRadios;
+namespace angelrove\membrillo2\WInputs;
 
-use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;
 
 
 class WInputRadios
 {
-    //----------------------------------------------------
-    public function __construct()
-    {
-      CssJsLoad::set(__DIR__.'/styles.css');
-    }
     //------------------------------------------------------------------
     /* From array */
-    public function get($name, $listDatos, $id_selected, $onclick='', $listColors=array(), $is_assoc='')
+    public static function get($name, $listDatos, $id_selected, $listColors=array(), $is_assoc='')
     {
       $strSelect = '';
 
@@ -33,7 +27,9 @@ class WInputRadios
 
       foreach($listDatos as $id=>$nombre)
       {
-         if($isAsociativo == false) $id = $nombre;
+         if($isAsociativo == false) {
+            $id = $nombre;
+         }
 
          // Selected
          $SELECTED = '';
@@ -41,22 +37,24 @@ class WInputRadios
 
          $idCheck = $name.'_'.$id;
 
+         // Color
          $style_bg = (isset($listColors[$id]))? 'style="background:'.$listColors[$id].'"' : '';
 
          // Option
          $strSelect .= <<<EOD
-         <div id="WInputRadios_$idCheck" class="WInputRadio">
-           &nbsp;
-           <input type="radio" id="$idCheck" name="$name" value="$id" $SELECTED onclick="$onclick"><label for="$idCheck" $style_bg>$nombre</label>
-         </div>
+         <label class="radio-inline">
+           <input type="radio"
+                id="$idCheck"
+                name="$name"
+                value="$id" $SELECTED>
+           $nombre
+         </label>
 EOD;
       }
 
-      $strClass = ($listColors)? ' with-color' : '';
-
-      echo '<div class="WInputRadios WInputRadios_'.$name.$strClass.'">'.
-              $strSelect.
-           '</div>';
+      return '<div class="WInputRadios" id="WInputRadios_'.$name.'">'.
+                $strSelect.
+             '</div>';
     }
     //------------------------------------------------------------------
     /* Con imagenes */
@@ -82,14 +80,19 @@ EOD;
 
          // Option
          $strSelect .= <<<EOD
-          <input type="radio" class="WInputRadio" id="$idCheck" name="$nameCheck" value="$id" $SELECTED><label class="WInputRadiosLabel" for="$idCheck" onclick="$idCheck.checked=true">$image</label>
-
+          <label class="radio-inline">
+            <input type="radio"
+                   id="$idCheck"
+                   name="$nameCheck"
+                   value="$id" $SELECTED>
+            $image
+          </label>
 EOD;
       }
 
-      echo '<div class="WInputRadios2 WInputRadios2_'.$name.'">'.
-              $strSelect.
-           '</div>';
+      return  '<div class="WInputRadios_img" id="WInputRadios_img_'.$name.'">'.
+                 $strSelect.
+              '</div>';
     }
     //----------------------------------------------------------------------
 }

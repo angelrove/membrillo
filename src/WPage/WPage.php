@@ -65,10 +65,12 @@ class WPage
 
    include('tmpl_page_footer.inc');
 
-   ?><!-- code footer --><?
-   CssJsLoad::get_js();
-
    ?>
+
+<!-- js -->
+<? CssJsLoad::get_js(); ?>
+<!-- /js -->
+
    </body>
    </html>
    <?
@@ -135,10 +137,16 @@ class WPage
       // Default --------
       if(!$CONFIG_APP['bootstrap']['theme'])
       {
-         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css');
+         // Navbar::setInverse(true);
+
+         CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css');
+         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css');
+         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/slate/bootstrap.min.css');
+         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css');
+         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/umited/bootstrap.min.css');
 
          CssJsLoad::set(__DIR__.'/bootstrap_themes/update-basics.css');
-         // CssJsLoad::set(__DIR__.'/bootstrap_themes/update-metro.css');
+         CssJsLoad::set(__DIR__.'/bootstrap_themes/update-metro.css');
          // CssJsLoad::set(__DIR__.'/bootstrap_themes/update-classic.css');
          // CssJsLoad::set(__DIR__.'/bootstrap_themes/update-yeti.css');
 

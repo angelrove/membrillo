@@ -1,8 +1,8 @@
 <?
 /**
- * Generadores de consultas SQL
- *
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ *
+ * Generadores de consultas SQL
  *
  */
 
@@ -10,22 +10,54 @@ namespace angelrove\membrillo2;
 
 use angelrove\membrillo2\WInputs\WInputFile\WInputFile_upload;
 use angelrove\membrillo2\SysTrazas\SysTrazas;
-use angelrove\membrillo2\WMessages\WMessages;
+use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo2\Login\Login;
+use angelrove\membrillo2\WObjects\WForm\WForm;
 
+use angelrove\utils\CssJsLoad;
 use angelrove\utils\FileUploaded;
 use angelrove\utils\Db_mysql;
 
 
 class GenQuery
 {
+  //------------------------------------------------------------
+  /*
+   * Buscador: Concatenar filtros
+   *  $listSql['campo1'] = "campo1 LIKE '%$_REQUEST[campo1]%'";
+   *  ...
+   *  Ejem.: GenQuery::getFiltros($listSql, $_REQUEST);
+   */
+  public static function getSqlFiltros($listSql, $listFiltros, $sep='AND')
+  {
+    $sqlFiltros = '';
+    $sep = ' '.$sep.' ';
+
+    $c=0;
+    foreach($listSql as $field => $strSql) {
+       if($listFiltros[$field] == '' || !$strSql) {
+          continue;
+       }
+
+       if($c > 0) $sqlFiltros .= $sep;
+       $sqlFiltros .= "\n   ".$strSql;
+
+       $c = 1;
+    }
+
+    return $sqlFiltros;
+  }
   //------------------------------------------------------------------
   // Parse form
   //------------------------------------------------------------------
-  static public function parseForm($DB_TABLE, $id='', $uniques=array(), $notNull=array())
+  public static function parseForm($DB_TABLE, $id='', $uniques=array(), $notNull=array())
   {
-    global $seccCtrl, $LOCAL;
+    global $app;
 
-    if(!$id) $id = $seccCtrl->ROW_ID;
+    if(!$id) {
+       $id = Event::$ROW_ID;
+    }
+
     $listFields = self::getTableProperties($DB_TABLE);
 
     /** user config **/
@@ -40,7 +72,8 @@ class GenQuery
     $listErrors = '';
 
     // Obligatorios ---
-    foreach($listFields as $fieldName => $fieldProp) {
+    foreach($listFields as $fieldName => $fieldProp)
+    {
        if(!$fieldProp->obligatorio) {
           continue;
        }
@@ -65,7 +98,7 @@ class GenQuery
        // Error
        if($value == '' || $value == '00/00/0000') {
           $title = ($fieldProp->title)? $fieldProp->title : $fieldName;
-          $listErrors[$fieldName] = $title.': '.$LOCAL['GenQuery_error_obliga'];
+          $listErrors[$fieldName] = $title.': '.$app->lang['GenQuery_error_obliga'];
        }
     }
 
@@ -84,36 +117,18 @@ class GenQuery
        $sqlQ = "SELECT id FROM $DB_TABLE WHERE `$fieldName`='$postValue' AND id <> '$id'";
        if(Db_mysql::getValue($sqlQ)) {
           $title = ($fieldProp->title)? $fieldProp->title : $fieldName;
-          $listErrors[$fieldName] .= $title.': '.$LOCAL['GenQuery_error_unique'];
+          $listErrors[$fieldName] .= $title.': '.$app->lang['GenQuery_error_unique'];
        }
     }
 
     /** Out errors **/
-    if($listErrors) {
-       $seccCtrl->reverseEvent(); // mantenerse en la misma pantalla
-       self::parseForm_resalta($listErrors);
-       return $listErrors;
-    }
-  }
-  //-------------------------------
-  static public function parseForm_resalta($errors)
-  {
-    //WMessages::set(print_r($errors, true));
-    WMessages::set('- Hay errores:');
-
-    $Js = '';
-    foreach($errors as $name=>$err) {
-      $Js .= "$('[name=\"$name\"]').css('border', '2px solid red');"; // resaltar campos
-      WMessages::set($err);
-    }
-
-    $Js .= "$('[name=\"".key($errors)."\"]').focus()"; // foco en el primer input erroneo
-    WMessages::set('<script>'.$Js.'</script>');
+    WForm::update_setErrors($listErrors);
+    return $listErrors;
   }
   //------------------------------------------------------------------
   // SELECT
   //------------------------------------------------------------------
-  static public function selectFiltros($DB_TABLE, $sqlFiltros)
+  public static function selectFiltros($DB_TABLE, $sqlFiltros)
   {
     $strFiltros = '';
     if($sqlFiltros) { $strFiltros = " WHERE $sqlFiltros"; }
@@ -122,10 +137,12 @@ class GenQuery
     return $sqlQ . $strFiltros;
   }
   //------------------------------------------------------------------
-  static public function select($DB_TABLE) {
+  public static function select($DB_TABLE)
+  {
     // Formatear salida
     $strDates = '';
     $listFields = self::getTableProperties($DB_TABLE);
+
     foreach($listFields as $fieldName => $fieldProp) {
        switch($fieldProp->type) {
          case 'date':
@@ -144,11 +161,10 @@ class GenQuery
     }
 
     // Query
-    $sqlQ = "SELECT * $strDates \nFROM $DB_TABLE";
-    return $sqlQ;
+    return "SELECT * $strDates \nFROM $DB_TABLE";
   }
   //------------------------------------------------------------------
-  static public function selectRow($DB_TABLE, $id)
+  public static function selectRow($DB_TABLE, $id)
   {
     // Formatear salida
     $strDates = '';
@@ -167,38 +183,40 @@ class GenQuery
     }
 
     // Query
-    $sqlQ = "SELECT * $strDates \nFROM $DB_TABLE \nWHERE id='$id' LIMIT 1";
-    return $sqlQ;
+    return "SELECT * $strDates \nFROM $DB_TABLE \nWHERE id='$id' LIMIT 1";
   }
   //------------------------------------------------------------------
   // INSERT
   //------------------------------------------------------------------
-  static public function insert($DB_TABLE, $listValuesPers=array())
+  public static function insert($DB_TABLE, $listValuesPers=array())
   {
-    global $seccCtrl;
+    // Parse from ---
+    if(self::parseForm($DB_TABLE)) {
+       return;
+    }
 
-    /** Query **/
+    // Query --------
     $sqlQ = self::getQueryInsert($DB_TABLE, $listValuesPers);
 
-    /** Errores **/
-    if($sqlQ->errors) {
-       $seccCtrl->reverseEvent(); // mantenerse en la misma pantalla
-       self::parseForm_resalta($sqlQ->errors);
+    // Errors
+    if(isset($sqlQ->errors)) {
+       WForm::update_setErrors($sqlQ->errors);
        return $sqlQ->errors;
     }
 
-    /** Ejecutar Query **/
+    // Exec query
     Db_mysql::query($sqlQ);
-    //self::log($sqlQ); // Log
+    //self::log_updates($sqlQ); // Log
 
-    /** La nueva tupla activa **/
-    $seccCtrl->setRowId($seccCtrl->CONTROL, Db_mysql::insert_id());
+    // Envío el nuevo ROW_ID al evento en curso
+    Event::setRowId(Db_mysql::insert_id());
 
-    SysTrazas::out('GenQuery::insert()', $sqlQ);
+    DebugTrace::out('GenQuery::insert()', $sqlQ);
+
     return;
   }
-  //---------
-  static public function getQueryInsert($DB_TABLE, $listValuesPers=array())
+  //------------------------------------------------------------------
+  public static function getQueryInsert($DB_TABLE, $listValuesPers=array())
   {
     /** Recorrer los campos **/
     $strFields = '';
@@ -210,10 +228,15 @@ class GenQuery
        $value = '';
        if(isset($listValuesPers[$fieldName])) {
           $value = $listValuesPers[$fieldName];
-       } else {
+       }
+       else {
           $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
-          if($value->errors) return $value;
-          if($value === false) continue;
+          if(isset($value->errors)) {
+             return $value;
+          }
+          if($value === false) {
+             continue;
+          }
        }
 
        // Query
@@ -225,39 +248,43 @@ class GenQuery
     $strValues{0} = ' ';
 
     /** Query **/
-    $sqlQ = "INSERT INTO $DB_TABLE ($strFields) VALUES ($strValues)";
-    return $sqlQ;
+    return "INSERT INTO $DB_TABLE ($strFields) VALUES ($strValues)";
   }
   //------------------------------------------------------------------
   // UPDATE
   //------------------------------------------------------------------
-  static public function update($DB_TABLE, $listValuesPers=array(), $id='')
+  public static function update($DB_TABLE, $listValuesPers=array(), $id='')
   {
-    global $seccCtrl;
-    if(!$id) $id = $seccCtrl->ROW_ID;
+    // Parse from ---
+    if(self::parseForm($DB_TABLE)) {
+       return;
+    }
+
+    //------------
+    if(!$id) {
+       $id = Event::$ROW_ID;
+    }
 
     /** Query **/
     $sqlQ = self::getQueryUpdate($DB_TABLE, $id, $listValuesPers);
-    // print_r2("$sqlQ");exit();
 
     /** Errores **/
-    if($sqlQ->errors) {
-       $seccCtrl->reverseEvent(); // mantenerse en la misma pantalla
-       self::parseForm_resalta($sqlQ->errors);
+    if(isset($sqlQ->errors) && $sqlQ->errors) {
+       WForm::update_setErrors($sqlQ->errors);
        return $sqlQ->errors;
     }
 
     /** Ejecutar Query **/
     if($sqlQ) {
        Db_mysql::query($sqlQ);
-       self::log($sqlQ); // Log
+       self::log_updates($sqlQ); // Log
     }
 
-    SysTrazas::out('GenQuery::update()', $sqlQ);
+    DebugTrace::out('GenQuery::update()', $sqlQ);
     return;
   }
-  //---------
-  static public function getQueryUpdate($DB_TABLE, $id, $listValuesPers=array())
+  //------------------------------------------------------------------
+  public static function getQueryUpdate($DB_TABLE, $id, $listValuesPers=array())
   {
     /** Recorrer los campos **/
     $strValues = '';
@@ -294,25 +321,24 @@ class GenQuery
   // DELETE
   //------------------------------------------------------------------
   /* Delete row and uploaded files */
-  static public function delete($DB_TABLE)
+  public static function delete($DB_TABLE)
   {
-    global $seccCtrl;
-
-    $sqlQ = self::getQueryDelete($DB_TABLE, $seccCtrl->ROW_ID);
+    $sqlQ = self::getQueryDelete($DB_TABLE, Event::$ROW_ID);
     Db_mysql::query($sqlQ);
 
-    self::log($sqlQ); // Log
+    self::log_updates($sqlQ); // Log
 
     // Delete in session
-    $seccCtrl->delRowId($seccCtrl->CONTROL);
+    Event::delRowId();
 
-    SysTrazas::out('GenQuery::delete()', $sqlQ);
+    DebugTrace::out('GenQuery::delete()', $sqlQ);
+
     return;
   }
   //-----------
-  static public function getQueryDelete($DB_TABLE, $id)
+  public static function getQueryDelete($DB_TABLE, $id)
   {
-    global $CONFIG_APP, $seccCtrl;
+    global $seccCtrl;
 
     $listFields = self::getTableProperties($DB_TABLE);
 
@@ -320,12 +346,12 @@ class GenQuery
      foreach($listFields as $fieldName => $fieldProp) {
         switch($fieldProp->type) {
           case 'file':
-            $bbdd_file = Db_mysql::getValue("SELECT $fieldName FROM $DB_TABLE WHERE id='$id'");
+            $bbdd_file  = Db_mysql::getValue("SELECT $fieldName FROM $DB_TABLE WHERE id='$id'");
             $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
 
             if($paramsFile['name']) {
-               SysTrazas::out('getQueryDelete(): unlink 1:', "'$paramsFile[path_completo]'");
-               SysTrazas::out('getQueryDelete(): unlink 2:', "'$paramsFile[path_completo_th]'");
+               DebugTrace::out('getQueryDelete(): unlink 1:', "'$paramsFile[path_completo]'");
+               DebugTrace::out('getQueryDelete(): unlink 2:', "'$paramsFile[path_completo_th]'");
 
                 unlink($paramsFile['path_completo']);    // archivo
                @unlink($paramsFile['path_completo_th']); // if thumbnail
@@ -341,25 +367,28 @@ class GenQuery
   //------------------------------------------------------------------
   // PRIVATE
   //------------------------------------------------------------------
-  static public function log($sqlQ)
+  public static function log_updates($sqlQ)
   {
-    global $CONFIG_APP, $appLogin;
-    if(!$CONFIG_APP['debug']['LOG_UPDATES']) return;
+    global $CONFIG_APP;
 
-    $usuario = $appLogin->login;
-    $strSql  = addslashes($sqlQ);
+    if(!$CONFIG_APP['debug']['LOG_UPDATES']) {
+       return;
+    }
+
+    $user_login = Login::$login;
+    $strSql = addslashes($sqlQ);
 
     $ip         = $_SERVER['REMOTE_ADDR'];
     //$origen   = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
     $origen     = $_SERVER['REQUEST_URI'];
     $USER_AGENT = addslashes($_SERVER['HTTP_USER_AGENT']);
 
-    $sqlQ = "INSERT INTO log_updates(usuario, ip, user_agent, origen, sqlQ)
-             VALUES('$usuario', '$ip', '$USER_AGENT', '$origen', '$strSql')";
+    $sqlQ = "INSERT INTO sys_log_updates(user_login, ip, user_agent, origen, sqlQ)
+             VALUES('$user_login', '$ip', '$USER_AGENT', '$origen', '$strSql')";
     Db_mysql::query($sqlQ);
   }
   //------------------------------------------------------------------
-  static private function getTableProperties($table)
+  private static function getTableProperties($table)
   {
     $listFields = Db_mysql::getListNoId("SHOW FULL COLUMNS FROM $table");
     if(!$listFields) {
@@ -368,14 +397,18 @@ class GenQuery
     }
 
     $tableProp = array();
-    foreach($listFields as $field) {
+    foreach($listFields as $field)
+    {
        $nombreCampo = $field['Field'];
        if($nombreCampo == 'id') continue;
 
        $tableProp[$nombreCampo] = new \stdClass();
+       $tableProp[$nombreCampo]->title = '';
 
        // Propiedades a través de MySql
-       $tableProp[$nombreCampo]->type        = ($field['Type'] == 'timestamp' || $field['Type'] == 'date' || $field['Type'] == 'datetime')? $field['Type'] : '';
+       $tableProp[$nombreCampo]->type = ($field['Type'] == 'timestamp' ||
+                                         $field['Type'] == 'date' ||
+                                         $field['Type'] == 'datetime')? $field['Type'] : '';
        $tableProp[$nombreCampo]->obligatorio = ($field['Null'] == 'NO') ? 'true' : '';
        $tableProp[$nombreCampo]->unique      = ($field['Key']  == 'UNI')? 'true' : '';
 
@@ -387,60 +420,66 @@ class GenQuery
           if(isset($output['title'])) {
              $tableProp[$nombreCampo]->title = $output['title'];
           }
-
           if(isset($output['type'])) {
              $tableProp[$nombreCampo]->type = $output['type'];
           }
        }
     }
 
-    //SysTrazas::out('TableProperties()', $tableProp);
+    //DebugTrace::out('TableProperties()', $tableProp);
     return $tableProp;
   }
   //------------------------------------------------------------------
-  static private function getValueToInsert($DB_TABLE, $fieldName, $fieldType)
+  private static function getValueToInsert($DB_TABLE, $fieldName, $fieldType)
   {
-    if(!isset($_POST[$fieldName]) && !isset($_FILES[$fieldName])) {
+    $inputValue = '';
+
+    if(isset($_POST[$fieldName])) {
+       $inputValue = $_POST[$fieldName];
+    }
+    elseif(isset($_FILES[$fieldName])) {
+    }
+    else {
        return false;
     }
 
-    // Formatear entrada según el tipo
-    $value = false;
-    $fieldValue = $_POST[$fieldName];
-
-    //echo "'$fieldName' >> '$fieldType' = '$fieldValue'<br>";
+    // Formatear entrada según el tipo ---
+    //echo "'$fieldName' >> '$fieldType' = '$inputValue'<br>";
     switch($fieldType) {
+      //-------
       case 'date':
-        $value = "STR_TO_DATE('$fieldValue', '%d/%m/%Y')";
+        $value = "STR_TO_DATE('$inputValue', '%d/%m/%Y')";
       break;
-
+      //-------
       case 'timestamp':
-        $value = "$fieldValue";
+        $value = "$inputValue";
       break;
-
+      //-------
       case 'datetime':
-        $value = "'$fieldValue'";
+        $value = "'$inputValue'";
       break;
-
+      //-------
       case 'file':
         if(count($_FILES) == 0) {
-           print_r2("ERROR [upload], asegurate de que el formulario contiene 'enctype=\"multipart/form-data\"'");
+           throw new Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
         }
+
         $datosFile = WInputFile_upload::getFile($DB_TABLE, $fieldName);
-
-        if($datosFile->errors) {
-           return $datosFile;
+        if(isset($datosFile->errors)) {
+           $value = $datosFile;
         }
-        $value = "'$datosFile'";
+        else {
+           $value = "'$datosFile'";
+        }
       break;
-
+      //-------
       default:
-        $value = "'$fieldValue'";
+        $value = "'$inputValue'";
       break;
+      //-------
     }
 
     return $value;
   }
   //------------------------------------------------------------------
 }
-

@@ -1,14 +1,13 @@
 <?
 /**
- * class WInputFile_upload: upload/delete a file
- *
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
+ * class WInputFile_upload: upload/delete a file
  *
  */
 
 namespace angelrove\membrillo2\WInputs\WInputFile;
 
-use angelrove\membrillo2\SysTrazas\SysTrazas;
+use angelrove\membrillo2\DebugTrace;
 
 use angelrove\utils\FileUpload;
 use angelrove\utils\Db_mysql;
@@ -30,11 +29,8 @@ class WInputFile_upload
     $trazas = "WInputFile_upload('$dbTable', '$fieldName')";
 
     if(count($_FILES) == 0) {
-       WMessages::set("ERROR [upload], asegurate de que el formulario contiene 'enctype=\"multipart/form-data\"'");
+       Messages::set("ERROR [upload], asegurate de que el formulario contiene 'enctype=\"multipart/form-data\"'");
     }
-
-// echo "<pre>aa:"; print_r($_FILES); echo "</pre>";
-// ini_set('display_errors', 1); error_reporting(E_ALL ^ E_NOTICE); echo "ok"; exit;
 
     /** Propiedades **/
      $fileNew  = $_FILES[$fieldName]['name'];
@@ -70,7 +66,7 @@ class WInputFile_upload
         }
 
         $traza = $trazas.' >> delete: "'.$file_path.'/'.$fileToDelete.'"';
-        SysTrazas::out('WInputFile', $traza);
+        DebugTrace::out('WInputFile', $traza);
 
         unlink($file_path .'/'.$fileToDelete);
         @unlink($file_path.'/'.'th_'.$fileToDelete); // intenta eliminar un posible thumbnail
@@ -98,11 +94,11 @@ class WInputFile_upload
 
      // Upload
      $uploads_path = $CONFIG_APP['path_uploads'].'/'.$seccCtrl->UPLOADS_DIR;
-     //echo "=>".$uploads_path;exit();
 
      $resUpload = FileUpload::getFile($fieldName, $saveAs, $uploads_path, $validFiles, $param_maxSize);
-     $traza = "$trazas >> resUpload: '$resUpload'; saveAs: '$saveAs', uploads_path: '$uploads_path'";
-     SysTrazas::out('WInputFile', $traza);
+     $traza = "$trazas >> saveAs: '$saveAs', uploads_path: '$uploads_path'";
+     DebugTrace::out('WInputFile', $traza);
+     DebugTrace::out('WInputFile >> resUpload', $resUpload);
 
      if($resUpload !== true) {
         switch($resUpload['COD']) {
@@ -111,8 +107,8 @@ class WInputFile_upload
           case 'FileTypeError':
           case 'FileSizeError':
           case 'CopyFileError':
-            //$ret->errors[$fieldName] = '<div style="color:red">'.$traza.'</div>';
-            $ret->errors[$fieldName] = '<div style="color:red">'.$resUpload['MSG'].'</div>';
+            //WFrameAlert('ERROR: '.$resUpload['MSG']);
+            $ret->errors[$fieldName] = '<div>'.$resUpload['MSG'].'</div>';
             return $ret;
         }
      }
@@ -142,14 +138,14 @@ class WInputFile_upload
         }
 
         // Recortar altura ---
-        if($param_setCropHeight > 0) { //echo "cropImage($param_setCropHeightY)";
-           cropImage($uploads_path, $nameWidthExt, 0, $param_setCropHeight, false, 'right', $param_setCropHeightY);
+        if($param_setCropHeight > 0) {
+           ImageTransform::crop($uploads_path, $nameWidthExt, 0, $param_setCropHeight, false, 'right', $param_setCropHeightY);
         }
 
         // Thumbnail ---
         if($param_thumbWidth > 0) {
            $traza = $trazas." >> Thumb: param_thumbWidth=$param_thumbWidth; uploads_path='$uploads_path'";
-           SysTrazas::out('WInputFile', $traza);
+           DebugTrace::out('WInputFile', $traza);
            ImageTransform::thumbsJpeg($uploads_path, $nameWidthExt, $param_thumbWidth);
         }
 
@@ -191,17 +187,11 @@ class WInputFile_upload
   //-----------------------------------------------------------
   /**
    * Params:
-   *   dbTable:  tabla de la BD
-   *   dbField:  campo de la BD. (que se corresponde con el campo del formulario)
+   *   dbTable: tabla de la BD
+   *   dbField: campo de la BD. (que se corresponde con el campo del formulario)
    */
   private static function getNewFileName($dbTable, $dbField)
   {
-    global $seccCtrl;
-
-    /** 'rowId' **/
-     // actualId
-     $actualId = $seccCtrl->getRowId($seccCtrl->CONTROL);
-
      // comprobar tabla
      $statusTabla = Db_mysql::getRowObject("SHOW TABLE STATUS LIKE '$dbTable'");
      if(!$statusTabla) {
@@ -210,12 +200,16 @@ class WInputFile_upload
      }
 
      // ID
-     $rowId = ($actualId)? $actualId : $statusTabla->Auto_increment;
+     if(Event::$ROW_ID) {
+        $rowId = Event::$ROW_ID;
+     } else {
+        $rowId = $statusTabla->Auto_increment;
+     }
 
-    /** New file name **/
+     // New file name ---
      $fileName = $dbTable.'_'.$dbField.'_'.$rowId;
 
-    /*
+     /*
      Clave para que cambie el nombre cuando se actualiza(para resolver temas de caché)
      - ¡¡ Da problemas porque siempre se mantiene el nombre !!
      */

@@ -22,7 +22,7 @@
 
 namespace angelrove\membrillo2;
 
-// use angelrove\utils\CssJsload;
+use angelrove\utils\CssJsload;
 
 
 class Messages
@@ -30,44 +30,49 @@ class Messages
   //----------------------------------------------------
   public static function set($msg, $type='success')
   {
-    $_SESSION['Messages_msg'][$type] .= '<div>'.$msg.'</div>';
+     $_SESSION['Messages_msg'][$type] .= '<div>'.$msg.'</div>';
   }
   //----------------------------------------------------
   public static function show()
   {
-//     CssJs_load::set_script('
-// $(document).ready(function() {
-//    $("#WApplication_msgs_load").load("/index_ajax.php?secc=0&sys_service=Messages_get");
-// });
-// ', 'Messages');
+     CssJsLoad::set_script('
+  $(document).ready(function() {
+     $("#WApplication_msgs_load").load("/index_ajax.php?secc=0&sys_service=Messages_get");
+  });
+', 'Messages');
 
-    ?>
+     ?>
+     <!-- Messages -->
+     <style>
+     .WApplication_msgs {
+       position:absolute; top:0; z-index: 10000; left: 40%;
+     }
+     </style>
 
-    <!-- Messages -->
-    <div id="WApplication_msgs_load"></div>
-    <!-- /Messages -->
-    <?
+     <div id="WApplication_msgs_load"></div>
+     <!-- /Messages -->
+     <?
   }
   //----------------------------------------------------
   public static function ajax_show_msg()
   {
-    if(!isset($_SESSION['Messages_msg'])) {
-       $_SESSION['Messages_msg'] = array('success'=>'', 'danger'=>'');
-    }
+     if(!isset($_SESSION['Messages_msg'])) {
+        $_SESSION['Messages_msg'] = array('success'=>'', 'danger'=>'');
+     }
 
-    // OUT ---
-    foreach($_SESSION['Messages_msg'] as $type => $msg)
-    {
-       if(!$msg) {
-          continue;
-       }
-       ?>
-       <div class="WApplication_msgs alert alert-<?=$type?>" role="alert">
-          <?=$msg?>
-       </div>
-       <?
-       $_SESSION['Messages_msg'][$type] = '';
-    }
+     // OUT ---
+     foreach($_SESSION['Messages_msg'] as $type => $msg)
+     {
+        if(!$msg) {
+           continue;
+        }
+        ?>
+        <div class="WApplication_msgs alert alert-<?=$type?>" role="alert">
+           <?=$msg?>
+        </div>
+        <?
+        $_SESSION['Messages_msg'][$type] = '';
+     }
   }
   //----------------------------------------------------
 }
