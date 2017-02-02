@@ -184,7 +184,7 @@ class WForm extends EventComponent
   }
   //------------------------------------------------------------------
   //------------------------------------------------------------------
-  public function getWForm()
+  public function get()
   {
     // setButtons_top ---
     $htmButtons = '';
