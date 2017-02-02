@@ -1,10 +1,11 @@
 
-$(document).ready(function() {
+$(document).ready(function()
+{
   // Focus (buscador) ---
   $('.WFrame input[type="text"]').eq(0).focus();
 
   //-----------------------------------------------------
-  /** Eventos **/
+  /** Events **/
   //-----------------------------------------------------
   // onRow ----------------------------------------------
   $('.List_tuplas td:not(.optionsBar, .onClickUser)').click(function(event) {
@@ -34,69 +35,84 @@ $(document).ready(function() {
     List_onEvent($(this), row_id, 'detalle', '', '');
   });
   //-----------------------------------------------------
-  //-----------------------------------------------------
-  function List_onEvent(object, row_id, bt, oper, txConfirm) {
-    var List = object.parents(".List_tuplas");
-    var control = List.attr('param_control');
-    var evento  = List.attr('param_event-'+bt);
-    if(!evento) {
-       return false;
-    }
+});
 
-    str_row_id = (row_id)? '&ROW_ID='+row_id : '';
-    str_oper   = (oper)  ? '&OPER='+oper     : '';
-    var href_event = '?CONTROL='+control+'&EVENT='+evento+str_row_id+str_oper;
+//-----------------------------------------------------
+/** shortcuts **/
+//-----------------------------------------------------
+$(document).keydown(function(e)
+{
+    var shortcuts_row = $(".List_tuplas tbody tr.selected").index();
 
-    // Confirm
-    if(txConfirm == '') {
-       location.href = href_event;
-    } else if(confirm(txConfirm)) {
-       location.href = href_event;
-    }
-  }
-  //-----------------------------------------------------
-  /** shortcuts **/
-  //-----------------------------------------------------
-   var shortcuts_row = $(".List_tuplas tbody tr.selected").index();
-
-   //----------------
-   // Down / Up
-   shortcut.add("Ctrl+Down",function() {
-     if(!$(".List_tuplas tbody tr").eq(shortcuts_row+1).attr("id")) {
+    //----------------
+    // Ctrl+Up
+    if(e.keyCode == 38 && e.ctrlKey)
+    {
+      if(shortcuts_row <= 0) {
         return;
-     }
-     shortcuts_row++;
-     $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
-     $(".List_tuplas tbody tr").eq(shortcuts_row-1).removeClass("selected");
-   });
-   //-------
-   shortcut.add("Ctrl+Up",function() {
-     if(shortcuts_row <= 0) {
+      }
+      shortcuts_row--;
+      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
+      $(".List_tuplas tbody tr").eq(shortcuts_row+1).removeClass("selected");
+    }
+    //----------------
+    // Ctrl+Down
+    else if(e.keyCode == 40 && e.ctrlKey)
+    {
+      if(!$(".List_tuplas tbody tr").eq(shortcuts_row+1).attr("id")) {
         return;
-     }
-     shortcuts_row--;
-     $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
-     $(".List_tuplas tbody tr").eq(shortcuts_row+1).removeClass("selected");
-   });
-   //----------------
-   // new, onRow, delete
-   shortcut.add("Insert",function() {
-     List_onEvent($(".List_tuplas tr"), '', 'new', '', '');
-   });
-   //----------------
-   shortcut.add("Ctrl+Enter",function() {
-     var row_id = $(".List_tuplas tr.selected").attr('id');
-     List_onEvent($(".List_tuplas tr.selected"), row_id, 'onRow', '', '');
-   });
-   //----------------
-   shortcut.add("Ctrl+Delete",function() {
-     var row_id = $(".List_tuplas tr.selected").attr('id');
-     List_onEvent($(".List_tuplas tr.selected"), row_id, 'delete', 'delete', List_msgConfirmDel);
-   });
-   //-----------------------------------
+      }
+      shortcuts_row++;
+      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
+      $(".List_tuplas tbody tr").eq(shortcuts_row-1).removeClass("selected");
+    }
+    //----------------
+    // Ctrl+Insert (new, onRow, delete)
+    else if(e.keyCode == 45 && e.ctrlKey)
+    {
+      List_onEvent($(".List_tuplas tr"), '', 'new', '', '');
+    }
+    //----------------
+    // Ctrl+Enter
+    else if(e.keyCode == 13 && e.ctrlKey)
+    {
+      var row_id = $(".List_tuplas tr.selected").attr('id');
+      List_onEvent($(".List_tuplas tr.selected"), row_id, 'onRow', '', '');
+    }
+    //----------------
+    // Ctrl+Del
+    else if(e.keyCode == 46 && e.ctrlKey)
+    {
+      var row_id = $(".List_tuplas tr.selected").attr('id');
+      List_onEvent($(".List_tuplas tr.selected"), row_id, 'delete', 'delete', List_msgConfirmDel);
+    }
+    //-----------------------------------
 });
 
 
+//-----------------------------------------------------
+// Functions
+//-----------------------------------------------------
+function List_onEvent(object, row_id, bt, oper, txConfirm)
+{
+  var List = object.parents(".List_tuplas");
+  var control = List.attr('param_control');
+  var evento  = List.attr('param_event-'+bt);
+  if(!evento) {
+     return false;
+  }
+
+  str_row_id = (row_id)? '&ROW_ID='+row_id : '';
+  str_oper   = (oper)  ? '&OPER='+oper     : '';
+  var href_event = '?CONTROL='+control+'&EVENT='+evento+str_row_id+str_oper;
+
+  // Confirm
+  if(txConfirm == '') {
+     location.href = href_event;
+  } else if(confirm(txConfirm)) {
+     location.href = href_event;
+  }
+}
 //-------------------------------------------------------
 /*
 // Delete en segundo plano

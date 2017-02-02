@@ -276,11 +276,11 @@ EOD;
 
    CssJsLoad::set_script($str_js);
 
-   $bt_aceptar  = '<button type="submit" class="btn btn-primary btn-sm" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
-   $bt_guardar  = '<button type="button" class="btn btn-primary btn-sm" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
-   $bt_eliminar = '<button type="button" class="btn btn-danger  btn-sm" id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
-   $bt_saveNext = '<button type="button" class="btn btn-primary btn-sm" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
-   $bt_cancelar = '<button type="button" class="btn btn-default btn-sm" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
+   $bt_aceptar  = '<button type="submit" class="btn btn-primary" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
+   $bt_guardar  = '<button type="button" class="btn btn-primary" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
+   $bt_eliminar = '<button type="button" class="btn btn-danger " id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
+   $bt_saveNext = '<button type="button" class="btn btn-primary" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
+   $bt_cancelar = '<button type="button" class="btn btn-default" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
 
    $datosEv = $this->getFormEvent();
 
@@ -305,7 +305,7 @@ EOD;
 
    return '
 <!-- Botones -->
-<div class="form-group oper_buttons">
+<div class="form-group oper_buttons text-right">
   <div class="col-lg-10 col-lg-offset-2">
     '.$strButtons.'
   </div>

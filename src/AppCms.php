@@ -113,8 +113,7 @@ class AppCms extends Application
       include($path_secc.'/onInitPage.inc');
 
       // Events -----------
-      if(Event::$EVENT)
-      {
+      if(Event::$EVENT) {
          $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
 
          // oper
@@ -126,6 +125,7 @@ class AppCms extends Application
                                                     '&EVENT='  .Event::$EVENT.
                                                     '&ROW_ID=' .Event::$ROW_ID.
                                                     '&OPERED=' .Event::$OPER);
+               exit();
             }
          }
 

@@ -17,59 +17,74 @@ use angelrove\membrillo2\WObjectsStatus\Event;
 
 class WPage
 {
-   public static $title;
+   public  static $title;
+   private static $view_empty = false;
 
+   //----------------------------------------------------
+   public static function set_view_empty()
+   {
+     self::$view_empty = true;
+   }
    //----------------------------------------------------
    public static function start()
    {
-    global $CONFIG_APP, $seccCtrl;
+     global $CONFIG_APP, $seccCtrl;
 
-    // Set theme ------
-    self::set_theme();
+     // Set theme ------
+     self::set_theme();
 
-    if(!self::$title) {
-       self::$title = $seccCtrl->title;
-    }
+     if(!self::$title) {
+        self::$title = $seccCtrl->title;
+     }
 
-    ?><!DOCTYPE html>
-   <html lang="es">
-   <head>
-     <title><?=$CONFIG_APP['data']['TITLE']?></title>
+     ?><!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <title><?=$CONFIG_APP['data']['TITLE']?></title>
 
-     <meta charset="utf-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-     <!-- css -->
-     <? CssJsLoad::get_css(); ?>
-     <!-- /css -->
-   </head>
-   <body>
-     <?
+      <!-- css -->
+      <? CssJsLoad::get_css(); ?>
+      <!-- /css -->
+    </head>
+    <body>
+      <? self::trazas() ?>
 
-     self::trazas();
-     self::header();
-     Navbar::show();
+      <!-- Header -->
+      <? if(!self::$view_empty) { ?>
+        <header>
+          <? self::header() ?>
+          <? Navbar::get(); ?>
+        </header>
+      <? } ?>
 
-     ?><!-- content -->
-     <main class="container-fluid"><?
-      Messages::show();
-      // echo '<h3>'.self::$title.'</h3><p>';
-      Frame::start(self::$title);
+      <!-- content -->
+      <main class="container-fluid">
+        <? Messages::show() ?>
+        <? Frame::start(self::$title); // echo '<h3>'.self::$title.'</h3><p>'; ?>
+
+        <?
    }
    //---------------------------------
-   static function end() {
-     Frame::end();
-    ?></main>
-    <!-- /content --><?
+   public static function end()
+   {
+    ?>
+       <? Frame::end() ?>
+     </main>
+     <!-- /content -->
 
-   include('tmpl_page_footer.inc');
+     <?
+     if(!self::$view_empty) {
+        include('tmpl_page_footer.inc');
+     }
+     ?>
 
-   ?>
-
-<!-- js -->
-<? CssJsLoad::get_js(); ?>
-<!-- /js -->
+     <!-- js -->
+     <? CssJsLoad::get_js(); ?>
+     <!-- /js -->
 
    </body>
    </html>
@@ -134,11 +149,16 @@ class WPage
    {
       global $CONFIG_APP;
 
-      // Default --------
-      if(!$CONFIG_APP['bootstrap']['theme'])
+      // User -------
+      if($CONFIG_APP['bootstrap']['theme'])
       {
-         // Navbar::setInverse(true);
+         CssJsLoad::set($CONFIG_APP['bootstrap']['theme']);
+      }
+      elseif($CONFIG_APP['bootstrap']['theme'] === false) {
 
+      }
+      // Default ----
+      else {
          CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css');
          // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css');
          // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/slate/bootstrap.min.css');
@@ -160,11 +180,6 @@ class WPage
           break;
          }
          */
-      }
-      // User -----------
-      else
-      {
-         CssJsLoad::set($CONFIG_APP['bootstrap']['theme']);
       }
 
       // Update user (modifica el anterior)

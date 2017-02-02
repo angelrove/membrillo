@@ -21,7 +21,7 @@ class Navbar
     self::$set_inverse = ($flag)? 'navbar-inverse' : '';
   }
   //---------------------------------------------------
-  public static function show()
+  public static function get()
   {
     $buttons = self::getButtons();
     $set_inverse = self::$set_inverse;

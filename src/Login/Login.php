@@ -11,10 +11,10 @@ use angelrove\membrillo2\WApp\Session;
 
 class Login
 {
-  static public $user_id;
-  static public $login;
+  public static $user_id;
+  public static $login;
 
-  static public $INFO = array();
+  public static $INFO = array();
 
   //------------------------------------------------
   public function __construct($user_id, $login, array $INFO)

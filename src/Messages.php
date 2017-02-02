@@ -43,12 +43,6 @@ class Messages
 
      ?>
      <!-- Messages -->
-     <style>
-     .WApplication_msgs {
-       position:absolute; top:0; z-index: 10000; left: 40%;
-     }
-     </style>
-
      <div id="WApplication_msgs_load"></div>
      <!-- /Messages -->
      <?
@@ -67,7 +61,7 @@ class Messages
            continue;
         }
         ?>
-        <div class="WApplication_msgs alert alert-<?=$type?>" role="alert">
+        <div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert">
            <?=$msg?>
         </div>
         <?
