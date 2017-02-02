@@ -55,7 +55,13 @@ class AppCms extends Application
      /* CssJsLoad */
       CssJsLoad::__init(CACHE_PATH, CACHE_URL);
       CssJsLoad::set_minify((IS_LOCALHOST? false : true));
-      CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
+      CssJsLoad::set_version(CACHE_VERSION);
+
+      if(CACHE_CSSJS_DISABLED == 'auto') {
+         CssJsLoad::set_cache_disabled((IS_LOCALHOST? true : false));
+      } else {
+         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
+      }
 
      //----------------------------------------------------
       require(PATH_VENDOR.'/../_vendor_cssjs.inc');
