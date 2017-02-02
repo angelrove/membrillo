@@ -52,9 +52,13 @@ class AppCms extends Application
              $LOCAL;
 
      //----------------------------------------------------
-      require(PATH_VENDOR.'/../_vendor_cssjs.inc');
-
+     /* CssJsLoad */
       CssJsLoad::__init(CACHE_PATH, CACHE_URL);
+      CssJsLoad::set_minify((IS_LOCALHOST? false : true));
+      CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
+
+     //----------------------------------------------------
+      require(PATH_VENDOR.'/../_vendor_cssjs.inc');
 
       Vendor::usef('front-basics');
       include_once('lang/es.inc');

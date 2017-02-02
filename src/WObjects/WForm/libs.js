@@ -63,7 +63,7 @@ function WForm_close(id_object)
   //var res = confirm("¿Seguro?");
   var res = true;
   if(res == true) {
-     window.location = "?CONTROL=id_object&EVENT=form_close";
+     window.location = '?CONTROL='+id_object+'&EVENT=form_close';
   }
   else {
      return false;

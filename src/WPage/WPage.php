@@ -30,9 +30,7 @@ class WPage
    {
      global $CONFIG_APP, $seccCtrl;
 
-     // Set theme ------
-     self::set_theme();
-
+     // Title ---
      if(!self::$title) {
         self::$title = $seccCtrl->title;
      }
@@ -129,11 +127,11 @@ class WPage
      // user
      $strLogin = '';
      if(Login::$login) {
-        $strLogin = '<span class="userName">'.Login::$login.'</span> |
-       <a href="/?APP_EVENT=close">Cerrar <i class="fa fa-sign-out"></i></a>';
+        $strLogin = '<span class="userName">'.Login::$login.'</span> | '.
+                    '<a href="/?APP_EVENT=close">Cerrar <i class="fa fa-sign-out"></i></a>';
      }
 
-     // tmpl
+     // tmpl ------
      if($defaultTmpl) {
         include('tmpl_page_header.inc');
      }
@@ -141,51 +139,6 @@ class WPage
         return $datos = array('titulo'  => $titulo,
                               'strLogin'=> $strLogin);
      }
-   }
-   //----------------------------------------------------
-   // PRIVATE
-   //----------------------------------------------------
-   private static function set_theme()
-   {
-      global $CONFIG_APP;
-
-      // User -------
-      if($CONFIG_APP['bootstrap']['theme'])
-      {
-         CssJsLoad::set($CONFIG_APP['bootstrap']['theme']);
-      }
-      elseif($CONFIG_APP['bootstrap']['theme'] === false) {
-
-      }
-      // Default ----
-      else {
-         CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css');
-         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css');
-         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/slate/bootstrap.min.css');
-         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css');
-         // CssJsLoad::set('https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/umited/bootstrap.min.css');
-
-         CssJsLoad::set(__DIR__.'/bootstrap_themes/update-basics.css');
-         CssJsLoad::set(__DIR__.'/bootstrap_themes/update-metro.css');
-         // CssJsLoad::set(__DIR__.'/bootstrap_themes/update-classic.css');
-         // CssJsLoad::set(__DIR__.'/bootstrap_themes/update-yeti.css');
-
-         /*
-         switch($theme_options) {
-          case 'compact':
-            CssJsLoad::set_css('/classes/bootstrap/update-compact.css');
-          break;
-          case 'dark':
-            CssJsLoad::set_css('/classes/bootstrap/update-dark.css');
-          break;
-         }
-         */
-      }
-
-      // Update user (modifica el anterior)
-      if($CONFIG_APP['bootstrap']['modify']) {
-         CssJsLoad::set($CONFIG_APP['bootstrap']['modify']);
-      }
    }
    //----------------------------------------------------
 }

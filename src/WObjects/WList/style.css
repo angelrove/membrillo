@@ -41,6 +41,7 @@ table.List_tuplas tbody tr.selected td {
 /******* optionsBar *******/
 .List_tuplas .optionsBar {
   padding:2px;
+  vertical-align: middle;
   text-align: center;
   white-space: nowrap;
   cursor: default;

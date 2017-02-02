@@ -514,7 +514,7 @@ EOD;
     /** Buttons **/
      if($this->bt_delete) {
         $label = ''; // $label = <span>Delete</span>
-        $htmButtons['bt_delete'] = '<button class="on_delete btn btn-xs btn-danger"><i class="fa fa-trash-o"></i>'.$label.'</button>';
+        $htmButtons['bt_delete'] = '<button class="on_delete btn btn-xs btn-danger"><i class="fa fa-trash-o fa-lg"></i>'.$label.'</button>';
         if($this->optionsEditor && $this->optionsEditor->showBtDelete($id, $row) === false) {
            $htmButtons['bt_delete'] = '';
         }
@@ -522,7 +522,7 @@ EOD;
 
      if($this->bt_update) {
         $label = ''; // $label = <span>Update</span>
-        $htmButtons['bt_update'] = '<button class="on_update btn btn-xs btn-default"><i class="fa fa-pencil-square-o"></i>'.$label.'</button>';
+        $htmButtons['bt_update'] = '<button class="on_update btn btn-xs btn-default"><i class="fa fa-pencil-square-o fa-lg"></i>'.$label.'</button>';
         if($this->optionsEditor && $this->optionsEditor->showBtUpdate($id, $row) === false) {
            $htmButtons['bt_update'] = '';
         }
@@ -530,7 +530,7 @@ EOD;
 
      if($this->bt_detalle) {
         $label = ''; // $label = <span>Detalle</span>
-        $htmButtons['bt_detalle'] = '<button class="on_detalle btn btn-xs btn-primary"><i class="fa fa-arrow-right"></i>'.$label.'</button>';
+        $htmButtons['bt_detalle'] = '<button class="on_detalle btn btn-xs btn-primary"><i class="fa fa-arrow-right fa-lg"></i>'.$label.'</button>';
      }
 
      // Opcional ---
