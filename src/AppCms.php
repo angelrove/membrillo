@@ -52,24 +52,6 @@ class AppCms extends Application
              $LOCAL;
 
      //----------------------------------------------------
-     /* CssJsLoad */
-      CssJsLoad::__init(CACHE_PATH, CACHE_URL);
-      CssJsLoad::set_minify((IS_LOCALHOST? false : true));
-      CssJsLoad::set_version(CACHE_VERSION);
-
-      if(CACHE_CSSJS_DISABLED == 'auto') {
-         CssJsLoad::set_cache_disabled((IS_LOCALHOST? true : false));
-      } else {
-         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
-      }
-
-     //----------------------------------------------------
-      require(PATH_VENDOR.'/../_vendor_cssjs.inc');
-
-      Vendor::usef('front-basics');
-      include_once('lang/es.inc');
-
-     //----------------------------------------------------
      /* System Events */
       $this->systemEvents();
 
@@ -78,7 +60,7 @@ class AppCms extends Application
       LoginCtrl::init();
 
      //----------------------------------------------------
-     /* WApp objects */
+     /* System objects */
      // >> $CONFIG_SECCIONES ---- [session]
       $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
       if(!$CONFIG_SECCIONES)
@@ -116,12 +98,42 @@ class AppCms extends Application
       $objectsStatus->initPage();
 
      //----------------------------------------------------
-     /* User */
+     // FRONT
       $path_secc = './app/'.$CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+
+     //----------------------------------------------------
+     /* Lang */
+      include_once('lang/es.inc');
+
+     //----------------------------------------------------
+     /* CssJsLoad */
+      CssJsLoad::__init(CACHE_PATH, CACHE_URL);
+      CssJsLoad::set_minify((IS_LOCALHOST? false : true));
+      CssJsLoad::set_version(CACHE_VERSION);
+
+      if(CACHE_CSSJS_DISABLED == 'auto') {
+         CssJsLoad::set_cache_disabled((IS_LOCALHOST? true : false));
+      } else {
+         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
+      }
+
+     //----------------------------------------------------
+     /* On init app */
+      require('_vendor_cssjs.inc');
+      require(DOCUMENT_ROOT.'/_vendor_cssjs.inc');
 
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');
       include($path_secc.'/onInitPage.inc');
 
+     //----------------------------------------------------
+     /* Basic vendor css/js */
+      Vendor::usef('jquery');
+      Vendor::usef('bootstrap');
+      Vendor::usef('font-awesome');
+      Vendor::usef('lightbox');
+
+     //----------------------------------------------------
+     /* OUT */
       // Events -----------
       if(Event::$EVENT) {
          $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
