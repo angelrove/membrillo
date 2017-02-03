@@ -22,11 +22,13 @@ use angelrove\utils\Db_mysql;
 class GenQuery
 {
   //------------------------------------------------------------
+  // Helpers
+  //------------------------------------------------------------
   /*
    * Buscador: Concatenar filtros
    *  $listSql['campo1'] = "campo1 LIKE '%$_REQUEST[campo1]%'";
    *  ...
-   *  Ejem.: GenQuery::getFiltros($listSql, $_REQUEST);
+   *  Ejem.: GenQuery::getSqlFiltros($listSql, $_REQUEST);
    */
   public static function getSqlFiltros($listSql, $listFiltros, $sep='AND')
   {
@@ -46,6 +48,28 @@ class GenQuery
     }
 
     return $sqlFiltros;
+  }
+  //------------------------------------------------------------------
+  public static function helper_insert($DB_TABLE, $listValuesPers=array())
+  {
+     // Parse from ---
+     if(self::parseForm($DB_TABLE)) {
+        return;
+     }
+
+     // Insert ---
+     return self::insert($DB_TABLE, $listValuesPers);
+  }
+  //------------------------------------------------------------------
+  public static function helper_update($DB_TABLE, $listValuesPers=array(), $id='')
+  {
+     // Parse from ---
+     if(self::parseForm($DB_TABLE)) {
+        return;
+     }
+
+     // Update ---
+     return self::update($DB_TABLE, $listValuesPers, $id);
   }
   //------------------------------------------------------------------
   // Parse form
@@ -190,11 +214,6 @@ class GenQuery
   //------------------------------------------------------------------
   public static function insert($DB_TABLE, $listValuesPers=array())
   {
-    // Parse from ---
-    if(self::parseForm($DB_TABLE)) {
-       return;
-    }
-
     // Query --------
     $sqlQ = self::getQueryInsert($DB_TABLE, $listValuesPers);
 
@@ -255,11 +274,6 @@ class GenQuery
   //------------------------------------------------------------------
   public static function update($DB_TABLE, $listValuesPers=array(), $id='')
   {
-    // Parse from ---
-    if(self::parseForm($DB_TABLE)) {
-       return;
-    }
-
     //------------
     if(!$id) {
        $id = Event::$ROW_ID;
