@@ -19,21 +19,26 @@ class Login
   //------------------------------------------------
   public function __construct($user_id, $login, array $INFO)
   {
-    self::$user_id = $INFO['id'];
-    self::$login   = $INFO['login'];
-    self::$INFO    = $INFO;
+     self::set_data($user_id, $login, $INFO);
+  }
+  //------------------------------------------------
+  public static function set_data($user_id, $login, array $INFO)
+  {
+     self::$user_id = $INFO['id'];
+     self::$login   = $INFO['login'];
+     self::$INFO    = $INFO;
 
-    // session
-    Session::set('Login_user_id', Login::$user_id);
-    Session::set('Login_login',   Login::$login);
-    Session::set('Login_INFO',    Login::$INFO);
+     // session
+     Session::set('Login_user_id', Login::$user_id);
+     Session::set('Login_login',   Login::$login);
+     Session::set('Login_INFO',    Login::$INFO);
   }
   //------------------------------------------------
   public static function init()
   {
-    self::$user_id = Session::get('Login_user_id');
-    self::$login   = Session::get('Login_login');
-    self::$INFO    = Session::get('Login_INFO');
+     self::$user_id = Session::get('Login_user_id');
+     self::$login   = Session::get('Login_login');
+     self::$INFO    = Session::get('Login_INFO');
   }
   //------------------------------------------------
 }
