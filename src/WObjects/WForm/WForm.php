@@ -20,7 +20,6 @@ class WForm extends EventComponent
   private $sql_row = '';
   private $datos = array();
 
-  private $multipart = true;
   private $onSubmit;
   private $readOnly = false;
 
@@ -199,7 +198,8 @@ class WForm extends EventComponent
     }
 
     // Multipart
-    $strMultipart = ($this->multipart)? 'enctype="multipart/form-data"' : '';
+    // $strMultipart = ($this->multipart)? 'enctype="multipart/form-data"' : '';
+    $strMultipart = 'enctype="multipart/form-data"';
 
     // Datos evento
     $datosEv = $this->getFormEvent();
@@ -233,7 +233,7 @@ class WForm extends EventComponent
 EOD;
   }
   //------------------------------------------------------------------
-  public function getWForm_END()
+  public function get_end()
   {
     echo $this->getButtons();
 

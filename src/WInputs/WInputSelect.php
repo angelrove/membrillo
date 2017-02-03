@@ -66,7 +66,7 @@ class WInputSelect
          }
 
          // optgroup
-         if($listGroup[$id]) {
+         if(isset($listGroup[$id])) {
             if($strSelect) {
                $strSelect .= '</optgroup>';
             }

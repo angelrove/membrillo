@@ -36,14 +36,14 @@ class ObjectsStatus
     Event::updateEvent();
   }
   //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   public function setNewObject($id_control)
   {
-    if (!isset($this->listObjects[$id_control])) {
+    if(!isset($this->listObjects[$id_control])) {
         $this->listObjects[$id_control] = new ObjectStatus();
     }
     return $this->listObjects[$id_control];
   }
-  //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   public function getObject($idControl)
   {
@@ -53,9 +53,18 @@ class ObjectsStatus
     return false;
   }
   //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  public function setDato($idControl, $name, $value)
+  {
+    if(isset($this->listObjects[$idControl])) {
+       return $this->listObjects[$idControl]->setDato($name, $value);
+    }
+    return false;
+  }
+  //----------------------------------------------------------------------------
   public function getDatos($idControl)
   {
-    if (isset($this->listObjects[$idControl])) {
+    if(isset($this->listObjects[$idControl])) {
        return $this->listObjects[$idControl]->getDatos();
     }
     return false;
@@ -63,7 +72,7 @@ class ObjectsStatus
   //----------------------------------------------------------------------------
   public function getDato($idControl, $name)
   {
-    if (isset($this->listObjects[$idControl])) {
+    if(isset($this->listObjects[$idControl])) {
        return $this->listObjects[$idControl]->getDato($name);
     }
     return false;
@@ -73,7 +82,7 @@ class ObjectsStatus
   //----------------------------------------------------------------------------
   public function getRowId($idControl)
   {
-    if (isset($this->listObjects[$idControl])) {
+    if(isset($this->listObjects[$idControl])) {
        return $this->listObjects[$idControl]->getRowId();
     }
     return false;

@@ -18,7 +18,7 @@ function WFormRow($control, $isUpdate=false, $title, $listFields) {
   $row_id = '';
   if($isUpdate === true) {
     $event = 'form_update';
-    $row_id = $seccCtrl->getRowId($control);
+    $row_id = $objectsStatus->getRowId($control);
   }
 
   $strFields = '';

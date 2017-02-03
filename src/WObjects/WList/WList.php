@@ -477,7 +477,7 @@ EOD;
   //-------------------------------------------------------
   private function getHtmField($id, $row, $dbField)
   {
-    $f_value = $row->{$dbField->name};
+    $f_value = @$row->{$dbField->name};
 
     $f_valueCampo = $f_value;
     $style_align  = ($dbField->align)? 'text-align:'.$dbField->align.';' : '';

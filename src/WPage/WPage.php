@@ -32,7 +32,7 @@ class WPage
 
      // Title ---
      if(!self::$title) {
-        self::$title = $seccCtrl->title;
+        // self::$title = $seccCtrl->title;
      }
 
      ?><!DOCTYPE html>

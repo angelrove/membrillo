@@ -29,16 +29,19 @@ class AppCmsAjax extends Application
 
      //----------------------------------------------------
      /* Globals */
-      global $CONFIG_SECCIONES, $appLogin, $seccCtrl;
+      global $CONFIG_SECCIONES,
+             $seccCtrl,
+             $objectsStatus;
 
      //----------------------------------------------------//
       LoginCtrl::init_ajax();
 
       $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
-      $seccCtrl         = Session::get('seccCtrl');
-      //$seccCtrl->initPage();
+      $seccCtrl         = Session::get('seccCtrl'); //$seccCtrl->initPage();
+      $objectsStatus    = Session::get('objectsStatus');
 
-      // System services ---------
+     //----------------------------------------------------
+     /* System Events */
       $this->systemEvents();
 
      //----------------------------------------------------//

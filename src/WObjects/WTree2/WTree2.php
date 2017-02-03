@@ -246,7 +246,7 @@ EOD;
     //$strDebug = " ($id)($nivel)($count)";
     $strTab = $this->getStrTab($nivel);
     $classTupla = 'tuplaL'.$nivel;
-    if($id == $seccCtrl->getRowId($this->id)) {
+    if($id == $objectsStatus->getRowId($this->id)) {
        $classTupla .= ' tuplaSelected';
     }
 

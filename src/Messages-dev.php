@@ -66,8 +66,8 @@ class WMessages
   }
   //----------------------------------------------------
   public static function delMsg($tag) {
-    global $appLogin;
-    $sqlQ = "DELETE FROM sys_messages WHERE id_user='Login::$user_id' AND tag='$tag'";
+
+    $sqlQ = "DELETE FROM sys_messages WHERE id_user='".Login::$user_id."' AND tag='$tag'";
    Db_mysql::query($sqlQ);
   }
   //----------------------------------------------------
@@ -95,13 +95,13 @@ class WMessages
   }
   //----------------------------------------------------
   public static function getMsg() {
-    global $appLogin;
+
     $txtMsg = '';
 
     // BBDD ------
     $sqlQ = "SELECT tag AS id, count(id) AS num
              FROM sys_messages
-             WHERE id_user='Login::$user_id'
+             WHERE id_user='".Login::$user_id."'
              GROUP BY tag";
     $msgs = Db_mysql::getList($sqlQ);
     if($msgs) {

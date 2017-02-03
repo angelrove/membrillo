@@ -6,6 +6,8 @@
 
 namespace angelrove\membrillo2\WInputs\WInputColor;
 
+use angelrove\utils\CssJsLoad;
+
 
 class WInputColor
 {
@@ -15,9 +17,9 @@ class WInputColor
     CssJsLoad::set_script('
        $(document).ready(function() {
          $("#WInputColor_'.$name.'").change(function() {
-            $("#$name").val($(this).val());
+            $("#'.$name.'").val($(this).val());
          });
-         $("#$name").change(function() {
+         $("#'.$name.'").change(function() {
            $("#WInputColor_'.$name.'").val($(this).val());
          });
        });

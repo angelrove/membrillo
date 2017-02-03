@@ -120,7 +120,7 @@ class WInputFile
   //---------------------------------------------------------------------
   private function get_btDel()
   {
-     CssJs_load::set_script('
+     CssJsLoad::set_script('
 $(document).ready(function() {
   $("#'.$this->name.'_del").click(function()
   {
@@ -189,7 +189,7 @@ EOD;
 
     /** HTM **/
      // NOTA: Los parámetros que configuran el upload se pasan por POST con hidden.
-     //       Este sistema no es seguro. Sería mejor utilizar sesiones ("$seccCtrl->setDato()")
+     //       Este sistema no es seguro. Sería mejor utilizar sesiones ("$objectsStatus->setDato()")
      $htmLabel = '';
      if($htmFilePrev) $htmFilePrev = '<td id="'.$this->name.'_htmFilePrev" class="prevFile">'.$htmFilePrev.'</td>';
      if($this->label) $htmLabel    = '<td>'.$this->label.'</td>';

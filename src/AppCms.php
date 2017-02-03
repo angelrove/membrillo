@@ -52,10 +52,6 @@ class AppCms extends Application
              $LOCAL;
 
      //----------------------------------------------------
-     /* System Events */
-      $this->systemEvents();
-
-     //----------------------------------------------------
      /* Login */
       LoginCtrl::init();
 
@@ -96,6 +92,10 @@ class AppCms extends Application
          $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
       }
       $objectsStatus->initPage();
+
+     //----------------------------------------------------
+     /* System Events */
+      $this->systemEvents();
 
      //----------------------------------------------------
      // FRONT

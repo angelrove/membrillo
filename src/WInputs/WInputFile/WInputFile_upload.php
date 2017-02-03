@@ -8,6 +8,7 @@
 namespace angelrove\membrillo2\WInputs\WInputFile;
 
 use angelrove\membrillo2\DebugTrace;
+use angelrove\membrillo2\WObjectsStatus\Event;
 
 use angelrove\utils\FileUpload;
 use angelrove\utils\Db_mysql;

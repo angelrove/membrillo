@@ -67,9 +67,9 @@ class WTree
     global $seccCtrl;
     // print_r2($seccCtrl);
 
-    $this->id_desplegado = $seccCtrl->getDato($this->id, 'ROW_ID_DESPLEGADO');
-    $this->ROW_ID        = $seccCtrl->getRowId($this->id);
-    $this->id_nivel_selected = $seccCtrl->getDato($this->id, 'nivel');
+    $this->id_desplegado = $objectsStatus->getDato($this->id, 'ROW_ID_DESPLEGADO');
+    $this->ROW_ID        = $objectsStatus->getRowId($this->id);
+    $this->id_nivel_selected = $objectsStatus->getDato($this->id, 'nivel');
   }
   //-----------------------------------------------------------------
   public function setId_level($level, $id) {
@@ -307,7 +307,7 @@ EOD;
     /*
     $listSelected = array();
 
-    $id = $seccCtrl->getRowId($this->id);
+    $id = $objectsStatus->getRowId($this->id);
     while($id) {
        $listSelected[] = $id;
        $id = $this->wTreeData->getPadre($id);

@@ -15,3 +15,4 @@ textarea.mce-textbox {
 <!-- <form method="post" action="somepage"> -->
 <textarea name="<?=$params['name']?>" class="<?=$params['selector']?>"><?=html_entity_decode($params['value'])?></textarea>
 <!-- </form> -->
+<!-- /WInputHtml -->
