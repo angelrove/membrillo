@@ -198,7 +198,8 @@ class WList extends EventComponent
     }
   }
   //-------------------------------------------------------
-  public function showDetalle($showButton=true) {
+  public function showDetail($showButton=true)
+  {
     $this->bt_detalle = $showButton;
 
     if($showButton !== true) {
@@ -206,7 +207,8 @@ class WList extends EventComponent
     }
   }
   //-------------------------------------------------------
-  public function setBtOpc($event, $label='', $onClick=false, $title='') {
+  public function setBtOpc($event, $label='', $onClick=false, $title='')
+  {
     $this->list_Op[$event] = array('event'  => $event,
                                    'oper'   => $event,
                                    'label'  => $label,
@@ -222,14 +224,16 @@ class WList extends EventComponent
   //-------------------------------------------------------
   // $position: top, bottom, none,
   // $config:   basic
-  public function showPaginacion($position, $config='', $numRows=100) {
+  public function showPagination($position, $config='', $numRows=100)
+  {
     $this->paging_showOn  = $position;
     $this->paging_config  = $config;
     $this->paging_numRows = $numRows;
   }
   //-------------------------------------------------------
   // deprecated !!
-  public function setNumRowsPage($paging_numRows) {
+  public function setNumRowsPage($paging_numRows)
+  {
     $this->paging_numRows = $paging_numRows;
   }
   //-------------------------------------------------------
@@ -281,7 +285,8 @@ class WList extends EventComponent
      return ob_get_clean();
   }
   //--------------------------------------------------------------
-  public function getDebug() {
+  public function getDebug()
+  {
     $sqlQ = $this->getQuery($this->sqlQuery);
     print_r2($sqlQ);
 
@@ -291,7 +296,8 @@ class WList extends EventComponent
   //--------------------------------------------------------------
   // Form search
   //--------------------------------------------------------------
-  public function formSearch() {
+  public function formSearch()
+  {
     echo <<<EOD
 <form class="FormSearch form-inline well well-sm"
       role="search"
@@ -304,13 +310,15 @@ class WList extends EventComponent
 EOD;
   }
   //--------------------------------------------------------------
-  public function formSearch_END() {
+  public function formSearch_END()
+  {
     echo ' </form>
 
 ';
   }
   //--------------------------------------------------------------
-  public function formSearch_complet() {
+  public function formSearch_complet()
+  {
     $f_search = $this->wObjectStatus->getDato('f_search');
 
     $this->formSearch();
@@ -395,7 +403,8 @@ EOD;
   //--------------------------------------------------------------
   // HEAD
   //--------------------------------------------------------------
-  private function getHead() {
+  private function getHead()
+  {
     global $app;
 
     /** Títulos de los campos **/
@@ -508,7 +517,8 @@ EOD;
   //-------------------------------------------------------
   // Buttons
   //-------------------------------------------------------
-  private function getHtmButtons($id, $row, $numRow) {
+  private function getHtmButtons($id, $row, $numRow)
+  {
     $htmButtons = array();
 
     /** Buttons **/
@@ -535,7 +545,8 @@ EOD;
 
      // Opcional ---
      $hrefOption = "?CONTROL=$this->id_object&ROW_ID=$id";
-     foreach($this->list_Op as $key => $bt_opc) {
+     foreach($this->list_Op as $key => $bt_opc)
+     {
         // optionsEditor ----
         $ret_optionsEditor = '';
         if($this->optionsEditor) {
@@ -576,7 +587,7 @@ EOD;
         if($bt_opc['disabled'] === true) {
            $htmButtons['op_'.$key] = '<span class="disabled_'.$key.'">'.$bt_opc['label'].'</span>';
         } else {
-           $htmButtons['op_'.$key] = "<a class='$key btn btn-default btn-xs' role='button' href='$bt_href' target='$bt_target' title='$bt_opc[title]'>$bt_opc[label]</a>";
+           $htmButtons['op_'.$key] = "<a class='$key btn btn-primary btn-xs' role='button' href='$bt_href' target='$bt_target' title='$bt_opc[title]'>$bt_opc[label]</a>";
         }
      }
      // END Opcional ---

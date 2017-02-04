@@ -38,11 +38,14 @@ class WInputRadios
          $idCheck = $name.'_'.$id;
 
          // Color
-         $style_bg = (isset($listColors[$id]))? 'style="background:'.$listColors[$id].'"' : '';
+         $style_bg = '';
+         if(isset($listColors[$id])) {
+            $style_bg = 'style="background:'.$listColors[$id].'"';
+         }
 
          // Option
          $strSelect .= <<<EOD
-         <label class="radio-inline">
+         <label class="radio-inline" $style_bg>
            <input type="radio"
                 id="$idCheck"
                 name="$name"
