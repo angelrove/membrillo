@@ -56,6 +56,10 @@ class AppCms extends Application
       LoginCtrl::init();
 
      //----------------------------------------------------
+     /* System Events */
+      $this->systemEvents();
+
+     //----------------------------------------------------
      /* System objects */
      // >> $CONFIG_SECCIONES ---- [session]
       $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
@@ -92,10 +96,6 @@ class AppCms extends Application
          $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
       }
       $objectsStatus->initPage();
-
-     //----------------------------------------------------
-     /* System Events */
-      $this->systemEvents();
 
      //----------------------------------------------------
      // FRONT
