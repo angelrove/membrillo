@@ -139,7 +139,9 @@ class AppCms extends Application
          $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
 
          // oper
-         if(Event::$OPER) {
+         if(Event::$OPER)
+         {
+            Messages::set_empty();
             include($path_ctrl.'/oper.inc');
 
             if(!EVENT::$RELOAD) {

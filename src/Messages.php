@@ -34,7 +34,7 @@ class Messages
   {
      // Max size ---
      if(strlen($_SESSION['Messages_msg'][$type]) > self::$max_size) {
-        $_SESSION['Messages_msg'][$type] = '';
+        self::set_empty();
      }
 
      // Set ---
@@ -71,9 +71,16 @@ class Messages
         }
 
         ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?
-
-        $_SESSION['Messages_msg'][$type] = '';
      }
+
+     // Empty ---
+     self::set_empty();
+  }
+  //----------------------------------------------------
+  public static function set_empty()
+  {
+     $_SESSION['Messages_msg']['success'] = '';
+     $_SESSION['Messages_msg']['danger']  = '';
   }
   //----------------------------------------------------
 }

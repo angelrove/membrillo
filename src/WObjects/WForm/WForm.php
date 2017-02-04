@@ -63,6 +63,10 @@ class WForm extends EventComponent
       case 'editUpdate':
         WPage::$title .= ' - Update';
         $this->datos = Db_mysql::getRow($this->sql_row);
+        if(!$this->datos) {
+           Messages::set("Error: El registro solicitado no existe", 'danger');
+           return false;
+        }
       break;
       //----------
       case 'editNew':
@@ -113,6 +117,12 @@ class WForm extends EventComponent
     CssJsLoad::set_script('$(document).ready(function() {'.$js.'});');
   }
   //------------------------------------------------------------------
+  //------------------------------------------------------------------
+  public function isInsert()
+  {
+    $this->WEvent->EVENT  = 'editNew';
+    $this->parse_event($this->WEvent);
+  }
   //------------------------------------------------------------------
   public function isUpdate($row_id)
   {
@@ -193,7 +203,7 @@ class WForm extends EventComponent
 
     //----
     if($this->readOnly) {
-       echo '<form class="">';
+       echo '<form class="form-horizontal">';
        return;
     }
 
@@ -216,7 +226,7 @@ class WForm extends EventComponent
    var scut_close     = '$this->bt_cancel';
    </script>
 
-   <form class="WForm"
+   <form class="WForm form-horizontal"
          id="form_edit_$this->id_object"
          name="form_edit_$this->id_object"
          onsubmit = "WForm_submit('$this->id_object', '')"
