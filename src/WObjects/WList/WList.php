@@ -24,7 +24,7 @@ class WList extends EventComponent
   private $defaultSelected = false;
 
   // Paginación
-  private $paging_showOn  = 'top'; // top, bottom, none
+  private $paging_showOn  = 'top'; // top, bottom, false
   private $paging_numRows = 100;
   private $paging_config  = '';
 
@@ -76,6 +76,7 @@ class WList extends EventComponent
     //   $this->wObjectStatus->setDato('param_fieldPrev', '');
     // }
 
+    //---------
     $this->parse_event($this->WEvent);
   }
   //--------------------------------------------------------------
@@ -222,7 +223,7 @@ class WList extends EventComponent
   //-------------------------------------------------------
   // Paginación
   //-------------------------------------------------------
-  // $position: top, bottom, none,
+  // $position: top, bottom, false,
   // $config:   basic
   public function showPagination($position, $config='', $numRows=100)
   {
@@ -255,10 +256,10 @@ class WList extends EventComponent
         $sqlQ = $this->getQuery($this->sqlQuery);
         //print_r2($sqlQ);
 
-        if($this->paging_showOn == 'none') {
+        if($this->paging_showOn === 'false') {
            $listDatos = Db_mysql::getListObject($sqlQ);
         } else {
-           list($htmPaginacion, $listDatos) = $this->getPaginacion($sqlQ);
+           list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
         }
         //print_r2($listDatos);
      }
@@ -357,7 +358,7 @@ EOD;
      return $sqlQ;
   }
   //--------------------------------------------------------------
-  private function getPaginacion($sqlQuery)
+  private function getPagination($sqlQuery)
   {
     $htmPaginacion = '';
     $rows          = '';
@@ -428,7 +429,7 @@ EOD;
         }
 
         // width
-        $width = ($dbField->size)? ' style="min-width:'.$dbField->size.'px"' : '';
+        // $width = ($dbField->size)? ' style="min-width:'.$dbField->size.'px"' : '';
         $width = '';
 
         // Out

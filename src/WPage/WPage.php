@@ -17,7 +17,7 @@ use angelrove\membrillo2\WObjectsStatus\Event;
 
 class WPage
 {
-   public  static $title;
+   public  static $title = false;
    private static $view_empty = false;
 
    //----------------------------------------------------
@@ -31,8 +31,8 @@ class WPage
      global $CONFIG_APP, $seccCtrl;
 
      // Title ---
-     if(!self::$title) {
-        // self::$title = $seccCtrl->title;
+     if(self::$title === false) {
+        self::$title = $seccCtrl->title;
      }
 
      ?><!DOCTYPE html>
@@ -128,7 +128,7 @@ class WPage
      $strLogin = '';
      if(Login::$login) {
         $strLogin = '<span class="userName">'.Login::$login.'</span> | '.
-                    '<a href="/?APP_EVENT=close">Cerrar <i class="fa fa-sign-out"></i></a>';
+                    '<a href="/?APP_EVENT=close">Close <i class="fa fa-sign-out fa-lg"></i></a>';
      }
 
      // tmpl ------

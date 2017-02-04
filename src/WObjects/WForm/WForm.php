@@ -216,7 +216,7 @@ class WForm extends EventComponent
    var scut_close     = '$this->bt_cancel';
    </script>
 
-   <form class="form-horizontal"
+   <form class="WForm"
          id="form_edit_$this->id_object"
          name="form_edit_$this->id_object"
          onsubmit = "WForm_submit('$this->id_object', '')"

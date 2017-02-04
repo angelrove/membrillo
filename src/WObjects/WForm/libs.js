@@ -1,7 +1,8 @@
 
+// Focus in the first ------------
 $(document).ready(function()
 {
-   $(".WForm input").eq(0).focus(); // Focus en el 1º elemento
+   $('input[type="text"]').eq(0).focus();
 });
 
 // Shortcuts ---------------------

@@ -55,3 +55,7 @@ table.List_tuplas tbody tr.selected td {
 .List_tuplas .optionsBar .fa {
   min-width: 18px;
 }
+
+.List_tuplas .optionsBar button.on_new {
+  width: 80%;
+}

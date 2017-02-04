@@ -30,13 +30,14 @@ class GenQuery
    *  ...
    *  Ejem.: GenQuery::getSqlFiltros($listSql, $_REQUEST);
    */
-  public static function getSqlFiltros($listSql, $listFiltros, $sep='AND')
+  public static function getSqlFiltros($listSql, $listFiltros, $sep='AND', $pref='')
   {
     $sqlFiltros = '';
     $sep = ' '.$sep.' ';
 
     $c=0;
-    foreach($listSql as $field => $strSql) {
+    foreach($listSql as $field => $strSql)
+    {
        if($listFiltros[$field] == '' || !$strSql) {
           continue;
        }
@@ -45,6 +46,11 @@ class GenQuery
        $sqlFiltros .= "\n   ".$strSql;
 
        $c = 1;
+    }
+
+    // Pref ---
+    if($pref && $sqlFiltros) {
+       $sqlFiltros = $pref.' '.$sqlFiltros;
     }
 
     return $sqlFiltros;
