@@ -41,29 +41,37 @@ class AppCmsAjax extends Application
       $objectsStatus    = Session::get('objectsStatus');
 
      //----------------------------------------------------
-     /* System Events */
-      $this->systemEvents();
+     /* System services */
+      $this->system_services();
 
      //----------------------------------------------------//
-     /** Usuario **/
-      //include_once('onInitPage.inc');
-
-      // Out
-      $secc = '';
-      if(isset($_REQUEST['secc'])) {
-         if($_REQUEST['secc']) {
-            $secc = $_REQUEST['secc'].'/';
-         }
+     /* User Service */
+      $secc_dir = '';
+      if(isset($_REQUEST['secc']) && $_REQUEST['secc']) {
+         $secc_dir = $_REQUEST['secc'];
       }
       else {
-         $secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc).'/';
+         $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
       }
 
-      require('./app/'.$secc.'ajax-'.$_REQUEST['service'].'.inc');
+      $service_path = './app/'.$secc_dir.'/ajax-'.$_REQUEST['service'].'.inc';
+
+      // Load service ----
+      try {
+         if((file_exists($service_path))) {
+            include($service_path);
+         }
+         else {
+            throw new \Exception("membrillo2 error: Service not found [$service_path]");
+         }
+      }
+      catch (\Exception $e) {
+         throw $e;
+      }
 
   }
   //-----------------------------------------------------------------
-  private function systemEvents()
+  private function system_services()
   {
      if(!isset($_REQUEST['sys_service'])) {
         return true;
@@ -71,10 +79,12 @@ class AppCmsAjax extends Application
 
      switch($_REQUEST['sys_service'])
      {
-        case 'Messages_get':
-          Messages::ajax_show_msg();
-          // echo 'ajax_show_msg-'.date('s');
-        break;
+       case 'Messages_get':
+          Messages::get();
+       break;
+       default:
+          throw new \Exception('membrillo2 error: service not found');
+       break;
      }
 
      exit();

@@ -5,17 +5,14 @@
  *  Objetivo
  *  -----------------------------
  *  - Mostrar mensajes de aplicación.
- *  - Se guarda en SESSION: de esta manera no importa en que lugar de la app. se emita el mensaje.
- *    Ejem.: "El campo Nombre es obligatorio",
- *           "Los datos se han actualizado correctamente",
- *           "Debug: SELECT * FROM cosa"
+ *  - Se guarda en SESSION para poder emitir el mensaje en otra pantalla mediante un ajax.
+ *  - Eficaz en caso de redirecciónes.
+ *  - La llamada apara obtener los mensajes se hace en js al final de la página así que no
+ *    importa que el objeto html se incluya al comienzo de la página
  *
- *  oper.inc
- *  -----------------------------
+ *  Ejem.:
  *  Messages::set('El registro se ha guardado correctamente.');
- *
- *  WApplication.inc
- *  -----------------------------
+ *  header("Location:...")
  *  Messages::show();
  *
  */
@@ -27,9 +24,20 @@ use angelrove\utils\CssJsload;
 
 class Messages
 {
+  private static $max_size = 1000;
+
   //----------------------------------------------------
+  /*
+   * $type: 'success', 'danger'
+   */
   public static function set($msg, $type='success')
   {
+     // Max size ---
+     if(strlen($_SESSION['Messages_msg'][$type]) > self::$max_size) {
+        $_SESSION['Messages_msg'][$type] = '';
+     }
+
+     // Set ---
      $_SESSION['Messages_msg'][$type] .= '<div>'.$msg.'</div>';
   }
   //----------------------------------------------------
@@ -37,7 +45,7 @@ class Messages
   {
      CssJsLoad::set_script('
   $(document).ready(function() {
-     $("#WApplication_msgs_load").load("/index_ajax.php?secc=0&sys_service=Messages_get");
+     $("#WApplication_msgs_load").load("/index_ajax.php?sys_service=Messages_get");
   });
 ', 'Messages');
 
@@ -48,23 +56,22 @@ class Messages
      <?
   }
   //----------------------------------------------------
-  public static function ajax_show_msg()
+  // Esta función es llamada por ajax
+  public static function get()
   {
      if(!isset($_SESSION['Messages_msg'])) {
-        $_SESSION['Messages_msg'] = array('success'=>'', 'danger'=>'');
+        $_SESSION['Messages_msg'] = array('success'=> '',
+                                          'danger' => '');
      }
 
      // OUT ---
-     foreach($_SESSION['Messages_msg'] as $type => $msg)
-     {
+     foreach($_SESSION['Messages_msg'] as $type => $msg) {
         if(!$msg) {
            continue;
         }
-        ?>
-        <div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert">
-           <?=$msg?>
-        </div>
-        <?
+
+        ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?
+
         $_SESSION['Messages_msg'][$type] = '';
      }
   }

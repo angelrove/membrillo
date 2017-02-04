@@ -23,14 +23,8 @@ class LoginCtrl
   {
     global $CONFIG_APP;
 
-    // COMPATIBILIDAD -------
-    $CONFIG_APP['domain']['login']       = $CONFIG_APP['varios']['LOGIN'];
-    $CONFIG_APP['domain']['login_table'] = $CONFIG_APP['varios']['LOGIN_TABLE'];
-    $CONFIG_APP['domain']['login_url']   = $CONFIG_APP['varios']['LOGIN_URL'];
-    //-----------------------
-
     // No login
-    if(!$CONFIG_APP['domain']['login']) {
+    if(!$CONFIG_APP['login']['LOGIN']) {
        return true;
     }
 
@@ -69,7 +63,7 @@ class LoginCtrl
        }
 
        if(!$sqlQ) {
-          $login_table = $CONFIG_APP['domain']['login_table'];
+          $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
           $sqlQ = "SELECT * FROM $login_table WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
        }
 
@@ -86,8 +80,8 @@ class LoginCtrl
     {
        global $CONFIG_APP;
 
-       if($CONFIG_APP['domain']['login_url']) {
-          header("Location:".$CONFIG_APP['domain']['login_url']."?msg=ko");
+       if($CONFIG_APP['login']['LOGIN_URL']) {
+          header("Location:".$CONFIG_APP['login']['LOGIN_URL']."?msg=ko");
        }
        else {
           $template = 'tmpl_form.php';

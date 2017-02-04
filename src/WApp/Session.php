@@ -32,8 +32,8 @@ class Session
     global $CONFIG_APP;
 
     $loginUrl = '';
-    if($CONFIG_APP['domain']['login_url']) {
-       $loginUrl = $CONFIG_APP['domain']['login_url'];
+    if($CONFIG_APP['login']['LOGIN_URL']) {
+       $loginUrl = $CONFIG_APP['login']['LOGIN_URL'];
     } else {
        $loginUrl = '/';
     }

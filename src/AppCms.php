@@ -57,7 +57,7 @@ class AppCms extends Application
 
      //----------------------------------------------------
      /* System Events */
-      $this->systemEvents();
+      $this->system_services();
 
      //----------------------------------------------------
      /* System objects */
@@ -170,7 +170,7 @@ class AppCms extends Application
 
   }
   //-----------------------------------------------------------------
-  private function systemEvents()
+  private function system_services()
   {
      if(!isset($_REQUEST['APP_EVENT'])) {
         return true;

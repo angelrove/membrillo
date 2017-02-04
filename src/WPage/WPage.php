@@ -38,11 +38,11 @@ class WPage
      ?><!DOCTYPE html>
     <html lang="es">
     <head>
-      <title><?=$CONFIG_APP['data']['TITLE']?></title>
-
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <title><?=$CONFIG_APP['data']['TITLE']?></title>
 
       <!-- css -->
       <? CssJsLoad::get_css(); ?>
@@ -50,6 +50,7 @@ class WPage
     </head>
     <body>
       <? self::trazas() ?>
+      <? Messages::show() ?>
 
       <!-- Header -->
       <? if(!self::$view_empty) { ?>
@@ -61,7 +62,6 @@ class WPage
 
       <!-- content -->
       <main class="container-fluid">
-        <? Messages::show() ?>
         <? Frame::start(self::$title); // echo '<h3>'.self::$title.'</h3><p>'; ?>
 
         <?
