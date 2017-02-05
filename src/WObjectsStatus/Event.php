@@ -31,7 +31,6 @@ class Event
     // Event ----
     self::setEvent($_REQUEST['EVENT']);
 
-    //---
     self::$CONTROL = $_REQUEST['CONTROL'];
     self::$OPER    = (isset($_REQUEST['OPER']))?   $_REQUEST['OPER']   : '';
     self::$ROW_ID  = (isset($_REQUEST['ROW_ID']))? $_REQUEST['ROW_ID'] : '';
@@ -43,9 +42,6 @@ class Event
     global $objectsStatus;
     $wObjectStatus = $objectsStatus->setNewObject(self::$CONTROL); // if no exist
     $wObjectStatus->updateDatos();
-
-    // debug ---
-    Messages::set_debug(' --> OPER: '.self::$OPER.'; CONTROL: '.self::$CONTROL);
   }
   //----------------------------------------------------------------------------
   // EVENT
@@ -59,8 +55,6 @@ class Event
     //---
     Session::set('WEvent_EVENT', $event);
     self::$EVENT = $event;
-
-    Messages::set_debug("setEvent(): EVENT: ".self::$EVENT);
   }
   //----------------------------------------------------------------------------
   // ROW_ID

@@ -92,7 +92,7 @@ class WForm extends EventComponent
      self::$errors = $listErrors;
 
      // Continue with edit
-     Event::$REDIRECT_AFTER_OPER = false;
+     Event::$REDIRECT_AFTER_OPER = false; // para que no se pierdan los datos recibidos por post
 
      if(Event::$ROW_ID) {
         Event::setEvent('editUpdate');

@@ -1,7 +1,6 @@
 <?
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
- * 2006
  *
  */
 
@@ -28,7 +27,7 @@ class ObjectStatus
          continue;
       }
 
-      if ($name == 'ROW_ID') {
+      if($name == 'ROW_ID') {
          $this->ROW_ID = $value;
       }
       else {
@@ -38,11 +37,13 @@ class ObjectStatus
   }
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  public function setPersistent($flag=true) {
+  public function setPersistent($flag=true)
+  {
     return $this->persistent = $flag;
   }
   //----------------------------------------------------------------------------
-  public function isPersistent() {
+  public function isPersistent()
+  {
     return $this->persistent;
   }
   //----------------------------------------------------------------------------

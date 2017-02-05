@@ -40,11 +40,6 @@ class AppCms extends Application
   function run()
   {
      parent::run();
-     $this->runrun();
-  }
-  //-----------------------------------------------------------------
-  function runrun()
-  {
      $app = $this;
 
      //----------------------------------------------------
@@ -141,41 +136,43 @@ class AppCms extends Application
      //----------------------------------------------------
      /* OUT */
      //----------------------------------------------------
-      // Events -----------
+      // print_r2('CONTROL: '.Event::$CONTROL.';<br>'.
+      //          'OPER:    '.Event::$OPER.   ';<br>'.
+      //          'EVENT:   '.Event::$EVENT.  ';<br>'
+      //          );
+
+      $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
+
+      // oper ---
+      if(Event::$OPER)
+      {
+        include($path_ctrl.'/oper.inc');
+
+        if(Event::$REDIRECT_AFTER_OPER) {
+           header('Location:./?CONTROL='.Event::$CONTROL.
+                             '&EVENT='  .Event::$EVENT.
+                             '&ROW_ID=' .Event::$ROW_ID.
+                             '&OPERED=' .Event::$OPER);
+
+           Messages::set_debug('>> Redirected ---');
+           exit();
+        }
+      }
+
+      // flow ---
       if(Event::$EVENT) {
-         $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
-
-         // oper
-         if(Event::$OPER)
-         {
-            include($path_ctrl.'/oper.inc');
-
-            if(Event::$REDIRECT_AFTER_OPER) {
-               header('Location:./?CONTROL='.Event::$CONTROL.
-                                 '&EVENT='  .Event::$EVENT.
-                                 '&ROW_ID=' .Event::$ROW_ID.
-                                 '&OPERED=' .Event::$OPER);
-
-               Messages::set_debug('>> Redirected ---');
-               exit();
-            }
-         }
-
-         // flow
          if(file_exists($path_ctrl.'/flow.inc')) {
             include($path_ctrl.'/flow.inc');
          }
-         else if(file_exists($path_secc.'/tmpl_main.inc')) {
-            include($path_secc.'/tmpl_main.inc');
-         }
          else {
-            throw new \Exception('membrillo2: Default "flow.inc" or "tmpl_main.inc" not found in secc "/'.$seccCtrl->secc.'/".');
+            throw new \Exception('membrillo2 error: "flow.inc" not found in ['.$path_ctrl.'/]');
          }
       }
-      // Default out ------
-      else
-      {
-        include($path_secc.'/tmpl_main.inc');
+      elseif(file_exists($path_secc.'/tmpl_main.inc')) {
+         include($path_secc.'/tmpl_main.inc');
+      }
+      else {
+         throw new \Exception('membrillo2: Default "tmpl_main.inc" not found in ['.$path_secc.'/]');
       }
 
   }
