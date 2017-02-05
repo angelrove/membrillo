@@ -22,9 +22,9 @@ class Event
   public static function updateEvent()
   {
     // No hay evento ---
-    if(!isset($_REQUEST['CONTROL']) || !isset($_REQUEST['EVENT'])) {
-       return;
-    }
+    // if(!isset($_REQUEST['CONTROL']) || !isset($_REQUEST['EVENT'])) {
+    //    return;
+    // }
 
     // Current event ----
     self::setEvent($_REQUEST['EVENT']);
@@ -42,7 +42,7 @@ class Event
   // EVENT
   //----------------------------------------------------------------------------
   // in session
-  private static function setEvent($event)
+  public static function setEvent($event)
   {
     Session::set('WEvent_EVENT_PREV', Session::get('WEvent_EVENT'));
     Session::set('WEvent_EVENT', $event);
@@ -50,6 +50,8 @@ class Event
     self::$EVENT_PREV = Session::get('WEvent_EVENT_PREV');
     self::$EVENT      = $event;
     self::$RELOAD = false;
+
+    // print_r2(self::$EVENT_PREV); print_r2(self::$EVENT);
   }
   //----------------------------------------------------------------------------
   public static function reload()

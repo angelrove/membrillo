@@ -59,8 +59,8 @@ class GenQuery
   public static function helper_insert($DB_TABLE, $listValuesPers=array())
   {
      // Parse from ---
-     if(self::parseForm($DB_TABLE)) {
-        return;
+     if($errors = self::parseForm($DB_TABLE)) {
+        return $errors;
      }
 
      // Insert ---
@@ -70,8 +70,8 @@ class GenQuery
   public static function helper_update($DB_TABLE, $listValuesPers=array(), $id='')
   {
      // Parse from ---
-     if(self::parseForm($DB_TABLE)) {
-        return;
+     if($errors = self::parseForm($DB_TABLE)) {
+        return $errors;
      }
 
      // Update ---

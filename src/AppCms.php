@@ -144,11 +144,11 @@ class AppCms extends Application
             Messages::set_empty();
             include($path_ctrl.'/oper.inc');
 
-            if(!EVENT::$RELOAD) {
-               header('Location:/'.$seccCtrl->secc.'/?CONTROL='.Event::$CONTROL.
-                                                    '&EVENT='  .Event::$EVENT.
-                                                    '&ROW_ID=' .Event::$ROW_ID.
-                                                    '&OPERED=' .Event::$OPER);
+            if(!Event::$RELOAD) {
+               header('Location:./?CONTROL='.Event::$CONTROL.
+                                 '&EVENT='  .Event::$EVENT.
+                                 '&ROW_ID=' .Event::$ROW_ID.
+                                 '&OPERED=' .Event::$OPER);
                exit();
             }
          }

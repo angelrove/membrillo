@@ -118,12 +118,6 @@ class WForm extends EventComponent
   }
   //------------------------------------------------------------------
   //------------------------------------------------------------------
-  public function isInsert()
-  {
-    $this->WEvent->EVENT  = 'editNew';
-    $this->parse_event($this->WEvent);
-  }
-  //------------------------------------------------------------------
   public function isUpdate($row_id)
   {
     $this->WEvent->EVENT  = 'editUpdate';
