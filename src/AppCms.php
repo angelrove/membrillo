@@ -2,12 +2,16 @@
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
- * Objetos globales: $CONFIG_APP
- *                   $CONFIG_DB
+ * Globals: $CONFIG_APP
+ *          $CONFIG_DB
+ *          $CONFIG_SECCIONES
  *
- *                   $CONFIG_SECCIONES
- *                   $seccCtrl
- *                   $LOCAL
+ *          Session
+ *          $seccCtrl
+ *          $objectsStatus
+ *          Event
+ *          $LOCAL
+ *
  */
 
 namespace angelrove\membrillo2;
@@ -46,6 +50,7 @@ class AppCms extends Application
      //----------------------------------------------------
      /* Globals */
       global $CONFIG_APP,
+             $CONFIG_DB,
              $CONFIG_SECCIONES,
              $seccCtrl,
              $objectsStatus,
@@ -61,7 +66,8 @@ class AppCms extends Application
 
      //----------------------------------------------------
      /* System objects */
-     // >> $CONFIG_SECCIONES ---- [session]
+     //----------------------------------------------------
+      // >> $CONFIG_SECCIONES -----
       $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
       if(!$CONFIG_SECCIONES)
       {
@@ -77,7 +83,7 @@ class AppCms extends Application
          header('Location: /'.$CONFIG_SECCIONES->getDefault().'/'); exit();
       }
 
-     // >> $seccCtrl -----------
+      // >> $seccCtrl -------------
       $seccCtrl = Session::get('seccCtrl');
 
       // Inicio de la app o cambio de seccion: reiniciar
@@ -90,23 +96,25 @@ class AppCms extends Application
          $seccCtrl->initPage();
       }
 
-     // >> $objectsStatus ------
+      // >> $objectsStatus --------
       $objectsStatus = Session::get('objectsStatus');
       if(!$objectsStatus) {
          $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
       }
       $objectsStatus->initPage();
 
+      // >> Event -----------------
+      Event::initPage();
+
      //----------------------------------------------------
-     // FRONT
+     /* Config front */
+     //----------------------------------------------------
       $path_secc = './app/'.$CONFIG_SECCIONES->getFolder($seccCtrl->secc);
 
-     //----------------------------------------------------
-     /* Lang */
+     // Lang ----------------------
       include_once('lang/es.inc');
 
-     //----------------------------------------------------
-     /* CssJsLoad */
+     // CssJsLoad -----------------
       CssJsLoad::__init(CACHE_PATH, CACHE_URL);
       CssJsLoad::set_minify((IS_LOCALHOST? false : true));
       CssJsLoad::set_version(CACHE_VERSION);
@@ -117,16 +125,14 @@ class AppCms extends Application
          CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
       }
 
-     //----------------------------------------------------
-     /* On init app */
+     // Load on init --------------
       require('_vendor_cssjs.inc');
       require(DOCUMENT_ROOT.'/_vendor_cssjs.inc');
 
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');
       include($path_secc.'/onInitPage.inc');
 
-     //----------------------------------------------------
-     /* Basic vendor css/js */
+     // Basics vendor css/js ------
       Vendor::usef('jquery');
       Vendor::usef('bootstrap');
       Vendor::usef('font-awesome');
@@ -134,6 +140,7 @@ class AppCms extends Application
 
      //----------------------------------------------------
      /* OUT */
+     //----------------------------------------------------
       // Events -----------
       if(Event::$EVENT) {
          $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
@@ -141,14 +148,15 @@ class AppCms extends Application
          // oper
          if(Event::$OPER)
          {
-            Messages::set_empty();
             include($path_ctrl.'/oper.inc');
 
-            if(!Event::$RELOAD) {
+            if(Event::$REDIRECT_AFTER_OPER) {
                header('Location:./?CONTROL='.Event::$CONTROL.
                                  '&EVENT='  .Event::$EVENT.
                                  '&ROW_ID=' .Event::$ROW_ID.
                                  '&OPERED=' .Event::$OPER);
+
+               Messages::set_debug('>> Redirected ---');
                exit();
             }
          }

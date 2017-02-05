@@ -28,7 +28,7 @@ class Messages
 
   //----------------------------------------------------
   /*
-   * $type: 'success', 'danger'
+   * $type: 'success', 'danger', 'debug'
    */
   public static function set($msg, $type='success')
   {
@@ -41,6 +41,20 @@ class Messages
      $_SESSION['Messages_msg'][$type] .= '<div>'.$msg.'</div>';
   }
   //----------------------------------------------------
+  public static function set_empty()
+  {
+     $_SESSION['Messages_msg']['success'] = '';
+     $_SESSION['Messages_msg']['danger']  = '';
+     $_SESSION['Messages_msg']['debug']   = '';
+  }
+  //----------------------------------------------------
+  public static function set_debug($msg)
+  {
+     if(IS_LOCALHOST) {
+        self::set($msg, 'debug');
+     }
+  }
+  //----------------------------------------------------
   public static function show()
   {
      CssJsLoad::set_script('
@@ -51,6 +65,13 @@ class Messages
 
      ?>
      <!-- Messages -->
+     <style>
+     .WApplication_msgs.alert-debug {
+        left: initial;  right: 0;  min-width: 200px; background-color: #286090; color: beige;
+        font-family: monospace;
+     }
+     </style>
+
      <div id="WApplication_msgs_load"></div>
      <!-- /Messages -->
      <?
@@ -61,7 +82,9 @@ class Messages
   {
      if(!isset($_SESSION['Messages_msg'])) {
         $_SESSION['Messages_msg'] = array('success'=> '',
-                                          'danger' => '');
+                                          'danger' => '',
+                                          'debug' => '',
+                                          );
      }
 
      // OUT ---
@@ -75,12 +98,6 @@ class Messages
 
      // Empty ---
      self::set_empty();
-  }
-  //----------------------------------------------------
-  public static function set_empty()
-  {
-     $_SESSION['Messages_msg']['success'] = '';
-     $_SESSION['Messages_msg']['danger']  = '';
   }
   //----------------------------------------------------
 }

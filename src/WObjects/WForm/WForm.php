@@ -84,18 +84,24 @@ class WForm extends EventComponent
   //------------------------------------------------------------------
   public static function update_setErrors($listErrors)
   {
-     if($listErrors) {
-        self::$errors = $listErrors;
-
-        // Mantenerse en la misma pantalla
-        Event::reload();
-
-        // Show errors
-        self::update_showErrors($listErrors);
-     }
-     else {
+     if(!$listErrors) {
         Messages::set("Guardado correctamente.");
+        return;
      }
+
+     self::$errors = $listErrors;
+
+     // Continue with edit
+     Event::$REDIRECT_AFTER_OPER = false;
+
+     if(Event::$ROW_ID) {
+        Event::setEvent('editUpdate');
+     } else {
+        Event::setEvent('editNew');
+     }
+
+     // Highlight errors
+     self::update_showErrors($listErrors);
   }
   //------------------------------------------------------------------
   private static function update_showErrors($listErrors)

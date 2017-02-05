@@ -12,7 +12,7 @@ class Session
   //------------------------------------------------------
   public static function set($key, $obj)
   {
-    $sessionName = self::getNameSession();
+    $sessionName = self::getSessionName();
     $_SESSION[$sessionName][$key] = $obj;
 
     return $_SESSION[$sessionName][$key]; // devuelve una referencia
@@ -20,10 +20,11 @@ class Session
   //------------------------------------------------------
   public static function get($key)
   {
-    $sessionName = self::getNameSession();
-    if (isset($_SESSION[$sessionName][$key])) {
+    $sessionName = self::getSessionName();
+    if(isset($_SESSION[$sessionName][$key])) {
        return $_SESSION[$sessionName][$key]; // devuelve una referencia
     }
+
     return false;
   }
   //------------------------------------------------------
@@ -34,7 +35,8 @@ class Session
     $loginUrl = '';
     if($CONFIG_APP['login']['LOGIN_URL']) {
        $loginUrl = $CONFIG_APP['login']['LOGIN_URL'];
-    } else {
+    }
+    else {
        $loginUrl = '/';
     }
 
@@ -43,18 +45,23 @@ class Session
     session_destroy();
 
     // Redirect (login)
-    if(isset($_GET['LOGIN_USER'])) header("Location: $loginUrl?LOGIN_USER=$_GET[LOGIN_USER]&LOGIN_PASSWD=$_GET[LOGIN_PASSWD]");
-    else                           header("Location: $loginUrl");
+    if(isset($_GET['LOGIN_USER'])) {
+       header("Location: $loginUrl?LOGIN_USER=$_GET[LOGIN_USER]&LOGIN_PASSWD=$_GET[LOGIN_PASSWD]");
+    }
+    else {
+      header("Location: $loginUrl");
+    }
+
     exit();
   }
   //------------------------------------------------------
   // Private
   //------------------------------------------------------
-  private static function getNameSession() {
+  private static function getSessionName()
+  {
     global $CONFIG_DB;
 
     return $CONFIG_DB['default']['DBNAME'];
   }
   //------------------------------------------------------
 }
-?>

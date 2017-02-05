@@ -49,7 +49,7 @@ class WPage
       <!-- /css -->
     </head>
     <body>
-      <? self::trazas() ?>
+      <? self::debug_objects() ?>
       <? Messages::show() ?>
 
       <!-- Header -->
@@ -89,13 +89,13 @@ class WPage
    <?
    }
    //----------------------------------------------------
-   public static function trazas()
+   public static function debug_objects()
    {
-     if(DEBUG_VARS == 0) {
+     if(!DEBUG_VARS) {
         return;
      }
 
-     ?><!-- Trazas --><?
+     ?><!-- debug_objects --><?
      global $CONFIG_APP, $CONFIG_DB, $CONFIG_SECCIONES, $seccCtrl, $objectsStatus;
      $const = get_defined_constants(true);
 
@@ -106,8 +106,8 @@ class WPage
      DebugTrace::out('seccCtrl',         $seccCtrl);
      DebugTrace::out('objectsStatus',    $objectsStatus);
      DebugTrace::out('Event', array('::EVENT'=>Event::$EVENT, '::OPER'=>Event::$OPER, '::CONTROL'=>Event::$CONTROL, '::ROW_ID'=>Event::$ROW_ID));
-     DebugTrace::out('Login',           'User login: '.Login::$login);
-     ?><!-- /Trazas --><?
+     DebugTrace::out('Login', 'User login: '.Login::$login);
+     ?><!-- /debug_objects --><?
    }
    //----------------------------------------------------
    public static function header($defaultTmpl=true)

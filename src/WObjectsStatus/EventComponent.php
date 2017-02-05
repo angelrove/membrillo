@@ -1,7 +1,9 @@
 <?
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
- * 2006
+ *
+ * Esta clase la deben extender los componentes que quieran
+ * gestionar sus eventos: WList, WForm,...
  *
  */
 
@@ -22,13 +24,13 @@ abstract class EventComponent
 
     $this->id_object = $id_object;
 
-    $this->WEvent = $this->get_WEvent($id_object);
+    $this->WEvent = $this->get_event($id_object);
     $this->wObjectStatus = $objectsStatus->setNewObject($id_object);
 
     // $this->parse_event($this->WEvent); // se llama desde el propio objeto
   }
   //----------------------------------------------------------------------------
-  private function get_WEvent($id_object)
+  private function get_event($id_object)
   {
     $event = new \stdClass();
     $event->EVENT  = '';

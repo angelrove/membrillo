@@ -1,7 +1,6 @@
 <?
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
- * 2006
  *
  */
 
@@ -22,18 +21,14 @@ class ObjectsStatus
   {
     global $seccCtrl;
 
-    // Cambio de sección: eliminar objetos no persistentes
+    // If a new secc: delete data from non-persistent objets
     if($seccCtrl->isNewSecc) {
-      foreach($this->listObjects as $key => $object)
-      {
+      foreach($this->listObjects as $key => $object) {
          if($object->isPersistent() == false) {
             unset($this->listObjects[$key]);
          }
       }
     }
-
-    // Parse events
-    Event::updateEvent();
   }
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------

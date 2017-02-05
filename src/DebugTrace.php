@@ -6,15 +6,15 @@
 
 namespace angelrove\membrillo2;
 
+use angelrove\utils\CssJsLoad;
+
 
 class DebugTrace
 {
   //-------------------------------------------------
   public static function out($objectName, $object)
   {
-    global $CONFIG_APP;
-
-    if($CONFIG_APP['debug']) {
+    if(!DEBUG_VARS) {
        return;
     }
 
@@ -24,7 +24,7 @@ class DebugTrace
 
     $idTraza = $_SESSION['id_traza']++;
 
-    CssJs_load::set_script('
+    CssJsLoad::set_script('
   $(document).ready(function() {
     $(".DebugTrace .display").click(function() {
       var id_traza = $(this).attr("id_traza");
