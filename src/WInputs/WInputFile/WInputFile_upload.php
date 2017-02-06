@@ -164,8 +164,14 @@ class WInputFile_upload
      }
 
      // result
-     $bbdd_value = $nameWidthExt.'#'.$fileNew.'#'.date('d/m/y H:i').'#'.$fileSize.'#'.$fileMIME.'#'.$seccCtrl->UPLOADS_DIR;
-     return $bbdd_value; // SQL
+     $bbdd_value = $nameWidthExt.'#'.
+                   $fileNew.'#'.
+                   date('d/m/y H:i').'#'.
+                   $fileSize.'#'.
+                   $fileMIME.'#'.
+                   $seccCtrl->UPLOADS_DIR;
+
+     return $bbdd_value;
   }
   //-----------------------------------------------------------
   // PRIVATE

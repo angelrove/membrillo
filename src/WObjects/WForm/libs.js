@@ -35,9 +35,14 @@ function WForm_submit(id_object, event)
      formEdit.EVENT.value = event;
   }
 
+  var param_row_id = '';
+  if(formEdit.ROW_ID.value) {
+     param_row_id = '&ROW_ID='+formEdit.ROW_ID.value;
+  }
+
   // Submit
   //formEdit.action = './?CONTROL='+id_object+'&EVENT='+formEdit.EVENT.value+'&OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
-  formEdit.action = './?CONTROL='+id_object+'&EVENT='+formEdit.EVENT.value+'&ROW_ID='+formEdit.ROW_ID.value;
+  formEdit.action = './?CONTROL='+id_object+'&EVENT='+formEdit.EVENT.value+param_row_id;
   formEdit.submit();
 }
 //-------------------------------------------

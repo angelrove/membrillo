@@ -23,7 +23,6 @@ class WInputFile
   private $labelFileInfo = '';
 
   //---
-  private $labelDownloadFile = '';
   private $showDel      = true;
   private $showFileName = false;
   private $isReadonly   = false;
@@ -50,10 +49,6 @@ class WInputFile
     $this->fileDatos = $fileDatos;
 
     Vendor::usef('lightbox');
-  }
-  //---------------------------------------------------------------------
-  public function setLabelDownloadFile($labelDownload) {
-    $this->labelDownloadFile = $labelDownload;
   }
   //---------------------------------------------------------------------
   public function hiddenBtDelete() {
@@ -245,14 +240,14 @@ EOD;
   //---------------------------------------------------------------------
   private function getHtm_fileInfo()
   {
-    global $app, $CONFIG_APP, $seccCtrl;
+    global $CONFIG_APP, $seccCtrl;
 
    /** Datos del archivo **/
     $listDatos = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
+
     $dir = ($listDatos['dir'])? '/'.$listDatos['dir'] : '';
     $listDatos['ruta_completa'] = $CONFIG_APP['url_uploads'].$dir.'/'.$listDatos['name'];
 
-    // Compatibilidad
     if(!$listDatos['nameUser']) {
        $listDatos['nameUser'] = $listDatos['name'];
     }
@@ -273,56 +268,38 @@ EOD;
     $fileProp_URL  = $listDatos['ruta_completa'];
     $fileProp_TYPE = $this->get_typeFile($listDatos['name']); // IMAGE, FILE
 
-   /** Show file info **/
-    // Label: $bt_varLabel ----
-    $bt_varLabel = $this->labelDownloadFile;
+   /** Out **/
+    // Info ----
+    $str_info = '';
     if($this->showFileName) {
        if($this->showFileName === 'short') {
-          $bt_varLabel = $lb_nameUser;
-       } else {
-          $bt_varLabel = $this->labelFileInfo;
+          $str_info = '<div>'.$lb_nameUser.'</div>';
+       }
+       else {
+          $str_info = '<div>'.$this->labelFileInfo.'</div>';
        }
     }
 
-    if(!$bt_varLabel) {
-       if($fileProp_TYPE == 'FILE') {
-          if(!$this->showFileName) $bt_varLabel = '<i class="fa fa-download fa-2x" aria-hidden="true"></i>';
-       }
-       elseif($fileProp_TYPE == 'IMAGE') {
-          if(!$this->showImg) {
-             $bt_varLabel = '<i class="fa fa-eye fa-2x" aria-hidden="true"></i>';
-          }
-       }
-    }
-
-    if($bt_varLabel) {
-       $bt_varLabel .= '<br>';
-    }
-
-    // linkFile ------------
-    $linkFile = '';
-
-    // Show: image ---
-    if($fileProp_TYPE == 'IMAGE')
-    {
-       $linkFile = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
+    // View ---
+    $linkView = '';
+    if($fileProp_TYPE == 'IMAGE') {
+       $linkView = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
     }
     // Open: "pdf" and "txt" or if not a MIME Type ---
     elseif(!$listDatos['mime'] ||
             $listDatos['mime'] == 'application/pdf' ||
-            $listDatos['mime'] == 'text/plain')
-    {
-       $linkFile =  '<a href="'.$fileProp_URL.'" target="_blank">'.$bt_varLabel.'</a>';
+            $listDatos['mime'] == 'text/plain') {
+       $linkView =  '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" target="_blank"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>';
     }
-    // Download
-    else
-    {
-       $linkFile = '<a href="'.$fileProp_URL.'" download>'.$bt_varLabel.'</a>';
-    }
+
+    // Download ---
+    $linkDownload = '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" download><i class="fa fa-download fa-2x" aria-hidden="true"></i></a>';
 
     return '
       <!-- File info -->
-      '.$linkFile.'
+      '.$str_info.'
+      '.$linkView.'
+      '.$linkDownload.'
       <!-- /File info -->
     ';
   }

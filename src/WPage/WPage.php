@@ -50,7 +50,6 @@ class WPage
     </head>
     <body>
       <? self::debug_objects() ?>
-      <? Messages::show() ?>
 
       <!-- Header -->
       <? if(!self::$view_empty) { ?>
@@ -62,6 +61,8 @@ class WPage
 
       <!-- content -->
       <main class="container-fluid">
+        <? Messages::show() ?>
+
         <? Frame::start(self::$title); // echo '<h3>'.self::$title.'</h3><p>'; ?>
 
         <?
