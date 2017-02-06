@@ -64,7 +64,11 @@ class GenQuery
      }
 
      // Insert ---
-     return self::insert($DB_TABLE, $listValuesPers);
+     if($errors = self::insert($DB_TABLE, $listValuesPers)) {
+        return $errors;
+     }
+
+     Messages::set("Insertado correctamente.");
   }
   //------------------------------------------------------------------
   public static function helper_update($DB_TABLE, $listValuesPers=array(), $id='')
@@ -75,7 +79,11 @@ class GenQuery
      }
 
      // Update ---
-     return self::update($DB_TABLE, $listValuesPers, $id);
+     if($errors = self::update($DB_TABLE, $listValuesPers, $id)) {
+        return $errors;
+     }
+
+     Messages::set("Guardado correctamente.");
   }
   //------------------------------------------------------------------
   // Parse form
@@ -256,6 +264,7 @@ class GenQuery
        }
        else {
           $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
+
           if(isset($value->errors)) {
              return $value;
           }

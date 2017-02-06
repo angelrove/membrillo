@@ -143,11 +143,15 @@ class AppCms extends Application
 
       $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
 
-      // oper ---
+      // operations ---
       if(Event::$OPER)
       {
+        Messages::set_empty();
+
+        // oper
         include($path_ctrl.'/oper.inc');
 
+        // redirect
         if(Event::$REDIRECT_AFTER_OPER) {
            header('Location:./?CONTROL='.Event::$CONTROL.
                              '&EVENT='  .Event::$EVENT.

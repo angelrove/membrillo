@@ -85,7 +85,6 @@ class WForm extends EventComponent
   public static function update_setErrors($listErrors)
   {
      if(!$listErrors) {
-        Messages::set("Guardado correctamente.");
         return;
      }
 

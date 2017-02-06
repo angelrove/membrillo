@@ -67,9 +67,9 @@ class Messages
      <!-- Messages -->
      <style>
      .WApplication_msgs.alert-debug {
-        left: initial;  right: 0;  min-width: 200px; background-color: #286090; color: beige;
-        font-family: monospace;
-     }
+        left: initial;  right: 0;  background-color: #286090; color: beige;
+        font-family: monospace; position: absolute; top: 0;
+      }
      </style>
 
      <div id="WApplication_msgs_load"></div>

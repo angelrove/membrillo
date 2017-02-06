@@ -72,7 +72,8 @@ class WInputFile
   //---------------------------------------------------------------------
   // Propiedades del archivo
   //---------------------------------------------------------------------
-  public function setValidFiles($listMimes) {
+  public function setValidFiles($listMimes)
+  {
     $this->validFiles = $listMimes;
   }
   //---------------------------------------------------------------------
@@ -160,18 +161,15 @@ $(document).ready(function() {
         $displayInput = 'style="display:none"';
     }
 
-    /** HTM: read only **/
+    /** Read only **/
      if($this->isReadonly === true) {
         if(!$htmFilePrev) {
            $htmFilePrev = '<input type="text" disabled value="">';
         }
         return <<<EOD
          <!-- WInputFile -->
-         <div class="well well-sm">
-           <table class="WInputFile"><tr>
-              <td>$this->label</td>
-              <td id="'.$this->name.'_htmFilePrev" class="prevFile">$htmFilePrev</td>
-           </tr></table>
+         <div class="well well-sm display-table strip-margin">
+            <div class="WInputFile" id="'.$this->name.'_htmFilePrev" class="prevFile">$htmFilePrev</div>
          </div>
          <!-- /WInputFile -->
 EOD;
@@ -232,11 +230,40 @@ EOD;
 
   }
   //---------------------------------------------------------------------
+  private function get_fileInfo()
+  {
+     $labelFileInfo = '';
+
+     if(!$this->showFileName) {
+        return '';
+     }
+
+     //-------
+     if($datosFile['fecha'] && $datosFile['size']) {
+        $lb_ruta = $datosFile['ruta_completa'];
+        $lb_nameUser = '['.$datosFile['nameUser'].']';
+        $lb_fecha = ' ['.$datosFile['fecha'].'] ';
+        $lb_size  = round(($datosFile['size'] / 1024), 1).'k';
+
+        $labelFileInfo = $lb_ruta . '<br>' . $lb_nameUser . $lb_fecha . $lb_size;
+     }
+     else { // Compatibilidad
+        $labelFileInfo = $datosFile['nameUser'];
+     }
+
+     // short -------
+     if($this->showFileName === 'short') {
+        $labelFileInfo = $lb_nameUser;
+     }
+
+      return '<div class="well-sm" style="background-color: white;">'.$labelFileInfo.'</div>';
+  }
+  //---------------------------------------------------------------------
   private function getHtm_fileInfo()
   {
     global $CONFIG_APP, $seccCtrl;
 
-   /** Datos del archivo **/
+   /** Datos file **/
     $listDatos = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
 
     $dir = ($listDatos['dir'])? '/'.$listDatos['dir'] : '';
@@ -246,62 +273,45 @@ EOD;
        $listDatos['nameUser'] = $listDatos['name'];
     }
 
-    // labelFileInfo
-    if($listDatos['fecha'] && $listDatos['size']) {
-       $lb_ruta = $listDatos['ruta_completa'];
-       $lb_nameUser = '['.$listDatos['nameUser'].']';
-       $lb_fecha = ' ['.$listDatos['fecha'].'] ';
-       $lb_size  = round(($listDatos['size'] / 1024), 1).'k';
-
-       $this->labelFileInfo = $lb_ruta . '<br>' . $lb_nameUser . $lb_fecha . $lb_size;
-    }
-    else { // Compatibilidad
-       $this->labelFileInfo = $listDatos['nameUser'];
-    }
-
-    $fileProp_URL  = $listDatos['ruta_completa'];
-    $fileProp_TYPE = $this->get_typeFile($listDatos['name']); // IMAGE, FILE
-
    /** Out **/
-    // Info --------
-    $str_info = '';
-    if($this->showFileName) {
-       if($this->showFileName === 'short') {
-          $str_info = $lb_nameUser;
-       } else {
-          $str_info = $this->labelFileInfo;
-       }
-
-       $str_info = '<div class="well well-sm" style="background-color: white;">'.$str_info.'</div>';
-    }
-
     // View -------
-    $imgPreView = '';
-    $linkView   = '';
+    $fileProp_TYPE = $this->get_typeFile($listDatos['name']); // IMAGE, FILE
+    $fileProp_URL  = $listDatos['ruta_completa'];
+
+    $linkView = '';
     if($fileProp_TYPE == 'IMAGE') {
-       $imgPreView = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
+       $linkView = '<div style="max-width:300px">'.FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true).'</div>';
     }
-    // Open: "pdf" and "txt" or if not a MIME Type ---
-    elseif(!$listDatos['mime'] ||
-            $listDatos['mime'] == 'application/pdf' ||
-            $listDatos['mime'] == 'text/plain') {
-       $linkView =  '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" target="_blank"><i class="fa fa-file-pdf-o fa-2x" aria-hidden="true"></i></a>';
+    // Open: "pdf" and "txt" ---
+    elseif($listDatos['mime'] == 'application/pdf' || $listDatos['mime'] == 'text/plain') {
+       $linkView =  '<a class="img-thumbnail" href="'.$fileProp_URL.'" target="_blank">'.
+                       '<i class="fa fa-file-pdf-o fa-4x fa-border" aria-hidden="true"></i>'.
+                    '</a>';
     }
+    // Open: if not a MIME Type ---
+    elseif(!$listDatos['mime']) {
+       $linkView =  '<a class="img-thumbnail" href="'.$fileProp_URL.'" target="_blank">'.
+                       '<i class="fa fa-file-text-o fa-4x fa-border" aria-hidden="true"></i>'.
+                    '</a>';
+    }
+
+    // Info --------
+    $labelFileInfo = $this->get_fileInfo($datosFile);
 
     // Download ---
     $linkDownload = '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" download><i class="fa fa-download fa-2x" aria-hidden="true"></i></a>';
 
     // Delete -----
     $bt_delete = '';
-    if($this->showDel === true) {
+    if(!$this->isReadonly && $this->showDel === true) {
        $bt_delete = $this->get_btDel();
     }
 
     return '
       <!-- File info -->
       '.$str_info.'
-      <div style="max-width:300px">'.$imgPreView.'</div>
-      <div>'.$linkView.' '.$linkDownload.' '.$bt_delete.'</div>
+      <div class="text-center">'.$linkView.'</div>
+      <div class="text-center">'.$linkDownload.' '.$bt_delete.'</div>
       <!-- /File info -->
     ';
   }
