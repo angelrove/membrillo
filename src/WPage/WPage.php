@@ -26,7 +26,7 @@ class WPage
      self::$view_empty = true;
    }
    //----------------------------------------------------
-   public static function start()
+   public static function get()
    {
      global $CONFIG_APP, $seccCtrl;
 
@@ -67,7 +67,7 @@ class WPage
         <?
    }
    //---------------------------------
-   public static function end()
+   public static function get_end()
    {
     ?>
        <? Frame::end() ?>

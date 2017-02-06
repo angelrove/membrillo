@@ -37,7 +37,7 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
            param_event-detalle="<?=$this->event_detalle?>">
       <thead>
         <?if($this->title) {?>
-        <tr><th colspan="<?=$this->num_cols+1?>"><?=$this->title?></th></tr>
+          <tr><th class="text-center" colspan="<?=count($this->dbFields)+1?>"><?=$this->title?></th></tr>
         <?}?>
         <tr><?=$htmColumnas?></tr>
       </thead>

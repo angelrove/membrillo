@@ -336,7 +336,7 @@ EOD;
   }
   */
   //------------------------------------------------------------------
-  public function setFields($listFields, $datos)
+  public function setFields(array $listFields, array $datos)
   {
     foreach($listFields as $key => $field) {
        if(is_array($field)) {

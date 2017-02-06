@@ -120,61 +120,73 @@ class WList extends EventComponent
   //--------------------------------------------------------------
   // Setter
   //-------------------------------------------------------
-  public function showTitle($title) {
+  public function set_title($title)
+  {
     $this->title = $title;
   }
   //-------------------------------------------------------
-  public function setListFields($dbFields) {
+  public function setListFields($dbFields)
+  {
     $this->dbFields = $dbFields;
   }
   //-------------------------------------------------------
-  public function setDefaultOrder($defaultOrder) {
+  public function setDefaultOrder($defaultOrder)
+  {
     $this->defaultOrder = $defaultOrder;
   }
   //-------------------------------------------------------
   /* Selección de la primera tupla por defecto */
-  public function setDefaultSelected() {
+  public function setDefaultSelected()
+  {
     $this->defaultSelected = true;
   }
   //-------------------------------------------------------
-  public function setReadOnly($isReadonly) {
+  public function setReadOnly($isReadonly)
+  {
     if($isReadonly) {
        $this->bt_new    = false;
        $this->bt_delete = false;
     }
   }
   //-------------------------------------------------------
-  public function setScroll($height) {
+  public function setScroll($height)
+  {
     $this->showScroll = true;
     $this->height     = $height;
   }
   //-------------------------------------------------------
   // Editors
   //-------------------------------------------------------
-  public function setRowEditor($rowEditor) {
+  public function setRowEditor($rowEditor)
+  {
     $this->rowEditor = $rowEditor;
   }
   //-------------------------------------------------------
-  public function setCellEditor($cellEditor) {
+  public function setCellEditor($cellEditor)
+  {
     $this->cellEditor = $cellEditor;
   }
   //-------------------------------------------------------
-  public function setOptionsEditor($optionsEditor) {
+  public function setOptionsEditor($optionsEditor)
+  {
     $this->optionsEditor = $optionsEditor;
   }
   //-------------------------------------------------------
   // Eventos
   //-------------------------------------------------------
-  public function onClickRow($event) {
+  public function onClickRow($event)
+  {
     $this->onClickRow = $event;
   }
   //-------------------------------------------------------
-  public function showNew($showButton=true) {
+  public function showNew($showButton=true)
+  {
     $this->event_new = $this->events['new'];
     $this->bt_new    = $showButton;
   }
   //-------------------------------------------------------
-  public function showUpdate($showButton=false) {
+  public function showUpdate($showButton=false)
+  {
     $this->event_update = $this->events['update'];
 
     if($showButton === true) {
@@ -188,7 +200,8 @@ class WList extends EventComponent
     }
   }
   //-------------------------------------------------------
-  public function showDelete($isConfirm=true) {
+  public function showDelete($isConfirm=true)
+  {
     $this->event_delete = $this->events['delete'];
     $this->bt_delete    = true;
     $this->bt_delete_confirm = $isConfirm;
@@ -240,7 +253,7 @@ class WList extends EventComponent
   //-------------------------------------------------------
   // OUT
   //-------------------------------------------------------
-  public function getHtmRows()
+  public function get()
   {
     $controlID = $this->id_object;
 

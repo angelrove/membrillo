@@ -17,7 +17,7 @@ class WListColumn
   public $onClick;
 
   //-------------------------------------------------------
-  function __construct($name, $title, $width, $align='')
+  function __construct($name, $title, $width='', $align='')
   {
     $this->name  = $name;
     $this->title = $title;
