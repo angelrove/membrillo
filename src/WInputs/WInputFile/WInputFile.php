@@ -143,7 +143,7 @@ $(document).ready(function() {
 });
      ');
 
-     return '<button class="btn btn-danger btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-lg"></i></button>';
+     return '<button class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x" style="color:red"></i></button>';
   }
   //---------------------------------------------------------------------
   public function get()
@@ -155,11 +155,6 @@ $(document).ready(function() {
     if($this->fileDatos) {
        /** File prev. **/
         $htmFilePrev = $this->getHtm_fileInfo();
-
-       /** Button "Delete" **/
-        if($this->showDel === true) {
-           $bt_delete = $this->get_btDel();
-        }
 
        /** Ocultar "input file" **/
         $displayInput = 'style="display:none"';
@@ -207,7 +202,6 @@ EOD;
   <table class="WInputFile"><tr>
     '.$htmLabel.$htmFilePrev.'
     <td>
-      '.$bt_delete.'
       <input type="file" id="'.$this->name.'" name="'.$this->name.'" class="fileUpload" size="27" '.$displayInput.'>
     </td>
   </tr></table>
@@ -269,21 +263,23 @@ EOD;
     $fileProp_TYPE = $this->get_typeFile($listDatos['name']); // IMAGE, FILE
 
    /** Out **/
-    // Info ----
+    // Info --------
     $str_info = '';
     if($this->showFileName) {
        if($this->showFileName === 'short') {
-          $str_info = '<div>'.$lb_nameUser.'</div>';
+          $str_info = $lb_nameUser;
+       } else {
+          $str_info = $this->labelFileInfo;
        }
-       else {
-          $str_info = '<div>'.$this->labelFileInfo.'</div>';
-       }
+
+       $str_info = '<div class="well well-sm" style="background-color: white;">'.$str_info.'</div>';
     }
 
-    // View ---
-    $linkView = '';
+    // View -------
+    $imgPreView = '';
+    $linkView   = '';
     if($fileProp_TYPE == 'IMAGE') {
-       $linkView = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
+       $imgPreView = FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true);
     }
     // Open: "pdf" and "txt" or if not a MIME Type ---
     elseif(!$listDatos['mime'] ||
@@ -295,11 +291,17 @@ EOD;
     // Download ---
     $linkDownload = '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" download><i class="fa fa-download fa-2x" aria-hidden="true"></i></a>';
 
+    // Delete -----
+    $bt_delete = '';
+    if($this->showDel === true) {
+       $bt_delete = $this->get_btDel();
+    }
+
     return '
       <!-- File info -->
       '.$str_info.'
-      '.$linkView.'
-      '.$linkDownload.'
+      <div style="max-width:300px">'.$imgPreView.'</div>
+      <div>'.$linkView.' '.$linkDownload.' '.$bt_delete.'</div>
       <!-- /File info -->
     ';
   }
