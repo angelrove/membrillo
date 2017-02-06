@@ -151,7 +151,7 @@ $(document).ready(function() {
      return '<button class="btn btn-danger btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-lg"></i></button>';
   }
   //---------------------------------------------------------------------
-  public function getHtm()
+  public function get()
   {
     $htmFilePrev  = '';
     $bt_delete    = '';
