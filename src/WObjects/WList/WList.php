@@ -23,27 +23,30 @@ class WList extends EventComponent
   private $defaultOrder    = 'id';
   private $defaultSelected = false;
 
-  // Paginación
+  // Pagination
   private $paging_showOn  = 'top'; // top, bottom, false
   private $paging_numRows = 100;
   private $paging_config  = '';
 
-  // Eventos
+  // Events
   private $event_fOrder  = 'fieldOrder';
   private $event_fOnClick= 'fieldOnClick';
   private $event_numPage = 'list_numPage';
-  private $event_detalle = 'detalle';
+
   private $event_search  = 'search';
+  private $event_detalle = 'detalle';
+
   private $event_new     = '';
+  private $event_update  = '';
+  private $event_delete  = '';
 
-  private $events = array('new'   =>'editNew',
-                          'update'=>'editUpdate',
-                          'delete'=>'delete');
+  private $events = array('new'    => 'editNew',
+                          'update' => 'editUpdate',
+                          'delete' => 'delete');
 
-  private $event_delete = 'delete';
-  private $msgConfirmDel = '';
+    private $msgConfirmDel = '';
 
-  // Botones
+  // Buttons
   private $onClickRow = '';
   private $list_Op = array();
 
@@ -53,7 +56,7 @@ class WList extends EventComponent
   private $bt_delete  = false;
   private $bt_delete_confirm = true;
 
-  // Editores
+  // Interfaces
   private $rowEditor;
   private $cellEditor;
   private $optionsEditor;
@@ -112,9 +115,9 @@ class WList extends EventComponent
   {
     switch(Event::$EVENT)
     {
-     case $this->event_detalle: // reiniciar la paginación
-       $this->wObjectStatus->delDato('id_page');
-     break;
+      case $this->event_detalle: // reiniciar la paginación
+        $this->wObjectStatus->delDato('id_page');
+      break;
     }
   }
   //--------------------------------------------------------------
@@ -172,12 +175,7 @@ class WList extends EventComponent
     $this->optionsEditor = $optionsEditor;
   }
   //-------------------------------------------------------
-  // Eventos
-  //-------------------------------------------------------
-  public function onClickRow($event)
-  {
-    $this->onClickRow = $event;
-  }
+  // Events: CRUD
   //-------------------------------------------------------
   public function showNew($showButton=true)
   {
@@ -212,6 +210,8 @@ class WList extends EventComponent
     }
   }
   //-------------------------------------------------------
+  // Events Other
+  //-------------------------------------------------------
   public function showDetail($showButton=true)
   {
     $this->bt_detalle = $showButton;
@@ -232,6 +232,11 @@ class WList extends EventComponent
                                    'target' => '',
                                    'disabled' => '',
                                    );
+  }
+  //-------------------------------------------------------
+  public function onClickRow($event)
+  {
+    $this->onClickRow = $event;
   }
   //-------------------------------------------------------
   // Paginación

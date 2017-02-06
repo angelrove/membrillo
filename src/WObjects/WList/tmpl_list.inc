@@ -14,11 +14,11 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
 
 <div class="List" id="List_<?=$this->id_object?>">
   <? if($this->paging_showOn == 'top'): ?>
-    <!-- paginación -->
+    <!-- pagination -->
     <div class="List_paginacion top well well-sm">
        <?=$htmPaginacion?>
     </div>
-    <!-- /paginación -->
+    <!-- /pagination -->
   <? endif; ?>
 
   <div class="<?=$class_scroll?>" style="<?=$styleScroll?>">
@@ -35,14 +35,13 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
            param_event-update ="<?=$this->event_update?>"
            param_event-delete ="<?=$this->event_delete?>"
            param_event-detalle="<?=$this->event_detalle?>">
-      <thead>
-        <?if($this->title) {?>
-          <tr><th class="text-center" colspan="<?=count($this->dbFields)+1?>"><?=$this->title?></th></tr>
-        <?}?>
-        <tr><?=$htmColumnas?></tr>
-      </thead>
-
-      <tbody><?=$htmListDatos?></tbody>
+       <thead>
+         <?if($this->title) {?>
+           <tr><th class="text-center" colspan="<?=count($this->dbFields)+1?>"><?=$this->title?></th></tr>
+         <?}?>
+         <tr><?=$htmColumnas?></tr>
+       </thead>
+       <tbody><?=$htmListDatos?></tbody>
     </table>
   </div>
 

@@ -80,7 +80,7 @@ $(document).keydown(function(e)
       List_onEvent($(".List_tuplas tr.selected"), row_id, 'onRow', '', '');
     }
     //----------------
-    // Ctrl+Del
+    // Ctrl+Supr
     else if(e.keyCode == 46 && e.ctrlKey)
     {
       var row_id = $(".List_tuplas tr.selected").attr('id');
