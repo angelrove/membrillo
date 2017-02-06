@@ -1,0 +1,140 @@
+
+body {
+  font-size: 14px;
+}
+h1, h2, h3, h4 {
+  margin: 0;
+}
+hr {
+  margin-top: 6px;
+  margin-bottom: 7px;
+}
+a:hover {
+  text-decoration: none;
+}
+
+/*---- Helpers -----*/
+.font-monospace {
+  font-family: monospace;
+}
+.display-table {
+  display:table;
+}
+.strip-margin {
+  margin:0;
+}
+.center-block2 {
+  display:table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- System ----- */
+.WApplication_msgs {
+  position:absolute;
+  top:1px;
+  z-index: 10000;
+  left: 40%;
+  border-radius: 0;
+}
+
+/* -------------------------- */
+
+/* ---- HEADER ----- */
+.page-header {
+  margin: 0px;
+  padding: 10px 15px;
+  border-width: 0;
+  background-color: #191c22;
+  color: #eee;
+}
+.page-header h1 {
+  font-size: 21px;
+}
+
+/* ---- NAVBAR ----- */
+/* height */
+.navbar-nav > li > a, .navbar-brand {
+    padding-top:7px !important;
+    padding-bottom:0 !important;
+    height: 36px;
+}
+.navbar {min-height:36px !important;}
+
+/*---*/
+.dropdown-menu>li>a {
+  padding: 9px 15px;
+}
+
+/* ---- BODY ------ */
+main.container-fluid {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+/* ---- FOOTER ----- */
+footer {
+  padding: 12px 20px;
+  font-size: 88%;
+  color: #999;
+}
+
+/* -------------------------- */
+
+/* ---- Panels ----*/
+.alert {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.well {
+  box-shadow: none;
+}
+.panel-default>.panel-heading {
+   background-color: initial;
+   border-width: 0;
+}
+/*.WFrame {
+   background-color: #fdfdfd;
+}
+*/
+/*----- LISTS ---------*/
+/*
+.table>tbody>tr>td,
+.table>tbody>tr>th {
+   padding: 6px;
+}
+*/
+/*----- FORMS ---------*/
+legend {
+  /*font-size: 15px;*/
+  font-weight: bold;
+}
+form .oper_buttons .btn {
+  min-width: 80px;
+}
+.WFrame>.panel-body {
+  padding-left: 23px;
+  padding-right: 23px;
+}
+.WFrame>.panel-body>form .oper_buttons .btn {
+  margin-left:  8px;
+}
+
+/* ----- INPUTS ----- */
+.form-control {
+  font-size: 14px;
+}
+.WInputFile td {
+  padding: 0 2px;
+}
+
+/*---- BUTTONS ------*/
+.btn {
+  padding: 6px 12px;
+}
+.btn-sm {
+  padding: 5px 10px;
+}
+.btn-xs {
+  padding: 3px 6px;
+}
