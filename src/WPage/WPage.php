@@ -39,6 +39,7 @@ class WPage
     <html lang="es">
     <head>
       <meta charset="utf-8">
+      <meta name="author" content="https://github.com/angelrove">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
