@@ -51,7 +51,7 @@ class Messages
   public static function set_debug($msg)
   {
      if(IS_LOCALHOST) {
-        self::set($msg, 'debug');
+        self::set('<pre>'.$msg.'</pre>', 'debug');
      }
   }
   //----------------------------------------------------
@@ -67,8 +67,7 @@ class Messages
      <!-- Messages -->
      <style>
      .WApplication_msgs.alert-debug {
-        left: initial;  right: 0;  background-color: #286090; color: beige;
-        font-family: monospace; position: absolute; top: 0;
+        z-index: 1; position: absolute; top: 0; left: initial; right: 0; background-color: #286090;
       }
      </style>
 

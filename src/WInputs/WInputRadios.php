@@ -13,7 +13,7 @@ class WInputRadios
 {
     //------------------------------------------------------------------
     /* From array */
-    public static function get($name, $listDatos, $id_selected, $listColors=array(), $is_assoc='')
+    public static function get($name, $listDatos, $id_selected='', $listColors=array(), $is_assoc='')
     {
       $strSelect = '';
 

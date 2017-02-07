@@ -21,6 +21,8 @@ use angelrove\utils\Db_mysql;
 
 class GenQuery
 {
+  public static $executed_queries = array();
+
   //------------------------------------------------------------
   // Helpers
   //------------------------------------------------------------
@@ -239,6 +241,7 @@ class GenQuery
 
     // Exec query
     Db_mysql::query($sqlQ);
+    self::$executed_queries[] = $sqlQ;
     //self::log_updates($sqlQ); // Log
 
     // Envío el nuevo ROW_ID al evento en curso
@@ -306,6 +309,7 @@ class GenQuery
     /** Ejecutar Query **/
     if($sqlQ) {
        Db_mysql::query($sqlQ);
+       self::$executed_queries[] = $sqlQ;
        self::log_updates($sqlQ); // Log
     }
 
@@ -354,6 +358,7 @@ class GenQuery
   {
     $sqlQ = self::getQueryDelete($DB_TABLE, Event::$ROW_ID);
     Db_mysql::query($sqlQ);
+    self::$executed_queries[] = $sqlQ;
 
     self::log_updates($sqlQ); // Log
 
