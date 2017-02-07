@@ -121,7 +121,7 @@ class AppCms extends Application
       }
 
      // Load on init --------------
-      require('_vendor_cssjs.inc');
+      require(__DIR__.'/_vendor_cssjs.inc');
       require(DOCUMENT_ROOT.'/_vendor_cssjs.inc');
 
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');
