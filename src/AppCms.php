@@ -152,7 +152,7 @@ class AppCms extends Application
         include($path_ctrl.'/oper.inc');
 
         // redirect
-        if(Event::$REDIRECT_AFTER_OPER) {
+        if(!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
            header('Location:./?CONTROL='.Event::$CONTROL.
                              '&EVENT='  .Event::$EVENT.
                              '&ROW_ID=' .Event::$ROW_ID.
