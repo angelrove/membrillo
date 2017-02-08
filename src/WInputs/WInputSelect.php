@@ -17,7 +17,7 @@ class WInputSelect
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $selected)
+    public static function get($sqlQ, $selected, $name='')
     {
       if(!$sqlQ) return '';
       $strSelect = '';
@@ -38,6 +38,13 @@ class WInputSelect
 
          // Option
          $strSelect .= "<option value=\"$id\" $SELECTED>$nombre</option>";
+      }
+
+      if($name) {
+         $strSelect = "<select name=\"$name\" class=\"form-control\">".
+                         '<option></option>'.
+                         $strSelect.
+                      "</select>";
       }
 
       return $strSelect;

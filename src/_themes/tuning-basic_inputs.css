@@ -1,0 +1,17 @@
+
+/*--- WInputFile ---*/
+.WInputFile td {
+  padding: 0 2px;
+}
+.WInputFile.well {
+  margin-bottom: 0;
+}
+.WInputFile .view_image {
+  max-width: 300px;
+}
+.WInputFile .file_info {
+  background-color: white;
+}
+.WInputFile .fa-trash-o {
+  color: red;
+}

@@ -144,7 +144,7 @@ $(document).ready(function() {
 });
      ');
 
-     return '<button class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x" style="color:red"></i></button>';
+     return '<button class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x"></i></button>';
   }
   //---------------------------------------------------------------------
   public function get()
@@ -196,8 +196,8 @@ EOD;
 <input type="hidden" id="'.$this->name.'_setThumbWidth"  name="'.$this->name.'_setThumbWidth"   value="'.$this->setThumbWidth.'">
 <input type="hidden" id="'.$this->name.'_watermark_text" name="'.$this->name.'_watermark_text"  value="'.$this->watermark_text.'">
 
-<div class="well well-sm display-table strip-margin">
-  <table class="WInputFile"><tr>
+<div class="WInputFile well well-sm display-table strip-margin">
+  <table><tr>
     '.$htmLabel.$htmFilePrev.'
     <td>
       <input type="file" id="'.$this->name.'" name="'.$this->name.'" class="fileUpload" size="27" '.$displayInput.'>
@@ -256,7 +256,7 @@ EOD;
         $labelFileInfo = $lb_nameUser;
      }
 
-      return '<div class="well-sm" style="background-color: white;">'.$labelFileInfo.'</div>';
+      return '<div class="file_info well-sm">'.$labelFileInfo.'</div>';
   }
   //---------------------------------------------------------------------
   private function getHtm_fileInfo()
@@ -280,7 +280,7 @@ EOD;
 
     $linkView = '';
     if($fileProp_TYPE == 'IMAGE') {
-       $linkView = '<div style="max-width:300px">'.FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true).'</div>';
+       $linkView = '<div class="view_image">'.FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true).'</div>';
     }
     // Open: "pdf" and "txt" ---
     elseif($listDatos['mime'] == 'application/pdf' || $listDatos['mime'] == 'text/plain') {
