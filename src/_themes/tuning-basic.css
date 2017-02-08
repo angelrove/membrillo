@@ -32,10 +32,18 @@ a:hover {
 /* ----- System ----- */
 .WApplication_msgs {
   position:absolute;
+  z-index: 1000;
   top:1px;
-  z-index: 10000;
   left: 40%;
   border-radius: 0;
+}
+.WApplication_msgs.alert-debug {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: initial;
+  right: 0;
+  background-color: #286090;
 }
 
 /* -------------------------- */

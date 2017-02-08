@@ -65,12 +65,6 @@ class Messages
 
      ?>
      <!-- Messages -->
-     <style>
-     .WApplication_msgs.alert-debug {
-        z-index: 1; position: absolute; top: 0; left: initial; right: 0; background-color: #286090;
-      }
-     </style>
-
      <div id="WApplication_msgs_load"></div>
      <!-- /Messages -->
      <?
