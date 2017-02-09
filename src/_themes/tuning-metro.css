@@ -4,21 +4,35 @@ body {
   /*background-color: #edecec;*/
   /*font-size:13px;*/
 }
+.btn {
+  border-radius: 0;
+}
 
-/*-------------*/
-.panel-default>.panel-heading {
-  background-color: inherit;
+main.container {
+  background: #fff;
+  padding: 10px 25px;
+  margin-bottom: 25px;
+}
+body.pagekey_WForm>main.container {
+  padding: 0 8px;
+}
+
+main>.page-header {
   border-width: 0;
 }
-/*
-.panel-body {
-  padding: 24px;
+main>.page-header>h2 {
+  font-size: 18px;
 }
-*/
+
 footer {
   background-color: #f5f5f5;
 }
 
-.btn {
-  border-radius: 0;
+/*-------------*/
+.WFrame {
+  border-width: 0;
+  margin-bottom: 0;
+}
+.WFrame .panel-default>.panel-heading {
+  border-width: 0;
 }

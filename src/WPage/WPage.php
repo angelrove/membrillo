@@ -18,12 +18,18 @@ use angelrove\membrillo2\WObjectsStatus\Event;
 class WPage
 {
    public  static $title = false;
+   private static $pagekey = '';
    private static $view_empty = false;
 
    //----------------------------------------------------
    public static function set_view_empty()
    {
      self::$view_empty = true;
+   }
+   //----------------------------------------------------
+   public static function add_pagekey($key)
+   {
+     self::$pagekey .= $key.' ';
    }
    //----------------------------------------------------
    public static function get()
@@ -42,6 +48,7 @@ class WPage
       <meta name="author" content="https://github.com/angelrove">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
       <title><?=$CONFIG_APP['data']['TITLE']?></title>
 
@@ -49,42 +56,44 @@ class WPage
       <? CssJsLoad::get_css(); ?>
       <!-- /css -->
     </head>
-    <body>
+    <body class="pagekey_<?=self::$pagekey?>">
       <? self::debug_objects() ?>
 
       <!-- Header -->
       <? if(!self::$view_empty) { ?>
-        <header>
+        <header class="page-header container-fluid">
           <? self::header() ?>
-          <? Navbar::get(); ?>
         </header>
+
+        <!-- Navbar -->
+        <? Navbar::get(); ?>
       <? } ?>
 
-      <!-- content -->
-      <main class="container-fluid">
-        <? Messages::show() ?>
 
-        <? Frame::start(self::$title); // echo '<h3>'.self::$title.'</h3><p>'; ?>
+      <!-- main -->
+      <main class="container">
+        <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
+        <? Messages::show() ?>
 
         <?
    }
    //---------------------------------
    public static function get_end()
    {
-    ?>
-       <? Frame::end() ?>
-     </main>
-     <!-- /content -->
 
-     <?
-     if(!self::$view_empty) {
-        include('tmpl_page_footer.inc');
-     }
-     ?>
+        ?>
+      </main>
+      <!-- /main -->
 
-     <!-- js -->
-     <? CssJsLoad::get_js(); ?>
-     <!-- /js -->
+      <?
+      if(!self::$view_empty) {
+         include('tmpl_page_footer.inc');
+      }
+      ?>
+
+      <!-- js -->
+      <? CssJsLoad::get_js(); ?>
+      <!-- /js -->
 
    </body>
    </html>
@@ -135,7 +144,10 @@ class WPage
 
      // tmpl ------
      if($defaultTmpl) {
-        include('tmpl_page_header.inc');
+         ?>
+         <h1 class="pull-left"><?=$titulo?></h1>
+         <div class="pull-right"><?=$strLogin?></div>
+         <?
      }
      else {
         return $datos = array('titulo'  => $titulo,

@@ -122,7 +122,7 @@ class AppCms extends Application
 
      // Load on init --------------
       require(__DIR__.'/_vendor_cssjs.inc');
-      CssJsLoad::set(__DIR__.'/_themes/tuning-basic_inputs.css');
+      CssJsLoad::set(__DIR__.'/_themes/_basics.css');
 
       require(DOCUMENT_ROOT.'/_vendor_cssjs.inc');
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');

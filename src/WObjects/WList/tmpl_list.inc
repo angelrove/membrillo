@@ -1,4 +1,6 @@
 <?
+use angelrove\membrillo2\WPage\Frame;
+
 $class_scroll = '';
 $styleScroll  = '';
 if($this->showScroll == true) {

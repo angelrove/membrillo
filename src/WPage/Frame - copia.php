@@ -12,10 +12,14 @@ use angelrove\utils\CssJsLoad;
 class Frame
 {
   //------------------------------------------------------------------
-  public static function get($title='', $showClose=false, $linkClose='')
+  public static function start($title='', $width='', $linkClose='', $showClose=false)
   {
    if(!$linkClose) {
       $linkClose = './';
+   }
+
+   if($width) {
+      $width = 'width:'.$width.'px';
    }
 
       CssJsLoad::set_script('
@@ -50,34 +54,30 @@ class Frame
    //-------------------
 
   ', 'WFrame');
-     ?>
+   ?>
 
-    <!-- WFrame -->
-    <div class="WFrame panel panel-default">
-        <div class="panel-heading">
-          <? if($showClose) { ?>
-            <button class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <? } ?>
-          <? if($title) { ?>
-            <div class="panel-title"><?=$title?> &nbsp;</div>
-          <? } ?>
-        </div>
+   <!-- WFrame -->
+   <div class="WFrame">
+     <div class="page-header">
+       <button class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <h1 id="forms"><?=$title?></h1>
+     </div>
 
-      <!-- body -->
-      <div class="panel-body">
-      <?
+       <!-- WFrame content -->
+       <div class="panel-body">
+       <?
 
   }
   //----------------------
-  public static function get_end()
-  {
-      ?>
-      </div>
-      <!-- /body -->
+  public static function end() {
+     ?>
 
-    </div>
-    <!-- /WFrame -->
-    <?
+       </div>
+       <!-- /WFrame content -->
+
+     <!-- /WFrame -->
+   </div>
+   <?
   }
   //------------------------------------------------------------------
 }

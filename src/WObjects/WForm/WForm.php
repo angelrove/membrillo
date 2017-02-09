@@ -11,12 +11,15 @@ use angelrove\utils\CssJsLoad;
 
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
-use angelrove\membrillo2\WPage\WPage;
 use angelrove\membrillo2\Messages;
+
+use angelrove\membrillo2\WPage\WPage;
 
 
 class WForm extends EventComponent
 {
+  private $title;
+
   private $sql_row = '';
   private $datos = array();
 
@@ -45,12 +48,7 @@ class WForm extends EventComponent
     parent::__construct($id_object);
 
     $this->sql_row = $sql_row;
-
-    // Title ---
-    global $seccCtrl;
-    if(!WPage::$title) {
-       WPage::$title = $seccCtrl->title;
-    }
+    WPage::add_pagekey('WForm');
 
     //---------
     $this->parse_event($this->WEvent);
@@ -61,7 +59,8 @@ class WForm extends EventComponent
     switch($WEvent->EVENT) {
       //----------
       case 'editUpdate':
-        WPage::$title .= ' - Update';
+        $this->title .= ' Update';
+
         $this->datos = Db_mysql::getRow($this->sql_row);
         if(!$this->datos) {
            Messages::set("Error: El registro solicitado no existe", 'danger');
@@ -70,7 +69,7 @@ class WForm extends EventComponent
       break;
       //----------
       case 'editNew':
-        WPage::$title .=  ' - New';
+        $this->title .=  ' New';
         //Db_mysql::getList("SHOW COLUMNS FROM $db_table");
       break;
       //----------
@@ -122,6 +121,7 @@ class WForm extends EventComponent
     CssJsLoad::set_script('$(document).ready(function() {'.$js.'});');
   }
   //------------------------------------------------------------------
+  // NO STATIC
   //------------------------------------------------------------------
   public function isUpdate($row_id)
   {
@@ -167,12 +167,22 @@ class WForm extends EventComponent
     $this->onSubmit = $onSubmit.'()';
   }
   //------------------------------------------------------------------
+  public function set_title($title)
+  {
+    $this->title = $title;
+  }
+  //------------------------------------------------------------------
   public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del=false)
   {
     $this->bt_ok     = $bt_ok;
     $this->bt_upd    = $bt_upd;
     $this->bt_del    = $bt_del;
     $this->bt_cancel = $bt_cancel;
+  }
+  //------------------------------------------------------------------
+  public function set_bt_cancel($flag)
+  {
+    $this->bt_cancel = $flag;
   }
   //------------------------------------------------------------------
   public function show_btSaveNext($label='')
@@ -195,9 +205,9 @@ class WForm extends EventComponent
   public function get()
   {
     // setButtons_top ---
-    $htmButtons = '';
+    $htmButtons_top = '';
     if($this->setButtons_top) {
-       $htmButtons = $this->getButtons('TOP');
+       $htmButtons_top = $this->getButtons('TOP');
     }
 
     //----
@@ -206,49 +216,23 @@ class WForm extends EventComponent
        return;
     }
 
-    // Multipart
-    // $strMultipart = ($this->multipart)? 'enctype="multipart/form-data"' : '';
-    $strMultipart = 'enctype="multipart/form-data"';
-
     // Datos evento
     $datosEv = $this->getFormEvent();
     $event  = $datosEv['event'];
     $oper   = $datosEv['oper'];
     $row_id = $datosEv['row_id'];
 
-    // Out
+    // Out ---
     $isUpdate = ($this->bt_ok || $this->bt_upd) ? 'true' : 'false';
 
-    echo <<<EOD
-   <script>
-   var scut_id_object = '$this->id_object';
-   var scut_close     = '$this->bt_cancel';
-   </script>
-
-   <form class="WForm form-horizontal"
-         id="form_edit_$this->id_object"
-         name="form_edit_$this->id_object"
-         onsubmit = "WForm_submit('$this->id_object', '')"
-         method   = "POST"
-         action   = ""
-         $strMultipart>
-   <input type="hidden" name="CONTROL" value="$this->id_object">
-   <input type="hidden" name="EVENT"   value="$event">
-   <input type="hidden" name="OPER"    value="$oper">
-   <input type="hidden" name="ROW_ID"  value="$row_id">
-
-   $htmButtons
-
+    include 'tmpl_start.inc';
 EOD;
+
   }
   //------------------------------------------------------------------
   public function get_end()
   {
-    echo $this->getButtons();
-
-    if(!$this->readOnly) {
-       echo '</form>';
-    }
+    include 'tmpl_end.inc';
   }
   //------------------------------------------------------------------
   // $flag: '', 'top'

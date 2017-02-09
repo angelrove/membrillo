@@ -495,7 +495,7 @@ class GenQuery
       //-------
       case 'file':
         if(count($_FILES) == 0) {
-           throw new Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
+           throw new \Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
         }
 
         $datosFile = WInputFile_upload::getFile($DB_TABLE, $fieldName);
