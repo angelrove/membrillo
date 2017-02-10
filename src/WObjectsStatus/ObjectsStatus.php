@@ -32,12 +32,12 @@ class ObjectsStatus
   }
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  public function setNewObject($id_control)
+  public function setNewObject($idControl)
   {
-    if(!isset($this->listObjects[$id_control])) {
-        $this->listObjects[$id_control] = new ObjectStatus();
+    if(!isset($this->listObjects[$idControl])) {
+        $this->listObjects[$idControl] = new ObjectStatus();
     }
-    return $this->listObjects[$id_control];
+    return $this->listObjects[$idControl];
   }
   //----------------------------------------------------------------------------
   public function getObject($idControl)
@@ -51,10 +51,11 @@ class ObjectsStatus
   //----------------------------------------------------------------------------
   public function setDato($idControl, $name, $value)
   {
-    if(isset($this->listObjects[$idControl])) {
-       return $this->listObjects[$idControl]->setDato($name, $value);
+    if(!isset($this->listObjects[$idControl])) {
+       $this->setNewObject($idControl); // Crea el nuevo objeto
     }
-    return false;
+
+    return $this->listObjects[$idControl]->setDato($name, $value);
   }
   //----------------------------------------------------------------------------
   public function getDatos($idControl)

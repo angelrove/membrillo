@@ -68,6 +68,10 @@ body.pagekey_WForm>main>.page-header {
   width: initial;
 }
 
+.btn {
+  padding: 5px 12px;
+}
+
 /* ---- NAVBAR ----- */
 .dropdown-menu {
   padding: 0;

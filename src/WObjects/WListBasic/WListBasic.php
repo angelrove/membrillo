@@ -100,7 +100,7 @@ EOD;
     return $res;
   }
   //-------------------------------------------------------
-  public function getHtm() {
+  public function get() {
     $rowTitulos = '';
     $rowsDatos  = '';
     $formQueries = ($this->withInput)? $this->getFormQueries() : '';
