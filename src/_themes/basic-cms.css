@@ -68,7 +68,7 @@ body.pagekey_WForm>main>.page-header {
   width: initial;
 }
 
-.btn {
+.WForm .oper_buttons .btn {
   padding: 5px 12px;
 }
 
