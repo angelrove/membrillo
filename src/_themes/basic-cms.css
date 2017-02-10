@@ -36,9 +36,19 @@ header.page-header h1 {
   font-weight: 300;
 }
 
-/*----- FORMS ---------*/
+/*----- WList ---------*/
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+  padding: 7px;
+}
+
+/*----- WForm ---------*/
 .form-control {
-  font-size: 14px;
+  font-size: 13px;
   padding: 5px 10px;
   height: initial;
 }

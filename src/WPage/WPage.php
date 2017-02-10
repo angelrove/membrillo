@@ -69,7 +69,6 @@ class WPage
         <? Navbar::get(); ?>
       <? } ?>
 
-
       <!-- main -->
       <main class="container">
         <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
