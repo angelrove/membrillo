@@ -55,7 +55,7 @@ class WInputRadios
 EOD;
       }
 
-      return '<div class="WInputRadios" id="WInputRadios_'.$name.'">'.
+      return '<div class="radio-inline WInputRadios" id="WInputRadios_'.$name.'">'.
                 $strSelect.
              '</div>';
     }
