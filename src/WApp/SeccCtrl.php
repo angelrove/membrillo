@@ -2,7 +2,7 @@
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
- * Estado y propiedades de la sección actual
+ * Status and properties of current section
  *
  */
 
@@ -56,17 +56,20 @@ class SeccCtrl
                            './app/'.$CONFIG_SECCIONES->getFolder($this->secc) . PATH_SEPARATOR;
   }
   //----------------------------------------------------------------------------
-  public function initSecc() {
+  public function initSecc()
+  {
     $this->isNewSecc = true;
     $this->init();
   }
   //----------------------------------------------------------------------------
-  public function initPage() {
+  public function initPage()
+  {
     $this->isNewSecc = false;
     $this->init();
   }
   //----------------------------------------------------------------------------
-  public function init() {
+  public function init()
+  {
     /** 'include_path' **/
      ini_set('include_path', $this->include_path);
 
@@ -74,5 +77,14 @@ class SeccCtrl
      mysqli_select_db(Db_mysql::$db_dbconn, $this->SECC_DB);
   }
   //----------------------------------------------------------------------------
+  public function getSecc()
+  {
+     return $this->secc;
+  }
+  //----------------------------------------------------------------------------
+  public function getKey()
+  {
+     return str_replace('/', '-', $this->secc);
+  }
+  //----------------------------------------------------------------------------
 }
-?>

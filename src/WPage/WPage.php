@@ -17,7 +17,7 @@ use angelrove\membrillo2\WObjectsStatus\Event;
 
 class WPage
 {
-   public  static $title = false;
+   public  static $title   = false;
    private static $pagekey = '';
    private static $view_empty = false;
 
@@ -56,7 +56,7 @@ class WPage
       <? CssJsLoad::get_css(); ?>
       <!-- /css -->
     </head>
-    <body class="pagekey_<?=self::$pagekey?>">
+    <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
       <? self::debug_objects() ?>
 
       <!-- Header -->
