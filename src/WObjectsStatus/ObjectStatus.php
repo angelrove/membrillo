@@ -11,7 +11,8 @@ class ObjectStatus
 {
   private $persistent = false;
   private $ROW_ID = '';
-  private $datos = array();
+  private $path   = '';
+  private $datos  = array();
 
   //----------------------------------------------------------------------------
   public function __construct()
@@ -53,9 +54,20 @@ class ObjectStatus
     $this->datos[$name] = $value;
   }
   //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  public function setPath($path)
+  {
+    return $this->path = $path;
+  }
+  //----------------------------------------------------------------------------
+  public function getPath()
+  {
+    return $this->path;
+  }
+  //----------------------------------------------------------------------------
   public function getDato($name)
   {
-    if (isset($this->datos[$name])) {
+    if(isset($this->datos[$name])) {
        return $this->datos[$name];
     }
     return false;

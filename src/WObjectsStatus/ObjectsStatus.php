@@ -42,8 +42,16 @@ class ObjectsStatus
   //----------------------------------------------------------------------------
   public function getObject($idControl)
   {
-    if (isset($this->listObjects[$idControl])) {
+    if(isset($this->listObjects[$idControl])) {
        return $this->listObjects[$idControl];
+    }
+    return false;
+  }
+  //----------------------------------------------------------------------------
+  public function getPath($idControl)
+  {
+    if(isset($this->listObjects[$idControl])) {
+       return $this->listObjects[$idControl]->getPath();
     }
     return false;
   }

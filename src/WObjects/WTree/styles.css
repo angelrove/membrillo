@@ -7,6 +7,9 @@
   border: 1px solid #ccc;
   background-color: #FFF;
 }
+.WTree .cabecera_title .btn {
+  padding: 2px 5px;
+}
 
 /****** CABECERA ******/
 .WTree_cabecera {

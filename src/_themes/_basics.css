@@ -23,6 +23,9 @@ a:hover {
 .display-table {
   display:table;
 }
+.display-inline {
+  display:inline-block;
+}
 .strip-margin {
   margin:0;
 }
@@ -52,9 +55,6 @@ footer {
 }
 
 /*--- WInputFile ---*/
-.WInputFile td {
-  padding: 0 2px;
-}
 .WInputFile.well {
   margin-bottom: 0;
 }

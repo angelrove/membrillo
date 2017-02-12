@@ -28,12 +28,12 @@ class WTree
 
   private $wTreeData;
 
-  private $width;
+  private $width = '';
   private $height;
 
   private $title = 'Categorías';
 
-  private $niveles;
+  private $niveles = 3;
   private $id_selected;
   private $haveElementsOnAnyCateg = false;
   private $alwaysExpand = false;
@@ -46,30 +46,32 @@ class WTree
   private $opDelete = true;
 
   //-----------------------------------------------------------------
-  /**
-   * Params:
-   *   $idComponent: id del control
-   *   $width:       anchura
-   *   $height:      altura
-   *   $niveles:     nivel de profundidad del árbol
-   */
-  function __construct($idComponent, $dbTable, $width, $niveles=3)
+  function __construct($idComponent, $dbTable)
   {
     CssJsLoad::set(__DIR__.'/styles.css');
     CssJsLoad::set(__DIR__.'/libs.js');
 
     $this->id      = $idComponent;
     $this->dbTable = $dbTable;
-    $this->width   = $width.'px';
-    $this->niveles = $niveles;
 
     // Datos selected
-    global $seccCtrl;
-    // print_r2($seccCtrl);
+    global $objectsStatus;
 
-    $this->id_desplegado = $objectsStatus->getDato($this->id, 'ROW_ID_DESPLEGADO');
-    $this->ROW_ID        = $objectsStatus->getRowId($this->id);
+    $this->id_desplegado     = $objectsStatus->getDato($this->id, 'ROW_ID_DESPLEGADO');
+    $this->ROW_ID            = $objectsStatus->getRowId($this->id);
     $this->id_nivel_selected = $objectsStatus->getDato($this->id, 'nivel');
+  }
+  //-----------------------------------------------------------------
+  public function setLevels($levels) {
+    $this->niveles = $levels;
+  }
+  //-----------------------------------------------------------------
+  public function setWidth($width) {
+    $this->width = $width;
+  }
+  //-----------------------------------------------------------------
+  public function setTitle($title) {
+    $this->title = $title;
   }
   //-----------------------------------------------------------------
   public function setId_level($level, $id) {
@@ -82,14 +84,6 @@ class WTree
   //-----------------------------------------------------------------
   public function setWtreeData($wTreeData) {
     $this->wTreeData = $wTreeData;
-  }
-  //-----------------------------------------------------------------
-  public function setWidth($width) {
-    $this->width = $width.'px';
-  }
-  //-----------------------------------------------------------------
-  public function setTitle($title) {
-    $this->title = $title;
   }
   //-----------------------------------------------------------------
   public function haveElementsOnAnyCateg($flag) {
@@ -119,20 +113,23 @@ class WTree
   }
   //-----------------------------------------------------------------
   //-----------------------------------------------------------------
-  public function getHtm() {
-    global $LOCAL;
-
+  public function get()
+  {
     // Tupla seleccionada
     $this->id_selected = $this->getSelected();
 
-    // HTM de categorías
+    // HTML de categorías
     $strCategorias = $this->get_category_tree(0, '');
 
-    // Button "Nuevo"
+    // Button "New..."
     $href = "'".'?CONTROL='.$this->id.'&EVENT=editNew&ROW_PADRE_ID=0&nivel=1'."'";
-    $strNuevo = '<input type="button" class="bt_new" onclick="location.href='.$href.'" value="'.$LOCAL['WList_new'].'">';
+    $strNuevo = '<button type="button" class="btn btn-primary" onclick="location.href='.$href.'">New...</button>';
     if($this->opNew == false) {
        $strNuevo = '';
+    }
+
+    if($this->width) {
+       $this->width = 'min-width:'.$this->width.'px;';
     }
 
     // Out
@@ -141,11 +138,11 @@ class WTree
     $strTree = <<<EOD
 
 <!-- WTree -->
-<div id="$id_tree" class="WTree" style="width:$this->width">
-  <table class="WTree_cabecera" width="100%" cellpadding="0" cellspacing="0">
+<div id="$id_tree" class="WTree" style="$this->width">
+  <table class="WTree_cabecera" width="100%">
     <tr>
      <td class="cabecera_title">$this->title</td>
-     <td class="cabecera_title" align="center" style="width:74px">$strNuevo</td>
+     <td class="cabecera_title" align="center">$strNuevo</td>
     </tr>
   </table>
 

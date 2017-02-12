@@ -117,31 +117,35 @@ class WInputFile
   private function get_btDel()
   {
      CssJsLoad::set_script('
+
+var WInputFile_name = "'.$this->name.'";
+
 $(document).ready(function() {
-  $("#'.$this->name.'_del").click(function()
+  $("#"+WInputFile_name+"_del").click(function()
   {
     event.preventDefault();
 
     // Marcar borrado -----------
-     $("#'.$this->name.'_isDelete").val("1");
+     $("#"+WInputFile_name+"_isDelete").val("1");
 
     // Elementos visuales -------
      // Ocultar: botón "Ver archivo"
-     if( $("#'.$this->name.'_htmFilePrev").length ) {
-        $("#'.$this->name.'_htmFilePrev").hide();
+     if( $("#"+WInputFile_name+"_htmFilePrev").length ) {
+        $("#"+WInputFile_name+"_htmFilePrev").hide();
      }
 
      // Ocultar: botón "Borrar"
-     if( $("#'.$this->name.'_del").length ) {
-        $("#'.$this->name.'_del").hide();
+     if( $("#"+WInputFile_name+"_del").length ) {
+        $("#"+WInputFile_name+"_del").hide();
      }
 
      // Mostrar: input file
-     if( $("#'.$this->name.'").length ) {
-        $("#'.$this->name.'").show();
+     if( $("#"+WInputFile_name).length ) {
+        $("#"+WInputFile_name+"_obj_input").show();
      }
   });
 });
+
      ');
 
      return '<button class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x"></i></button>';
@@ -196,11 +200,11 @@ EOD;
 <input type="hidden" id="'.$this->name.'_setThumbWidth"  name="'.$this->name.'_setThumbWidth"   value="'.$this->setThumbWidth.'">
 <input type="hidden" id="'.$this->name.'_watermark_text" name="'.$this->name.'_watermark_text"  value="'.$this->watermark_text.'">
 
-<div class="WInputFile well well-sm display-table strip-margin">
+<div class="WInputFile well well-sm display-inline strip-margin">
   <table><tr>
     '.$htmLabel.$htmFilePrev.'
-    <td>
-      <input type="file" id="'.$this->name.'" name="'.$this->name.'" class="fileUpload" size="27" '.$displayInput.'>
+    <td id="'.$this->name.'_obj_input" '.$displayInput.'>
+      <input type="file" id="'.$this->name.'" name="'.$this->name.'" size="27">
     </td>
   </tr></table>
 </div>

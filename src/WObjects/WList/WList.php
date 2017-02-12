@@ -44,7 +44,7 @@ class WList extends EventComponent
                           'update' => 'editUpdate',
                           'delete' => 'delete');
 
-    private $msgConfirmDel = '';
+  private $msgConfirmDel = '';
 
   // Buttons
   private $onClickRow = '';
@@ -447,8 +447,8 @@ EOD;
         }
 
         // width
-        // $width = ($dbField->size)? ' style="min-width:'.$dbField->size.'px"' : '';
-        $width = '';
+        $width = ($dbField->size)? ' style="min-width:'.$dbField->size.'px"' : '';
+        // $width = '';
 
         // Out
         $htmTitles .= '<th id="fieldTitle_'.$dbField->name.'"'.$width.'>'.$dbField->title.'</th>';

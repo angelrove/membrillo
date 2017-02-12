@@ -7,6 +7,7 @@
 namespace angelrove\membrillo2\WPage;
 
 use angelrove\utils\CssJsLoad;
+use angelrove\utils\FileContent;
 
 
 class Frame
@@ -23,24 +24,17 @@ class Frame
 
    $(document).ready(function() {
      //-----------------
-     // Ocultar "Cerrar" solo si no existe un botón "Cerrar" del form no muestra el X de cerrar del frame
-     if(WFrame_showClose == false) {
-        if($("#WForm_btClose").length == 0) {
-           $(".WFrame .close").hide();
-        }
-     }
-     //-----------------
      $(".WFrame .close").click(function() {
        Frame_close();
      });
      //-----------------
    });
-
-   // Esc --------------
    $(document).keydown(function(e) {
+     // Esc ------------
      if(WFrame_showClose == true && e.keyCode == 27) {
         Frame_close();
      }
+     //-----------------
    });
 
    //-------------------
@@ -50,34 +44,15 @@ class Frame
    //-------------------
 
   ', 'WFrame');
-     ?>
 
-    <!-- WFrame -->
-    <div class="WFrame panel panel-default">
-        <div class="panel-heading">
-          <? if($showClose) { ?>
-            <button class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <? } ?>
-          <? if($title) { ?>
-            <div class="panel-title"><?=$title?> &nbsp;</div>
-          <? } ?>
-        </div>
-
-      <!-- body -->
-      <div class="panel-body">
-      <?
-
+     $tmpl_params = array('showClose' => $showClose,
+                          'title'     => $title);
+     return FileContent::include_return(__DIR__.'/tmpl_frame_init.inc', $tmpl_params);
   }
   //----------------------
   public static function get_end()
   {
-      ?>
-      </div>
-      <!-- /body -->
-
-    </div>
-    <!-- /WFrame -->
-    <?
+     return FileContent::include_return(__DIR__.'/tmpl_frame_end.inc');
   }
   //------------------------------------------------------------------
 }

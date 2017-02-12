@@ -142,7 +142,11 @@ class AppCms extends Application
       //          'EVENT:   '.Event::$EVENT.  ';<br>'
       //          );
 
-      $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
+      // Path control ---
+      $path_ctrl = $objectsStatus->getPath(Event::$CONTROL);
+      if(!$path_ctrl) {
+         $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
+      }
 
       // operations ---
       if(Event::$OPER)

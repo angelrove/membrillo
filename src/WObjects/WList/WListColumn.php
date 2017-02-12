@@ -11,23 +11,23 @@ class WListColumn
 {
   public $name;
   public $title;
-  public $width;
+  public $size;
   public $align;
   public $order;
   public $onClick;
 
   //-------------------------------------------------------
-  function __construct($name, $title, $width='', $align='')
+  function __construct($name, $title, $size='', $align='')
   {
     $this->name  = $name;
     $this->title = $title;
-    $this->size  = $width;
+    $this->size  = $size;
     $this->align = $align;
   }
   //-------------------------------------------------------
-  public function setWidth($width)
+  public function setWidth($size)
   {
-    $this->size = $width;
+    $this->size = $size;
   }
   //-------------------------------------------------------
   public function setOrder($field='')

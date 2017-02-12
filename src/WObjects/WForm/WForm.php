@@ -129,6 +129,12 @@ class WForm extends EventComponent
     $this->WEvent->ROW_ID = $row_id;
     $this->parse_event($this->WEvent);
   }
+  //------------------------------------------------------------------
+  public function isInsert()
+  {
+    $this->WEvent->EVENT  = 'editNew';
+    $this->parse_event($this->WEvent);
+  }
   //--------------------------------------------------------------
   function getDatos()
   {
@@ -297,13 +303,13 @@ EOD;
    }
 
    return '
-<!-- Botones -->
+<!-- Buttons -->
 <div class="form-group oper_buttons text-right">
   <div class="col-lg-10 col-lg-offset-2">
     '.$strButtons.'
   </div>
 </div>
-<!-- /Botones -->
+<!-- /Buttons -->
 
    ';
   }

@@ -2,7 +2,7 @@
 use angelrove\membrillo2\WPage\Frame;
 ?>
 
- <? Frame::get($this->title, $this->bt_cancel); ?>
+ <?=Frame::get($this->title, $this->bt_cancel)?>
    <script>
    var scut_id_object = '<?=$this->id_object?>';
    var scut_close     = '<?=$this->bt_cancel?>';
