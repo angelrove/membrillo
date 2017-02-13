@@ -382,7 +382,7 @@ EOD;
     $rows          = '';
 
     // Páginas
-    $urlFormat = "?CONTROL=".$this->id_object."&EVENT=".$this->event_numPage."&id_page=[id_page]&tpages=[tpages]";
+    $urlFormat = "?CONTROL=".$this->id_object."&EVENT=".$this->event_numPage."&id_page=[id_page]";
 
     $id_page = $this->wObjectStatus->getDato('id_page');
     if(!$id_page) $id_page = 1;
@@ -396,9 +396,12 @@ EOD;
     $htmPaginacion->setUrlFormat($urlFormat);
 
     $rows = $htmPaginacion->getListRows();
+    // if(!$rows) {
+    //    require('404.php');
+    // }
 
     // HTML
-    $listPaginas = $htmPaginacion->getHtmPaginas();
+    $listPaginas = $htmPaginacion->get();
 
     $numTotal  = $htmPaginacion->getNumRows();
     $str_desde = $htmPaginacion->getItemDesde();
