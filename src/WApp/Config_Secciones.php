@@ -25,14 +25,13 @@ class Config_Secciones
   //---------------------------------------------------
   public function setSections($listSections, $listSubSections=array())
   {
-    $listSections['home'] = '';
     $this->listItems = $listSections; // para WMain_menu
 
     $this->listSubItems = $listSubSections; // para WMain_menu
 
     // Sections
     foreach($listSections as $id => $title) {
-       if(!$title && $id != 'home') {
+       if(!$title) {
           $title = $id;
        }
        $this->listSections[$id] = new Config_Secciones_Item($id, $title);
@@ -51,7 +50,8 @@ class Config_Secciones
     }
   }
   //---------------------------------------------------
-  public function isSeccion($id) {
+  public function isSeccion($id)
+  {
     if(isset($this->listSections[$id])) {
       return true;
     }
@@ -90,9 +90,8 @@ class Config_Secciones
        return $this->defaultSecc;
     }
     else {
-       // $first = each($this->listSections);
-       // return $first['key'];
-       return 'home';
+       $first = each($this->listSections);
+       return $first['key'];
     }
   }
   //---------------------------------------------------
@@ -104,32 +103,38 @@ class Config_Secciones
     return $this->listSections;
   }
   //---------------------------------------------------
-  public function getListItems() {
+  public function getListItems()
+  {
     return $this->listItems;
   }
   //---------------------------------------------------
-  public function getListSubItems() {
+  public function getListSubItems()
+  {
     return $this->listSubItems;
   }
   //---------------------------------------------------
-  public function getDb($id) {
+  public function getDb($id)
+  {
     global $CONFIG_DB;
     if(!isset($this->listSections[$id]->db)) return $CONFIG_DB['default']['DBNAME'];
     return $this->listSections[$id]->db;
   }
   //---------------------------------------------------
-  public function getFolder($id) {
+  public function getFolder($id)
+  {
     if(!$this->listSections[$id]->folder) {
       return $id;
     }
     return $this->listSections[$id]->folder;
   }
   //---------------------------------------------------
-  public function getUploadsDir_default($id) {
+  public function getUploadsDir_default($id)
+  {
     return $this->listSections[$id]->uploads_default;
   }
   //---------------------------------------------------
-  public function getUploadsDir($id) {
+  public function getUploadsDir($id)
+  {
     $uploads_dir = $this->listSections[$id]->uploads_dir;
     if($uploads_dir) return $uploads_dir;
     else             return $this->listSections[$id]->uploads_default;

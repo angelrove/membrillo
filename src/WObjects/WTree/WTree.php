@@ -123,7 +123,7 @@ class WTree
 
     // Button "New..."
     $href = "'".'?CONTROL='.$this->id.'&EVENT=editNew&ROW_PADRE_ID=0&nivel=1'."'";
-    $strNuevo = '<button type="button" class="btn btn-primary" onclick="location.href='.$href.'">New...</button>';
+    $strNuevo = '<button type="button" class="btn btn-xs btn-primary" onclick="location.href='.$href.'">New...</button>';
     if($this->opNew == false) {
        $strNuevo = '';
     }
@@ -139,13 +139,9 @@ class WTree
 
 <!-- WTree -->
 <div id="$id_tree" class="WTree" style="$this->width">
-  <table class="WTree_cabecera" width="100%">
-    <tr>
-     <td class="cabecera_title">$this->title</td>
-     <td class="cabecera_title" align="center">$strNuevo</td>
-    </tr>
+  <table class="WTree_cabecera">
+    <tr><th class="title">$this->title</th><th>$strNuevo</th></tr>
   </table>
-
   <div class="WTree_tuplas">
     $strCategorias
   </div>

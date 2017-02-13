@@ -13,11 +13,17 @@
 
 /****** CABECERA ******/
 .WTree_cabecera {
+  width: 100%;
 }
-.WTree_cabecera td.cabecera_title {
-  font-weight:bold;
+.WTree_cabecera th {
+  padding: 3px 6px;
+}
+.WTree_cabecera .title {
+  width: 100%;
   text-align: center;
-  padding: 2px;
+}
+.WTree_cabecera .btn {
+  width: 56px;
 }
 
 /****** LISTADO ******/

@@ -50,7 +50,7 @@ class WPage
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-      <title><?=$CONFIG_APP['data']['TITLE']?></title>
+      <title><?=$CONFIG_APP['data']['TITLE']?> - <?=$seccCtrl->title?></title>
 
       <!-- css -->
       <? CssJsLoad::get_css(); ?>
@@ -71,7 +71,9 @@ class WPage
 
       <!-- main -->
       <main class="container">
-        <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
+         <? if(self::$title): ?>
+            <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
+         <? endif ?>
         <? Messages::show() ?>
 
         <?

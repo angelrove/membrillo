@@ -31,7 +31,7 @@ class SeccCtrl
 
     // ¿Existe la sección?
     if(!$CONFIG_SECCIONES->isSeccion($secc)) {
-       $strErr = "SeccCtrl->SeccCtrl(): la sección \"$secc\" no existe";
+       $strErr = "SeccCtrl: la sección \"$secc\" no existe";
        //user_error($strErr, E_USER_WARNING);
        require('404.php');
     }
