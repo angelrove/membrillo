@@ -17,6 +17,7 @@ class WInputFile
 {
   private $name  = '';
   private $label = '';
+  private $required = false;
 
   // Datos del archivo previo
   private $fileDatos     = '';
@@ -49,6 +50,10 @@ class WInputFile
     $this->fileDatos = $fileDatos;
 
     Vendor::usef('lightbox');
+  }
+  //---------------------------------------------------------------------
+  public function set_required($flag) {
+    $this->required = $flag;
   }
   //---------------------------------------------------------------------
   public function hiddenBtDelete() {
@@ -186,6 +191,11 @@ EOD;
      if($htmFilePrev) $htmFilePrev = '<td id="'.$this->name.'_htmFilePrev" class="prevFile">'.$htmFilePrev.'</td>';
      if($this->label) $htmLabel    = '<td>'.$this->label.'</td>';
 
+     $required = '';
+     if($this->required == true && !$htmFilePrev) {
+        $required = 'required';
+     }
+
      return '
 <!-- ----- WInputFile ----- -->
 <input type="hidden" id="'.$this->name.'_isDelete"       name="'.$this->name.'_isDelete"        value="0">
@@ -200,11 +210,11 @@ EOD;
 <input type="hidden" id="'.$this->name.'_setThumbWidth"  name="'.$this->name.'_setThumbWidth"   value="'.$this->setThumbWidth.'">
 <input type="hidden" id="'.$this->name.'_watermark_text" name="'.$this->name.'_watermark_text"  value="'.$this->watermark_text.'">
 
-<div class="WInputFile well well-sm display-inline strip-margin">
+<div class="WInputFile well well-sm display-table strip-margin">
   <table><tr>
     '.$htmLabel.$htmFilePrev.'
     <td id="'.$this->name.'_obj_input" '.$displayInput.'>
-      <input type="file" id="'.$this->name.'" name="'.$this->name.'" size="27">
+      <input type="file" id="'.$this->name.'" name="'.$this->name.'" '.$required.' size="27">
     </td>
   </tr></table>
 </div>

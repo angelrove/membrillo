@@ -17,7 +17,7 @@ class WInputSelect
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $selected, $name='')
+    public static function get($sqlQ, $selected, $name='', $required=false)
     {
       if(!$sqlQ) return '';
       $strSelect = '';
@@ -41,7 +41,9 @@ class WInputSelect
       }
 
       if($name) {
-         $strSelect = "<select name=\"$name\" class=\"form-control\">".
+         $required = ($required)? 'required': '';
+
+         $strSelect = "<select name=\"$name\" class=\"form-control\" $required>".
                          '<option></option>'.
                          $strSelect.
                       "</select>";
@@ -54,7 +56,7 @@ class WInputSelect
      * from array
      * $tipoId: AUTO_INCR, AUTO_VALUE
      */
-    public static function getFromArray($datos, $id_selected, $tipoId='', $listColors='', $listGroup=array())
+    public static function getFromArray($datos, $id_selected, $name='', $required=false, $tipoId='', $listColors='', $listGroup=array())
     {
       $strSelect = '';
 
@@ -89,6 +91,14 @@ class WInputSelect
       }
       if($listGroup) {
          $strSelect .= '</optgroup>';
+      }
+
+      if($name) {
+         $required = ($required)? 'required': '';
+         $strSelect = "<select name=\"$name\" class=\"form-control\" $required>".
+                         '<option></option>'.
+                         $strSelect.
+                      "</select>";
       }
 
       return $strSelect;

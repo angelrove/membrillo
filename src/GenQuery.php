@@ -123,14 +123,14 @@ class GenQuery
 
        $value = '';
 
-       // Type File
+       // Type File ---
        if($fieldProp->type == 'file') {
           if($_POST[$fieldName.'_isDelete'] == 0) {
              $value = $_POST[$fieldName.'_prev'];
           }
           $value = $value.$_FILES[$fieldName]['name'];
        }
-       // Otros
+       // Otros -----
        else {
           $value = $_POST[$fieldName];
        }
@@ -160,6 +160,17 @@ class GenQuery
           $listErrors[$fieldName] .= $title.': '.$app->lang['GenQuery_error_unique'];
        }
     }
+
+    // Values --------
+    // foreach($listFields as $fieldName => $fieldProp)
+    // {
+    //    if($fieldProp->type == 'tinyint') {
+    //       if($_POST[$fieldName] > 255) {
+    //          $title = ($fieldProp->title)? $fieldProp->title : $fieldName;
+    //          $listErrors[$fieldName] .= $title.': Out of range value';
+    //       }
+    //    }
+    // }
 
     /** Out errors **/
     WForm::update_setErrors($listErrors);
@@ -240,7 +251,14 @@ class GenQuery
     }
 
     // Exec query
-    Db_mysql::query($sqlQ);
+    try {
+       Db_mysql::query($sqlQ);
+    }
+    catch (\Exception $e) {
+       // WForm::update_setErrors(array('SQL', $e->getMessage()));
+       throw $e;
+    }
+
     self::$executed_queries[] = $sqlQ;
     //self::log_updates($sqlQ); // Log
 
@@ -300,15 +318,22 @@ class GenQuery
     /** Query **/
     $sqlQ = self::getQueryUpdate($DB_TABLE, $id, $listValuesPers);
 
-    /** Errores **/
+    /** Errors **/
     if(isset($sqlQ->errors) && $sqlQ->errors) {
        WForm::update_setErrors($sqlQ->errors);
        return $sqlQ->errors;
     }
 
-    /** Ejecutar Query **/
+    /** Exec Query **/
     if($sqlQ) {
-       Db_mysql::query($sqlQ);
+       try {
+          Db_mysql::query($sqlQ);
+       }
+       catch (\Exception $e) {
+          // WForm::update_setErrors(array('SQL', $e->getMessage()));
+          throw $e;
+       }
+
        self::$executed_queries[] = $sqlQ;
        self::log_updates($sqlQ); // Log
     }
@@ -440,9 +465,10 @@ class GenQuery
        $tableProp[$nombreCampo]->title = '';
 
        // Propiedades a través de MySql
-       $tableProp[$nombreCampo]->type = ($field['Type'] == 'timestamp' ||
-                                         $field['Type'] == 'date' ||
-                                         $field['Type'] == 'datetime')? $field['Type'] : '';
+       $tableProp[$nombreCampo]->type = ($field['Type'] == 'timestamp' || $field['Type'] == 'datetime')?
+                                            $field['Type'] :
+                                            trim(substr($field['Type'], 0, 7));
+
        $tableProp[$nombreCampo]->obligatorio = ($field['Null'] == 'NO') ? 'true' : '';
        $tableProp[$nombreCampo]->unique      = ($field['Key']  == 'UNI')? 'true' : '';
 

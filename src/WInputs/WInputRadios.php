@@ -13,9 +13,11 @@ class WInputRadios
 {
     //------------------------------------------------------------------
     /* From array */
-    public static function get($name, $listDatos, $id_selected='', $listColors=array(), $is_assoc='')
+    public static function get($name, $listDatos, $id_selected='', $required=false, $listColors=array(), $is_assoc='')
     {
       $strSelect = '';
+
+      $required = ($required)? 'required': '';
 
       // ¿Viene con claves?
       if($is_assoc == '') {
@@ -46,7 +48,7 @@ class WInputRadios
          // Option
          $strSelect .= <<<EOD
          <label class="radio-inline" $style_bg>
-           <input type="radio"
+           <input type="radio" $required
                 id="$idCheck"
                 name="$name"
                 value="$id" $SELECTED>
@@ -55,15 +57,17 @@ class WInputRadios
 EOD;
       }
 
-      return '<div class="radio-inline WInputRadios" id="WInputRadios_'.$name.'">'.
+      return '<div class="WInputRadios" id="WInputRadios_'.$name.'">'.
                 $strSelect.
              '</div>';
     }
     //------------------------------------------------------------------
     /* Con imagenes */
-    public static function show2($name, $id_check, $listDatos, $id_selected)
+    public static function show2($name, $id_check, $listDatos, $id_selected, $required=false)
     {
       $strSelect = '';
+
+      $required = ($required)? 'required': '';
 
       // ¿Viene con claves?
       $isAsociativo = ($listDatos[0])? false : true;
@@ -84,7 +88,7 @@ EOD;
          // Option
          $strSelect .= <<<EOD
           <label class="radio-inline">
-            <input type="radio"
+            <input type="radio" $required
                    id="$idCheck"
                    name="$nameCheck"
                    value="$id" $SELECTED>
@@ -93,7 +97,7 @@ EOD;
 EOD;
       }
 
-      return  '<div class="WInputRadios_img" id="WInputRadios_img_'.$name.'">'.
+      return  '<div '.$required.' class="WInputRadios_img" id="WInputRadios_img_'.$name.'">'.
                  $strSelect.
               '</div>';
     }

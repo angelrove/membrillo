@@ -115,10 +115,12 @@ class WForm extends EventComponent
 
     // foco en el primer input erroneo
     end($listErrors);
-    $js .= '$("[name='.key($listErrors).']").focus();'."\n";
+    // $js .= '$("[name='.key($listErrors).']").focus();'."\n";
 
     // Out
-    CssJsLoad::set_script('$(document).ready(function() {'.$js.'});');
+    CssJsLoad::set_script('
+  $(document).ready(function() {'.$js.'});
+    ');
   }
   //------------------------------------------------------------------
   // NO STATIC
@@ -246,37 +248,32 @@ EOD;
   {
    global $app;
 
-   $strOnsubmit = ($this->onSubmit)? "if($this->onSubmit)" : '';
-
-   $str_js = <<<EOD
+   $js = <<<EOD
 //-----------------------------------
 // WForm EVENTS
 $(document).ready(function()
 {
-  $("#WForm_btAceptar$flag").click(function() {
-    //$(this).attr('disabled', 'disabled');
-    $strOnsubmit WForm_submit('$this->id_object', '');
-  });
   $("#WForm_btUpdate$flag").click(function() {
-    $strOnsubmit WForm_submit('$this->id_object', 'editUpdate');
-  });
-  $("#WForm_btDelete$flag").click(function() {
-    $strOnsubmit WForm_delete('$this->id_object');
+     $("#form_edit_"+scut_id_object+" #EVENT").val('editUpdate');
   });
   $("#WForm_btInsert$flag").click(function() {
-    $strOnsubmit WForm_submit('$this->id_object', 'editNew');
+     $("#form_edit_"+scut_id_object+" #EVENT").val('editNew');
+     $(".WForm").submit();
+  });
+  $("#WForm_btDelete$flag").click(function() {
+     WForm_delete();
   });
   $("#WForm_btClose$flag").click(function() {
-    WForm_close('$this->id_object');
+     WForm_close();
   });
 });
 //-----------------------------------
 EOD;
 
-   CssJsLoad::set_script($str_js);
+   CssJsLoad::set_script($js);
 
    $bt_aceptar  = '<button type="submit" class="btn btn-primary" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
-   $bt_guardar  = '<button type="button" class="btn btn-primary" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
+   $bt_guardar  = '<button type="submit" class="btn btn-primary" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
    $bt_eliminar = '<button type="button" class="btn btn-danger " id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
    $bt_saveNext = '<button type="button" class="btn btn-primary" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
    $bt_cancelar = '<button type="button" class="btn btn-default" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
@@ -315,30 +312,33 @@ EOD;
   }
   //------------------------------------------------------------------
   //------------------------------------------------------------------
-  /*
-  public function setFieldsText($listFields, $datos)
+  public function getFields(array $listFields, array $datos, $required=false)
   {
-    foreach($listFields as $name => $title) {
-       $htmInput = '<input type="text" class="form-control" name="'.$name.'" value="'.$datos[$name].'">';
-       $this->setField($title, $htmInput);
-    }
-  }
-  */
-  //------------------------------------------------------------------
-  public function setFields(array $listFields, array $datos)
-  {
-    foreach($listFields as $key => $field) {
+    foreach($listFields as $name => $field)
+    {
        if(is_array($field)) {
-          $this->setField($field[0], $field[1]);
+          $this->getField($field[0], $field[1]);
        }
        else {
-          $htmInput = '<input type="text" class="form-control" name="'.$key.'" value="'.$datos[$key].'">';
-          $this->setField($field, $htmInput);
+          $htmInput = $this->getInput($field, $name, $datos[$name], 'text', $required);
+          $this->getField($field, $htmInput);
        }
     }
   }
   //------------------------------------------------------------------
-  public function setField($title, $htmInput)
+  public function getInput($title, $name, $value='', $type='text', $required=false, $flag_placeholder=false)
+  {
+     $required = ($required)? 'required' : '';
+
+     $placeholder = '';
+     if($flag_placeholder) {
+        $placeholder = 'placeholder="'.$title.'"';
+     }
+
+     return '<input '.$placeholder.' '.$required.' type="'.$type.'" class="form-control" name="'.$name.'" value="'.$value.'">';
+  }
+  //------------------------------------------------------------------
+  public function getField($title, $htmInput)
   {
     ?>
     <div class="form-group">

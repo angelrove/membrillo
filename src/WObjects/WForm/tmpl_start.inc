@@ -12,13 +12,12 @@ use angelrove\membrillo2\WPage\Frame;
          enctype="multipart/form-data"
          id      ="form_edit_<?=$this->id_object?>"
          name    ="form_edit_<?=$this->id_object?>"
-         onsubmit ="WForm_submit('<?=$this->id_object?>', '')"
          method  = "POST"
          action  = "">
-   <input type="hidden" name="CONTROL" value="<?=$this->id_object?>">
-   <input type="hidden" name="EVENT"   value="<?=$event?>">
-   <input type="hidden" name="OPER"    value="<?=$oper?>">
-   <input type="hidden" name="ROW_ID"  value="<?=$row_id?>">
+   <input type="hidden" id="CONTROL" name="CONTROL" value="<?=$this->id_object?>">
+   <input type="hidden" id="EVENT"   name="EVENT"   value="<?=$event?>">
+   <input type="hidden" id="OPER"    name="OPER"    value="<?=$oper?>">
+   <input type="hidden" id="ROW_ID"  name="ROW_ID"  value="<?=$row_id?>">
 
    <?=$htmButtons_top?>
 

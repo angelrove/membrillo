@@ -56,18 +56,6 @@ body.pagekey_WForm>main>.page-header {
   display: none;
 }
 
-.WForm fieldset.fieldset_old {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 28px;
-}
-.WForm fieldset.fieldset_old legend {
-  padding: 0px 12px;
-  margin-bottom: 5px;
-  border: 0;
-  width: initial;
-}
-
 .WForm .oper_buttons .btn {
   padding: 5px 12px;
 }
