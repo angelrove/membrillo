@@ -24,3 +24,10 @@
 #WListBasic_form textarea {
   min-width:600px; height:100px;
 }
+
+
+#saved_queries>div {
+  border:1px solid #aaa;
+  background:#ddd;
+  padding:3px;
+}

@@ -56,51 +56,59 @@ class WListBasic
     }
   }
   //-------------------------------------------------------
-  public function setArrayData($rows) {
+  public function setArrayData($rows)
+  {
     $this->rows = $rows;
     $this->numRowsSelect = count($this->rows);
     $this->numRowsUpdate = $this->numRowsSelect;
   }
   //-------------------------------------------------------
-  private function getFormQueries() {
+  private function getFormQueries()
+  {
     $consultas = '';
     foreach($_COOKIE['queries'] as $key=>$value) {
        $consultas .= stripslashes($value).'<br>';
     }
 
-    $res = <<<EOD
-<script>
-$(document).ready(function() {
-  $("#onSave").click(function() {
-    $("#WListBasic_form #op").val('saveQuery');
+    CssJsLoad::set_script('
+$(document).ready(function()
+{
+  $("#saved_queries #onSave").click(function() {
+    $("#WListBasic_form #op").val("saveQuery");
     $("#WListBasic_form").submit();
   });
-  $("#onDel").click(function() {
-    $("#WListBasic_form #op").val('delQuery');
+
+  $("#saved_queries #onDel").click(function() {
+    $("#WListBasic_form #op").val("delQuery");
     $("#WListBasic_form").submit();
   });
 });
-</script>
+');
 
- <b>consultas guardadas</b>
- <div style="border:1px solid #aaa;background:#ddd;padding:3px">
-   $consultas
- </div>
- <input id="onSave" type="button" value="Guardar"> <input id="onDel" type="button" value="Borrar">
- <br> <br>
-
+    $res = <<<EOD
  <form id="WListBasic_form" name="f_consulta" action="./" method="post">
-  <input type="hidden" id="op" name="op">
-  <b>Consulta</b><br>
-  <textarea class="font-monospace" name="WLBasic_sqlQuery" cols="100" rows="5">$this->sqlQ</textarea><br>
-  <input type="submit" value=" Aceptar ">
+    <input type="hidden" id="op" name="op">
+
+    <div id="saved_queries">
+      <b>consultas guardadas</b>
+      <div>$consultas</div>
+      <input id="onSave" type="button" value="Guardar">
+      <input id="onDel"  type="button" value="Borrar">
+    </div>
+    <br>
+
+    <b>Consulta</b><br>
+    <textarea class="font-monospace" name="WLBasic_sqlQuery" cols="100" rows="5">$this->sqlQ</textarea><br>
+    <input type="submit" value=" Aceptar ">
  </form>
  <div style="clear:both"></div>
 EOD;
+
     return $res;
   }
   //-------------------------------------------------------
-  public function get() {
+  public function get()
+  {
     $rowTitulos = '';
     $rowsDatos  = '';
     $formQueries = ($this->withInput)? $this->getFormQueries() : '';
@@ -126,13 +134,15 @@ EOD;
 EOD;
   }
   //--------------------------------------------------------------
-  public function getRows() {
+  public function getRows()
+  {
     return $this->rows;
   }
   //--------------------------------------------------------------
   // PRIVATE
   //--------------------------------------------------------------
-  private function getHtmRowTitles() {
+  private function getHtmRowTitles()
+  {
     $htmTitles = '';
     $unaFila = current($this->rows);
     foreach($unaFila as $dbField => $value) {
@@ -142,7 +152,8 @@ EOD;
     return "<tr> $htmTitles </tr>\n";
   }
   //-------------------------------------------------------
-  private function getHtmRowsValues() {
+  private function getHtmRowsValues()
+  {
     $htmList = '';
 
     foreach($this->rows as $row) {

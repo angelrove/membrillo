@@ -50,6 +50,7 @@ class WTree2
   {
     CssJsLoad::set(__DIR__.'/styles.css');
     CssJsLoad::set(__DIR__.'/libs.js');
+    CssJsLoad::set(__DIR__.'/libs2.js');
 
     $this->id      = $idComponent;
     $this->dbTable = $dbTable;
@@ -125,49 +126,36 @@ class WTree2
        $strMarcar .= '$("#cat_'.$id_cat.'").addClass("selected");';
     }
 
+    CssJsLoad::set_script('
+/*
+prerendered: true,
+unique:      true,
+persist:     "location",
+cookieId:    "treeview-black",
+*/
+$(document).ready(function() {
+  $("#tree").treeview({
+     control:   "#sidetreecontrol",
+     collapsed: true,
+     animated:  "fast",
+     persist:   "cookie"
+  });
+
+  // Marcar búsquedas
+  '.$strMarcar.'
+});
+');
+
     // Out
     $strTree = <<<EOD
-  <style>
-   .selected { background:#9F9; border:1px solid #3C3; }
-   .selected a { background:#9F9; }
-  </style>
+<style>
+.selected { background:#9F9; border:1px solid #3C3; }
+.selected a { background:#9F9; }
+</style>
 
- <!-- TreeView -->
- <script>
- /*
- prerendered: true,
- unique:      true,
- persist:     "location",
- cookieId:    "treeview-black",
- */
- $(document).ready(function() {
-    $("#tree").treeview({
-       control:   "#sidetreecontrol",
-       collapsed: true,
-       animated:  "fast",
-       persist:   "cookie"
-    });
-
-    // Marcar búsquedas
-    $strMarcar
- });
-
- function wtree2_onUpdate(id, nivel) {
-   location.href = '?CONTROL=$this->id&EVENT=editUpdate&nivel='+nivel+'&ROW_ID='+id;
- }
- function wtree2_onNewSub(id, nivel) {
-   location.href = '?CONTROL=$this->id&EVENT=editNew&ROW_PADRE_ID='+id+'&nivel='+(nivel+1);
- }
- function wtree2_onDel(id, nivel) {
-   if(confirm('¿Está seguro...?')) {
-      location.href = '?CONTROL=$this->id&EVENT=list_delete&OPER=delete&nivel='+nivel+'&ROW_ID='+id;
-   }
- }
- function wtree2_onDetalle(id, nivel) {
-   location.href = '?CONTROL=$this->id&EVENT=list_rowSelected&nivel='+nivel+'&ROW_ID='+id;
- }
- </script>
- <!-- /TreeView -->
+<script>
+var WTree2_CONTROL = '$this->id';
+</script>
 
  <div id="sidetree" style="width:$this->width">
   <!-- Cabecera -->
