@@ -244,13 +244,9 @@ EOD;
 
   }
   //---------------------------------------------------------------------
-  private function get_fileInfo()
+  private function get_fileInfo($datosFile)
   {
      $labelFileInfo = '';
-
-     if(!$this->showFileName) {
-        return '';
-     }
 
      //-------
      if($datosFile['fecha'] && $datosFile['size']) {
@@ -278,39 +274,42 @@ EOD;
     global $CONFIG_APP, $seccCtrl;
 
    /** Datos file **/
-    $listDatos = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
+    $datosFile = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
 
-    $dir = ($listDatos['dir'])? '/'.$listDatos['dir'] : '';
-    $listDatos['ruta_completa'] = $CONFIG_APP['url_uploads'].$dir.'/'.$listDatos['name'];
+    $dir = ($datosFile['dir'])? '/'.$datosFile['dir'] : '';
+    $datosFile['ruta_completa'] = $CONFIG_APP['url_uploads'].$dir.'/'.$datosFile['name'];
 
-    if(!$listDatos['nameUser']) {
-       $listDatos['nameUser'] = $listDatos['name'];
+    if(!$datosFile['nameUser']) {
+       $datosFile['nameUser'] = $datosFile['name'];
     }
 
    /** Out **/
     // View -------
-    $fileProp_TYPE = $this->get_typeFile($listDatos['name']); // IMAGE, FILE
-    $fileProp_URL  = $listDatos['ruta_completa'];
+    $fileProp_TYPE = $this->get_typeFile($datosFile['name']); // IMAGE, FILE
+    $fileProp_URL  = $datosFile['ruta_completa'];
 
     $linkView = '';
     if($fileProp_TYPE == 'IMAGE') {
-       $linkView = '<div class="view_image">'.FileUploaded::getHtmlImg($listDatos, 'lightbox', '', '', true).'</div>';
+       $linkView = '<div class="view_image">'.FileUploaded::getHtmlImg($datosFile, 'lightbox', '', '', true).'</div>';
     }
     // Open: "pdf" and "txt" ---
-    elseif($listDatos['mime'] == 'application/pdf' || $listDatos['mime'] == 'text/plain') {
+    elseif($datosFile['mime'] == 'application/pdf' || $datosFile['mime'] == 'text/plain') {
        $linkView =  '<a class="img-thumbnail" href="'.$fileProp_URL.'" target="_blank">'.
                        '<i class="fa fa-file-pdf-o fa-4x fa-border" aria-hidden="true"></i>'.
                     '</a>';
     }
     // Open: if not a MIME Type ---
-    elseif(!$listDatos['mime']) {
+    elseif(!$datosFile['mime']) {
        $linkView =  '<a class="img-thumbnail" href="'.$fileProp_URL.'" target="_blank">'.
                        '<i class="fa fa-file-text-o fa-4x fa-border" aria-hidden="true"></i>'.
                     '</a>';
     }
 
     // Info --------
-    $labelFileInfo = $this->get_fileInfo($datosFile);
+    $labelFileInfo = '';
+    if($this->showFileName) {
+       $labelFileInfo = $this->get_fileInfo($datosFile);
+    }
 
     // Download ---
     $linkDownload = '<a class="btn btn-default btn-sm" href="'.$fileProp_URL.'" download><i class="fa fa-download fa-2x" aria-hidden="true"></i></a>';
@@ -323,7 +322,7 @@ EOD;
 
     return '
       <!-- File info -->
-      '.$str_info.'
+      '.$labelFileInfo.'
       <div class="text-center">'.$linkView.'</div>
       <div class="text-center">'.$linkDownload.' '.$bt_delete.'</div>
       <!-- /File info -->

@@ -12,6 +12,7 @@ use angelrove\utils\CssJsLoad;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\Messages;
+use angelrove\membrillo2\GenQuery;
 
 use angelrove\membrillo2\WPage\WPage;
 
@@ -20,7 +21,8 @@ class WForm extends EventComponent
 {
   private $title;
 
-  private $sql_row = '';
+  private $sql_row;
+  private $db_table;
   private $datos = array();
 
   private $onSubmit;
@@ -40,18 +42,25 @@ class WForm extends EventComponent
   public static $errors = false;
 
   //------------------------------------------------------------------
-  public function __construct($id_object, $sql_row='')
+  public function __construct($id_object, $db_table='', $sql_row='')
   {
     CssJsLoad::set(__DIR__.'/libs.js');
 
     //----------
     parent::__construct($id_object);
 
-    $this->sql_row = $sql_row;
+    $this->db_table = $db_table;
+    $this->sql_row  = $sql_row;
+
     WPage::add_pagekey('WForm');
 
     //---------
     $this->parse_event($this->WEvent);
+  }
+  //--------------------------------------------------------------
+  public function getDatos()
+  {
+    return $this->datos;
   }
   //--------------------------------------------------------------
   public function parse_event($WEvent)
@@ -61,16 +70,35 @@ class WForm extends EventComponent
       case 'editUpdate':
         $this->title .= ' Update';
 
+        // Datos ---
+        if(!$this->db_table && !$this->sql_row) {
+           throw new \Exception('Class WForm (update) need a "db_table" or "sql_row"', 1);
+        }
+
+        if(!$this->sql_row) {
+           $this->sql_row = GenQuery::selectRow($this->db_table, Event::$ROW_ID);
+        }
         $this->datos = Db_mysql::getRow($this->sql_row);
+
         if(!$this->datos) {
-           Messages::set("Error: El registro solicitado no existe", 'danger');
-           return false;
+           $strErr = 'El registro solicitado no existe';
+           include('404.php');
+           exit();
         }
       break;
       //----------
       case 'editNew':
-        $this->title .=  ' New';
-        //Db_mysql::getList("SHOW COLUMNS FROM $db_table");
+        $this->title .= ' New';
+
+        // Datos ---
+        if(!$this->db_table) {
+           throw new \Exception('WForm (editNew) need a "db_table"', 1);
+        }
+
+        $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM ".$this->db_table);
+        foreach($columns as $key => $value) {
+           $this->datos[$key] = '';
+        }
       break;
       //----------
     }
@@ -136,11 +164,6 @@ class WForm extends EventComponent
   {
     $this->WEvent->EVENT  = 'editNew';
     $this->parse_event($this->WEvent);
-  }
-  //--------------------------------------------------------------
-  function getDatos()
-  {
-    return $this->datos;
   }
   //------------------------------------------------------------------
   public function getFormEvent()
@@ -234,8 +257,6 @@ class WForm extends EventComponent
     $isUpdate = ($this->bt_ok || $this->bt_upd) ? 'true' : 'false';
 
     include 'tmpl_start.inc';
-EOD;
-
   }
   //------------------------------------------------------------------
   public function get_end()
