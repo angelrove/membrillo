@@ -59,7 +59,7 @@ class Frame
    <!-- WFrame -->
    <div class="WFrame">
      <div class="page-header">
-       <button class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
        <h1 id="forms"><?=$title?></h1>
      </div>
 

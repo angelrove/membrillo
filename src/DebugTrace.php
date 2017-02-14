@@ -35,7 +35,7 @@ class DebugTrace
 
     ?>
     <span class="DebugTrace">
-      <button class="btn btn-xs btn-info display" id_traza="<?=$idTraza?>"><?=$objectName?></button>
+      <button type="button" class="btn btn-xs btn-info display" id_traza="<?=$idTraza?>"><?=$objectName?></button>
       <pre class="traze" id="traza_<?=$idTraza?>" style="display:none;position:absolute;z-index:1001">
         <? print_r($object) ?>
       </pre>

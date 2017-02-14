@@ -126,7 +126,7 @@ class WInputFile
 var WInputFile_name = "'.$this->name.'";
 
 $(document).ready(function() {
-  $("#"+WInputFile_name+"_del").click(function()
+  $("button#"+WInputFile_name+"_del").click(function()
   {
     event.preventDefault();
 
@@ -148,12 +148,12 @@ $(document).ready(function() {
      if( $("#"+WInputFile_name).length ) {
         $("#"+WInputFile_name+"_obj_input").show();
      }
+
   });
 });
-
      ');
 
-     return '<button class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x"></i></button>';
+     return '<button type="button" class="btn btn-default btn-sm" id="'.$this->name.'_del"><i class="fa fa-trash-o fa-2x"></i></button>';
   }
   //---------------------------------------------------------------------
   public function get()
