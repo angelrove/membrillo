@@ -103,7 +103,7 @@
 
  <!-- Pie -->
  <table align="center"><tr><td id="Login_pie">
-  &copy; <?=$CONFIG_APP['data']['COPYRIGHT']?>
+  &copy; <?=COMPANY_NAME?>
  </td></tr></table>
  <!-- / Pie -->
 

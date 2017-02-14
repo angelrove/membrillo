@@ -23,14 +23,18 @@ class ObjectsStatus
 
     // If a new secc: delete data from non-persistent objets
     if($seccCtrl->isNewSecc) {
-      foreach($this->listObjects as $key => $object) {
-         if($object->isPersistent() == false) {
-            unset($this->listObjects[$key]);
-         }
-      }
+       self::clearObjects();
     }
   }
   //----------------------------------------------------------------------------
+  public function clearObjects()
+  {
+    foreach($this->listObjects as $key => $object) {
+       if($object->isPersistent() == false) {
+          unset($this->listObjects[$key]);
+       }
+    }
+  }
   //----------------------------------------------------------------------------
   public function setNewObject($idControl)
   {

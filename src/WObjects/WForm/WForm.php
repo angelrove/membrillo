@@ -76,7 +76,7 @@ class WForm extends EventComponent
         }
 
         if(!$this->sql_row) {
-           $this->sql_row = GenQuery::selectRow($this->db_table, Event::$ROW_ID);
+           $this->sql_row = GenQuery::selectRow($this->db_table, $this->WEvent->ROW_ID);
         }
         $this->datos = Db_mysql::getRow($this->sql_row);
 

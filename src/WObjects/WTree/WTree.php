@@ -374,7 +374,7 @@ EOD;
 
     if($this->opUpdate)
     {
-      $CONTROL = ($this->id_levels[$this->count_nivel])? $this->id_levels[$this->count_nivel] : $this->id;
+      $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
 
       $bt = '<a class="op_update level_'.$this->count_nivel.'" href="?CONTROL='.$CONTROL.'&EVENT='.$event.'&ROW_ID='.$id.'&ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel.'">'.
               '<i class="fa fa-pencil-square-o fa-lg"></i>'.
@@ -395,7 +395,7 @@ EOD;
     if($this->count_nivel < $this->niveles)
     {
        $event   = 'editNew';
-       $CONTROL = ($this->id_levels[$this->count_nivel+1])? $this->id_levels[$this->count_nivel+1] : $this->id;
+       $CONTROL = (isset($this->id_levels[$this->count_nivel+1]))? $this->id_levels[$this->count_nivel+1] : $this->id;
 
        $href = '?CONTROL='.$CONTROL.
                '&EVENT='.$event.
@@ -414,7 +414,7 @@ EOD;
 
     if($this->opDelete == true && !$isPadre)
     {
-       $CONTROL = ($this->id_levels[$this->count_nivel])? $this->id_levels[$this->count_nivel] : $this->id;
+       $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
 
        $bt = '<a class="op_delete" param_id="'.$id.'" param_ctrl="'.$CONTROL.'" param_nivel="'.$this->count_nivel.'" href="javascript: return false">'.
                 '<i class="fa fa-trash-o fa-lg"></i>'.
