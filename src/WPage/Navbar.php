@@ -7,6 +7,7 @@
 namespace angelrove\membrillo2\WPage;
 
 use angelrove\membrillo2\utils\CssJs_load;
+use angelrove\membrillo2\Login\Login;
 
 
 class Navbar
@@ -23,13 +24,23 @@ class Navbar
   //---------------------------------------------------
   public static function get()
   {
+    global $CONFIG_APP;
+
     $buttons = self::getButtons();
     $set_inverse = self::$set_inverse;
 
-    echo <<<EOD
+    // Right items ---
+    $str_login = '';
+    $str_close = '';
+    if(Login::$login) {
+       $str_login = '<a>'.Login::$login.'</a>';
+       $str_close = '<a href="/?APP_EVENT=close">Close <i class="fa fa-sign-out fa-lg"></i></a>';
+    }
 
-<!-- Menú -->
-<nav id="WMain_menu" class="navbar navbar-default navbar-static-top $set_inverse">
+    echo '
+
+<!-- Navbar -->
+<nav id="WMain_menu" class="navbar navbar-default navbar-static-top '.$set_inverse.'">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -38,22 +49,23 @@ class Navbar
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i> <span class="hidden-sm">'.$CONFIG_APP['data']['TITLE'].'</span></a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        $buttons
+        '.$buttons.'
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li></li>
+        <li>'.$str_login.'</li>
+        <li>'.$str_close.'</li>
       </ul>
     </div>
   </div>
 </nav>
-<!-- /Menú -->
+<!-- /Navbar -->
 
-EOD;
+';
   }
   //---------------------------------------------------
   private static function getButtons()

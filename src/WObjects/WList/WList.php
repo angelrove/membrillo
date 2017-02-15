@@ -460,7 +460,7 @@ EOD;
     /** Botón 'Nuevo...' **/
      $strBt_new = '';
      if($this->bt_new) {
-        $strBt_new = '<button type="button" class="on_new btn btn-primary btn-xs">New...</button>';
+        $strBt_new = '<button type="button" class="on_new btn btn-primary btn-xs"><i class="fa fa-plus" aria-hidden="true"></i> New...</button>';
      }
 
     return $htmTitles.'<th class="optionsBar" id="List_cabButtons_'.$this->id_object.'">'.$strBt_new.'</th>';

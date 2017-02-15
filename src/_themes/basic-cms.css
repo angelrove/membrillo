@@ -36,6 +36,26 @@ header.page-header h1 {
   font-weight: 300;
 }
 
+
+/* ---- NAVBAR ----- */
+/** height **/
+/*
+.navbar {
+    min-height:36px !important;
+}
+.navbar-nav > li > a,
+.navbar-brand {
+    padding-top:8px !important;
+    padding-bottom:6px !important;
+    height: 36px;
+}
+.navbar-toggle {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+*/
+
+
 /*----- WList ---------*/
 .table>tbody>tr>td,
 .table>tbody>tr>th,
@@ -58,45 +78,5 @@ body.pagekey_WForm>main>.page-header {
 
 .WForm .oper_buttons .btn {
   padding: 5px 12px;
-}
-
-/* ---- NAVBAR ----- */
-.dropdown-menu {
-  padding: 0;
-}
-
-/* height */
-.navbar {
-    min-height:36px !important;
-}
-.navbar-nav > li > a,
-.navbar-brand {
-    padding-top:8px !important;
-    padding-bottom:6px !important;
-    height: 36px;
-}
-.navbar-toggle {
-    margin-top: 1px;
-    margin-bottom: 1px;
-}
-.dropdown-menu>li>a {
-    padding: 9px 15px;
-}
-
-/* black */
-.navbar-inverse.navbar-default .dropdown-menu {
-    background-color: #333333;
-}
-.navbar-inverse.navbar-default .dropdown-menu>li>a {
-    color: #9d9d9d;
-    background-color: #333333;
-}
-.navbar-inverse.navbar-default .dropdown-menu>li>a:hover {
-    color: #fff;
-}
-.navbar-inverse.navbar-default .dropdown-menu>.active>a,
-.navbar-inverse.navbar-default .dropdown-menu>.active>a:hover {
-    /*background-color: #080808;*/
-    color: #fff;
 }
 

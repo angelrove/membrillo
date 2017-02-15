@@ -51,6 +51,39 @@ fieldset.fieldset_old legend {
   background: #fff;
 }
 
+/* ---- NAVBAR Black ----- */
+.navbar-inverse .dropdown-menu {
+    padding: 0;
+}
+.navbar-inverse .dropdown-menu>li>a {
+    padding: 11px 15px;
+}
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+      padding: 8px 15px;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu>.active>a,
+  .navbar-inverse .navbar-nav .open .dropdown-menu>.active>a:hover {
+      background-color: #080808;
+  }
+}
+
+.navbar-inverse.navbar-default .dropdown-menu {
+    background-color: #333333;
+}
+.navbar-inverse.navbar-default .dropdown-menu>li>a {
+    background-color: #333333;
+    color: #9d9d9d;
+}
+.navbar-inverse.navbar-default .dropdown-menu>li>a:hover {
+    color: #fff;
+}
+.navbar-inverse.navbar-default .dropdown-menu>.active>a,
+.navbar-inverse.navbar-default .dropdown-menu>.active>a:hover {
+    background-color: #080808;
+    color: #fff;
+}
+
 /*--- header ---*/
 header.page-header {
   margin-bottom: 0;
@@ -63,6 +96,7 @@ main>.page-header {
 
 /* ---- FOOTER ----- */
 footer {
+  margin-top: 41px;
   padding-top: 30px;
   padding-bottom: 30px;
   font-size: 88%;

@@ -14,7 +14,7 @@ main.container {
   margin-bottom: 25px;
 }
 body.pagekey_WForm>main.container {
-  padding: 0 8px;
+  padding: 0;
 }
 
 main>.page-header {

@@ -19,87 +19,83 @@ class WPage
 {
    public  static $title   = false;
    private static $pagekey = '';
-   private static $view_empty = false;
 
-   //----------------------------------------------------
-   public static function set_view_empty()
-   {
-     self::$view_empty = true;
-   }
    //----------------------------------------------------
    public static function add_pagekey($key)
    {
      self::$pagekey .= $key.' ';
    }
    //----------------------------------------------------
+   //----------------------------------------------------
+   public static function get_main()
+   {
+      global $CONFIG_APP, $seccCtrl;
+
+      // Page title ---
+      if(self::$title === false) {
+         self::$title = $seccCtrl->title;
+      }
+
+      ?><!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="utf-8">
+        <meta name="author" content="https://github.com/angelrove">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+        <title><?=$CONFIG_APP['data']['TITLE'].' - '.self::$title?></title>
+
+        <!-- css -->
+        <? CssJsLoad::get_css(); ?>
+        <!-- /css -->
+      </head>
+      <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
+        <? self::debug_objects() ?>
+        <?
+
+   }
+   //----------------------------------------------------
+   public static function get_main_end()
+   {
+      ?>
+       <!-- js -->
+       <? CssJsLoad::get_js(); ?>
+       <!-- /js -->
+      </body>
+      </html>
+      <?
+   }
+   //----------------------------------------------------
+   // CMS
+   //----------------------------------------------------
    public static function get()
    {
-     global $CONFIG_APP, $seccCtrl;
+      self::get_main();
+      Navbar::get();
 
-     // Title ---
-     if(self::$title === false) {
-        self::$title = $seccCtrl->title;
-     }
-
-     ?><!DOCTYPE html>
-    <html lang="es">
-    <head>
-      <meta charset="utf-8">
-      <meta name="author" content="https://github.com/angelrove">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-      <title><?=$CONFIG_APP['data']['TITLE']?> - <?=$seccCtrl->title?></title>
-
-      <!-- css -->
-      <? CssJsLoad::get_css(); ?>
-      <!-- /css -->
-    </head>
-    <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
-      <? self::debug_objects() ?>
-
-      <!-- Header -->
-      <? if(!self::$view_empty) { ?>
-        <header class="page-header container-fluid">
-          <? self::header() ?>
-        </header>
-
-        <!-- Navbar -->
-        <? Navbar::get(); ?>
-      <? } ?>
-
-      <!-- main -->
+      ?>
+      <!-- content -->
       <main class="container">
-         <? if(self::$title): ?>
-            <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
-         <? endif ?>
+        <? self::get_page_header() ?>
         <? Messages::show() ?>
-
         <?
    }
    //---------------------------------
    public static function get_end()
    {
 
-        ?>
+      ?>
       </main>
       <!-- /main -->
-
       <?
-      if(!self::$view_empty) {
-         include('tmpl_page_footer.inc');
-      }
-      ?>
 
-      <!-- js -->
-      <? CssJsLoad::get_js(); ?>
-      <!-- /js -->
-
-   </body>
-   </html>
-   <?
+      self::get_footer();
+      self::get_main_end();
    }
+   //----------------------------------------------------
+   // Components
    //----------------------------------------------------
    public static function debug_objects()
    {
@@ -122,38 +118,31 @@ class WPage
      ?><!-- /debug_objects --><?
    }
    //----------------------------------------------------
-   public static function header($defaultTmpl=true)
+   public static function get_web_header()
    {
-     global $app, $CONFIG_APP;
+      global $CONFIG_APP;
 
-     $titulo = $CONFIG_APP['data']['TITLE'];
-     if(!$titulo && !Login::$login) {
-        return;
-     }
+      ?>
+      <header class="page-header container-fluid">
+        <h1 class="pull-left"><?=$CONFIG_APP['data']['TITLE']?></h1>
+      </header>
+      <?
+   }
+   //----------------------------------------------------
+   public static function get_page_header()
+   {
+      if(!self::$title) {
+         return;
+      }
 
-     // title
-     // if(isset($CONFIG_APP['domain']['title_img']) && $CONFIG_APP['domain']['title_img']) {
-     //    $titulo = '<img src="/_images/'.$CONFIG_APP['data']['TITLE_IMG'].'">';
-     // }
-
-     // user
-     $strLogin = '';
-     if(Login::$login) {
-        $strLogin = '<span class="userName">'.Login::$login.'</span> | '.
-                    '<a href="/?APP_EVENT=close">Close <i class="fa fa-sign-out fa-lg"></i></a>';
-     }
-
-     // tmpl ------
-     if($defaultTmpl) {
-         ?>
-         <h1 class="pull-left"><?=$titulo?></h1>
-         <div class="pull-right"><?=$strLogin?></div>
-         <?
-     }
-     else {
-        return $datos = array('titulo'  => $titulo,
-                              'strLogin'=> $strLogin);
-     }
+      ?>
+      <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
+      <?
+   }
+   //----------------------------------------------------
+   public static function get_footer()
+   {
+      include('tmpl_page_footer.inc');
    }
    //----------------------------------------------------
 }
