@@ -8,13 +8,19 @@ body {
   border-radius: 0;
 }
 
-main.container {
+main {
   background: #fff;
-  padding: 10px 20px;
-  margin-bottom: 25px;
 }
-body.pagekey_WForm>main.container {
-  padding: 0;
+main.container-fluid,
+main.container {
+  margin: 25px;
+  padding: 10px 20px;
+}
+
+body.pagekey_WForm>main {
+  padding-top: 0;
+  padding-bottom: 0;
+  /*display: table; margin: auto;*/
 }
 
 main>.page-header {
