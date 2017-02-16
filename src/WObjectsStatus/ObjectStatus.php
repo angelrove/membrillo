@@ -19,9 +19,12 @@ class ObjectStatus
   //----------------------------------------------------------------------------
   public function __construct($id)
   {
-     global $path_secc;
+     $this->id = $id;
 
-     $this->id   = $id;
+     // Path
+     global $CONFIG_SECCIONES, $seccCtrl;
+
+     $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
      $this->path = $path_secc.'/ctrl_'.$id;
   }
   //----------------------------------------------------------------------------
@@ -51,6 +54,7 @@ class ObjectStatus
   public function parse_event($event)
   {
     global $objectsStatus;
+
     include($this->path.'/flow.inc');
   }
   //----------------------------------------------------------------------------
