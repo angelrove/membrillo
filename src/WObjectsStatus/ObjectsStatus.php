@@ -69,11 +69,13 @@ class ObjectsStatus
     return false;
   }
   //----------------------------------------------------------------------------
-  public function parseEvent()
+  public function parseEvent($path_secc)
   {
-      // Default view ----
-      if(!Event::$EVENT) {
-         global $path_secc;
+      // onInitPage
+      include($path_secc.'/onInitPage.inc');
+
+      // Default view
+      if(!Event::$CONTROL) {
          include($path_secc.'/tmpl_main.inc');
          return;
       }
@@ -94,7 +96,7 @@ class ObjectsStatus
         }
       }
 
-      // flow ------
+      // flow (view) ------
       if(Event::$EVENT) {
          $wObjectStatus->parse_event(Event::$EVENT);
       }

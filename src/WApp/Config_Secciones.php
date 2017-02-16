@@ -124,10 +124,12 @@ class Config_Secciones
   //---------------------------------------------------
   public function getFolder($id)
   {
+    $path_secciones = DOCUMENT_ROOT.'/app/';
+
     if(!$this->listSections[$id]->folder) {
-      return $id;
+      return $path_secciones.$id;
     }
-    return $this->listSections[$id]->folder;
+    return $path_secciones.$this->listSections[$id]->folder;
   }
   //---------------------------------------------------
   public function getUploadsDir_default($id)

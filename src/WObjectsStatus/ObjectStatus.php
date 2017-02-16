@@ -44,11 +44,13 @@ class ObjectStatus
   //----------------------------------------------------------------------------
   public function parse_oper($oper, $row_id)
   {
+    global $objectsStatus;
     include($this->path.'/oper.inc');
   }
   //----------------------------------------------------------------------------
   public function parse_event($event)
   {
+    global $objectsStatus;
     include($this->path.'/flow.inc');
   }
   //----------------------------------------------------------------------------

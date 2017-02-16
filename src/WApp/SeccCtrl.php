@@ -53,7 +53,7 @@ class SeccCtrl
 
     /** 'include_path' **/
      $this->include_path = ini_get('include_path') . PATH_SEPARATOR.
-                           './app/'.$CONFIG_SECCIONES->getFolder($this->secc) . PATH_SEPARATOR;
+                           $CONFIG_SECCIONES->getFolder($this->secc) . PATH_SEPARATOR;
   }
   //----------------------------------------------------------------------------
   public function initSecc()

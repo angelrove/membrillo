@@ -48,13 +48,13 @@ class AppCmsAjax extends Application
      /* User Service */
       $secc_dir = '';
       if(isset($_REQUEST['secc']) && $_REQUEST['secc']) {
-         $secc_dir = $_REQUEST['secc'];
+         $secc_dir = DOCUMENT_ROOT.'/app/'.$_REQUEST['secc'];
       }
       else {
          $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
       }
 
-      $service_path = './app/'.$secc_dir.'/ajax-'.$_REQUEST['service'].'.inc';
+      $service_path = $secc_dir.'/ajax-'.$_REQUEST['service'].'.inc';
 
       // Load service ----
       try {

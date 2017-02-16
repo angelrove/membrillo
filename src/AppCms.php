@@ -100,8 +100,6 @@ class AppCms extends Application
      //----------------------------------------------------
      /* Config front */
      //----------------------------------------------------
-      $path_secc = './app/'.$CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-
      // Lang ----------------------
       include_once('lang/es.inc');
 
@@ -135,8 +133,9 @@ class AppCms extends Application
      /* Parse event */
      //----------------------------------------------------
       Event::initPage();
-      include($path_secc.'/onInitPage.inc');
-      $objectsStatus->parseEvent();
+
+      $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+      $objectsStatus->parseEvent($path_secc);
   }
   //-----------------------------------------------------------------
   private function system_services()
