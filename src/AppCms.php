@@ -84,7 +84,6 @@ class AppCms extends Application
       // Inicio de la app o cambio de seccion: reiniciar
       if(!$seccCtrl || ($_REQUEST['secc'] != $seccCtrl->secc)) {
          $seccCtrl = Session::set('seccCtrl', new SeccCtrl($_REQUEST['secc']));
-         //@include_once('./app/'.$CONFIG_SECCIONES->getFolder($seccCtrl->secc).'/onInitSecc.inc');
          $seccCtrl->initSecc();
       }
       else {
@@ -97,9 +96,6 @@ class AppCms extends Application
          $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
       }
       $objectsStatus->initPage();
-
-      // >> Event -----------------
-      Event::initPage();
 
      //----------------------------------------------------
      /* Config front */
@@ -120,70 +116,27 @@ class AppCms extends Application
          CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
       }
 
-     // Load on init --------------
+     //----------------------------------------------------
+     /* Load on init */
+     //----------------------------------------------------
       require(__DIR__.'/_vendor_cssjs.inc');
       CssJsLoad::set(__DIR__.'/_themes/_basics.css');
 
       require(DOCUMENT_ROOT.'/_vendor_cssjs.inc');
       require(DOCUMENT_ROOT.'/app/onInitPage.inc');
-      include($path_secc.'/onInitPage.inc');
 
-     // Basics vendor css/js ------
+     // Basics vendor css/js -----
       Vendor::usef('jquery');
       Vendor::usef('bootstrap');
       Vendor::usef('font-awesome');
       Vendor::usef('lightbox');
 
      //----------------------------------------------------
-     /* OUT */
+     /* Parse event */
      //----------------------------------------------------
-      // print_r2('CONTROL: '.Event::$CONTROL.';<br>'.
-      //          'OPER:    '.Event::$OPER.   ';<br>'.
-      //          'EVENT:   '.Event::$EVENT.  ';<br>'
-      //          );
-
-      // Path control ---
-      $path_ctrl = $objectsStatus->getPath(Event::$CONTROL);
-      if(!$path_ctrl) {
-         $path_ctrl = $path_secc.'/ctrl_'.Event::$CONTROL;
-      }
-
-      // operations ---
-      if(Event::$OPER)
-      {
-        Messages::set_empty();
-
-        // oper
-        include($path_ctrl.'/oper.inc');
-
-        // redirect
-        if(!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
-           header('Location:./?CONTROL='.Event::$CONTROL.
-                             '&EVENT='  .Event::$EVENT.
-                             '&ROW_ID=' .Event::$ROW_ID.
-                             '&OPERED=' .Event::$OPER);
-
-           Messages::set_debug('>> Redirected ---');
-           exit();
-        }
-      }
-
-      // flow ---
-      if(Event::$EVENT) {
-         if(file_exists($path_ctrl.'/flow.inc')) {
-            include($path_ctrl.'/flow.inc');
-         }
-         else {
-            throw new \Exception('membrillo2 error: "flow.inc" not found in ['.$path_ctrl.'/]');
-         }
-      }
-      elseif(file_exists($path_secc.'/tmpl_main.inc')) {
-         include($path_secc.'/tmpl_main.inc');
-      }
-      else {
-         throw new \Exception('membrillo2: Default "tmpl_main.inc" not found in ['.$path_secc.'/]');
-      }
-
+      Event::initPage();
+      include($path_secc.'/onInitPage.inc');
+      $objectsStatus->parseEvent();
   }
   //-----------------------------------------------------------------
   private function system_services()

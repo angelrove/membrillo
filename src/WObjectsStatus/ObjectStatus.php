@@ -9,15 +9,20 @@ namespace angelrove\membrillo2\WObjectsStatus;
 
 class ObjectStatus
 {
+  private $id = '';
   private $persistent = false;
+  private $path = '';
+
   private $ROW_ID = '';
-  private $path   = '';
   private $datos  = array();
 
   //----------------------------------------------------------------------------
-  public function __construct()
+  public function __construct($id)
   {
+     global $path_secc;
 
+     $this->id   = $id;
+     $this->path = $path_secc.'/ctrl_'.$id;
   }
   //----------------------------------------------------------------------------
   public function updateDatos()
@@ -37,6 +42,26 @@ class ObjectStatus
     }
   }
   //----------------------------------------------------------------------------
+  public function parse_oper($oper, $row_id)
+  {
+    include($this->path.'/oper.inc');
+  }
+  //----------------------------------------------------------------------------
+  public function parse_event($event)
+  {
+    include($this->path.'/flow.inc');
+  }
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  public function setPath($path)
+  {
+    return $this->path = $path;
+  }
+  //----------------------------------------------------------------------------
+  public function getPath()
+  {
+    return $this->path;
+  }
   //----------------------------------------------------------------------------
   public function setPersistent($flag=true)
   {
@@ -52,17 +77,6 @@ class ObjectStatus
   public function setDato($name, $value)
   {
     $this->datos[$name] = $value;
-  }
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  public function setPath($path)
-  {
-    return $this->path = $path;
-  }
-  //----------------------------------------------------------------------------
-  public function getPath()
-  {
-    return $this->path;
   }
   //----------------------------------------------------------------------------
   public function getDato($name)

@@ -37,11 +37,6 @@ class Event
 
     //---
     self::$REDIRECT_AFTER_OPER = true;
-
-    // wObjectStatus ----
-    global $objectsStatus;
-    $wObjectStatus = $objectsStatus->setNewObject(self::$CONTROL); // if no exist
-    $wObjectStatus->updateDatos();
   }
   //----------------------------------------------------------------------------
   // EVENT

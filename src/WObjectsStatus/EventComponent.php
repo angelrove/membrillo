@@ -10,7 +10,6 @@
 namespace angelrove\membrillo2\WObjectsStatus;
 
 
-
 abstract class EventComponent
 {
   protected $id_object;
