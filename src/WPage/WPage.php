@@ -77,7 +77,7 @@ class WPage
 
       ?>
       <!-- content -->
-      <main class="container">
+      <main class="container-fluid">
         <? self::get_page_header() ?>
         <? Messages::show() ?>
         <?
