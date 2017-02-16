@@ -60,32 +60,37 @@ class Config_Secciones
   //---------------------------------------------------
   // SET
   //---------------------------------------------------
-  public function setSection_folder($id_section, $folder) {
+  public function setSection_folder($id_section, $folder)
+  {
     if($this->listSections[$id_section]) {
        $this->listSections[$id_section]->folder = $folder;
     }
   }
   //---------------------------------------------------
-  public function setSection_db($id_section, $db) {
+  public function setSection_db($id_section, $db)
+  {
     if($this->listSections[$id_section]) {
        $this->listSections[$id_section]->db = $db;
     }
   }
   //---------------------------------------------------
-  public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default) {
+  public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default)
+  {
     if($this->listSections[$id_section]) {
        $this->listSections[$id_section]->uploads_dir     = $uploads_dir;         // personalizado para la sección
        $this->listSections[$id_section]->uploads_default = $uploads_dir_default; // dir. por defecto
     }
   }
   //---------------------------------------------------
-  public function setDefault($id_secc) {
+  public function setDefault($id_secc)
+  {
     $this->defaultSecc = $id_secc;
   }
   //---------------------------------------------------
   // GETS
   //---------------------------------------------------
-  public function getDefault() {
+  public function getDefault()
+  {
     if($this->defaultSecc) {
        return $this->defaultSecc;
     }

@@ -17,10 +17,10 @@ class ObjectsStatus
   {
   }
   //----------------------------------------------------------------------------
-  public function setNewObject($idControl)
+  public function setNewObject($idControl, $path='')
   {
     if(!isset($this->listObjects[$idControl])) {
-        $this->listObjects[$idControl] = new ObjectStatus($idControl);
+        $this->listObjects[$idControl] = new ObjectStatus($idControl, $path);
     }
     return $this->listObjects[$idControl];
   }
@@ -90,8 +90,8 @@ class ObjectsStatus
 
         // redirect
         if(!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
-           header('Location:./?CONTROL='.Event::$CONTROL.'&EVENT='.Event::$EVENT.'&ROW_ID='.Event::$ROW_ID.'&OPERED='.Event::$OPER);
            Messages::set_debug('>> Redirected ---');
+           header('Location:./?CONTROL='.Event::$CONTROL.'&EVENT='.Event::$EVENT.'&ROW_ID='.Event::$ROW_ID.'&OPERED='.Event::$OPER);
            exit();
         }
       }

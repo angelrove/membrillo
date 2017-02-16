@@ -35,7 +35,9 @@ class WInputRadios
 
          // Selected
          $SELECTED = '';
-         if($id == $id_selected) $SELECTED = ' checked';
+         if(strcmp($id, $id_selected) == 0) {
+            $SELECTED = ' checked';
+         }
 
          $idCheck = $name.'_'.$id;
 

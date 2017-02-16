@@ -17,15 +17,19 @@ class ObjectStatus
   private $datos  = array();
 
   //----------------------------------------------------------------------------
-  public function __construct($id)
+  public function __construct($id, $path='')
   {
      $this->id = $id;
 
      // Path
-     global $CONFIG_SECCIONES, $seccCtrl;
+     $this->path = $path;
 
-     $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-     $this->path = $path_secc.'/ctrl_'.$id;
+     if(!$this->path) {
+        global $CONFIG_SECCIONES, $seccCtrl;
+
+        $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+        $this->path = $path_secc.'/ctrl_'.$id;
+     }
   }
   //----------------------------------------------------------------------------
   public function updateDatos()

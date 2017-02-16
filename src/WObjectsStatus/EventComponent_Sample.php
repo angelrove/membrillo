@@ -37,7 +37,7 @@ class _SampleComponent extends EventComponent {
 
     return <<<EOD
   <div class="_SampleComponent">
-    xxx
+    _SampleComponent
   </div>
 EOD;
   }
