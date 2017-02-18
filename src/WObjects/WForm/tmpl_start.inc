@@ -1,7 +1,8 @@
 <?
 use angelrove\membrillo2\WPage\Frame;
+use angelrove\membrillo2\CrudUrl;
 
-$action = \angelrove\membrillo2\CrudUrl::get('', $this->id_object);
+$action = CrudUrl::get('', $this->id_object);
 ?>
 
  <?=Frame::get($this->title, $this->bt_cancel)?>

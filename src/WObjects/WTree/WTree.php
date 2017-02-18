@@ -123,8 +123,9 @@ class WTree
     $strCategorias = $this->get_category_tree(0, '');
 
     // Button "New..."
-    $href = "'".'/'.$_GET['secc'].'/crd/'.$this->id.'/editNew/?ROW_PADRE_ID=0&nivel=1'."'";
+    $href = "'".CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'ROW_PADRE_ID=0&nivel=1')."'";
     $strNuevo = '<button type="button" class="btn btn-xs btn-primary" onclick="location.href='.$href.'">New...</button>';
+
     if($this->opNew == false) {
        $strNuevo = '';
     }
@@ -371,7 +372,7 @@ EOD;
   private function getBt_edit($id, $id_desplegado)
   {
     $bt = '';
-    $event = 'editUpdate';
+    $event = CRUD_EDIT_UPDATE;
 
     if($this->opUpdate)
     {
@@ -394,13 +395,8 @@ EOD;
 
     if($this->count_nivel < $this->niveles)
     {
-       $event   = 'editNew';
        $CONTROL = (isset($this->id_levels[$this->count_nivel+1]))? $this->id_levels[$this->count_nivel+1] : $this->id;
-
-       $href = '?CONTROL='.$CONTROL.
-               '&EVENT='.$event.
-               '&nivel='.($this->count_nivel+1).
-               '&ROW_PADRE_ID='.$id;
+       $href = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel='.($this->count_nivel+1).'&ROW_PADRE_ID='.$id);
 
        $bt = '<a class="op_newSub" href="'.$href.'"><i class="fa fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
     }
@@ -416,9 +412,11 @@ EOD;
     {
        $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
 
-       $bt = '<a class="op_delete" param_id="'.$id.'" param_ctrl="'.$CONTROL.'" param_nivel="'.$this->count_nivel.'" href="javascript: return false">'.
-                '<i class="fa fa-trash-o fa-lg"></i>'.
-             '</a>';
+       $bt = '<a class="op_delete" '.
+                 'param_id="'.$id.'" '.
+                 'param_ctrl="'.$CONTROL.'" '.
+                 'param_nivel="'.$this->count_nivel.'" '.
+                 'href="javascript: return false"><i class="fa fa-trash-o fa-lg"></i></a>';
     }
 
     return $bt;

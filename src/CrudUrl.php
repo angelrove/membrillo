@@ -35,9 +35,12 @@ class CrudUrl
          $event = "/$event";
       }
 
-      // print_r2($params);
-
-      return "/$_GET[secc]/crd/$control"."$event/$params";
+      return '/'.$_GET['secc'].'/crd/'.$control.$event.'/'.$params;
    }
    //-------------------------------------------------------------
+   public static function get_nocrud($params='')
+   {
+      return '/'.$_GET['secc'].'/?'.$params;
+   }
+  //-------------------------------------------------------------
 }

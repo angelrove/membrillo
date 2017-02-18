@@ -23,6 +23,7 @@ class WList extends EventComponent
 
   private $defaultOrder    = 'id';
   private $defaultSelected = false;
+  private $msgConfirmDel = '';
 
   // Pagination
   private $paging_showOn  = 'top'; // top, bottom, false
@@ -30,22 +31,13 @@ class WList extends EventComponent
   private $paging_config  = '';
 
   // Events
+  private $event_new    = '';
+  private $event_update = '';
+  private $event_delete = '';
+
   private $event_fOrder  = 'fieldOrder';
   private $event_fOnClick= 'fieldOnClick';
   private $event_numPage = 'list_numPage';
-
-  private $event_search  = 'search';
-  private $event_detalle = 'detalle';
-
-  private $event_new     = '';
-  private $event_update  = '';
-  private $event_delete  = '';
-
-  private $events = array('new'    => 'editNew',
-                          'update' => 'editUpdate',
-                          'delete' => 'delete');
-
-  private $msgConfirmDel = '';
 
   // Buttons
   private $onClickRow = '';
@@ -102,7 +94,7 @@ class WList extends EventComponent
         $this->wObjectStatus->delDato('id_page'); // reiniciar la paginación
       break;
       //----------
-      case $this->event_search:
+      case CRUD_LIST_SEARCH:
         //$this->wObjectStatus->delRowId($this->id_object); // quitar la tupla seleccionada
         $this->wObjectStatus->delDato('id_page');  // reiniciar la paginación
       break;
@@ -116,7 +108,7 @@ class WList extends EventComponent
   {
     switch(Event::$EVENT)
     {
-      case $this->event_detalle: // reiniciar la paginación
+      case CRUD_LIST_DETAIL: // reiniciar la paginación
         $this->wObjectStatus->delDato('id_page');
       break;
     }
@@ -180,13 +172,13 @@ class WList extends EventComponent
   //-------------------------------------------------------
   public function showNew($showButton=true)
   {
-    $this->event_new = $this->events['new'];
-    $this->bt_new    = $showButton;
+    $this->event_new = CRUD_EDIT_NEW;
+    $this->bt_new = $showButton;
   }
   //-------------------------------------------------------
   public function showUpdate($showButton=false)
   {
-    $this->event_update = $this->events['update'];
+    $this->event_update = CRUD_EDIT_UPDATE;
 
     if($showButton === true) {
        $this->bt_update = true;
@@ -201,7 +193,7 @@ class WList extends EventComponent
   //-------------------------------------------------------
   public function showDelete($isConfirm=true)
   {
-    $this->event_delete = $this->events['delete'];
+    $this->event_delete = CRUD_DELETE;
     $this->bt_delete    = true;
     $this->bt_delete_confirm = $isConfirm;
 
@@ -218,7 +210,7 @@ class WList extends EventComponent
     $this->bt_detalle = $showButton;
 
     if($showButton !== true) {
-       $this->onClickRow = $this->event_detalle;
+       $this->onClickRow = CRUD_LIST_DETAIL;
     }
   }
   //-------------------------------------------------------
@@ -318,7 +310,7 @@ class WList extends EventComponent
   //--------------------------------------------------------------
   public function formSearch()
   {
-     $action = \angelrove\membrillo2\CrudUrl::get($this->event_search, $this->id_object);
+     $action = CrudUrl::get(CRUD_LIST_SEARCH, $this->id_object);
 
      echo <<<EOD
 <form class="FormSearch form-inline well well-sm"
@@ -383,7 +375,7 @@ EOD;
     $rows          = '';
 
     // Páginas
-    $urlFormat = \angelrove\membrillo2\CrudUrl::get($this->event_numPage, $this->id_object, '', '', 'id_page=[id_page]');
+    $urlFormat = CrudUrl::get($this->event_numPage, $this->id_object, '', '', 'id_page=[id_page]');
 
     $id_page = $this->wObjectStatus->getDato('id_page');
     if(!$id_page) $id_page = 1;

@@ -10,15 +10,29 @@ use angelrove\membrillo2\WApp\Session;
 use angelrove\membrillo2\Messages;
 
 
+// CRUD events --------------------------------
+// Note: added to WPage as Javascript vars
+define('CRUD_EDIT_NEW',    'edit_new');  // Read
+define('CRUD_EDIT_UPDATE', 'edit');
+
+define('CRUD_LIST_SEARCH', 'list_search'); // List
+define('CRUD_LIST_DETAIL', 'list_selected');
+
+define('CRUD_INSERT', 'insert');
+define('CRUD_UPDATE', 'update');
+define('CRUD_DELETE', 'delete');
+//---------------------------------------------
+
+
 class Event
 {
-  public  static $CONTROL;
-  public  static $EVENT;
-  private static $EVENT_PREV;
-  public  static $OPER;
-  public  static $ROW_ID;
+   public  static $CONTROL;
+   public  static $EVENT;
+   private static $EVENT_PREV;
+   public  static $OPER;
+   public  static $ROW_ID;
 
-  public static $REDIRECT_AFTER_OPER = true;
+   public static $REDIRECT_AFTER_OPER = true;
 
   //----------------------------------------------------------------------------
   public static function initPage()
