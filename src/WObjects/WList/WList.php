@@ -331,12 +331,12 @@ EOD;
   //--------------------------------------------------------------
   public function formSearch_complet()
   {
-    $f_search = $this->wObjectStatus->getDato('f_search');
+    $f_text = $this->wObjectStatus->getDato('f_text');
 
     $this->formSearch();
       ?>
       <div class="form-group">
-        <input type="text" class="form-control input-sm" name="f_search" placeholder="Buscar" value="<?=$f_search?>">
+        <input type="text" class="form-control input-sm" name="f_text" placeholder="Buscar" value="<?=$f_text?>">
       </div>
       <?
       //$this->formSearch_btBuscar();

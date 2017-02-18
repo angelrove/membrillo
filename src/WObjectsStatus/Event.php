@@ -15,8 +15,8 @@ use angelrove\membrillo2\Messages;
 define('CRUD_EDIT_NEW',    'edit_new');  // Read
 define('CRUD_EDIT_UPDATE', 'edit');
 
-define('CRUD_LIST_SEARCH', 'list_search'); // List
-define('CRUD_LIST_DETAIL', 'list_selected');
+define('CRUD_LIST_SEARCH', 'search'); // List
+define('CRUD_LIST_DETAIL', 'selected');
 
 define('CRUD_INSERT', 'insert');
 define('CRUD_UPDATE', 'update');
