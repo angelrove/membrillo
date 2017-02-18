@@ -12,7 +12,7 @@ use angelrove\membrillo2\Messages;
 
 // CRUD events --------------------------------
 // Note: added to WPage as Javascript vars
-define('CRUD_EDIT_NEW',    'edit_new');  // Read
+define('CRUD_EDIT_NEW',    'new');  // Read
 define('CRUD_EDIT_UPDATE', 'edit');
 
 define('CRUD_LIST_SEARCH', 'search'); // List
