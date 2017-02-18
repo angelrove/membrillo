@@ -275,11 +275,10 @@ class WForm extends EventComponent
 $(document).ready(function()
 {
   $("#WForm_btUpdate$flag").click(function() {
-     $("#form_edit_"+scut_id_object+" #EVENT").val('editUpdate');
+     WForm_save();
   });
   $("#WForm_btInsert$flag").click(function() {
-     $("#form_edit_"+scut_id_object+" #EVENT").val('editNew');
-     $(".WForm").submit();
+     WForm_insert();
   });
   $("#WForm_btDelete$flag").click(function() {
      WForm_delete();
@@ -294,10 +293,10 @@ EOD;
    CssJsLoad::set_script($js);
 
    $bt_aceptar  = '<button type="submit" class="btn btn-primary" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
-   $bt_guardar  = '<button type="submit" class="btn btn-primary" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
-   $bt_eliminar = '<button type="button" class="btn btn-danger " id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
-   $bt_saveNext = '<button type="button" class="btn btn-primary" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
-   $bt_cancelar = '<button type="button" class="btn btn-default" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
+   $bt_guardar  = '<button type="button" class="btn btn-primary" id="WForm_btUpdate' .$flag.'">'.$app->lang['save'].'</button> '."\n";
+   $bt_eliminar = '<button type="button" class="btn btn-danger " id="WForm_btDelete' .$flag.'">'.$app->lang['delete'].'</button> ';
+   $bt_saveNext = '<button type="button" class="btn btn-primary" id="WForm_btInsert' .$flag.'">Insertar otro &raquo;</button> '."\n";
+   $bt_cancelar = '<button type="button" class="btn btn-default" id="WForm_btClose'  .$flag.'">'.$app->lang['close'].'</button>'."\n";
 
    $datosEv = $this->getFormEvent();
 

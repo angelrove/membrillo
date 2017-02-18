@@ -11,7 +11,8 @@ CssJsLoad::set(__DIR__.'/styles.css');
 
 
 //------------------------------------------------------------------
-function WFormRow($control, $isUpdate=false, $title, $listFields) {
+function WFormRow($control, $isUpdate=false, $title, $listFields)
+{
   global $seccCtrl;
 
   $event = 'form_insert';
@@ -27,10 +28,8 @@ function WFormRow($control, $isUpdate=false, $title, $listFields) {
   }
 
   echo <<<EOD
-  <form name="form_edit" method="POST" action="">
+  <form name="form_edit" method="POST" action="/<?=$_GET['secc']?>/crd/$event/">
   <table align="center" class="row_edit" cellpadding="0" cellspacing="0">
-   <input type="hidden" name="CONTROL" value="$control">
-   <input type="hidden" name="EVENT"   value="$event">
    <input type="hidden" name="ROW_ID"  value="$row_id">
 
     <tr><td class="row_edit_title" colspan="15">$title</td></tr>
@@ -55,4 +54,3 @@ EOD;
 
 }
 //------------------------------------------------------------------
-?>

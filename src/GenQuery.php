@@ -2,7 +2,7 @@
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
- * Generadores de consultas SQL
+ * Generador de consultas SQL
  *
  */
 

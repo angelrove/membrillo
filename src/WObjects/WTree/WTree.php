@@ -122,7 +122,7 @@ class WTree
     $strCategorias = $this->get_category_tree(0, '');
 
     // Button "New..."
-    $href = "'".'?CONTROL='.$this->id.'&EVENT=editNew&ROW_PADRE_ID=0&nivel=1'."'";
+    $href = "'".'/'.$_GET['secc'].'/crd/'.$this->id.'/editNew/?ROW_PADRE_ID=0&nivel=1'."'";
     $strNuevo = '<button type="button" class="btn btn-xs btn-primary" onclick="location.href='.$href.'">New...</button>';
     if($this->opNew == false) {
        $strNuevo = '';
@@ -200,7 +200,7 @@ EOD;
           $strOnClickRow = "WTree_onSelectRow('$id'); return false;";
        }
        if($this->haveElementsOnAnyCateg || ($this->count_nivel == $this->niveles)) {
-          $strOnClickRow = "WTree_onSelectRow_reload('?CONTROL=$this->id&EVENT=list_rowSelected&ROW_ID=$id&ROW_ID_DESPLEGADO=$id_top&nivel=$this->count_nivel')";
+          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/list_rowSelected/?ROW_ID=$id&ROW_ID_DESPLEGADO=$id_top&nivel=$this->count_nivel')";
        }
 
       // Botonera ------
@@ -376,7 +376,7 @@ EOD;
     {
       $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
 
-      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="?CONTROL='.$CONTROL.'&EVENT='.$event.'&ROW_ID='.$id.'&ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel.'">'.
+      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="/'.$_GET['secc'].'/crd/'.$CONTROL.'/'.$event.'/?ROW_ID='.$id.'&ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel.'">'.
               '<i class="fa fa-pencil-square-o fa-lg"></i>'.
             '</a>';
     }

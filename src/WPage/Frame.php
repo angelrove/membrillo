@@ -16,7 +16,7 @@ class Frame
   public static function get($title='', $showClose=false, $linkClose='')
   {
    if(!$linkClose) {
-      $linkClose = './';
+      $linkClose = '/'.$_GET['secc'].'/';
    }
 
       CssJsLoad::set_script('

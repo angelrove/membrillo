@@ -10,7 +10,7 @@ $(document).ready(function() {
      var row_id  = $(this).attr("param_id");
      var nivel   = $(this).attr("param_nivel");
      var id_top  = $(this).attr("param_id_top");
-     location.href = "?CONTROL="+control+"&EVENT=list_delete&OPER=delete&nivel="+nivel+"&ROW_ID="+row_id;
+     location.href = "/"+main_secc+"/crd/"+control+"/list_delete/?OPER=delete&nivel="+nivel+"&ROW_ID="+row_id;
 
   });
   //--------------------------------
@@ -18,10 +18,10 @@ $(document).ready(function() {
      event.preventDefault();
 
      if(confirm('¿Está seguro...?')) {
-       var ctrl   = $(this).attr("param_ctrl");
+       var control= $(this).attr("param_ctrl");
        var row_id = $(this).attr("param_id");
        var nivel  = $(this).attr("param_nivel");
-       location.href = "?CONTROL="+ctrl+"&EVENT=list_delete&OPER=delete&nivel="+nivel+"&ROW_ID="+row_id;
+       location.href = "/"+main_secc+"/crd/"+control+"/list_delete/?OPER=delete&nivel="+nivel+"&ROW_ID="+row_id;
        return true;
      }
      return false ;

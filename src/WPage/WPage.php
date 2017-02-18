@@ -50,6 +50,9 @@ class WPage
         <!-- css -->
         <? CssJsLoad::get_css(); ?>
         <!-- /css -->
+        <script>
+        var main_secc = "<?=$_GET['secc']?>";
+        </script>
       </head>
       <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
         <? self::debug_objects() ?>

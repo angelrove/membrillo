@@ -12,6 +12,7 @@ use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;
 use angelrove\front_components\Pagination;
+use angelrove\membrillo2\CrudUrl;
 
 
 class WList extends EventComponent
@@ -317,14 +318,14 @@ class WList extends EventComponent
   //--------------------------------------------------------------
   public function formSearch()
   {
-    echo <<<EOD
+     $action = \angelrove\membrillo2\CrudUrl::get($this->event_search, $this->id_object);
+
+     echo <<<EOD
 <form class="FormSearch form-inline well well-sm"
       role="search"
       name="search_form"
       method="get"
-      action="./">
- <input type="hidden" name="CONTROL" value="$this->id_object">
- <input type="hidden" name="EVENT" value="$this->event_search">
+      action="$action">
 
 EOD;
   }
@@ -382,7 +383,7 @@ EOD;
     $rows          = '';
 
     // Páginas
-    $urlFormat = "?CONTROL=".$this->id_object."&EVENT=".$this->event_numPage."&id_page=[id_page]";
+    $urlFormat = \angelrove\membrillo2\CrudUrl::get($this->event_numPage, $this->id_object, '', '', 'id_page=[id_page]');
 
     $id_page = $this->wObjectStatus->getDato('id_page');
     if(!$id_page) $id_page = 1;
@@ -440,12 +441,14 @@ EOD;
         // Campo de ordenación
         if($dbField->order) {
            $simbolo = ($param_field == $dbField->order)? $orderSimbol : '=';
-           $link = "?CONTROL=$this->id_object&EVENT=$this->event_fOrder&param_field=$dbField->order";
+           $link = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field=$dbField->order');
+
            $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$simbolo.' '.$dbField->title.'</a>';
         }
         // OnClick
         if($dbField->onClick) {
-           $link = "?CONTROL=$this->id_object&EVENT=$this->event_fOnClick&onClick_field=$dbField->onClick&id_page=0";
+           $link = CrudUrl::get($this->event_fOnClick, $this->id_object, '', '', "onClick_field=$dbField->onClick&id_page=0");
+
            $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$dbField->title.'</a>';
         }
 
@@ -565,8 +568,7 @@ EOD;
         $htmButtons['bt_detalle'] = '<button type="button" class="on_detalle btn btn-xs btn-primary"><i class="fa fa-arrow-right fa-lg"></i>'.$label.'</button>';
      }
 
-     // Opcional ---
-     $hrefOption = "?CONTROL=$this->id_object&ROW_ID=$id";
+    // Opcional ----
      foreach($this->list_Op as $key => $bt_opc)
      {
         // optionsEditor ----
@@ -582,18 +584,18 @@ EOD;
            }
            elseif(is_array($ret_optionsEditor)) { // parámetros
               if(isset($ret_optionsEditor['label'])) {
-                $bt_opc['label'] = $ret_optionsEditor['label'];
+                 $bt_opc['label'] = $ret_optionsEditor['label'];
               }
               if(isset($ret_optionsEditor['disabled'])) {
-                $bt_opc['disabled'] = $ret_optionsEditor['disabled'];
+                 $bt_opc['disabled'] = $ret_optionsEditor['disabled'];
               }
-              $bt_opc['href']     = $ret_optionsEditor['href'];
-              $bt_opc['target']   = $ret_optionsEditor['target'];
+              $bt_opc['href']   = $ret_optionsEditor['href'];
+              $bt_opc['target'] = $ret_optionsEditor['target'];
            }
         }
 
         //--------
-        $bt_href = "$hrefOption&EVENT=$bt_opc[event]&OPER=$bt_opc[oper]";
+        $bt_href = CrudUrl::get($bt_opc['event'], $this->id_object, $id, $bt_opc['oper']);
 
         if($bt_opc['href']) {
            $bt_href = $bt_opc['href'];

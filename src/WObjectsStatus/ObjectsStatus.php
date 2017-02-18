@@ -5,7 +5,9 @@
  */
 
 namespace angelrove\membrillo2\WObjectsStatus;
+
 use angelrove\membrillo2\Messages;
+use angelrove\membrillo2\CrudUrl;
 
 
 class ObjectsStatus
@@ -75,7 +77,7 @@ class ObjectsStatus
       include($path_secc.'/onInitPage.inc');
 
       // Default view
-      if(!Event::$CONTROL) {
+      if(!Event::$EVENT) {
          include($path_secc.'/tmpl_main.inc');
          return;
       }
@@ -91,7 +93,7 @@ class ObjectsStatus
         // redirect
         if(!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
            Messages::set_debug('>> Redirected ---');
-           header('Location:./?CONTROL='.Event::$CONTROL.'&EVENT='.Event::$EVENT.'&ROW_ID='.Event::$ROW_ID.'&OPERED='.Event::$OPER);
+           header('Location:'.CrudUrl::get(Event::$EVENT, Event::$CONTROL, Event::$ROW_ID, '', 'OPERED='.Event::$OPER));
            exit();
         }
       }

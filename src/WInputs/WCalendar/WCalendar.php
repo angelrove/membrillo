@@ -80,14 +80,14 @@ class WCalendar
     }
 
     // Prev / Next
-    $objPrevYear = '<a href="?CONTROL='.$this->control.'&EVENT=xxx&f_year='.($year-1).'">&laquo;</a>';
-    $objNextYear = '<a href="?CONTROL='.$this->control.'&EVENT=xxx&f_year='.($year+1).'">&raquo;</a>';
+    $objPrevYear = '<a href="./'.$this->control.'/?EVENT=xxx&f_year='.($year-1).'">&laquo;</a>';
+    $objNextYear = '<a href="./'.$this->control.'/?EVENT=xxx&f_year='.($year+1).'">&raquo;</a>';
 
     $btNew = '';
     if($this->showBtNew_lb) {
        $btNew =
          '<div class="btNuevo">
-           <a href="?CONTROL='.$this->control.'&EVENT=editNew">'.$this->showBtNew_lb.'...</a>
+           <a href="./'.$this->control.'/?EVENT=editNew">'.$this->showBtNew_lb.'...</a>
           </div>';
     }
 
