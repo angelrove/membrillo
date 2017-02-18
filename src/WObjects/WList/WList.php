@@ -12,6 +12,7 @@ use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;
 use angelrove\front_components\Pagination;
+use angelrove\membrillo2\CrudUrl;
 
 
 class WList extends EventComponent
@@ -22,6 +23,7 @@ class WList extends EventComponent
 
   private $defaultOrder    = 'id';
   private $defaultSelected = false;
+  private $msgConfirmDel = '';
 
   // Pagination
   private $paging_showOn  = 'top'; // top, bottom, false
@@ -29,22 +31,13 @@ class WList extends EventComponent
   private $paging_config  = '';
 
   // Events
+  private $event_new    = '';
+  private $event_update = '';
+  private $event_delete = '';
+
   private $event_fOrder  = 'fieldOrder';
   private $event_fOnClick= 'fieldOnClick';
   private $event_numPage = 'list_numPage';
-
-  private $event_search  = 'search';
-  private $event_detalle = 'detalle';
-
-  private $event_new     = '';
-  private $event_update  = '';
-  private $event_delete  = '';
-
-  private $events = array('new'    => 'editNew',
-                          'update' => 'editUpdate',
-                          'delete' => 'delete');
-
-  private $msgConfirmDel = '';
 
   // Buttons
   private $onClickRow = '';
@@ -101,7 +94,7 @@ class WList extends EventComponent
         $this->wObjectStatus->delDato('id_page'); // reiniciar la paginación
       break;
       //----------
-      case $this->event_search:
+      case CRUD_LIST_SEARCH:
         //$this->wObjectStatus->delRowId($this->id_object); // quitar la tupla seleccionada
         $this->wObjectStatus->delDato('id_page');  // reiniciar la paginación
       break;
@@ -115,7 +108,7 @@ class WList extends EventComponent
   {
     switch(Event::$EVENT)
     {
-      case $this->event_detalle: // reiniciar la paginación
+      case CRUD_LIST_DETAIL: // reiniciar la paginación
         $this->wObjectStatus->delDato('id_page');
       break;
     }
@@ -179,13 +172,13 @@ class WList extends EventComponent
   //-------------------------------------------------------
   public function showNew($showButton=true)
   {
-    $this->event_new = $this->events['new'];
-    $this->bt_new    = $showButton;
+    $this->event_new = CRUD_EDIT_NEW;
+    $this->bt_new = $showButton;
   }
   //-------------------------------------------------------
   public function showUpdate($showButton=false)
   {
-    $this->event_update = $this->events['update'];
+    $this->event_update = CRUD_EDIT_UPDATE;
 
     if($showButton === true) {
        $this->bt_update = true;
@@ -200,7 +193,7 @@ class WList extends EventComponent
   //-------------------------------------------------------
   public function showDelete($isConfirm=true)
   {
-    $this->event_delete = $this->events['delete'];
+    $this->event_delete = CRUD_DELETE;
     $this->bt_delete    = true;
     $this->bt_delete_confirm = $isConfirm;
 
@@ -217,7 +210,7 @@ class WList extends EventComponent
     $this->bt_detalle = $showButton;
 
     if($showButton !== true) {
-       $this->onClickRow = $this->event_detalle;
+       $this->onClickRow = CRUD_LIST_DETAIL;
     }
   }
   //-------------------------------------------------------
@@ -317,14 +310,14 @@ class WList extends EventComponent
   //--------------------------------------------------------------
   public function formSearch()
   {
-    echo <<<EOD
+     $action = CrudUrl::get(CRUD_LIST_SEARCH, $this->id_object);
+
+     echo <<<EOD
 <form class="FormSearch form-inline well well-sm"
       role="search"
       name="search_form"
       method="get"
-      action="./">
- <input type="hidden" name="CONTROL" value="$this->id_object">
- <input type="hidden" name="EVENT" value="$this->event_search">
+      action="$action">
 
 EOD;
   }
@@ -382,7 +375,7 @@ EOD;
     $rows          = '';
 
     // Páginas
-    $urlFormat = "?CONTROL=".$this->id_object."&EVENT=".$this->event_numPage."&id_page=[id_page]";
+    $urlFormat = CrudUrl::get($this->event_numPage, $this->id_object, '', '', 'id_page=[id_page]');
 
     $id_page = $this->wObjectStatus->getDato('id_page');
     if(!$id_page) $id_page = 1;
@@ -440,12 +433,14 @@ EOD;
         // Campo de ordenación
         if($dbField->order) {
            $simbolo = ($param_field == $dbField->order)? $orderSimbol : '=';
-           $link = "?CONTROL=$this->id_object&EVENT=$this->event_fOrder&param_field=$dbField->order";
+           $link = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field=$dbField->order');
+
            $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$simbolo.' '.$dbField->title.'</a>';
         }
         // OnClick
         if($dbField->onClick) {
-           $link = "?CONTROL=$this->id_object&EVENT=$this->event_fOnClick&onClick_field=$dbField->onClick&id_page=0";
+           $link = CrudUrl::get($this->event_fOnClick, $this->id_object, '', '', "onClick_field=$dbField->onClick&id_page=0");
+
            $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$dbField->title.'</a>';
         }
 
@@ -565,8 +560,7 @@ EOD;
         $htmButtons['bt_detalle'] = '<button type="button" class="on_detalle btn btn-xs btn-primary"><i class="fa fa-arrow-right fa-lg"></i>'.$label.'</button>';
      }
 
-     // Opcional ---
-     $hrefOption = "?CONTROL=$this->id_object&ROW_ID=$id";
+    // Opcional ----
      foreach($this->list_Op as $key => $bt_opc)
      {
         // optionsEditor ----
@@ -582,18 +576,18 @@ EOD;
            }
            elseif(is_array($ret_optionsEditor)) { // parámetros
               if(isset($ret_optionsEditor['label'])) {
-                $bt_opc['label'] = $ret_optionsEditor['label'];
+                 $bt_opc['label'] = $ret_optionsEditor['label'];
               }
               if(isset($ret_optionsEditor['disabled'])) {
-                $bt_opc['disabled'] = $ret_optionsEditor['disabled'];
+                 $bt_opc['disabled'] = $ret_optionsEditor['disabled'];
               }
-              $bt_opc['href']     = $ret_optionsEditor['href'];
-              $bt_opc['target']   = $ret_optionsEditor['target'];
+              $bt_opc['href']   = $ret_optionsEditor['href'];
+              $bt_opc['target'] = $ret_optionsEditor['target'];
            }
         }
 
         //--------
-        $bt_href = "$hrefOption&EVENT=$bt_opc[event]&OPER=$bt_opc[oper]";
+        $bt_href = CrudUrl::get($bt_opc['event'], $this->id_object, $id, $bt_opc['oper']);
 
         if($bt_opc['href']) {
            $bt_href = $bt_opc['href'];

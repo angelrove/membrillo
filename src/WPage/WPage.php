@@ -50,6 +50,19 @@ class WPage
         <!-- css -->
         <? CssJsLoad::get_css(); ?>
         <!-- /css -->
+        <script>
+        var CRUD_EDIT_NEW    = '<?=CRUD_EDIT_NEW?>';
+        var CRUD_EDIT_UPDATE = '<?=CRUD_EDIT_UPDATE?>';
+
+        var CRUD_LIST_SEARCH = '<?=CRUD_LIST_SEARCH?>';
+        var CRUD_LIST_DETAIL = '<?=CRUD_LIST_DETAIL?>';
+
+        var CRUD_INSERT = '<?=CRUD_INSERT?>';
+        var CRUD_UPDATE = '<?=CRUD_UPDATE?>';
+        var CRUD_DELETE = '<?=CRUD_DELETE?>';
+
+        var main_secc = "<?=$_GET['secc']?>";
+        </script>
       </head>
       <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
         <? self::debug_objects() ?>

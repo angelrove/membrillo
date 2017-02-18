@@ -7,6 +7,7 @@
 namespace angelrove\membrillo2\WInputs\WCalendar;
 
 use angelrove\utils\CssJsLoad;
+use angelrove\membrillo2\CrudUrl;
 
 
 class WCalendar
@@ -80,15 +81,16 @@ class WCalendar
     }
 
     // Prev / Next
-    $objPrevYear = '<a href="?CONTROL='.$this->control.'&EVENT=xxx&f_year='.($year-1).'">&laquo;</a>';
-    $objNextYear = '<a href="?CONTROL='.$this->control.'&EVENT=xxx&f_year='.($year+1).'">&raquo;</a>';
+    $href = CrudUrl::get('xxx', $this->control, '', '', 'f_year='.($year-1));
+    $objPrevYear = '<a href="'.$href.'">&laquo;</a>';
+
+    $href = CrudUrl::get('xxx', $this->control, '', '', 'f_year='.($year+1));
+    $objNextYear = '<a href="'.$href.'">&raquo;</a>';
 
     $btNew = '';
     if($this->showBtNew_lb) {
-       $btNew =
-         '<div class="btNuevo">
-           <a href="?CONTROL='.$this->control.'&EVENT=editNew">'.$this->showBtNew_lb.'...</a>
-          </div>';
+       $href = CrudUrl::get(CRUD_EDIT_NEW, $this->control);
+       $btNew = '<div class="btNuevo"><a href="'.$href.'">'.$this->showBtNew_lb.'...</a></div>';
     }
 
     $tool_prev_next = '';

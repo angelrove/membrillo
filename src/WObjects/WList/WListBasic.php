@@ -143,9 +143,10 @@ EOD;
        }
 
        /* options */
-       foreach($this->options as $event => $label) {
-          $option = 'CONTROL='.$this->id_object.'&EVENT='.$event.'&ROW_ID='.$first_field['value'];
-          $strCols .= '<td class="tupla_op"><a href="./?'.$option.'">'.$label.'</a></td>';
+       foreach($this->options as $event => $label)
+       {
+          $href = CrudUrl::get($event, $this->id_object, $first_field['value']);
+          $strCols .= '<td class="tupla_op"><a href="'.$href.'">'.$label.'</a></td>';
        }
 
        /* Selected */

@@ -1,8 +1,9 @@
+
 $(document).ready(function() {
   //------------------------------------
   $("div.dia").click(function() {
     if(showBtNew) {
-       location.href = '?CONTROL='+control+'&EVENT=editNew&day='+$(this).attr('day');
+       location.href = './'+control+'/?'+EVENT=CRUD_EDIT_NEW+'&day='+$(this).attr('day');
     }
   });
   //------------------------------------

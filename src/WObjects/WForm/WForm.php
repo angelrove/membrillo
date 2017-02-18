@@ -67,7 +67,7 @@ class WForm extends EventComponent
   {
     switch($WEvent->EVENT) {
       //----------
-      case 'editUpdate':
+      case CRUD_EDIT_UPDATE:
         $this->title .= ' Update';
 
         // Datos ---
@@ -87,12 +87,12 @@ class WForm extends EventComponent
         }
       break;
       //----------
-      case 'editNew':
+      case CRUD_EDIT_NEW:
         $this->title .= ' New';
 
         // Datos ---
         if(!$this->db_table) {
-           throw new \Exception('WForm (editNew) need a "db_table"', 1);
+           throw new \Exception('WForm ['.$WEvent->EVENT.'] need a "db_table"', 1);
         }
 
         $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM ".$this->db_table);
@@ -121,9 +121,9 @@ class WForm extends EventComponent
      Event::$REDIRECT_AFTER_OPER = false; // para que no se pierdan los datos recibidos por post
 
      if(Event::$ROW_ID) {
-        Event::setEvent('editUpdate');
+        Event::setEvent(CRUD_EDIT_UPDATE);
      } else {
-        Event::setEvent('editNew');
+        Event::setEvent(CRUD_EDIT_NEW);
      }
 
      // Highlight errors
@@ -155,37 +155,28 @@ class WForm extends EventComponent
   //------------------------------------------------------------------
   public function isUpdate($row_id)
   {
-    $this->WEvent->EVENT  = 'editUpdate';
+    $this->WEvent->EVENT  = CRUD_EDIT_UPDATE;
     $this->WEvent->ROW_ID = $row_id;
     $this->parse_event($this->WEvent);
   }
   //------------------------------------------------------------------
   public function isInsert()
   {
-    $this->WEvent->EVENT  = 'editNew';
+    $this->WEvent->EVENT  = CRUD_EDIT_NEW;
     $this->parse_event($this->WEvent);
   }
   //------------------------------------------------------------------
   public function getFormEvent()
   {
-    $event  = 'form_insert';
-    $oper   = 'insert';
+    $event  = 'home';
+    $oper   = CRUD_INSERT;
     $row_id = '';
 
-    if($this->WEvent->EVENT == 'editUpdate') {
-       $event  = 'form_update';
-       $oper   = 'update';
+    if($this->WEvent->EVENT == CRUD_EDIT_UPDATE) {
+       $oper   = CRUD_UPDATE;
        $row_id = $this->WEvent->ROW_ID;
     }
 
-/*    echo '<div style="border:1px solid #bbb">'.
-          '$this->WEvent->EVENT: '.$this->WEvent->EVENT.
-          '<br><br>$event: '.$event.
-          '<br>$oper:      '.$oper.
-          '<br>$row_id:    '.$row_id.
-         '</div>'
-         ;
-*/
     return array(
         'event' => $event,
         'oper'  => $oper,
@@ -269,35 +260,11 @@ class WForm extends EventComponent
   {
    global $app;
 
-   $js = <<<EOD
-//-----------------------------------
-// WForm EVENTS
-$(document).ready(function()
-{
-  $("#WForm_btUpdate$flag").click(function() {
-     $("#form_edit_"+scut_id_object+" #EVENT").val('editUpdate');
-  });
-  $("#WForm_btInsert$flag").click(function() {
-     $("#form_edit_"+scut_id_object+" #EVENT").val('editNew');
-     $(".WForm").submit();
-  });
-  $("#WForm_btDelete$flag").click(function() {
-     WForm_delete();
-  });
-  $("#WForm_btClose$flag").click(function() {
-     WForm_close();
-  });
-});
-//-----------------------------------
-EOD;
-
-   CssJsLoad::set_script($js);
-
-   $bt_aceptar  = '<button type="submit" class="btn btn-primary" id="WForm_btAceptar'.$flag.'">'.$app->lang['accept'].'</button> '."\n";
-   $bt_guardar  = '<button type="submit" class="btn btn-primary" id="WForm_btUpdate'.$flag.'">'.$app->lang['save'].'</button> '."\n";
-   $bt_eliminar = '<button type="button" class="btn btn-danger " id="WForm_btDelete'.$flag.'">'.$app->lang['delete'].'</button> ';
-   $bt_saveNext = '<button type="button" class="btn btn-primary" id="WForm_btInsert'.$flag.'">Insertar otro &raquo;</button> '."\n";
-   $bt_cancelar = '<button type="button" class="btn btn-default" id="WForm_btClose'.$flag.'">'.$app->lang['close'].'</button>'."\n";
+   $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">'.$app->lang['accept'].'</button> '."\n";
+   $bt_guardar  = '<button type="button" class="WForm_btUpdate btn btn-primary">'.$app->lang['save'].'</button> '."\n";
+   $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">' .$app->lang['delete'].'</button> ';
+   $bt_saveNext = '<button type="button" class="WForm_btInsert btn btn-primary">'.'Insertar otro &raquo;'.'</button> '."\n";
+   $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">'.$app->lang['close'].'</button>'."\n";
 
    $datosEv = $this->getFormEvent();
 
@@ -305,8 +272,12 @@ EOD;
    if(!$this->bt_upd) $bt_guardar  = '';
    if(!$this->bt_saveNext) $bt_saveNext = '';
 
-   if(!$this->bt_cancel || $flag == 'TOP') $bt_cancelar = '';
-   if(!$this->bt_del    || $flag == 'TOP' || $datosEv['event'] == 'form_insert') $bt_eliminar = '';
+   if(!$this->bt_cancel || $flag == 'TOP') {
+      $bt_cancelar = '';
+   }
+   if(!$this->bt_del || $flag == 'TOP' || !$this->WEvent->ROW_ID) {
+      $bt_eliminar = '';
+   }
 
    // $strButtons
    $strButtons = $bt_aceptar.$bt_guardar.$bt_eliminar.$bt_saveNext.$bt_cancelar;

@@ -34,11 +34,6 @@ class WTree2
   private $opNewSub = true;
   private $opDelete = true;
 
-  private $imgNuevo   = 'bt_nuevo_2.png';
-  private $imgUpdate  = 'bt_update.gif';
-  private $imgDelete  = 'delete.png';
-  private $imgDetalle = 'list_detalle.gif';
-
   private $marcas = array();  // Busquedas
   private $statusCiclo = array();  // Status de la generación HTML
 
@@ -115,7 +110,9 @@ class WTree2
     $strCategorias = $this->get_category_tree();
 
     // Button "Nuevo"
-    $strNuevo = '<a class="btNuevo" href="?CONTROL='.$this->id.'&EVENT=editNew&nivel=1" title="Nueva categoría">New...</a>';
+    $href = CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'nivel=1');
+    $strNuevo = '<a class="btNuevo" href="'.$href.'">New...</a>';
+
     if($this->opNew == false) {
        $strNuevo = '';
     }
@@ -304,7 +301,7 @@ EOD;
     //-------
     if($nivel >= $this->haveElementsOnLevel) {
        if(!$tieneSubc) {
-          $link = '?CONTROL='.$this->id.'&EVENT=list_rowSelected&ROW_ID='.$id.'&nivel='.$nivel;
+          $link = \angelrove\membrillo2\CrudUrl::get('list_rowSelected', $this->id, $id, '', 'nivel='.$nivel)
           $listBt['nombre'] = '<a href="'.$link.'">'.$listBt['nombre'].'</a>';
        }
        else {

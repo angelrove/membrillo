@@ -20,13 +20,13 @@ $(document).ready(function()
   $('.List_tuplas .on_update').click(function(event) {
     event.preventDefault();
     var row_id = $(this).parents("tr").attr('id');
-    List_onEvent($(this),row_id, 'update', '', '');
+    List_onEvent($(this), row_id, 'update', '', '');
   });
   // delete ---------------------------------------------
   $('.List_tuplas .on_delete').click(function(event) {
     event.preventDefault();
     var row_id = $(this).parents("tr").attr('id');
-    List_onEvent($(this),row_id, 'delete', 'delete', List_msgConfirmDel);
+    List_onEvent($(this), row_id, 'delete', CRUD_DELETE, List_msgConfirmDel);
   });
   // detalle --------------------------------------------
   $('.List_tuplas .on_detalle').click(function(event) {
@@ -84,7 +84,7 @@ $(document).keydown(function(e)
     else if(e.keyCode == 46 && e.ctrlKey)
     {
       var row_id = $(".List_tuplas tr.selected").attr('id');
-      List_onEvent($(".List_tuplas tr.selected"), row_id, 'delete', 'delete', List_msgConfirmDel);
+      List_onEvent($(".List_tuplas tr.selected"), row_id, 'delete', CRUD_DELETE, List_msgConfirmDel);
     }
     //-----------------------------------
 });
@@ -96,15 +96,16 @@ $(document).keydown(function(e)
 function List_onEvent(object, row_id, bt, oper, txConfirm)
 {
   var List = object.parents(".List_tuplas");
-  var control = List.attr('param_control');
-  var evento  = List.attr('param_event-'+bt);
-  if(!evento) {
+
+  var action = List.attr('param_action');
+  var event  = List.attr('param_event-'+bt);
+  if(!event) {
      return false;
   }
 
-  str_row_id = (row_id)? '&ROW_ID='+row_id : '';
-  str_oper   = (oper)  ? '&OPER='+oper     : '';
-  var href_event = '?CONTROL='+control+'&EVENT='+evento+str_row_id+str_oper;
+  var str_row_id = (row_id)? '?ROW_ID='+row_id : '';
+  var str_oper   = (oper)  ? '&OPER='+oper     : '';
+  var href_event = action+event+str_row_id+str_oper;
 
   // Confirm
   if(txConfirm == '') {

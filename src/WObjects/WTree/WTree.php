@@ -17,6 +17,7 @@ namespace angelrove\membrillo2\WObjects\WTree;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
+use angelrove\membrillo2\CrudUrl;
 
 
 class WTree
@@ -122,8 +123,9 @@ class WTree
     $strCategorias = $this->get_category_tree(0, '');
 
     // Button "New..."
-    $href = "'".'?CONTROL='.$this->id.'&EVENT=editNew&ROW_PADRE_ID=0&nivel=1'."'";
+    $href = "'".CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'ROW_PADRE_ID=0&nivel=1')."'";
     $strNuevo = '<button type="button" class="btn btn-xs btn-primary" onclick="location.href='.$href.'">New...</button>';
+
     if($this->opNew == false) {
        $strNuevo = '';
     }
@@ -200,7 +202,7 @@ EOD;
           $strOnClickRow = "WTree_onSelectRow('$id'); return false;";
        }
        if($this->haveElementsOnAnyCateg || ($this->count_nivel == $this->niveles)) {
-          $strOnClickRow = "WTree_onSelectRow_reload('?CONTROL=$this->id&EVENT=list_rowSelected&ROW_ID=$id&ROW_ID_DESPLEGADO=$id_top&nivel=$this->count_nivel')";
+          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/list_rowSelected/?ROW_ID=$id&ROW_ID_DESPLEGADO=$id_top&nivel=$this->count_nivel')";
        }
 
       // Botonera ------
@@ -370,15 +372,14 @@ EOD;
   private function getBt_edit($id, $id_desplegado)
   {
     $bt = '';
-    $event = 'editUpdate';
+    $event = CRUD_EDIT_UPDATE;
 
     if($this->opUpdate)
     {
       $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
+      $href = CrudUrl::get($event, $CONTROL, $id, '', 'ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel);
 
-      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="?CONTROL='.$CONTROL.'&EVENT='.$event.'&ROW_ID='.$id.'&ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel.'">'.
-              '<i class="fa fa-pencil-square-o fa-lg"></i>'.
-            '</a>';
+      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="'.$href.'"><i class="fa fa-pencil-square-o fa-lg"></i></a>';
     }
 
     return $bt;
@@ -394,13 +395,8 @@ EOD;
 
     if($this->count_nivel < $this->niveles)
     {
-       $event   = 'editNew';
        $CONTROL = (isset($this->id_levels[$this->count_nivel+1]))? $this->id_levels[$this->count_nivel+1] : $this->id;
-
-       $href = '?CONTROL='.$CONTROL.
-               '&EVENT='.$event.
-               '&nivel='.($this->count_nivel+1).
-               '&ROW_PADRE_ID='.$id;
+       $href = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel='.($this->count_nivel+1).'&ROW_PADRE_ID='.$id);
 
        $bt = '<a class="op_newSub" href="'.$href.'"><i class="fa fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
     }
@@ -416,9 +412,11 @@ EOD;
     {
        $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
 
-       $bt = '<a class="op_delete" param_id="'.$id.'" param_ctrl="'.$CONTROL.'" param_nivel="'.$this->count_nivel.'" href="javascript: return false">'.
-                '<i class="fa fa-trash-o fa-lg"></i>'.
-             '</a>';
+       $bt = '<a class="op_delete" '.
+                 'param_id="'.$id.'" '.
+                 'param_ctrl="'.$CONTROL.'" '.
+                 'param_nivel="'.$this->count_nivel.'" '.
+                 'href="javascript: return false"><i class="fa fa-trash-o fa-lg"></i></a>';
     }
 
     return $bt;
