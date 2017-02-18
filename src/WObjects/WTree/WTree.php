@@ -58,7 +58,7 @@ class WTree
     // Datos selected
     global $objectsStatus;
 
-    $this->id_desplegado     = $objectsStatus->getDato($this->id, 'ROW_ID_DESPLEGADO');
+    $this->id_desplegado     = $objectsStatus->getDato($this->id, 'ID_UP');
     $this->ROW_ID            = $objectsStatus->getRowId($this->id);
     $this->id_nivel_selected = $objectsStatus->getDato($this->id, 'nivel');
   }
@@ -202,7 +202,7 @@ EOD;
           $strOnClickRow = "WTree_onSelectRow('$id'); return false;";
        }
        if($this->haveElementsOnAnyCateg || ($this->count_nivel == $this->niveles)) {
-          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/list_rowSelected/?ROW_ID=$id&ROW_ID_DESPLEGADO=$id_top&nivel=$this->count_nivel')";
+          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/list_rowSelected/?ROW_ID=$id&ID_UP=$id_top&nivel=$this->count_nivel')";
        }
 
       // Botonera ------
@@ -377,7 +377,7 @@ EOD;
     if($this->opUpdate)
     {
       $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
-      $href = CrudUrl::get($event, $CONTROL, $id, '', 'ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel);
+      $href = CrudUrl::get($event, $CONTROL, $id, '', 'ID_UP='.$id_desplegado.'&nivel='.$this->count_nivel);
 
       $bt = '<a class="op_update level_'.$this->count_nivel.'" href="'.$href.'"><i class="fa fa-pencil-square-o fa-lg"></i></a>';
     }
