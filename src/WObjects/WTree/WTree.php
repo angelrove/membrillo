@@ -17,6 +17,7 @@ namespace angelrove\membrillo2\WObjects\WTree;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
+use angelrove\membrillo2\CrudUrl;
 
 
 class WTree
@@ -375,10 +376,9 @@ EOD;
     if($this->opUpdate)
     {
       $CONTROL = (isset($this->id_levels[$this->count_nivel]))? $this->id_levels[$this->count_nivel] : $this->id;
+      $href = CrudUrl::get($event, $CONTROL, $id, '', 'ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel);
 
-      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="/'.$_GET['secc'].'/crd/'.$CONTROL.'/'.$event.'/?ROW_ID='.$id.'&ROW_ID_DESPLEGADO='.$id_desplegado.'&nivel='.$this->count_nivel.'">'.
-              '<i class="fa fa-pencil-square-o fa-lg"></i>'.
-            '</a>';
+      $bt = '<a class="op_update level_'.$this->count_nivel.'" href="'.$href.'"><i class="fa fa-pencil-square-o fa-lg"></i></a>';
     }
 
     return $bt;

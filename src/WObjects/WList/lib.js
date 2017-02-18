@@ -96,7 +96,8 @@ $(document).keydown(function(e)
 function List_onEvent(object, row_id, bt, oper, txConfirm)
 {
   var List = object.parents(".List_tuplas");
-  var control = List.attr('param_control');
+
+  var action = List.attr('param_action');
   var event  = List.attr('param_event-'+bt);
   if(!event) {
      return false;
@@ -104,7 +105,7 @@ function List_onEvent(object, row_id, bt, oper, txConfirm)
 
   var str_row_id = (row_id)? '?ROW_ID='+row_id : '';
   var str_oper   = (oper)  ? '&OPER='+oper     : '';
-  var href_event = '/'+main_secc+'/crd/'+control+'/'+event+'/'+str_row_id+str_oper;
+  var href_event = action+event+'/'+str_row_id+str_oper;
 
   // Confirm
   if(txConfirm == '') {

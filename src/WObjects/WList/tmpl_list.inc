@@ -7,6 +7,8 @@ if($this->showScroll == true) {
    $class_scroll = 'setScroll';
    $styleScroll  = 'height:'.$this->height.'px;';
 }
+
+$action = \angelrove\membrillo2\CrudUrl::get('', $this->id_object);
 ?>
 
 <!-- Wlist -->
@@ -29,10 +31,9 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
                   table-striped
                   table-bordered
                   table-hover"
-           param_control="<?=$this->id_object?>"
+           param_action="<?=$action?>"
 
            param_event-onRow  ="<?=$this->onClickRow?>"
-
            param_event-new    ="<?=$this->event_new?>"
            param_event-update ="<?=$this->event_update?>"
            param_event-delete ="<?=$this->event_delete?>"

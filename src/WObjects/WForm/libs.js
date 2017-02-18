@@ -59,7 +59,7 @@ function WForm_delete()
 
   // action
   var formEdit = document.getElementById('form_edit_'+scut_id_object);
-  formEdit.action = '/'+main_secc+'/crd/'+scut_id_object+'/'+formEdit.EVENT.value+'/?OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
+  formEdit.action = formEdit.action+formEdit.EVENT.value+'/?OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
 
   var res = confirm("¿Estás seguro?");
   if(res == true) {
