@@ -30,10 +30,10 @@ $(document).ready(function()
 
       var param_row_id = '';
       if(formEdit.ROW_ID.value) {
-         param_row_id = '?ROW_ID='+formEdit.ROW_ID.value;
+         param_row_id = '/'+formEdit.ROW_ID.value;
       }
 
-      formEdit.action = formEdit.action+formEdit.EVENT.value+'/'+param_row_id;
+      formEdit.action = formEdit.action+formEdit.EVENT.value+param_row_id+'/';
       // alert("action: "+formEdit.action);
     });
     // Save -------------------------------------
@@ -49,11 +49,11 @@ $(document).ready(function()
     // Delete -----------------------------------
     $(".WForm_btDelete").click(function()
     {
-      $("#form_edit_"+scut_id_object+" #OPER").val(CRUD_DELETE);
+      $("#form_edit_"+scut_id_object+" #OPER").val(CRUD_OPER_DELETE);
 
       // action
       var formEdit = document.getElementById('form_edit_'+scut_id_object);
-      formEdit.action = formEdit.action+formEdit.EVENT.value+'/?OPER='+formEdit.OPER.value+'&ROW_ID='+formEdit.ROW_ID.value;
+      formEdit.action = formEdit.action+formEdit.EVENT.value+'/'+formEdit.ROW_ID.value+'/?OPER='+formEdit.OPER.value;
 
       var res = confirm("¿Estás seguro?");
       if(res == true) {

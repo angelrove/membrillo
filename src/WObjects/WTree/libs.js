@@ -11,7 +11,7 @@ $(document).ready(function() {
      // var row_id  = $(this).attr("param_id");
      // var nivel   = $(this).attr("param_nivel");
      // var id_top  = $(this).attr("param_id_top");
-     // location.href = "/"+main_secc+"/crd/"+control+"/list/?OPER="+CRUD_DELETE+"&nivel="+nivel+"&ROW_ID="+row_id;
+     // location.href = "/"+main_secc+"/crd/"+control+"/list/?OPER="+CRUD_OPER_DELETE+"&nivel="+nivel+"&ROW_ID="+row_id;
 
   });
   //--------------------------------
@@ -22,7 +22,8 @@ $(document).ready(function() {
        var control= $(this).attr("param_ctrl");
        var row_id = $(this).attr("param_id");
        var nivel  = $(this).attr("param_nivel");
-       location.href = "/"+main_secc+"/crd/"+control+"/list/?OPER="+CRUD_DELETE+"&nivel="+nivel+"&ROW_ID="+row_id;
+
+       location.href = "/"+main_secc+"/crd/"+control+"/list/"+row_id+"/?OPER="+CRUD_OPER_DELETE+"&nivel="+nivel;
        return true;
      }
      return false ;

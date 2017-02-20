@@ -33,7 +33,6 @@ class WList extends EventComponent
   // Events
   private $event_new    = '';
   private $event_update = '';
-  private $event_delete = '';
 
   private $event_fOrder  = 'fieldOrder';
   private $event_fOnClick= 'fieldOnClick';
@@ -193,8 +192,7 @@ class WList extends EventComponent
   //-------------------------------------------------------
   public function showDelete($isConfirm=true)
   {
-    $this->event_delete = CRUD_DELETE;
-    $this->bt_delete    = true;
+    $this->bt_delete = true;
     $this->bt_delete_confirm = $isConfirm;
 
     global $app;
@@ -202,8 +200,6 @@ class WList extends EventComponent
        $this->msgConfirmDel = 'Eliminar';
     }
   }
-  //-------------------------------------------------------
-  // Events Other
   //-------------------------------------------------------
   public function showDetail($showButton=true)
   {
@@ -213,6 +209,8 @@ class WList extends EventComponent
        $this->onClickRow = CRUD_LIST_DETAIL;
     }
   }
+  //-------------------------------------------------------
+  // Events Other
   //-------------------------------------------------------
   public function setBtOpc($event, $label='', $onClick=false, $title='')
   {

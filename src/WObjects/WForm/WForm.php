@@ -168,12 +168,12 @@ class WForm extends EventComponent
   //------------------------------------------------------------------
   public function getFormEvent()
   {
-    $event  = 'home';
-    $oper   = CRUD_INSERT;
+    $event  = CRUD_DEFAULT;
+    $oper   = CRUD_OPER_INSERT;
     $row_id = '';
 
     if($this->WEvent->EVENT == CRUD_EDIT_UPDATE) {
-       $oper   = CRUD_UPDATE;
+       $oper   = CRUD_OPER_UPDATE;
        $row_id = $this->WEvent->ROW_ID;
     }
 

@@ -11,16 +11,19 @@ use angelrove\membrillo2\Messages;
 
 
 // CRUD events --------------------------------
-// Note: added to WPage as Javascript vars
-define('CRUD_EDIT_NEW',    'new');  // Read
+// Note: added to WPage!
+
+define('CRUD_DEFAULT', 'default');
+
+define('CRUD_EDIT_NEW',    'new');    // Read
 define('CRUD_EDIT_UPDATE', 'edit');
 
 define('CRUD_LIST_SEARCH', 'search'); // List
-define('CRUD_LIST_DETAIL', 'selected');
+define('CRUD_LIST_DETAIL', 'select');
 
-define('CRUD_INSERT', 'insert');
-define('CRUD_UPDATE', 'update');
-define('CRUD_DELETE', 'delete');
+define('CRUD_OPER_INSERT', 'insert'); // Opers
+define('CRUD_OPER_UPDATE', 'update');
+define('CRUD_OPER_DELETE', 'delete');
 //---------------------------------------------
 
 

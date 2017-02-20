@@ -51,15 +51,17 @@ class WPage
         <? CssJsLoad::get_css(); ?>
         <!-- /css -->
         <script>
+        var CRUD_DEFAULT = '<?=CRUD_DEFAULT?>';
+
         var CRUD_EDIT_NEW    = '<?=CRUD_EDIT_NEW?>';
         var CRUD_EDIT_UPDATE = '<?=CRUD_EDIT_UPDATE?>';
 
         var CRUD_LIST_SEARCH = '<?=CRUD_LIST_SEARCH?>';
         var CRUD_LIST_DETAIL = '<?=CRUD_LIST_DETAIL?>';
 
-        var CRUD_INSERT = '<?=CRUD_INSERT?>';
-        var CRUD_UPDATE = '<?=CRUD_UPDATE?>';
-        var CRUD_DELETE = '<?=CRUD_DELETE?>';
+        var CRUD_OPER_INSERT = '<?=CRUD_OPER_INSERT?>';
+        var CRUD_OPER_UPDATE = '<?=CRUD_OPER_UPDATE?>';
+        var CRUD_OPER_DELETE = '<?=CRUD_OPER_DELETE?>';
 
         var main_secc = "<?=$_GET['secc']?>";
         </script>

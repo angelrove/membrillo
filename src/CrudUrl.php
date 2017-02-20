@@ -14,13 +14,12 @@ class CrudUrl
    {
       $params = array();
 
-      //----
-      if($id) {
-         $params[] = "ROW_ID=$id";
-      }
+      // Params ----
       if($oper) {
          $params[] = "OPER=$oper";
       }
+
+      // Other params ----
       if($other_params) {
          $params[] = $other_params;
       }
@@ -30,12 +29,11 @@ class CrudUrl
          $params = '?'.$params;
       }
 
-      //----
-      if($event) {
-         $event = "/$event";
-      }
+      // CRUD ----
+      $crd_event = ($event)? "/$event" : '';
+      $crd_id    = ($id)?    "/$id"    : '';
 
-      return '/'.$_GET['secc'].'/crd/'.$control.$event.'/'.$params;
+      return '/'.$_GET['secc'].'/crd/'.$control.$crd_event.$crd_id.'/'.$params;
    }
    //-------------------------------------------------------------
    public static function get_nocrud($params='')

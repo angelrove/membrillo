@@ -8,8 +8,6 @@
  * Eventos:
  *   'editNew'     & 'ROW_PADRE_ID'
  *   'editUpdate'  & 'ROW_ID'
- *   'list_delete'      & 'ROW_ID'
- *   'list_rowSelected' & 'ROW_ID'
  */
 
 namespace angelrove\membrillo2\WObjects\WTree;
@@ -202,7 +200,7 @@ EOD;
           $strOnClickRow = "WTree_onSelectRow('$id'); return false;";
        }
        if($this->haveElementsOnAnyCateg || ($this->count_nivel == $this->niveles)) {
-          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/list_rowSelected/?ROW_ID=$id&ID_UP=$id_top&nivel=$this->count_nivel')";
+          $strOnClickRow = "WTree_onSelectRow_reload('/$_GET[secc]/crd/$this->id/".CRUD_LIST_DETAIL."/$id/?ID_UP=$id_top&nivel=$this->count_nivel')";
        }
 
       // Botonera ------

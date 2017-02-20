@@ -37,7 +37,7 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
            param_event-onRow  ="<?=$this->onClickRow?>"
            param_event-new    ="<?=$this->event_new?>"
            param_event-update ="<?=$this->event_update?>"
-           param_event-delete ="<?=$this->event_delete?>"
+           param_event-delete ="<?=CRUD_DEFAULT?>"
            param_event-detalle="<?=CRUD_LIST_DETAIL?>">
        <thead>
          <?if($this->title) {?>

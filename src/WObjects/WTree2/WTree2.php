@@ -7,17 +7,13 @@
 namespace angelrove\membrillo2\WObjects\WTree2;
 
 use angelrove\utils\CssJsLoad;
+use angelrove\membrillo2\CrudUrl;
 
 
 /*
  * Obligatorios:
  *   DB table: 'categorias' -> 'id_padre'
  *
- * Eventos:
- *   'editNew'     & 'ROW_PADRE_ID'
- *   'editUpdate'  & 'ROW_ID'
- *   'list_delete'      & 'ROW_ID'
- *   'list_rowSelected' & 'ROW_ID'
  */
 
 class WTree2
@@ -301,7 +297,7 @@ EOD;
     //-------
     if($nivel >= $this->haveElementsOnLevel) {
        if(!$tieneSubc) {
-          $link = \angelrove\membrillo2\CrudUrl::get('list_rowSelected', $this->id, $id, '', 'nivel='.$nivel)
+          $link = CrudUrl::get(CRUD_LIST_DETAIL, $this->id, $id, '', 'nivel='.$nivel)
           $listBt['nombre'] = '<a href="'.$link.'">'.$listBt['nombre'].'</a>';
        }
        else {
