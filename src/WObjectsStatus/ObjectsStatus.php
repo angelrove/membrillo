@@ -27,13 +27,13 @@ class ObjectsStatus
     return $this->listObjects[$idControl];
   }
   //----------------------------------------------------------------------------
-  public function setNewObject2($idControl, $component)
-  {
-    if(!isset($this->listObjects[$idControl])) {
-        $this->listObjects[$idControl] = $component;
-    }
-    return $this->listObjects[$idControl];
-  }
+  // public function setNewObject2($idControl, $component)
+  // {
+  //   if(!isset($this->listObjects[$idControl])) {
+  //       $this->listObjects[$idControl] = $component;
+  //   }
+  //   return $this->listObjects[$idControl];
+  // }
   //----------------------------------------------------------------------------
   public function getObject($idControl)
   {

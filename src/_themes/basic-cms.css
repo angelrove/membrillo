@@ -11,6 +11,7 @@ hr {
   margin-bottom: 7px;
 }
 
+/* ---- Alerts ----- */
 .WApplication_msgs {
   position:absolute;
   z-index: 1000;
