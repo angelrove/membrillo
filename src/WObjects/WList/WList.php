@@ -36,7 +36,7 @@ class WList extends EventComponent
 
   private $event_fOrder  = 'fieldOrder';
   private $event_fOnClick= 'fieldOnClick';
-  private $event_numPage = 'list_numPage';
+  private $event_numPage = 'pagination';
 
   // Buttons
   private $onClickRow = '';
