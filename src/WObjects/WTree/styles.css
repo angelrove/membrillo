@@ -6,6 +6,7 @@
 .WTree {
   border: 1px solid #ccc;
   background-color: #FFF;
+  min-height: 290px;
 }
 .WTree .cabecera_title .btn {
   padding: 2px 5px;
