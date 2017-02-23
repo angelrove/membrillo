@@ -16,34 +16,29 @@ class Frame
   public static function get($title='', $showClose=false, $linkClose='')
   {
    if(!$linkClose) {
-      $linkClose = '/'.$_GET['secc'].'/';
+      $linkClose = \angelrove\membrillo2\CrudUrl::get_nocrud();
    }
 
       CssJsLoad::set_script('
-   var WFrame_showClose = '.($showClose? "true" : "false").';
-
    $(document).ready(function() {
      //-----------------
-     $(".WFrame .close").click(function() {
-       Frame_close();
+     $(".WFrame>.panel-heading>button.close").click(function() {
+        window.location = "'.$linkClose.'";
      });
      //-----------------
    });
+
    $(document).keydown(function(e) {
      // Esc ------------
+     var WFrame_showClose = '.($showClose? "true" : "false").';
+
      if(WFrame_showClose == true && e.keyCode == 27) {
-        Frame_close();
+        window.location = "'.$linkClose.'";
      }
      //-----------------
    });
 
-   //-------------------
-   function Frame_close() {
-      window.location = "'.$linkClose.'";
-   }
-   //-------------------
-
-  ', 'WFrame');
+  ', 'WPage\Frame\get');
 
      $tmpl_params = array('showClose' => $showClose,
                           'title'     => $title);

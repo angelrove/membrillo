@@ -44,7 +44,7 @@
   padding: 8px 1px;
 }
 .WTree_tuplas .tupla .tab_0 {
-  color:#ccc;
+  color:#ddd;
 }
 .WTree_tuplas .tupla .tab {
   display: inline-block;
@@ -68,7 +68,6 @@
 /*----------*/
 .WTree_tuplas .columnOp {
   width: 85px;
-  text-align: center;
 }
 .WTree_tuplas .columnOp a {
   margin: 0 5px;

@@ -81,16 +81,18 @@ class WTree
     $this->sqlWhere = 'AND '.$sqlWhere;
   }
   //-----------------------------------------------------------------
-  public function setWtreeData($wTreeData) {
-    $this->wTreeData = $wTreeData;
-  }
-  //-----------------------------------------------------------------
   public function haveElementsOnAnyCateg($flag) {
     $this->haveElementsOnAnyCateg = $flag;
   }
   //-----------------------------------------------------------------
   public function alwaysExpand($flag) {
     $this->alwaysExpand = $flag;
+  }
+  //-----------------------------------------------------------------
+  // Interfaces
+  //-----------------------------------------------------------------
+  public function setWtreeData($iWTreeData) {
+    $this->wTreeData = $iWTreeData;
   }
   //-----------------------------------------------------------------
   // Actions
@@ -204,7 +206,7 @@ EOD;
        }
 
       // Botonera ------
-       $bt_newSub = $this->getBt_newSub($id);
+       $bt_newSub = $this->getBt_newSub($id, $categ);
        $bt_delete = $this->getBt_delete($id, $tieneSubc);
        $bt_edit   = $this->getBt_edit($id, $id_top);
 
@@ -383,19 +385,25 @@ EOD;
     return $bt;
   }
   //-----------------------------------------------------------------
-  private function getBt_newSub($id)
+  private function getBt_newSub($id, $datos)
   {
     if($this->opNewSub !== true) {
        return '';
     }
 
+    if($this->wTreeData) {
+       if(!$tieneSubc = $this->wTreeData->show_newSub($datos)) {
+          return '';
+       }
+    }
+
+    //----------
     $bt = '';
 
     if($this->count_nivel < $this->niveles)
     {
        $CONTROL = (isset($this->id_levels[$this->count_nivel+1]))? $this->id_levels[$this->count_nivel+1] : $this->id;
        $href = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel='.($this->count_nivel+1).'&ROW_PADRE_ID='.$id);
-
        $bt = '<a class="op_newSub" href="'.$href.'"><i class="fa fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
     }
 
