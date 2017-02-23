@@ -109,7 +109,7 @@ class GenQuery
     }
 
     /** Parse Errors **/
-    $listErrors = '';
+    $listErrors = array();
 
     // Obligatorios ---
     foreach($listFields as $fieldName => $fieldProp)
@@ -123,14 +123,14 @@ class GenQuery
 
        $value = '';
 
-       // Type File ---
+       // Type: File ---
        if($fieldProp->type == 'file') {
           if($_POST[$fieldName.'_isDelete'] == 0) {
              $value = $_POST[$fieldName.'_prev'];
           }
           $value = $value.$_FILES[$fieldName]['name'];
        }
-       // Otros -----
+       // Type: Other ---
        else {
           $value = $_POST[$fieldName];
        }
