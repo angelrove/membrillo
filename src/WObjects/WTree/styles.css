@@ -6,7 +6,7 @@
 .WTree {
   border: 1px solid #ccc;
   background-color: #FFF;
-  min-height: 290px;
+  min-height: 300px;
 }
 .WTree .cabecera_title .btn {
   padding: 2px 5px;
@@ -44,7 +44,7 @@
   padding: 8px 1px;
 }
 .WTree_tuplas .tupla .tab_0 {
-  color:#ccc;
+  color:#ddd;
 }
 .WTree_tuplas .tupla .tab {
   display: inline-block;
@@ -68,7 +68,6 @@
 /*----------*/
 .WTree_tuplas .columnOp {
   width: 85px;
-  text-align: center;
 }
 .WTree_tuplas .columnOp a {
   margin: 0 5px;

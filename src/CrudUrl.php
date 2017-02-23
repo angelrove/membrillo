@@ -38,7 +38,8 @@ class CrudUrl
    //-------------------------------------------------------------
    public static function get_nocrud($params='')
    {
-      return '/'.$_GET['secc'].'/?'.$params;
+      $params = ($params)? '/?'.$params : '/';
+      return '/'.$_GET['secc'].$params;
    }
   //-------------------------------------------------------------
 }
