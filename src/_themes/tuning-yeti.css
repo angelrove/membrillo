@@ -1,15 +1,19 @@
-
 /* ------------------- */
+
 fieldset {
- border: 1px solid #999;
- padding-bottom:10px;
- padding-left:  10px;
- padding-right: 10px;
+    border: 1px solid #999;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
 legend {
- font-weight: bold;
+    font-weight: bold;
 }
+
+
 /* ----- Navbar ----- */
+
 .navbar .dropdown-menu>li>a {
-  padding: 6px 20px;
+    padding: 6px 20px;
 }

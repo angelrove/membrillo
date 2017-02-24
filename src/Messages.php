@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
@@ -21,76 +21,76 @@ namespace angelrove\membrillo2;
 
 use angelrove\utils\CssJsload;
 
-
 class Messages
 {
-  private static $max_size = 1000;
+    private static $max_size = 1000;
 
-  //----------------------------------------------------
-  /*
-   * $type: 'success', 'danger', 'debug'
-   */
-  public static function set($msg, $type='success')
-  {
-     // Max size ---
-     if(strlen($_SESSION['Messages_msg'][$type]) > self::$max_size) {
-        self::set_empty();
-     }
+    //----------------------------------------------------
+    /*
+     * $type: 'success', 'danger', 'debug'
+     */
+    public static function set($msg, $type = 'success')
+    {
+        // Max size ---
+        if (strlen($_SESSION['Messages_msg'][$type]) > self::$max_size) {
+            self::set_empty();
+        }
 
-     // Set ---
-     $_SESSION['Messages_msg'][$type] .= '<div>'.$msg.'</div>';
-  }
-  //----------------------------------------------------
-  public static function set_empty()
-  {
-     $_SESSION['Messages_msg']['success'] = '';
-     $_SESSION['Messages_msg']['danger']  = '';
-     $_SESSION['Messages_msg']['debug']   = '';
-  }
-  //----------------------------------------------------
-  public static function set_debug($msg)
-  {
-     if(IS_LOCALHOST) {
-        self::set('<pre>'.$msg.'</pre>', 'debug');
-     }
-  }
-  //----------------------------------------------------
-  public static function show()
-  {
-     CssJsLoad::set_script('
+        // Set ---
+        $_SESSION['Messages_msg'][$type] .= '<div>' . $msg . '</div>';
+    }
+    //----------------------------------------------------
+    public static function set_empty()
+    {
+        $_SESSION['Messages_msg']['success'] = '';
+        $_SESSION['Messages_msg']['danger']  = '';
+        $_SESSION['Messages_msg']['debug']   = '';
+    }
+    //----------------------------------------------------
+    public static function set_debug($msg)
+    {
+        if (IS_LOCALHOST) {
+            self::set('<pre>' . $msg . '</pre>', 'debug');
+        }
+    }
+    //----------------------------------------------------
+    public static function show()
+    {
+        CssJsLoad::set_script('
   $(document).ready(function() {
      $("#WApplication_msgs_load").load("/index_ajax.php?sys_service=Messages_get").delay(7000).fadeOut();
   });
 ', 'Messages');
 
-     ?>
+        ?>
      <!-- Messages -->
      <div id="WApplication_msgs_load"></div>
      <!-- /Messages -->
      <?
-  }
-  //----------------------------------------------------
-  // Esta función es llamada por ajax
-  public static function get()
-  {
-     if(!isset($_SESSION['Messages_msg'])) {
-        $_SESSION['Messages_msg'] = array('success'=> '',
-                                          'danger' => '',
-                                          'debug' => '',
-                                          );
-     }
-
-     // OUT ---
-     foreach($_SESSION['Messages_msg'] as $type => $msg) {
-        if(!$msg) {
-           continue;
+    }
+    //----------------------------------------------------
+    // Esta función es llamada por ajax
+    public static function get()
+    {
+        if (!isset($_SESSION['Messages_msg'])) {
+            $_SESSION['Messages_msg'] = array(
+                'success' => '',
+                'danger'  => '',
+                'debug'   => '',
+            );
         }
 
-        ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?
-     }
+        // OUT ---
+        foreach ($_SESSION['Messages_msg'] as $type => $msg) {
+            if (!$msg) {
+                continue;
+            }
 
-     // Empty ---
-     self::set_empty();
-  }
-  //----------------------------------------------------
+            ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?
+        }
+
+        // Empty ---
+        self::set_empty();
+    }
+    //----------------------------------------------------
 }

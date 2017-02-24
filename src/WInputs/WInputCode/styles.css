@@ -1,1 +1,16 @@
-
+<style>
+.CodeMirror {
+   height: 80vh;
+   border-width: 0;
+}
+.CodeMirror span {
+  font-size: 13px;
+  font-family:Consolas;
+}
+.cm-s-zenburn {
+  background-color: #222;
+}
+.cm-s-zenburn .CodeMirror-gutters {
+  background: #323131 !important;
+}
+</style>

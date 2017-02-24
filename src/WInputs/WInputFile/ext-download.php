@@ -1,4 +1,4 @@
-<?
+<?php
 // Download
 $file     = $_REQUEST['f'];
 $fileUser = $_REQUEST['fu'];
@@ -7,5 +7,5 @@ $mime     = $_REQUEST['mime'];
 
 header("Content-type: $mime;");
 //header("Content-Length: $size;");
-header('Content-Disposition: attachment; filename="'.$fileUser.'";');
+header('Content-Disposition: attachment; filename="' . $fileUser . '";');
 readfile($file);

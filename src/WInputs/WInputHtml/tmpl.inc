@@ -6,13 +6,15 @@ var WInputHtml_height   = <?=$params['height']?>;
 
 <style>
 textarea.mce-textbox {
-  font-family: "Courier New";
-  background-color: #333;
-  color: #eee;
+    font-family: "Courier New";
+    background-color: #333;
+    color: #eee;
 }
 </style>
 
 <!-- <form method="post" action="somepage"> -->
-<textarea name="<?=$params['name']?>" class="<?=$params['selector']?>"><?=html_entity_decode($params['value'])?></textarea>
+<textarea class="<?=$params['selector']?>" name="<?=$params['name']?>">
+    <?=html_entity_decode($params['value'])?>
+</textarea>
 <!-- </form> -->
 <!-- /WInputHtml -->

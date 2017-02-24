@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @author <jangel.romero@gmail.com>
  *
@@ -8,17 +8,16 @@ namespace angelrove\membrillo2\WInputs;
 
 use angelrove\utils\CssJsLoad;
 
-
 class WInputDate
 {
-  //---------------------------------------------------
-  public static function get($name, $value, $disabled='')
-  {
-    // $nameButton = 'btCalendar_'. $name;
-    $idInput = 'WInputs_Date';
+    //---------------------------------------------------
+    public static function get($name, $value, $disabled = '')
+    {
+        // $nameButton = 'btCalendar_'. $name;
+        $idInput = 'WInputs_Date';
 
-  // Inicialización en español para la extensión 'UI date picker'
-  CssJsLoad::set_script("
+        // Inicialización en español para la extensión 'UI date picker'
+        CssJsLoad::set_script("
 jQuery(function($) {
   $.datepicker.regional['es'] = {
       closeText: 'Cerrar',
@@ -41,9 +40,9 @@ jQuery(function($) {
 });
 ", $idInput);
 
-  CssJsLoad::set_script('
+        CssJsLoad::set_script('
     $(function() {
-      $("#'.$name.'").datepicker({
+      $("#' . $name . '").datepicker({
         dateFormat: "dd/mm/yy",
         changeMonth: true,
         changeYear:  true
@@ -51,9 +50,9 @@ jQuery(function($) {
     });
 ');
 
-    // Retornar el código ---
-    ob_start();
-    ?>
+        // Retornar el código ---
+        ob_start();
+        ?>
     <input type="text"
            class="form-control <?=$idInput?>"
            id="<?=$name?>"
@@ -61,7 +60,7 @@ jQuery(function($) {
            value="<?=$value?>"
            maxlength="10" <?=$disabled?>>
     <?
-    return ob_get_clean();
-   }
-  //---------------------------------------------------
+        return ob_get_clean();
+    }
+    //---------------------------------------------------
 }

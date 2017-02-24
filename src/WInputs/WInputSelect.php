@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
@@ -8,7 +8,6 @@ namespace angelrove\membrillo2\WInputs;
 
 use angelrove\utils\Db_mysql;
 
-
 class WInputSelect
 {
     //------------------------------------------------------------------
@@ -17,91 +16,102 @@ class WInputSelect
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $selected, $name='', $required=false)
+    public static function get($sqlQ, $selected, $name = '', $required = false)
     {
-      if(!$sqlQ) return '';
-      $strSelect = '';
-      $selected_isArray = is_array($selected);
+        if (!$sqlQ) {
+            return '';
+        }
 
-      $rows = Db_mysql::getList($sqlQ);
-      foreach($rows as $id => $row) {
-         $nombre = $row['nombre'];
-         if(!$nombre) $nombre = $id;
+        $strSelect        = '';
+        $selected_isArray = is_array($selected);
 
-         // Selected
-         $SELECTED = '';
-         if($selected_isArray) {
-            if(array_search($id, $selected) !== false) $SELECTED = 'SELECTED';
-         } else {
-            if($id == $selected) $SELECTED = 'SELECTED';
-         }
+        $rows = Db_mysql::getList($sqlQ);
+        foreach ($rows as $id => $row) {
+            $nombre = $row['nombre'];
+            if (!$nombre) {
+                $nombre = $id;
+            }
 
-         // Option
-         $strSelect .= "<option value=\"$id\" $SELECTED>$nombre</option>";
-      }
+            // Selected
+            $SELECTED = '';
+            if ($selected_isArray) {
+                if (array_search($id, $selected) !== false) {
+                    $SELECTED = 'SELECTED';
+                }
 
-      if($name) {
-         $required = ($required)? 'required': '';
+            } else {
+                if ($id == $selected) {
+                    $SELECTED = 'SELECTED';
+                }
 
-         $strSelect = "<select name=\"$name\" class=\"form-control\" $required>".
-                         '<option></option>'.
-                         $strSelect.
-                      "</select>";
-      }
+            }
 
-      return $strSelect;
+            // Option
+            $strSelect .= "<option value=\"$id\" $SELECTED>$nombre</option>";
+        }
+
+        if ($name) {
+            $required = ($required) ? 'required' : '';
+
+            $strSelect = "<select name=\"$name\" class=\"form-control\" $required>" .
+                '<option></option>' .
+                $strSelect .
+                "</select>";
+        }
+
+        return $strSelect;
     }
     //------------------------------------------------------------------
     /**
      * from array
      * $tipoId: AUTO_INCR, AUTO_VALUE
      */
-    public static function getFromArray($datos, $id_selected, $name='', $required=false, $tipoId='', $listColors='', $listGroup=array())
+    public static function getFromArray($datos, $id_selected, $name = '', $required = false, $tipoId = '', $listColors = '', $listGroup = array())
     {
-      $strSelect = '';
+        $strSelect = '';
 
-      foreach($datos as $id=>$nombre) {
-         if($tipoId == 'AUTO_VALUE') {
-            $id = $nombre;
-         }
-         if(is_array($nombre)) {
-            $nombre = $nombre['nombre'];
-         }
-
-         // Selected
-         $SELECTED = '';
-         if($id == $id_selected) {
-            $SELECTED = ' SELECTED';
-         }
-
-         // optgroup
-         if(isset($listGroup[$id])) {
-            if($strSelect) {
-               $strSelect .= '</optgroup>';
+        foreach ($datos as $id => $nombre) {
+            if ($tipoId == 'AUTO_VALUE') {
+                $id = $nombre;
             }
-            $strSelect .= '<optgroup label="'.$listGroup[$id].'">';
-         }
+            if (is_array($nombre)) {
+                $nombre = $nombre['nombre'];
+            }
 
-         // Option
-         $style = '';
-         if($listColors) {
-            $style = 'style="background:'.$listColors[$id].'"';
-         }
-         $strSelect .= '<option '.$style.' value="'.$id.'"'.$SELECTED.'>'.$nombre.'</option>';
-      }
-      if($listGroup) {
-         $strSelect .= '</optgroup>';
-      }
+            // Selected
+            $SELECTED = '';
+            if ($id == $id_selected) {
+                $SELECTED = ' SELECTED';
+            }
 
-      if($name) {
-         $required = ($required)? 'required': '';
-         $strSelect = "<select name=\"$name\" class=\"form-control\" $required>".
-                         '<option></option>'.
-                         $strSelect.
-                      "</select>";
-      }
+            // optgroup
+            if (isset($listGroup[$id])) {
+                if ($strSelect) {
+                    $strSelect .= '</optgroup>';
+                }
+                $strSelect .= '<optgroup label="' . $listGroup[$id] . '">';
+            }
 
-      return $strSelect;
+            // Option
+            $style = '';
+            if ($listColors) {
+                $style = 'style="background:' . $listColors[$id] . '"';
+            }
+            $strSelect .= '<option ' . $style . ' value="' . $id . '"' . $SELECTED . '>' . $nombre . '</option>';
+        }
+        if ($listGroup) {
+            $strSelect .= '</optgroup>';
+        }
+
+        if ($name) {
+            $required  = ($required) ? 'required' : '';
+            $strSelect = "<select name=\"$name\" class=\"form-control\" $required>" .
+                '<option></option>' .
+                $strSelect .
+                "</select>";
+        }
+
+        return $strSelect;
     }
     //------------------------------------------------------------------
 }
