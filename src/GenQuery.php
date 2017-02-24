@@ -27,7 +27,10 @@ class GenQuery
      *  ...
      *  Ejem.: GenQuery::getSqlFiltros($listSql, $_REQUEST);
      */
-    public static function getSqlFiltros($listSql, $listFiltros, $sep = 'AND', $pref = '')
+    public static function getSqlFiltros(array $listSql,
+                                         array $listFiltros,
+                                         $sep = 'AND',
+                                         $pref = '')
     {
         $sqlFiltros = '';
         $sep        = ' ' . $sep . ' ';
@@ -55,7 +58,7 @@ class GenQuery
         return $sqlFiltros;
     }
     //------------------------------------------------------------------
-    public static function helper_insert($DB_TABLE, $listValuesPers = array())
+    public static function helper_insert($DB_TABLE, array $listValuesPers = array())
     {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
@@ -70,7 +73,8 @@ class GenQuery
         Messages::set("Insertado correctamente.");
     }
     //------------------------------------------------------------------
-    public static function helper_update($DB_TABLE, $listValuesPers = array(), $id = '')
+    public static function helper_update($DB_TABLE,
+                                         array $listValuesPers = array(), $id = '')
     {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
@@ -87,9 +91,14 @@ class GenQuery
     //------------------------------------------------------------------
     // Parse form
     //------------------------------------------------------------------
-    public static function parseForm($DB_TABLE, $id = '', $uniques = array(), $notNull = array())
+    public static function parseForm($DB_TABLE,
+                                     $id = '',
+                                     array $uniques = array(),
+                                     array $notNull = array())
     {
         global $app;
+
+        $listErrors = array();
 
         if (!$id) {
             $id = Event::$ROW_ID;
@@ -106,7 +115,6 @@ class GenQuery
         }
 
         /** Parse Errors **/
-        $listErrors = array();
 
         // Obligatorios ---
         foreach ($listFields as $fieldName => $fieldProp) {
@@ -174,10 +182,12 @@ class GenQuery
     //------------------------------------------------------------------
     // SELECT
     //------------------------------------------------------------------
-    public static function selectFiltros($DB_TABLE, $sqlFiltros)
+    public static function selectFiltros($DB_TABLE, array $sqlFiltros)
     {
         $strFiltros = '';
-        if ($sqlFiltros) {$strFiltros = " WHERE $sqlFiltros";}
+        if ($sqlFiltros) {
+            $strFiltros = " WHERE $sqlFiltros";
+        }
 
         $sqlQ = self::select($DB_TABLE);
         return $sqlQ . $strFiltros;
@@ -234,7 +244,7 @@ class GenQuery
     //------------------------------------------------------------------
     // INSERT
     //------------------------------------------------------------------
-    public static function insert($DB_TABLE, $listValuesPers = array())
+    public static function insert($DB_TABLE, array $listValuesPers = array())
     {
         // Query --------
         $sqlQ = self::getQueryInsert($DB_TABLE, $listValuesPers);
@@ -264,7 +274,7 @@ class GenQuery
         return;
     }
     //------------------------------------------------------------------
-    public static function getQueryInsert($DB_TABLE, $listValuesPers = array())
+    public static function getQueryInsert($DB_TABLE, array $listValuesPers = array())
     {
         /** Recorrer los campos **/
         $strFields  = '';
@@ -301,7 +311,7 @@ class GenQuery
     //------------------------------------------------------------------
     // UPDATE
     //------------------------------------------------------------------
-    public static function update($DB_TABLE, $listValuesPers = array(), $id = '')
+    public static function update($DB_TABLE, array $listValuesPers = array(), $id = '')
     {
         //------------
         if (!$id) {
@@ -334,7 +344,7 @@ class GenQuery
         return;
     }
     //------------------------------------------------------------------
-    public static function getQueryUpdate($DB_TABLE, $id, $listValuesPers = array())
+    public static function getQueryUpdate($DB_TABLE, $id, array $listValuesPers = array())
     {
         /** Recorrer los campos **/
         $strValues  = '';
@@ -461,8 +471,8 @@ class GenQuery
 
             // Propiedades a través de MySql
             $tableProp[$nombreCampo]->type = ($field['Type'] == 'timestamp' || $field['Type'] == 'datetime') ?
-                                                $field['Type'] :
-                                                trim(substr($field['Type'], 0, 7));
+            $field['Type'] :
+            trim(substr($field['Type'], 0, 7));
 
             $tableProp[$nombreCampo]->obligatorio = ($field['Null'] == 'NO') ? 'true' : '';
             $tableProp[$nombreCampo]->unique      = ($field['Key'] == 'UNI') ? 'true' : '';

@@ -14,7 +14,8 @@ use angelrove\utils\Db_mysql;
 
 class WList extends EventComponent
 {
-    private $sqlQuery, $dbFields;
+    private $sqlQuery;
+    private $dbFields;
     private $title;
     private $showScroll;
 
@@ -53,7 +54,7 @@ class WList extends EventComponent
     //-------------------------------------------------------
     // PUBLIC
     //-------------------------------------------------------
-    public function __construct($id_control, $sqlQ, $dbFields)
+    public function __construct($id_control, $sqlQ, array $dbFields)
     {
         CssJsLoad::set(__DIR__ . '/style.css');
         CssJsLoad::set(__DIR__ . '/lib.js');
@@ -119,7 +120,7 @@ class WList extends EventComponent
         $this->title = $title;
     }
     //-------------------------------------------------------
-    public function setListFields($dbFields)
+    public function setListFields(array $dbFields)
     {
         $this->dbFields = $dbFields;
     }
@@ -151,17 +152,17 @@ class WList extends EventComponent
     //-------------------------------------------------------
     // Editors
     //-------------------------------------------------------
-    public function setRowEditor($rowEditor)
+    public function setRowEditor(iWListRowEditor $rowEditor)
     {
         $this->rowEditor = $rowEditor;
     }
     //-------------------------------------------------------
-    public function setCellEditor($cellEditor)
+    public function setCellEditor(iWListCellEditor $cellEditor)
     {
         $this->cellEditor = $cellEditor;
     }
     //-------------------------------------------------------
-    public function setOptionsEditor($optionsEditor)
+    public function setOptionsEditor(iWListCellOptionsEditor $optionsEditor)
     {
         $this->optionsEditor = $optionsEditor;
     }
@@ -351,7 +352,7 @@ EOD;
     //--------------------------------------------------------------
     // PRIVATE
     //-------------------------------------------------------
-    private function getQuery($sqlQ)
+    private function getQuery($sqlQuery)
     {
         /** 'ORDER' **/
         $param_field = $this->wObjectStatus->getDato('param_field');
@@ -367,9 +368,9 @@ EOD;
         }
 
         /** OUT **/
-        $sqlQ .= $sqlOrder;
+        $sqlQuery .= $sqlOrder;
 
-        return $sqlQ;
+        return $sqlQuery;
     }
     //--------------------------------------------------------------
     private function getPagination($sqlQuery)
@@ -484,7 +485,7 @@ EOD;
     //-------------------------------------------------------
     // Datos
     //-------------------------------------------------------
-    private function getHtmRowsValues($rows, $id_selected)
+    private function getHtmRowsValues(array $rows, $id_selected)
     {
         /** TRs **/
         $htmList = '';

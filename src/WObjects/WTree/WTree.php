@@ -96,7 +96,7 @@ class WTree
     //-----------------------------------------------------------------
     // Interfaces
     //-----------------------------------------------------------------
-    public function setWtreeData($iWTreeData)
+    public function setWtreeData(iWTreeData $iWTreeData)
     {
         $this->wTreeData = $iWTreeData;
     }
@@ -391,7 +391,7 @@ EOD;
         return $bt;
     }
     //-----------------------------------------------------------------
-    private function getBt_newSub($id, $datos)
+    private function getBt_newSub($id, array $datos)
     {
         if ($this->opNewSub !== true) {
             return '';

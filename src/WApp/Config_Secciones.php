@@ -23,7 +23,7 @@ class Config_Secciones
 
   }
   //---------------------------------------------------
-  public function setSections($listSections, $listSubSections=array())
+  public function setSections(array $listSections, array $listSubSections=array())
   {
     $this->listItems = $listSections; // para WMain_menu
 

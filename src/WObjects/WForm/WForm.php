@@ -106,7 +106,7 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Static
     //------------------------------------------------------------------
-    public static function update_setErrors($listErrors)
+    public static function update_setErrors(array $listErrors)
     {
         if (!$listErrors) {
             return;
@@ -127,7 +127,7 @@ class WForm extends EventComponent
         self::update_showErrors($listErrors);
     }
     //------------------------------------------------------------------
-    private static function update_showErrors($listErrors)
+    private static function update_showErrors(array $listErrors)
     {
         $js = '';
 
@@ -320,7 +320,12 @@ class WForm extends EventComponent
         }
     }
     //------------------------------------------------------------------
-    public function getInput($title, $name, $value = '', $type = 'text', $required = false, $flag_placeholder = false)
+    public function getInput($title,
+                             $name,
+                             $value = '',
+                             $type = 'text',
+                             $required = false,
+                             $flag_placeholder = false)
     {
         $required = ($required) ? 'required' : '';
 
@@ -335,11 +340,11 @@ class WForm extends EventComponent
     public function getField($title, $htmInput)
     {
         ?>
-    <div class="form-group">
-       <label class="col-sm-3 control-label"><?=$title?></label>
-       <div class="col-sm-9"><?=$htmInput?></div>
-    </div>
-    <?
+        <div class="form-group">
+           <label class="col-sm-3 control-label"><?=$title?></label>
+           <div class="col-sm-9"><?=$htmInput?></div>
+        </div>
+        <?
     }
     //------------------------------------------------------------------
 }

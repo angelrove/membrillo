@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
@@ -78,7 +78,7 @@ class WTree2
         $this->opDelete = $value;
     }
     //-----------------------------------------------------------------
-    public function showCheckBox($name, $onLevel, $listSelected)
+    public function showCheckBox($name, $onLevel, array $listSelected)
     {
         $this->opCheckBox         = true;
         $this->check_name         = $name;
