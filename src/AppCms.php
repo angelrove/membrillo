@@ -41,11 +41,11 @@ class AppCms extends Application
         //----------------------------------------------------
         /* Globals */
         global $CONFIG_APP,
-        $CONFIG_DB,
-        $CONFIG_SECCIONES,
-        $seccCtrl,
-        $objectsStatus,
-            $LOCAL;
+               $CONFIG_DB,
+               $CONFIG_SECCIONES,
+               $seccCtrl,
+               $objectsStatus,
+               $LOCAL;
 
         //----------------------------------------------------
         /* Login */

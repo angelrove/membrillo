@@ -12,28 +12,31 @@ use angelrove\utils\MyErrorHandler;
 
 include_once 'print_r2.php';
 
+
 class Application
 {
-    private $lang;
+    public $conf    = array();
+    public $conf_db = array();
 
     //-----------------------------------------------------------------
     public function __construct($document_root)
     {
-        define('DOCUMENT_ROOT', $document_root);
-        define('BASE_DIR', dirname($document_root));
-    }
-    //-----------------------------------------------------------------
-    public function run()
-    {
-        global $CONFIG_APP, $CONFIG_DB;
+        $app = $this;
+        // $this['logger'] = null;
 
-        define('IS_LOCALHOST', ($_SERVER['REMOTE_ADDR'] == '::1') ? true : false);
-
-        //----------------------------------------------------
         ini_set('display_errors', 1);
 
         //----------------------------------------------------
+        /* Globals */
+        define('DOCUMENT_ROOT', $document_root);
+        define('DOC_ROOT', $document_root);
+        define('BASE_DIR', dirname($document_root));
+        define('IS_LOCALHOST', ($_SERVER['REMOTE_ADDR'] == '::1') ? true : false);
+
+        //----------------------------------------------------
         /* Config */
+        global $CONFIG_APP;
+
         $CONFIG_APP = array(
             'errors' => array(
                 'path_log'      => '',
@@ -50,18 +53,21 @@ class Application
         $APP_TYPE = '';
         require DOCUMENT_ROOT . '/config_host.inc';
 
-        //----------------------------------------------------
-        /* Error handler */
-        MyErrorHandler::init($CONFIG_APP['errors']['display'],
-            $CONFIG_APP['errors']['path_log'],
-            $CONFIG_APP['errors']['log_file_pref']);
+        //-------
+        $this->conf    = & $CONFIG_APP;
+        $this->conf_db = & $CONFIG_DB;
 
         //----------------------------------------------------
-        /* BBDD */
-        if (isset($CONFIG_DB['default'])) {
-            $datosDb = $CONFIG_DB['default'];
-            Db_mysql::getConn($datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']);
-        }
+        /* Error handler */
+        MyErrorHandler::init(
+            $CONFIG_APP['errors']['display'],
+            $CONFIG_APP['errors']['path_log'],
+            $CONFIG_APP['errors']['log_file_pref']
+        );
+
+        //----------------------------------------------------
+        /* DDBB */
+        $this->init_database();
 
         //----------------------------------------------------
         /* Config app */
@@ -70,6 +76,26 @@ class Application
         //----------------------------------------------------
         /* Session start */
         session_start();
+    }
+    //-----------------------------------------------------------------
+    public function run()
+    {
+    }
+    //-----------------------------------------------------------------
+    private function init_database()
+    {
+        global $db;
+
+        if (!isset($this->conf_db['default'])) {
+            return;
+        }
+
+        $datosDb = $this->conf_db['default'];
+
+        //------
+        $db = Db_mysql::getConn(
+            $datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']
+        );
     }
     //-----------------------------------------------------------------
 }
