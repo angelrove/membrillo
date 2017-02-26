@@ -84,16 +84,13 @@ class Application
     //-----------------------------------------------------------------
     private function init_database()
     {
-        global $db;
-
         if (!isset($this->conf_db['default'])) {
             return;
         }
 
         $datosDb = $this->conf_db['default'];
 
-        //------
-        $db = Db_mysql::getConn(
+        Db_mysql::getConn(
             $datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']
         );
     }
