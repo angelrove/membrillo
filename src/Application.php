@@ -19,6 +19,10 @@ class Application
     public $conf_db = array();
 
     //-----------------------------------------------------------------
+    public function run()
+    {
+    }
+    //-----------------------------------------------------------------
     public function __construct($document_root)
     {
         $app = $this;
@@ -26,14 +30,14 @@ class Application
 
         ini_set('display_errors', 1);
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* Globals */
         define('DOCUMENT_ROOT', $document_root);
         define('DOC_ROOT', $document_root);
         define('BASE_DIR', dirname($document_root));
         define('IS_LOCALHOST', ($_SERVER['REMOTE_ADDR'] == '::1') ? true : false);
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* Config */
         global $CONFIG_APP;
 
@@ -57,7 +61,7 @@ class Application
         $this->conf    = & $CONFIG_APP;
         $this->conf_db = & $CONFIG_DB;
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* Error handler */
         MyErrorHandler::init(
             $CONFIG_APP['errors']['display'],
@@ -65,21 +69,17 @@ class Application
             $CONFIG_APP['errors']['log_file_pref']
         );
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* DDBB */
         $this->init_database();
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* Config app */
         require 'config_app.inc';
 
-        //----------------------------------------------------
+        //-------------------------------------
         /* Session start */
         session_start();
-    }
-    //-----------------------------------------------------------------
-    public function run()
-    {
     }
     //-----------------------------------------------------------------
     private function init_database()
