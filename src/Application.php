@@ -15,8 +15,8 @@ include_once 'print_r2.php';
 
 class Application
 {
-    public $conf    = array();
-    public $conf_db = array();
+    public static $conf    = array();
+    public static $conf_db = array();
 
     //-----------------------------------------------------------------
     public function run()
@@ -58,8 +58,8 @@ class Application
         require DOCUMENT_ROOT . '/config_host.inc';
 
         //-------
-        $this->conf    = & $CONFIG_APP;
-        $this->conf_db = & $CONFIG_DB;
+        self::$conf    = & $CONFIG_APP;
+        self::$conf_db = & $CONFIG_DB;
 
         //-------------------------------------
         /* Error handler */
@@ -84,11 +84,11 @@ class Application
     //-----------------------------------------------------------------
     private function init_database()
     {
-        if (!isset($this->conf_db['default'])) {
+        if (!isset(self::$conf_db['default'])) {
             return;
         }
 
-        $datosDb = $this->conf_db['default'];
+        $datosDb = self::$conf_db['default'];
 
         Db_mysql::getConn(
             $datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']

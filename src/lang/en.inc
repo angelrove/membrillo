@@ -1,10 +1,11 @@
 <?
-$app->lang = array
+self::$lang = array
 (
    'delete' => 'Delete',
    'new'    => 'New',
    'accept' => 'Accept',
    'save'   => 'Save',
+   'save_and_new' => 'Insert other &raquo;',
    'close'  => 'Close',
    'view'   => 'View',
    'close_session' => 'Close session',

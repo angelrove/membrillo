@@ -7,6 +7,7 @@
 
 namespace angelrove\membrillo2;
 
+use angelrove\membrillo2\AppCms;
 use angelrove\membrillo2\Login\Login;
 use angelrove\membrillo2\WInputs\WInputFile\WInputFile_upload;
 use angelrove\membrillo2\WObjectsStatus\Event;
@@ -142,7 +143,7 @@ class GenQuery
             // Error
             if ($value == '' || $value == '00/00/0000') {
                 $title                  = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] = $title . ': ' . $app->lang['GenQuery_error_obliga'];
+                $listErrors[$fieldName] = $title . ': ' . AppCms::$lang['GenQuery_error_obliga'];
             }
         }
 
@@ -160,7 +161,7 @@ class GenQuery
             $sqlQ = "SELECT id FROM $DB_TABLE WHERE `$fieldName`='$postValue' AND id <> '$id'";
             if (Db_mysql::getValue($sqlQ)) {
                 $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] .= $title . ': ' . $app->lang['GenQuery_error_unique'];
+                $listErrors[$fieldName] .= $title . ': ' . AppCms::$lang['GenQuery_error_unique'];
             }
         }
 

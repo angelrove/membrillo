@@ -25,8 +25,11 @@ use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
 
+
 class AppCms extends Application
 {
+    public static $lang = array();
+
     //-----------------------------------------------------------------
     public function __construct($document_root)
     {

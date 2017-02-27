@@ -1,11 +1,12 @@
 <?php
 /**
+ * WForm
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
- *
  */
 
 namespace angelrove\membrillo2\WObjects\WForm;
 
+use angelrove\membrillo2\AppCms;
 use angelrove\membrillo2\GenQuery;
 use angelrove\membrillo2\Messages;
 use angelrove\membrillo2\WObjectsStatus\Event;
@@ -13,6 +14,7 @@ use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\WPage\WPage;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
+
 
 class WForm extends EventComponent
 {
@@ -254,13 +256,11 @@ class WForm extends EventComponent
     // $flag: '', 'top'
     public function getButtons($flag = '')
     {
-        global $app;
-
-        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . $app->lang['accept'] . '</button> ' . "\n";
-        $bt_guardar  = '<button type="button" class="WForm_btUpdate btn btn-primary">' . $app->lang['save'] . '</button> ' . "\n";
-        $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">' . $app->lang['delete'] . '</button> ';
-        $bt_saveNext = '<button type="button" class="WForm_btInsert btn btn-primary">' . 'Insertar otro &raquo;' . '</button> ' . "\n";
-        $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . $app->lang['close'] . '</button>' . "\n";
+        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . AppCms::$lang['accept'] . '</button> ' . "\n";
+        $bt_guardar  = '<button type="button" class="WForm_btUpdate btn btn-primary">' . AppCms::$lang['save']   . '</button> ' . "\n";
+        $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">'  . AppCms::$lang['delete'] . '</button> ';
+        $bt_saveNext = '<button type="button" class="WForm_btInsert btn btn-primary">' . AppCms::$lang['save_and_new'] . '</button> ' . "\n";
+        $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . AppCms::$lang['close'] . '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
 
