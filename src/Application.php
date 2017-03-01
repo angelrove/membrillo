@@ -19,15 +19,8 @@ class Application
     public static $conf_db = array();
 
     //-----------------------------------------------------------------
-    public function run()
-    {
-    }
-    //-----------------------------------------------------------------
     public function __construct($document_root)
     {
-        $app = $this;
-        // $this['logger'] = null;
-
         ini_set('display_errors', 1);
 
         //-------------------------------------

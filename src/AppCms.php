@@ -34,12 +34,6 @@ class AppCms extends Application
     public function __construct($document_root)
     {
         parent::__construct($document_root);
-    }
-    //-----------------------------------------------------------------
-    public function run()
-    {
-        parent::run();
-        $app = $this;
 
         //----------------------------------------------------
         /* Globals */

@@ -9,24 +9,19 @@ namespace angelrove\membrillo2;
 use angelrove\membrillo2\Login\LoginCtrl;
 use angelrove\membrillo2\WApp\Session;
 
+
 class AppCmsAjax extends Application
 {
     //-----------------------------------------------------------------
     public function __construct($document_root)
     {
         parent::__construct($document_root);
-    }
-    //-----------------------------------------------------------------
-    public function run()
-    {
-        parent::run();
-        $app = $this;
 
         //----------------------------------------------------
         /* Globals */
         global $CONFIG_SECCIONES,
-        $seccCtrl,
-            $objectsStatus;
+               $seccCtrl,
+               $objectsStatus;
 
         //----------------------------------------------------//
         LoginCtrl::init_ajax();
