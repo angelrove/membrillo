@@ -80,6 +80,7 @@ class Navbar
         $ret = '';
         foreach ($listItems as $item => $val) {
             $seccion = $secciones[$item];
+
             if (!$seccion->title) {
                 continue;
             }
@@ -87,7 +88,7 @@ class Navbar
             if (isset(self::$listSep[$item])) {
                 $ret .= '<li><div class="sep">|</div></li>';
             }
-            $ret .= self::getButton($seccion->id, $seccion->title, $selected, $selected_padre);
+            $ret .= self::getButton($seccion->id, $seccion->title, $seccion->link, $selected, $selected_padre);
         }
 
         return $ret;
@@ -98,7 +99,7 @@ class Navbar
         self::$listSep[$secc] = true;
     }
     //---------------------------------------------------
-    private static function getButton($sc_id, $title, $modActual, $mod_padre = '')
+    private static function getButton($sc_id, $title, $link, $modActual, $mod_padre = '')
     {
         global $CONFIG_SECCIONES;
 
@@ -109,24 +110,42 @@ class Navbar
 
         // submenu ---
         if (isset($listSubItems[$sc_id])) {
-            $ret .= '<li class="dropdown' . $li_active . '">' .
-                '<a href="#" id="bt_' . $sc_id . '" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">' .
-                $title . ' <b class="caret"></b>' .
+            $ret .=
+            '<li class="dropdown' . $li_active . '">' .
+                '<a href="#" id="bt_'.$sc_id.'"
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false">' . $title . ' <b class="caret"></b>' .
                 '</a>' .
                 '<ul class="dropdown-menu">';
+
             foreach ($listSubItems[$sc_id] as $id => $title) {
+                $mod = $sc_id . '/' . $id;
+
                 if (!$title) {
                     $title = $id;
                 }
-                $mod    = $sc_id . '/' . $id;
-                $active = ($mod == $modActual) ? 'active' : '';
-                $ret .= '<li class="' . $active . '"><a href="/' . $mod . '">' . $title . '</a></li>';
+
+                //-----
+                if ($link = $CONFIG_SECCIONES->getSection_link($mod)) {
+                    $ret .= '<li><a href="'.$link.'" target="_blank">'.$title.'</a></li>';
+                }
+                else {
+                    $href = '/'.$mod;
+                    $active = ($mod == $modActual) ? 'active' : '';
+                    $ret .= '<li class="'.$active.'"><a href="'.$href.'">'.$title.'</a></li>';
+                }
             }
+
             $ret .= '</ul>';
         }
         // menu ------
         else {
-            $ret = '<li class="' . $li_active . '"><a href="/' . $sc_id . '/" id="bt_' . $sc_id . '">' . $title . '</a>';
+            $href = ($link)? $link : '/'.$sc_id.'/';
+
+            $ret = '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$title.'</a>';
         }
 
         $ret .= '</li>';
