@@ -411,8 +411,11 @@ class GenQuery
             switch ($fieldProp->type) {
                 case 'file':
                     $bbdd_file  = Db_mysql::getValue("SELECT $fieldName FROM $DB_TABLE WHERE id='$id'");
-                    $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
+                    if (!$bbdd_file) {
+                        break;
+                    }
 
+                    $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
                     if ($paramsFile['name']) {
                         DebugTrace::out('getQueryDelete(): unlink 1:', "'$paramsFile[path_completo]'");
                         DebugTrace::out('getQueryDelete(): unlink 2:', "'$paramsFile[path_completo_th]'");
