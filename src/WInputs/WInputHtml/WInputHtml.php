@@ -13,7 +13,7 @@ class WInputHtml
     //----------------------------------------------------
     public function __construct()
     {
-        CssJsLoad::set_js('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.3/tinymce.min.js');
+        CssJsLoad::set_js('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.2/tinymce.min.js');
         CssJsLoad::set(__DIR__ . '/lib.js');
     }
     //-----------------------------------------------------------
@@ -23,10 +23,12 @@ class WInputHtml
         $value    = stripslashes(str_replace('\r\n', "\n", $value));
 
         //----------
-        $params = array('name' => $name,
-            'selector'             => $selector,
-            'height'               => $height,
-            'value'                => $value);
+        $params = array(
+            'name'     => $name,
+            'selector' => $selector,
+            'height'   => $height,
+            'value'    => $value
+        );
 
         return FileContent::include_return(__DIR__ . '/tmpl.inc', $params);
     }
