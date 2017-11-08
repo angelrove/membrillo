@@ -28,7 +28,6 @@ class Application
         define('DOCUMENT_ROOT', $document_root);
         define('DOC_ROOT', $document_root);
         define('BASE_DIR', dirname($document_root));
-        define('IS_LOCALHOST', ($_SERVER['REMOTE_ADDR'] == '::1') ? true : false);
 
         //-------------------------------------
         /* Config */
@@ -43,8 +42,8 @@ class Application
         );
 
         //-------
-        $pref_file = (IS_LOCALHOST) ? 'dev' : 'prod';
-        require BASE_DIR . '/config_host_' . $pref_file . '.inc';
+        // $pref_file = (IS_LOCALHOST) ? 'dev' : 'prod';
+        require BASE_DIR . '/config_host.inc';
 
         //-------
         $APP_TYPE = '';
