@@ -183,7 +183,7 @@ class GenQuery
     //------------------------------------------------------------------
     // SELECT
     //------------------------------------------------------------------
-    public static function selectFiltros($DB_TABLE, array $sqlFiltros)
+    public static function selectFiltros($DB_TABLE, $sqlFiltros)
     {
         $strFiltros = '';
         if ($sqlFiltros) {

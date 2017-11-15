@@ -118,7 +118,7 @@ class ObjectsStatus
         if (isset($this->listObjects[$idControl])) {
             return $this->listObjects[$idControl]->getDatos();
         }
-        return false;
+        return array();
     }
     //----------------------------------------------------------------------------
     public function getDato($idControl, $name)
