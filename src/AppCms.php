@@ -96,7 +96,7 @@ class AppCms extends Application
 
         // CssJsLoad -----------------
         CssJsLoad::__init(CACHE_PATH, CACHE_URL);
-        CssJsLoad::set_minify((IS_LOCALHOST ? false : true));
+        CssJsLoad::set_minify(CSSJSLOAD_MINIFY);
         CssJsLoad::set_version(CACHE_VERSION);
         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
 

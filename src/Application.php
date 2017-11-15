@@ -42,7 +42,6 @@ class Application
         );
 
         //-------
-        // $pref_file = (IS_LOCALHOST) ? 'dev' : 'prod';
         require BASE_DIR . '/config_host.inc';
 
         //-------
