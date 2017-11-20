@@ -320,6 +320,29 @@ class WForm extends EventComponent
         }
     }
     //------------------------------------------------------------------
+    public function getFields2(array $listFields, array $data)
+    {
+        foreach ($listFields as $name => $field) {
+            if (!isset($field[1])) {
+                $field[1] = false;
+            }
+
+            $title    = $field[0];
+            $required = false;
+            $htmInput = '';
+
+            if(is_bool($field[1])) {
+                $required = $field[1];
+                $htmInput = $this->getInput($title, $name, $data[$name], 'text', $required);
+            } else {
+                $htmInput = $field[1];
+            }
+
+            //----
+            $this->getField($title, $htmInput);
+        }
+    }
+    //------------------------------------------------------------------
     public function getInput($title,
                              $name,
                              $value = '',
