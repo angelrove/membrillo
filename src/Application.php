@@ -42,11 +42,11 @@ class Application
         );
 
         //-------
-        require BASE_DIR . '/config_host.inc';
+        require BASE_DIR . '/config_host.php';
 
         //-------
         $APP_TYPE = '';
-        require DOCUMENT_ROOT . '/config_host.inc';
+        require DOCUMENT_ROOT . '/config_host.php';
 
         //-------
         self::$conf    = & $CONFIG_APP;
@@ -66,7 +66,7 @@ class Application
 
         //-------------------------------------
         /* Config app */
-        require 'config_app.inc';
+        require 'config_app.php';
 
         //-------------------------------------
         /* Session start */
