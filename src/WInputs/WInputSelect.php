@@ -11,36 +11,40 @@ use angelrove\utils\Db_mysql;
 class WInputSelect
 {
     //------------------------------------------------------------------
+    public static function get2($dbTable, $value, $name = '', $required = false)
+    {
+        $sqlQ = "SELECT id, name FROM $dbTable ORDER BY name";
+        return self::get($sqlQ, $value, $name, $required);
+    }
+    //------------------------------------------------------------------
     /**
      * from Sql
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $selected, $name = '', $required = false)
+    public static function get($sqlQ, $value, $name = '', $required = false)
     {
         if (!$sqlQ) {
             return '';
         }
 
         $strSelect        = '';
-        $selected_isArray = is_array($selected);
+        $selected_isArray = is_array($value);
 
         $rows = Db_mysql::getList($sqlQ);
         foreach ($rows as $id => $row) {
-            $nombre = $row['nombre'];
-            if (!$nombre) {
-                $nombre = $id;
-            }
+
+            $nombre = @($row['nombre'] || $row['name'])? @($row['nombre'].$row['name']) : $id;
 
             // Selected
             $SELECTED = '';
             if ($selected_isArray) {
-                if (array_search($id, $selected) !== false) {
+                if (array_search($id, $value) !== false) {
                     $SELECTED = 'SELECTED';
                 }
 
             } else {
-                if ($id == $selected) {
+                if ($id == $value) {
                     $SELECTED = 'SELECTED';
                 }
 

@@ -541,11 +541,17 @@ EOD;
         if (isset($this->cellEditor)) {
             $f_valueCampo = $this->cellEditor->getValueAt($id, $dbField->name, $f_value, $row);
 
+            // getBgColorAt
             if ($f_bgColor = $this->cellEditor->getBgColorAt($id, $dbField->name, $f_value, $row)) {
                 $f_bgColor = 'background:' . $f_bgColor . ';';
             }
 
-            if ($f_onClick = $this->cellEditor->getOnClick($id, $dbField->name, $f_value, $row)) {
+            // getOnClick
+            $f_onClick = $this->cellEditor->getOnClick($id, $dbField->name, $f_value, $row);
+            if ($f_onClick === true) {
+                $f_onClick = ' class="onClickUser on_'.$dbField->name . '"';
+            }
+            elseif($f_onClick) {
                 $f_onClick = ' class="onClickUser ' . $f_onClick . '"';
             }
         }
