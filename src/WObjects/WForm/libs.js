@@ -74,13 +74,13 @@ $(document).ready(function()
 function WForm_insert()
 {
   $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_NEW);
-  $(".WForm").submit();
+  // $(".WForm").submit();
 }
 //-------------------------------------------
 function WForm_save()
 {
   $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_UPDATE);
-  $(".WForm").submit();
+  // $(".WForm").submit();
 }
 //-------------------------------------------
 function WForm_close()

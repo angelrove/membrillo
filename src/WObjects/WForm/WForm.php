@@ -15,6 +15,9 @@ use angelrove\membrillo2\WPage\WPage;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
 
+use angelrove\membrillo2\WInputs\WInputSelect;
+use angelrove\membrillo2\WInputs\WInputTextarea;
+
 
 class WForm extends EventComponent
 {
@@ -55,6 +58,11 @@ class WForm extends EventComponent
 
         //---------
         $this->parse_event($this->WEvent);
+    }
+    //--------------------------------------------------------------
+    public function getData()
+    {
+        return $this->datos;
     }
     //--------------------------------------------------------------
     public function getDatos()
@@ -257,9 +265,9 @@ class WForm extends EventComponent
     public function getButtons($flag = '')
     {
         $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . AppCms::$lang['accept'] . '</button> ' . "\n";
-        $bt_guardar  = '<button type="button" class="WForm_btUpdate btn btn-primary">' . AppCms::$lang['save']   . '</button> ' . "\n";
+        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary">' . AppCms::$lang['save']   . '</button> ' . "\n";
+        $bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . AppCms::$lang['save_and_new'] . '</button> ' . "\n";
         $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">'  . AppCms::$lang['delete'] . '</button> ';
-        $bt_saveNext = '<button type="button" class="WForm_btInsert btn btn-primary">' . AppCms::$lang['save_and_new'] . '</button> ' . "\n";
         $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . AppCms::$lang['close'] . '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
@@ -307,43 +315,56 @@ class WForm extends EventComponent
    ';
     }
     //------------------------------------------------------------------
+    // Inputs
     //------------------------------------------------------------------
-    public function getFields(array $listFields, array $datos, $required = false)
+    public function getField($title, $htmInput)
     {
-        foreach ($listFields as $name => $field) {
-            if (is_array($field)) {
-                $this->getField($field[0], $field[1]);
-            } else {
-                $htmInput = $this->getInput($field, $name, $datos[$name], 'text', $required);
-                $this->getField($field, $htmInput);
-            }
-        }
+        return '
+        <div class="form-group">
+           <label class="col-sm-3 control-label">'.$title.'</label>
+           <div class="col-sm-9">'.$htmInput.'</div>
+        </div>
+        ';
     }
     //------------------------------------------------------------------
-    public function getFields2(array $listFields, array $data)
+    public function getInput($name, $title='', $required=false, $type='text', array $params=array())
     {
-        foreach ($listFields as $name => $field) {
-            if (!isset($field[1])) {
-                $field[1] = false;
-            }
-
-            $title    = $field[0];
-            $required = false;
-            $htmInput = '';
-
-            if(is_bool($field[1])) {
-                $required = $field[1];
-                $htmInput = $this->getInput($title, $name, $data[$name], 'text', $required);
-            } else {
-                $htmInput = $field[1];
-            }
-
-            //----
-            $this->getField($title, $htmInput);
+        if (!$title) {
+            $title = $name;
         }
+        if (!$type) {
+            $type = 'text';
+        }
+
+        switch ($type) {
+            case 'select':
+                $dbTable = $params[0];
+                $htmInput = WInputSelect::get2($dbTable, $this->datos[$name], $name, $required);
+                break;
+
+            case 'select_array':
+                $values = $params[0];
+                $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required);
+                break;
+
+            case 'textarea':
+                $htmInput = WInputTextarea::get($name, $this->datos[$name], $required);
+                break;
+
+            case 'text_read':
+                $htmInput = '<input disabled class="form-control" value="'.$this->datos[$name].'">';
+                break;
+
+            default:
+                // $type_text = (isset($params[0])? $params[0] : 'text';
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required);
+                break;
+        }
+
+        return $this->getField($title, $htmInput);
     }
     //------------------------------------------------------------------
-    public function getInput($title,
+    public function getInput1($title,
                              $name,
                              $value = '',
                              $type = 'text',
@@ -360,14 +381,18 @@ class WForm extends EventComponent
         return '<input ' . $placeholder . ' ' . $required . ' type="' . $type . '" class="form-control" name="' . $name . '" value="' . $value . '">';
     }
     //------------------------------------------------------------------
-    public function getField($title, $htmInput)
+    // OLD
+    //------------------------------------------------------------------
+    public function getFields(array $listFields, array $data, $required = false)
     {
-        ?>
-        <div class="form-group">
-           <label class="col-sm-3 control-label"><?=$title?></label>
-           <div class="col-sm-9"><?=$htmInput?></div>
-        </div>
-        <?
+        foreach ($listFields as $name => $field) {
+            if (is_array($field)) {
+                $this->getField($field[0], $field[1]);
+            } else {
+                $htmInput = $this->getInput1($field, $name, $data[$name], 'text', $required);
+                $this->getField($field, $htmInput);
+            }
+        }
     }
     //------------------------------------------------------------------
 }
