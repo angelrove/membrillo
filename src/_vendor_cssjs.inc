@@ -5,7 +5,7 @@ use angelrove\utils\Vendor;
 Vendor::conf('jquery', '//cdnjs.cloudflare.com/ajax/libs/', array(
     'jquery/3.2.1/jquery.min.js',
     'jqueryui/1.12.1/jquery-ui.min.js',
-    'popper.js/1.12.3/umd/popper.min.js',
+    // 'popper.js/1.12.3/umd/popper.min.js',
 ));
 
 // 'https://code.jquery.com/jquery-3.2.1.slim.min.js',
