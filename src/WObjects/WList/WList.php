@@ -340,7 +340,7 @@ EOD;
                placeholder="Buscar"
                value="<?=$f_text?>">
       </div>
-      <?
+      <?php
         //$this->formSearch_btBuscar();
         $this->formSearch_END();
     }

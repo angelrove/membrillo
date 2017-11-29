@@ -1,4 +1,4 @@
-<?
+<?php
 self::$lang = array
 (
    'delete' => 'Delete',

@@ -1,4 +1,4 @@
-<?
+<?php
 use angelrove\membrillo2\WPage\Frame;
 ?>
 

@@ -66,7 +66,7 @@ class Messages
      <!-- Messages -->
      <div id="WApplication_msgs_load"></div>
      <!-- /Messages -->
-     <?
+     <?php
     }
     //----------------------------------------------------
     // Esta función es llamada por ajax
@@ -86,7 +86,7 @@ class Messages
                 continue;
             }
 
-            ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?
+            ?><div class="WApplication_msgs center-block2 alert alert-<?=$type?>" role="alert"><?=$msg?></div><?php
         }
 
         // Empty ---

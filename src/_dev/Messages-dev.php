@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * José A. Romero Vegas, 2006
  * jangel.romero@gmail.com
@@ -91,7 +91,7 @@ class WMessages
     <table class="WApplication_msgs" align="center"><tr id="WMessages_out"></tr></table>
     <!-- /Mensaje -->
 
-    <?
+    <?php
   }
   //----------------------------------------------------
   public static function getMsg() {

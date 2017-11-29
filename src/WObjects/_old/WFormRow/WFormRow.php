@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * José A. Romero Vegas, 2006

@@ -1,4 +1,4 @@
-<? /* >> $msg */ ?>
+<?php  /* >> $msg */ ?>
 <html>
 <head>
  <title><?=$CONFIG_APP['data']['TITLE']?> - Login</title>
@@ -78,16 +78,16 @@
 </head>
 <body>
 
- <?//print_r2($_SESSION);?>
+ <?php //print_r2($_SESSION);?>
 
  <!-- Formulario -->
  <table id="boxForm" cellspacing="0" cellpadding="0" align="center"><tr><td>
    <div class="boxCabecera"><?=$CONFIG_APP['data']['TITLE']?> - Login</div>
 
    <form class="cuerpo_form" name="formLogin" method="POST" action="">
-    <? foreach($_GET as $name=>$value) { ?>
+    <?php  foreach($_GET as $name=>$value) { ?>
        <input type="hidden" name="<?=$name?>" value="<?=$value?>">
-    <?}?>
+    <?php }?>
 
     <div class="boxErrMsg"><?=$msg?></div>
 

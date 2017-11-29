@@ -1,4 +1,4 @@
-<?
+<?php
 namespace angelrove\membrillo2\WObjects\WList;
 
 

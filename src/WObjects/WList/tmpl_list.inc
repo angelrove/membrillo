@@ -17,13 +17,13 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
 </script>
 
 <div class="List" id="List_<?=$this->id_object?>">
-    <?if ($this->paging_showOn == 'top'): ?>
+    <?php if ($this->paging_showOn == 'top'): ?>
       <!-- pagination -->
       <div class="List_paginacion top well well-sm">
          <?=$htmPaginacion?>
       </div>
       <!-- /pagination -->
-    <?endif;?>
+    <?php endif;?>
 
     <div class="<?=$class_scroll?>" style="<?=$styleScroll?>">
         <table class="List_tuplas
@@ -39,21 +39,21 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
                param_event-delete ="<?=CRUD_DEFAULT?>"
                param_event-detalle="<?=CRUD_LIST_DETAIL?>">
            <thead>
-               <?if ($this->title) {?>
+               <?php if ($this->title) {?>
                    <tr><th class="text-center" colspan="<?=count($this->dbFields) + 1?>"><?=$this->title?></th></tr>
-               <?}?>
+               <?php }?>
                <tr><?=$htmColumnas?></tr>
            </thead>
            <tbody><?=$htmListDatos?></tbody>
         </table>
     </div>
 
-    <?if ($this->paging_showOn == 'bottom'): ?>
+    <?php if ($this->paging_showOn == 'bottom'): ?>
       <!-- paginación -->
       <div class="List_paginacion bottom">
           <?=$htmPaginacion?>
       </div>
       <!-- /paginación -->
-    <?endif;?>
+    <?php endif;?>
 </div>
 <!-- /Wlist -->

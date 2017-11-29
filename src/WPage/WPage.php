@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
@@ -45,7 +45,7 @@ class WPage
         <title><?=$CONFIG_APP['data']['TITLE'] . ' - ' . self::$title?></title>
 
         <!-- css -->
-        <?CssJsLoad::get_css();?>
+        <?php CssJsLoad::get_css();?>
         <!-- /css -->
         <script>
         var CRUD_DEFAULT = '<?=CRUD_DEFAULT?>';
@@ -64,8 +64,8 @@ class WPage
         </script>
       </head>
       <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
-        <?self::debug_objects()?>
-        <?
+        <?php self::debug_objects()?>
+        <?php
 
     }
     //----------------------------------------------------
@@ -73,11 +73,11 @@ class WPage
     {
         ?>
        <!-- js -->
-       <?CssJsLoad::get_js();?>
+       <?php CssJsLoad::get_js();?>
        <!-- /js -->
       </body>
       </html>
-      <?
+      <?php
     }
     //----------------------------------------------------
     // CMS
@@ -90,9 +90,9 @@ class WPage
         ?>
       <!-- content -->
       <main class="container-fluid">
-        <?self::get_page_header()?>
-        <?Messages::show()?>
-        <?
+        <?php self::get_page_header()?>
+        <?php Messages::show()?>
+        <?php
     }
     //---------------------------------
     public static function get_end()
@@ -101,7 +101,7 @@ class WPage
         ?>
       </main>
       <!-- /main -->
-      <?
+      <?php
 
         self::get_footer();
         self::get_main_end();
@@ -115,7 +115,7 @@ class WPage
             return;
         }
 
-        ?><!-- debug_objects --><?
+        ?><!-- debug_objects --><?php
         global $CONFIG_APP, $CONFIG_DB, $CONFIG_SECCIONES, $seccCtrl, $objectsStatus;
         $const = get_defined_constants(true);
 
@@ -127,7 +127,7 @@ class WPage
         DebugTrace::out('objectsStatus', $objectsStatus);
         DebugTrace::out('Event', array('::EVENT' => Event::$EVENT, '::OPER' => Event::$OPER, '::CONTROL' => Event::$CONTROL, '::ROW_ID' => Event::$ROW_ID));
         DebugTrace::out('Login', 'User login: ' . Login::$login);
-        ?><!-- /debug_objects --><?
+        ?><!-- /debug_objects --><?php
     }
     //----------------------------------------------------
     public static function get_web_header()
@@ -138,7 +138,7 @@ class WPage
       <header class="page-header container-fluid">
         <h1 class="pull-left"><?=$CONFIG_APP['data']['TITLE']?></h1>
       </header>
-      <?
+      <?php
     }
     //----------------------------------------------------
     public static function get_page_header()
@@ -149,7 +149,7 @@ class WPage
 
         ?>
       <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
-      <?
+      <?php
     }
     //----------------------------------------------------
     public static function get_footer()

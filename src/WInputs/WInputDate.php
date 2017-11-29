@@ -59,7 +59,7 @@ jQuery(function($) {
            name="<?=$name?>"
            value="<?=$value?>"
            maxlength="10" <?=$disabled?>>
-    <?
+    <?php
         return ob_get_clean();
     }
     //---------------------------------------------------

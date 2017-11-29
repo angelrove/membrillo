@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  *
  * José A. Romero Vegas, 2006
@@ -8,21 +8,21 @@
 function WFrameAlert($msg='', $onclick='history.back()') {
 ?>
 
-<?WMain()?>
+<?php WMain()?>
 
  <div style="height:80px">&nbsp;</div>
 
- <?WFrame('Aviso')?>
+ <?php WFrame('Aviso')?>
    <?=$msg?>
    <div style="text-align:center; padding-top:7px">
     <input type="button" value="Cerrar" onClick="<?=$onclick?>">
    </div>
- <?WFrame_END()?>
+ <?php WFrame_END()?>
 
  <div style="height:80px">&nbsp;</div>
 
-<?WMain_END();exit();?>
+<?php WMain_END();exit();?>
 
-<?
+<?php
 }
 ?>
