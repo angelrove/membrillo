@@ -12,10 +12,6 @@ class Model
 {
     public static $TABLE = '';
 
-    public static function init($TABLE) {
-        self::$TABLE = $TABLE;
-    }
-
     //--------------------------------------------
     // CRUD
     //--------------------------------------------
