@@ -23,8 +23,6 @@ class WForm extends EventComponent
 {
     private $title;
 
-    private $sql_row;
-    private $db_table;
     private $datos = array();
 
     private $onSubmit;
@@ -44,15 +42,19 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, $db_table = '', $sql_row = '')
+    public function __construct($id_object, $data)
     {
         CssJsLoad::set(__DIR__ . '/libs.js');
 
         //----------
         parent::__construct($id_object);
 
-        $this->db_table = $db_table;
-        $this->sql_row  = $sql_row;
+        $this->datos = $data;
+        if (!$this->datos) {
+            $strErr = 'El registro solicitado no existe';
+            include '404.php';
+            exit();
+        }
 
         WPage::add_pagekey('WForm');
 
@@ -65,47 +67,16 @@ class WForm extends EventComponent
         return $this->datos;
     }
     //--------------------------------------------------------------
-    public function getDatos()
-    {
-        return $this->datos;
-    }
-    //--------------------------------------------------------------
     public function parse_event($WEvent)
     {
         switch ($WEvent->EVENT) {
             //----------
             case CRUD_EDIT_UPDATE:
                 $this->title .= ' Update';
-
-                // Datos ---
-                if (!$this->db_table && !$this->sql_row) {
-                    throw new \Exception('Class WForm (update) need a "db_table" or "sql_row"', 1);
-                }
-
-                if (!$this->sql_row) {
-                    $this->sql_row = GenQuery::selectRow($this->db_table, $this->WEvent->ROW_ID);
-                }
-                $this->datos = Db_mysql::getRow($this->sql_row);
-
-                if (!$this->datos) {
-                    $strErr = 'El registro solicitado no existe';
-                    include '404.php';
-                    exit();
-                }
                 break;
             //----------
             case CRUD_EDIT_NEW:
                 $this->title .= ' New';
-
-                // Datos ---
-                if (!$this->db_table) {
-                    throw new \Exception('WForm [' . $WEvent->EVENT . '] need a "db_table"', 1);
-                }
-
-                $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . $this->db_table);
-                foreach ($columns as $key => $value) {
-                    $this->datos[$key] = '';
-                }
                 break;
                 //----------
         }
