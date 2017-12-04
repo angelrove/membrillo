@@ -51,7 +51,7 @@ class WForm extends EventComponent
 
         $this->datos = $data;
         if (!$this->datos) {
-            $strErr = 'El registro solicitado no existe';
+            $strErr = 'ERROR: WForm: el registro solicitado no existe';
             include '404.php';
             exit();
         }
