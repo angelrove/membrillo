@@ -20,9 +20,26 @@ class Model
         return GenQuery::select(self::$TABLE);
     }
 
-    public static function find($id)
+    public static function findById($id)
     {
         $sql = GenQuery::selectRow(self::$TABLE, $id);
+        return Db_mysql::getRow($sql);
+    }
+
+    public static function find(array $filters)
+    {
+        //---
+        $listWhere = array();
+        foreach ($filters as $key => $value) {
+            $listWhere[] = " $key = '$value'";
+        }
+
+        //---
+        $strWhere = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
+
+        //---
+        $sql = "SELECT * FROM ".self::$TABLE.' WHERE '.$strWhere." LIMIT 1";
+
         return Db_mysql::getRow($sql);
     }
 

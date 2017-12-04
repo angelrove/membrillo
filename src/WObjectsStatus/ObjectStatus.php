@@ -6,6 +6,8 @@
 
 namespace angelrove\membrillo2\WObjectsStatus;
 
+use angelrove\membrillo2\WObjectsStatus\Event;
+
 class ObjectStatus
 {
     private $id         = '';
@@ -26,8 +28,8 @@ class ObjectStatus
         if (!$this->path) {
             global $CONFIG_SECCIONES, $seccCtrl;
 
-            $path_secc  = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-            $this->path = $path_secc . '/ctrl_' . $id;
+            $this->path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+            $this->path = $this->path_secc . '/ctrl_' . $id;
         }
     }
     //----------------------------------------------------------------------------
@@ -58,6 +60,33 @@ class ObjectStatus
         global $objectsStatus;
 
         include $this->path . '/flow.inc';
+    }
+    //----------------------------------------------------------------------------
+    public function parse_event_api($event)
+    {
+        global $objectsStatus;
+
+        switch (EVENT::$REQUEST_METHOD) {
+            case 'GET':
+                include $this->path_secc . '/get.inc';
+            break;
+
+            case 'POST':
+                include $this->path_secc . '/post.inc';
+            break;
+
+            case 'DELETE':
+                include $this->path_secc . '/delete.inc';
+            break;
+
+            case 'PUT':
+                include $this->path_secc . '/put.inc';
+            break;
+
+            default:
+                header("HTTP/1.0 405 Method Not Allowed");
+                exit();
+        }
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------

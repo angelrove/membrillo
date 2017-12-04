@@ -41,10 +41,10 @@ class Application
             ),
         );
 
-        //-------
+        // Config file -------
         require BASE_DIR . '/config_host.php';
 
-        //-------
+        // Config file -------
         $APP_TYPE = '';
         require DOCUMENT_ROOT . '/config_host.php';
 
@@ -65,8 +65,8 @@ class Application
         $this->init_database();
 
         //-------------------------------------
-        /* Config app */
-        require 'config_app.php';
+        /* Config file */
+        require DOCUMENT_ROOT . '/config_app.php';
 
         //-------------------------------------
         /* Session start */

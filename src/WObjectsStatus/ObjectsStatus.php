@@ -73,7 +73,7 @@ class ObjectsStatus
     public function parseEvent($path_secc)
     {
         // onInitPage
-        include $path_secc . '/onInitPage.inc';
+        @include $path_secc . '/onInitPage.inc';
 
         // Default view
         if (!Event::$EVENT) {
@@ -101,6 +101,15 @@ class ObjectsStatus
         if (Event::$EVENT) {
             $wObjectStatus->parse_event(Event::$EVENT);
         }
+    }
+    //----------------------------------------------------------------------------
+    public function parseEvent_api($path_secc)
+    {
+        $wObjectStatus = $this->setNewObject(Event::$CONTROL); // if no exist
+        $wObjectStatus->updateDatos();
+
+        // flow (view) ------
+        $wObjectStatus->parse_event_api(Event::$EVENT);
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
