@@ -7,7 +7,7 @@
 namespace angelrove\membrillo2\WObjects\WForm;
 
 use angelrove\membrillo2\AppCms;
-use angelrove\membrillo2\GenQuery;
+use angelrove\membrillo2\Database\GenQuery;
 use angelrove\membrillo2\Messages;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
@@ -358,10 +358,10 @@ class WForm extends EventComponent
     {
         foreach ($listFields as $name => $field) {
             if (is_array($field)) {
-                $this->getField($field[0], $field[1]);
+                echo $this->getField($field[0], $field[1]);
             } else {
                 $htmInput = $this->getInput1($field, $name, $data[$name], 'text', $required);
-                $this->getField($field, $htmInput);
+                echo $this->getField($field, $htmInput);
             }
         }
     }
