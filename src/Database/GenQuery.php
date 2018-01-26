@@ -231,12 +231,12 @@ class GenQuery
         foreach ($listFields as $fieldName => $fieldProp) {
             switch ($fieldProp->type) {
                 case 'date':
-                    $strDates .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y') AS " . $fieldName;
+                    $strDates .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y') AS " . $fieldName.'_format';
                     break;
 
                 case 'timestamp':
                 case 'datetime':
-                    $strDates .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y %H:%i:%s') AS " . $fieldName;
+                    $strDates .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y %H:%i:%s') AS " . $fieldName.'_format';
                     break;
             }
         }
