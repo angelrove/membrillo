@@ -349,6 +349,12 @@ class WForm extends EventComponent
             $placeholder = 'placeholder="' . $title . '"';
         }
 
+        switch ($type) {
+            case 'datetime-local':
+                $value = str_replace(" ", "T", $value);
+                break;
+        }
+
         return '<input ' . $placeholder . ' ' . $required . ' type="' . $type . '" class="form-control" name="' . $name . '" value="' . $value . '">';
     }
     //------------------------------------------------------------------
