@@ -20,10 +20,15 @@ class Model
         return GenQuery::select(self::$TABLE);
     }
 
-    public static function findById($id)
+    public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
     {
         $sql = GenQuery::selectRow(self::$TABLE, $id);
-        return Db_mysql::getRow($sql);
+
+        if ($asArray) {
+            return Db_mysql::getRow($sql, $setHtmlSpecialChars);
+        } else{
+            return Db_mysql::getRowObject($sql, $setHtmlSpecialChars);
+        }
     }
 
     public static function find(array $filters)
