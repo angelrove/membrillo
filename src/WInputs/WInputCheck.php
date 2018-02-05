@@ -12,7 +12,7 @@ class WInputCheck
     /**
      * $value = por defecto admite los valores: 0, 1
      */
-    public static function get($name, $label, $value, $isReadonly = false, $setValueChecked = '1')
+    public static function get($name, $label, $value, $required, $isReadonly = false, $setValueChecked = '1')
     {
         if (!$value) {
             $value = 0;
@@ -24,12 +24,13 @@ class WInputCheck
         }
 
         $disabled = ($isReadonly === true) ? 'disabled' : '';
+        $required = ($required) ? 'required' : '';
 
         return <<<EOD
     <label class="checkbox-inline WInputCheck" id="WInputCheck_$name">
        <input type="hidden" id="$name" name="$name" value="$value">
        <input type="checkbox"
-              value="$setValueChecked" $disabled $checked
+              value="$setValueChecked" $disabled $checked $required
               onclick="document.getElementById('$name').value = (this.checked)? '$setValueChecked' : '0';">
        $label
     </label>

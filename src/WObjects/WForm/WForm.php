@@ -16,6 +16,7 @@ use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
 
 use angelrove\membrillo2\WInputs\WInputSelect;
+use angelrove\membrillo2\WInputs\WInputCheck;
 use angelrove\membrillo2\WInputs\WInputTextarea;
 
 
@@ -318,12 +319,21 @@ class WForm extends EventComponent
                 $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required);
                 break;
 
+            case 'checkbox':
+                $htmInput = WInputCheck::get($name, '&nbsp;', $this->datos[$name], $required);
+                break;
+
             case 'textarea':
                 $htmInput = WInputTextarea::get($name, $this->datos[$name], $required);
                 break;
 
             case 'text_read':
                 $htmInput = '<input disabled class="form-control" value="'.$this->datos[$name].'">';
+                break;
+
+            case 'number':
+                $extraHtml = (isset($params[1]))? 'min="'.$params[0].'" max="'.$params[1].'"' : '';
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 
             default:
@@ -336,11 +346,12 @@ class WForm extends EventComponent
     }
     //------------------------------------------------------------------
     public function getInput1($title,
-                             $name,
-                             $value = '',
-                             $type = 'text',
-                             $required = false,
-                             $flag_placeholder = false)
+                              $name,
+                              $value = '',
+                              $type = 'text',
+                              $required = false,
+                              $flag_placeholder = false,
+                              $extraHtml='')
     {
         $required = ($required) ? 'required' : '';
 
@@ -355,7 +366,14 @@ class WForm extends EventComponent
                 break;
         }
 
-        return '<input ' . $placeholder . ' ' . $required . ' type="' . $type . '" class="form-control" name="' . $name . '" value="' . $value . '">';
+        return '<input class="form-control"'.
+                   ' ' . $placeholder .
+                   ' ' . $required .
+                   ' ' . $extraHtml .
+                   ' type="'  . $type  . '"'.
+                   ' name="'  . $name  . '"'.
+                   ' value="' . $value . '"'.
+               '>';
     }
     //------------------------------------------------------------------
     // OLD
