@@ -80,7 +80,12 @@ class WInputSelect
                 $id = $nombre;
             }
             if (is_array($nombre)) {
-                $nombre = $nombre['nombre'];
+                if (isset($nombre['nombre'])) {
+                    $nombre = $nombre['nombre'];
+                }
+                else {
+                    $nombre = $nombre['name'];
+                }
             }
 
             // Selected
