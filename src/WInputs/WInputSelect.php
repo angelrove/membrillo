@@ -115,10 +115,11 @@ class WInputSelect
 
         if ($name) {
             $required  = ($required) ? 'required' : '';
-            $strSelect = "<select name=\"$name\" class=\"form-control\" $required>" .
-                '<option></option>' .
-                $strSelect .
-                "</select>";
+            $strSelect =
+                "<select name=\"$name\" class=\"form-control\" $required>" .
+                   '<option></option>' .
+                   $strSelect .
+                '</select>';
         }
 
         return $strSelect;
