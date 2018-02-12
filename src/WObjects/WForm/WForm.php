@@ -325,7 +325,8 @@ class WForm extends EventComponent
                 break;
 
             case 'textarea':
-                $htmInput = WInputTextarea::get($name, $this->datos[$name], $required);
+                $maxlength = (isset($params[0]))? $params[0] : '';
+                $htmInput = WInputTextarea::get($name, $this->datos[$name], $required, '', $maxlength);
                 break;
 
             case 'text_read':
