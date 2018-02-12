@@ -31,6 +31,14 @@ class Model
         }
     }
 
+    public static function getValueById($id, $field)
+    {
+        $sql = GenQuery::selectRow(self::$TABLE, $id);
+        $data = Db_mysql::getRow($sql);
+
+        return $data[$field];
+    }
+
     public static function find(array $filters)
     {
         //---
