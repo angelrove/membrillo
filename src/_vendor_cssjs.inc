@@ -20,8 +20,8 @@ Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.
     'css/bootstrap.min.css',
 ));
 
-Vendor::conf('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/', array(
-    'css/font-awesome.min.css',
+Vendor::conf('font-awesome', '', array(
+    'https://use.fontawesome.com/releases/v5.0.6/js/all.js',
 ));
 
 // Vendor::conf('less', '//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/', array(

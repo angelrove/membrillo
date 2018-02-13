@@ -476,7 +476,7 @@ EOD;
         $strBt_new = '';
         if ($this->bt_new) {
             $strBt_new = '<button type="button" class="on_new btn btn-primary btn-xs">'.
-                            '<i class="fa fa-plus" aria-hidden="true"></i> New...'.
+                            '<i class="fas fa-plus" aria-hidden="true"></i> New...'.
                          '</button>';
         }
 
@@ -575,7 +575,7 @@ EOD;
         if ($this->bt_delete) {
             $label                   = ''; // $label = <span>Delete</span>
             $htmButtons['bt_delete'] = '<button type="button" class="on_delete btn btn-xs btn-danger">'.
-                                          '<i class="fa fa-trash-o fa-lg"></i>' . $label .
+                                          '<i class="far fa-trash-alt fa-lg"></i>' . $label .
                                        '</button>';
             if ($this->optionsEditor && $this->optionsEditor->showBtDelete($id, $row) === false) {
                 $htmButtons['bt_delete'] = '';
@@ -585,7 +585,7 @@ EOD;
         if ($this->bt_update) {
             $label                   = ''; // $label = <span>Update</span>
             $htmButtons['bt_update'] = '<button type="button" class="on_update btn btn-xs btn-default">'.
-                                          '<i class="fa fa-pencil-square-o fa-lg"></i>' . $label .
+                                          '<i class="fas fa-pencil-square-o fa-lg"></i>' . $label .
                                        '</button>';
             if ($this->optionsEditor && $this->optionsEditor->showBtUpdate($id, $row) === false) {
                 $htmButtons['bt_update'] = '';
@@ -595,7 +595,7 @@ EOD;
         if ($this->bt_detalle) {
             $label                    = ''; // $label = <span>Detalle</span>
             $htmButtons['bt_detalle'] = '<button type="button" class="on_detalle btn btn-xs btn-primary">'.
-                                          '<i class="fa fa-arrow-right fa-lg"></i>' . $label .
+                                          '<i class="fas fa-arrow-right fa-lg"></i>' . $label .
                                         '</button>';
         }
 

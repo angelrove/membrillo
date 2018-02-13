@@ -25,7 +25,7 @@ class Navbar
         // Right items ---
         $str_close = '';
         if (Login::$login) {
-            $str_close = '<a href="/?APP_EVENT=close" title="Exit">'.Login::$login.' <i class="fa fa-sign-out fa-lg"></i></a>';
+            $str_close = '<a href="/?APP_EVENT=close" title="Exit">'.Login::$login.' <i class="fas fa-sign-out-alt fa-lg"></i></a>';
         }
 
         echo self::tmpl_navbar($set_inverse, $CONFIG_APP['data']['TITLE'], $buttons, $str_close);

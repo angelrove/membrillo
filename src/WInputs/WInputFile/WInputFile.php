@@ -136,7 +136,7 @@ class WInputFile
         return '<button type="button" '.
                        'class="WInputFile_del btn btn-default btn-sm" '.
                        'param_input_name="' . $this->name . '">' .
-                   '<i class="fa fa-trash-o fa-2x"></i>' .
+                   '<i class="fas fa-trash-alt fa-2x"></i>' .
                '</button>';
     }
     //---------------------------------------------------------------------
@@ -284,12 +284,12 @@ EOD;
         } elseif ($datosFile['mime'] == 'application/pdf' || $datosFile['mime'] == 'text/plain') {
             // Open: "pdf" and "txt" ---
             $linkView = '<a class="img-thumbnail" href="' . $fileProp_URL . '" target="_blank">' .
-                '<i class="fa fa-file-pdf-o fa-4x fa-border" aria-hidden="true"></i>' .
+                '<i class="fas fa-file-pdf fa-4x" aria-hidden="true"></i>' .
                 '</a>';
         } elseif (!$datosFile['mime']) {
             // Open: if not a MIME Type ---
             $linkView = '<a class="img-thumbnail" href="' . $fileProp_URL . '" target="_blank">' .
-                '<i class="fa fa-file-text-o fa-4x fa-border" aria-hidden="true"></i>' .
+                '<i class="fas fa-file-text fa-4x" aria-hidden="true"></i>' .
                 '</a>';
         }
 
@@ -301,7 +301,7 @@ EOD;
 
         // Download ---
         $linkDownload = '<a class="btn btn-default btn-sm" href="' . $fileProp_URL . '" download>' .
-            '<i class="fa fa-download fa-2x" aria-hidden="true"></i>' .
+            '<i class="fas fa-download fa-2x" aria-hidden="true"></i>' .
             '</a>';
 
         // Delete -----

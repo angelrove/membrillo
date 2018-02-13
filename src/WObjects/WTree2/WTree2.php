@@ -300,14 +300,14 @@ EOD;
 
         //-------
         if ($this->opUpdate == true) {
-            $listBt['update'] = '<i class="fa fa-pencil-square-o fa-lg" '.
+            $listBt['update'] = '<i class="fas fa-pencil-square fa-lg" '.
                                   'aria-hidden="true" onClick="wtree2_onUpdate(' . $id . ', ' . $nivel . ')"></i>';
         }
 
         //-------
         if ($this->opNewSub == true) {
             if ($nivel < $this->niveles) {
-                $listBt['new'] = '<i class="fa fa-pencil-square-o fa-lg" '.
+                $listBt['new'] = '<i class="fas fa-pencil-square fa-lg" '.
                                   ' aria-hidden="true" onClick="wtree2_onNewSub(' . $id . ', ' . $nivel . ')"></i>';
             }
         }
@@ -323,7 +323,7 @@ EOD;
                 $link             = CrudUrl::get(CRUD_LIST_DETAIL, $this->id, $id, '', 'nivel=' . $nivel)
                 $listBt['nombre'] = '<a href="' . $link . '">' . $listBt['nombre'] . '</a>';
             } else {
-                $listBt['detalle'] = '<i class="fa fa-arrow-right fa-lg"'.
+                $listBt['detalle'] = '<i class="fas fa-arrow-right fa-lg"'.
                                         ' aria-hidden="true" onClick="wtree2_onDetalle(' . $id . ', ' . $nivel . ')"></i>';
             }
         }

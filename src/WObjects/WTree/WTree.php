@@ -370,7 +370,7 @@ EOD;
         }
 
         //----------------
-        $strImgTree = '<i class="fa fa-' . $tipos[$tipo] . ' fa-fw"></i>';
+        $strImgTree = '<i class="fas fa-' . $tipos[$tipo] . ' fa-fw"></i>';
         return $strImgTree;
     }
     //-----------------------------------------------------------------
@@ -385,7 +385,9 @@ EOD;
             $CONTROL = (isset($this->id_levels[$this->count_nivel])) ? $this->id_levels[$this->count_nivel] : $this->id;
             $href    = CrudUrl::get($event, $CONTROL, $id, '', 'ID_UP=' . $id_desplegado . '&nivel=' . $this->count_nivel);
 
-            $bt = '<a class="op_update level_' . $this->count_nivel . '" href="' . $href . '"><i class="fa fa-pencil-square-o fa-lg"></i></a>';
+            $bt = '<a class="op_update level_' . $this->count_nivel . '" href="' . $href . '">'.
+                     '<i class="fas fa-pencil-square fa-lg"></i>'.
+                  '</a>';
         }
 
         return $bt;
@@ -409,7 +411,7 @@ EOD;
         if ($this->count_nivel < $this->niveles) {
             $CONTROL = (isset($this->id_levels[$this->count_nivel + 1])) ? $this->id_levels[$this->count_nivel + 1] : $this->id;
             $href    = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel=' . ($this->count_nivel + 1) . '&ROW_PADRE_ID=' . $id);
-            $bt      = '<a class="op_newSub" href="' . $href . '"><i class="fa fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
+            $bt      = '<a class="op_newSub" href="' . $href . '"><i class="fas fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
         }
 
         return $bt;
@@ -426,7 +428,7 @@ EOD;
             'param_id="' . $id . '" ' .
             'param_ctrl="' . $CONTROL . '" ' .
             'param_nivel="' . $this->count_nivel . '" ' .
-                'href="javascript: return false"><i class="fa fa-trash-o fa-lg"></i></a>';
+                'href="javascript: return false"><i class="fas fa-trash-alt fa-lg"></i></a>';
         }
 
         return $bt;

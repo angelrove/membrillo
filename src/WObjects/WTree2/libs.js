@@ -42,10 +42,10 @@ function WTree_show(capa, objImg)
 
   if(objImg.src.substr((objImg.src.length - 8), 8) == "cruz.gif") {
      // objImg.src = "/_libUtils/WObjects/WTree/images/cruzDesplegada.gif";
-     objImg.src = '<i class="fa fa-angle-down" aria-hidden="true"></i>';
+     objImg.src = '<i class="fas fa-angle-down" aria-hidden="true"></i>';
   } else {
      // objImg.src = "/_libUtils/WObjects/WTree/images/cruzDesplegadaFin.gif";
-     objImg.src = '<i class="fa fa-angle-right" aria-hidden="true"></i>';
+     objImg.src = '<i class="fas fa-angle-right" aria-hidden="true"></i>';
   }
 }
 //-------------------------------------------------------
@@ -54,11 +54,11 @@ function WTree_ocultar(capa, objImg) {
 
   if(objImg.src.substr((objImg.src.length - 21), 21) == "cruzDesplegadaFin.gif") {
      // objImg.src = "/_libUtils/WObjects/WTree/images/cruzFin.gif";
-     objImg.src = '<i class="fa fa-angle-right" aria-hidden="true"></i>';
+     objImg.src = '<i class="fas fa-angle-right" aria-hidden="true"></i>';
   }
   else {
      // objImg.src = "/_libUtils/WObjects/WTree/images/cruz.gif";
-     objImg.src = '<i class="fa fa-plus" aria-hidden="true"></i>';
+     objImg.src = '<i class="fas fa-plus" aria-hidden="true"></i>';
   }
 }
 //-------------------------------------------------------
