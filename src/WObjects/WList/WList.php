@@ -585,7 +585,7 @@ EOD;
         if ($this->bt_update) {
             $label                   = ''; // $label = <span>Update</span>
             $htmButtons['bt_update'] = '<button type="button" class="on_update btn btn-xs btn-default">'.
-                                          '<i class="fas fa-pencil-square-o fa-lg"></i>' . $label .
+                                          '<i class="far fa-edit fa-lg"></i>' . $label .
                                        '</button>';
             if ($this->optionsEditor && $this->optionsEditor->showBtUpdate($id, $row) === false) {
                 $htmButtons['bt_update'] = '';
