@@ -151,6 +151,7 @@ class WTree
 
 <!-- WTree -->
 <div id="$id_tree" class="WTree" style="$this->width">
+
     <table class="WTree_cabecera">
         <tr><th class="title">$this->title</th><th>$strNuevo</th></tr>
     </table>
@@ -386,7 +387,7 @@ EOD;
             $href    = CrudUrl::get($event, $CONTROL, $id, '', 'ID_UP=' . $id_desplegado . '&nivel=' . $this->count_nivel);
 
             $bt = '<a class="op_update level_' . $this->count_nivel . '" href="' . $href . '">'.
-                     '<i class="fas fa-pencil-square fa-lg"></i>'.
+                     '<i class="far fa-edit fa-lg"></i>'.
                   '</a>';
         }
 

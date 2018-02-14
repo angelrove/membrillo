@@ -23,6 +23,9 @@ Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.
 Vendor::conf('font-awesome', '', array(
     'https://use.fontawesome.com/releases/v5.0.6/js/all.js',
 ));
+\angelrove\utils\CssJsLoad::set_script("
+    window.FontAwesomeConfig.searchPseudoElements = true;
+");
 
 // Vendor::conf('less', '//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/', array(
 //    'less.min.js'

@@ -300,14 +300,14 @@ EOD;
 
         //-------
         if ($this->opUpdate == true) {
-            $listBt['update'] = '<i class="fas fa-pencil-square fa-lg" '.
+            $listBt['update'] = '<i class="far fa-edit fa-lg" '.
                                   'aria-hidden="true" onClick="wtree2_onUpdate(' . $id . ', ' . $nivel . ')"></i>';
         }
 
         //-------
         if ($this->opNewSub == true) {
             if ($nivel < $this->niveles) {
-                $listBt['new'] = '<i class="fas fa-pencil-square fa-lg" '.
+                $listBt['new'] = '<i class="far fa-edit fa-lg" '.
                                   ' aria-hidden="true" onClick="wtree2_onNewSub(' . $id . ', ' . $nivel . ')"></i>';
             }
         }
