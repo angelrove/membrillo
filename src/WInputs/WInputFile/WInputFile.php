@@ -181,7 +181,8 @@ EOD;
         }
 
         $required = '';
-        if ($this->required == true && !$htmFilePrev) {
+        // if ($this->required == true && !$htmFilePrev) {
+        if ($this->required == true) {
             $required = 'required';
         }
 
