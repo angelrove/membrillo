@@ -351,9 +351,9 @@ EOD;
     private function getImgArbol($isHijo, $tieneSubc, $isDesplegado, $hayMasCateg)
     {
         $tipos = array(
-            'contraido'  => 'plus fa-lg',
-            'desplegado' => 'minus fa-lg',
-            'empty'      => 'plus tab_0 fa-lg',
+            'contraido'  => 'plus',
+            'desplegado' => 'minus',
+            'empty'      => 'plus tab_0',
             'fin'        => 'caret-right',
         );
 

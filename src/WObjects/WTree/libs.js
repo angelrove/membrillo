@@ -57,17 +57,19 @@ function WTree_cambiarVisibilidad(id) {
 //---------------------------
 function WTree_show(id) {
     console.log("WTree_show(" + id + ")");
-    var image = ".WTree .row_" + id + " .title i";
     $(".WTree #cat_" + id).show();
-    $(image).addClass("fa-minus");
-    $(image).removeClass("fa-plus");
+
+    // Toggle icon
+    var image = ".WTree .row_" + id + " .title svg.fa-plus";
+    $(image).replaceWith('<i class="fas fa-minus fa-fw"></i>');
 }
 //---------------------------
 function WTree_ocultar(id) {
     console.log("WTree_ocultar(" + id + ")");
     $(".WTree #cat_" + id).hide();
-    var image = ".WTree .row_" + id + " .title i";
-    $(image).addClass("fa-plus");
-    $(image).removeClass("fa-minus");
+
+    // Toggle icon
+    var image = ".WTree .row_" + id + " .title svg.fa-minus";
+    $(image).replaceWith('<i class="fas fa-plus fa-fw"></i>');
 }
 //-------------------------------------------------------
