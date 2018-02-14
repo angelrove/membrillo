@@ -12,7 +12,7 @@ class WInputCheck
     /**
      * $value = por defecto admite los valores: 0, 1
      */
-    public static function get($name, $label, $value, $required, $isReadonly = false, $setValueChecked = '1')
+    public static function get($name, $label, $value, $required=false, $isReadonly=false, $setValueChecked = '1')
     {
         if (!$value) {
             $value = 0;
