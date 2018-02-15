@@ -58,13 +58,13 @@ class Messages
     {
         CssJsLoad::set_script('
   $(document).ready(function() {
-     $("#WApplication_msgs_load").load("/index_ajax.php?sys_service=Messages_get").delay(7000).fadeOut();
+     $("#WApplication_msgs_load>div").load("/index_ajax.php?sys_service=Messages_get").delay(7000).fadeOut();
   });
 ', 'Messages');
 
         ?>
      <!-- Messages -->
-     <div id="WApplication_msgs_load"></div>
+     <div id="WApplication_msgs_load"><div></div></div>
      <!-- /Messages -->
      <?php
     }
