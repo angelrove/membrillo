@@ -71,9 +71,9 @@ class Model
         GenQuery::helper_insert(self::$TABLE);
     }
 
-    public static function update()
+    public static function update(array $listValues=array())
     {
-        GenQuery::helper_update(self::$TABLE);
+        GenQuery::helper_update(self::$TABLE, $listValues);
     }
 
     public static function delete()
