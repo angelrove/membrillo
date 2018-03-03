@@ -89,7 +89,7 @@ class GenQuery
             return $errors;
         }
 
-        Messages::set("Guardado correctamente.");
+        // Messages::set("Guardado correctamente.");
     }
     //------------------------------------------------------------------
     // Parse form
