@@ -81,8 +81,8 @@ class WList extends EventComponent
             //----------
             case $this->event_fOrder:
                 // invertir la ordenación
-                if ($datos['param_fieldPrev'] == $datos['param_field']) {
-                    $order_asc = ($datos['order_asc'] == 'DESC') ? 'ASC' : 'DESC';
+                if (isset($datos['param_fieldPrev']) && $datos['param_fieldPrev'] == $datos['param_field']) {
+                    $order_asc = (isset($datos['order_asc']) && $datos['order_asc'] == 'DESC') ? 'ASC' : 'DESC';
 
                     $this->wObjectStatus->setDato('order_asc', $order_asc);
                 }
@@ -446,7 +446,7 @@ EOD;
             // Campo de ordenación
             if ($dbField->order) {
                 $simbolo = ($param_field == $dbField->order) ? $orderSimbol : '=';
-                $link    = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field=$dbField->order');
+                $link    = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field='.$dbField->order);
 
                 $dbField->title = '<a class="btFieldOrder" href="' . $link . '">' .
                                       $simbolo . ' ' . $dbField->title .
