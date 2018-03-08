@@ -71,6 +71,7 @@ class Application
         //-------------------------------------
         /* Session start */
         session_start();
+        \angelrove\membrillo2\WApp\Session::sessionExpireAt(40);
     }
     //-----------------------------------------------------------------
     private function init_database()
