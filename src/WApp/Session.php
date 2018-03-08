@@ -58,7 +58,7 @@ class Session
   /**
    * Expire the session if user is inactive for $expireAfter min.
    */
-  public function sessionExpireAt($expireAfter)
+  public static function sessionExpireAt($expireAfter)
   {
       // Check to see if our "last action" session variable has been set.
       if(isset($_SESSION['last_action'])) {
