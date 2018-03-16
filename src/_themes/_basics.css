@@ -124,6 +124,13 @@ footer {
 }
 
 
+/*--- WInputSelect ---*/
+
+select .placeholder {
+    color: #999;
+}
+
+
 /*--- WInputRadios ---*/
 
 .WInputRadios {

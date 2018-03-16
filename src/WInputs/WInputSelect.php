@@ -71,7 +71,12 @@ class WInputSelect
      * from array
      * $tipoId: AUTO_INCR, AUTO_VALUE
      */
-    public static function getFromArray($datos, $id_selected, $name = '', $required = false, $tipoId = '', $listColors = '', $listGroup = array())
+    public static function getFromArray($datos, $id_selected, $name = '',
+                                        $required = false,
+                                        $tipoId = '',
+                                        $placeholder='',
+                                        $listColors = '',
+                                        $listGroup = array())
     {
         $strSelect = '';
 
@@ -117,7 +122,7 @@ class WInputSelect
             $required  = ($required) ? 'required' : '';
             $strSelect =
                 "<select name=\"$name\" class=\"form-control\" $required>" .
-                   '<option></option>' .
+                   '<option value="" class="placeholder">-- '.$placeholder.' --</option>' .
                    $strSelect .
                 '</select>';
         }
