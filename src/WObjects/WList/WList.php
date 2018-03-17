@@ -433,8 +433,14 @@ EOD;
     {
         global $app;
 
+        $orderSimbols = [
+            'none' => '<i class="material-icons md-18">drag_handle</i>',
+            'down' => '<i class="material-icons md-18">keyboard_arrow_down</i>',
+            'up'   => '<i class="material-icons md-18">keyboard_arrow_up</i>'
+        ];
+
         /** Títulos de los campos **/
-        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC') ? '<i class="material-icons md-18">keyboard_arrow_down</i> ' : '<i class="material-icons md-18">keyboard_arrow_up</i> ';
+        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC')? $orderSimbols['down'] : $orderSimbols['up'];
         $param_field = $this->wObjectStatus->getDato('param_field');
 
         $htmTitles = '';
@@ -445,12 +451,10 @@ EOD;
 
             // Campo de ordenación
             if ($dbField->order) {
-                $simbolo = ($param_field == $dbField->order) ? $orderSimbol : '=';
-                $link    = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field='.$dbField->order);
+                $simbol = ($param_field == $dbField->order) ? $orderSimbol : $orderSimbols['none'];
+                $link = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field='.$dbField->order);
 
-                $dbField->title = '<a class="btFieldOrder" href="' . $link . '">' .
-                                      $simbolo . ' ' . $dbField->title .
-                                  '</a>';
+                $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$simbol.$dbField->title.'</a>';
             }
             // OnClick
             if ($dbField->onClick) {

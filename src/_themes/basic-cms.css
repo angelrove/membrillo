@@ -17,6 +17,7 @@ hr {
 .material-icons {
     line-height: 0;
     vertical-align: middle;
+    display: inherit;
 }
 
 /* Rules for sizing the icon. */
