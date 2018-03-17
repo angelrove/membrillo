@@ -113,6 +113,7 @@ class AppCms extends Application
         Vendor::usef('jquery');
         Vendor::usef('bootstrap');
         Vendor::usef('font-awesome');
+        Vendor::usef('material-icons');
         Vendor::usef('lightbox');
 
         //----------------------------------------------------

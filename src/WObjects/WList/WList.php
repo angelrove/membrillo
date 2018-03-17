@@ -434,7 +434,7 @@ EOD;
         global $app;
 
         /** Títulos de los campos **/
-        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC') ? 'v ' : '^ ';
+        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC') ? '<i class="material-icons md-18">keyboard_arrow_down</i> ' : '<i class="material-icons md-18">keyboard_arrow_up</i> ';
         $param_field = $this->wObjectStatus->getDato('param_field');
 
         $htmTitles = '';
