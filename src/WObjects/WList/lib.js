@@ -3,7 +3,6 @@
 // set scroll position in session
 $(window).scroll(function () {
     sessionStorage.scrollPos = $(window).scrollTop();
-    console.log(sessionStorage.scrollPos+"\n");
 });
 
 // get scroll position
