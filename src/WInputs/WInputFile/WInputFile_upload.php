@@ -118,21 +118,21 @@ class WInputFile_upload
         /** Imágenes **/
         if (self::isImage($fieldName)) {
             // Redimensionar ---
-            //         if($param_setMaxWidth > 0 && $param_setMaxHeight > 0) { //echo "thumbsJpeg() - 0";
-            //            ImageTransform::thumbsJpeg($uploads_path, $nameWidthExt, $param_setMaxWidth, $param_setMaxHeight, 'NADA');
+            //         if($param_setMaxWidth > 0 && $param_setMaxHeight > 0) { //echo "resize() - 0";
+            //            ImageTransform::resize($uploads_path, $nameWidthExt, $param_setMaxWidth, $param_setMaxHeight);
             //         }
             if ($param_setMaxWidth > 0) {
                 $datosImg = ImageTransform::getDatosImg($uploads_path, $nameWidthExt);
                 if ($datosImg['width'] > $param_setMaxWidth) {
-                    // echo "thumbsJpeg() - 1";
-                    ImageTransform::thumbsJpeg($uploads_path, $nameWidthExt, $param_setMaxWidth, '', 'NADA');
+                    // echo "resize() - 1";
+                    ImageTransform::resize($uploads_path, $nameWidthExt, $param_setMaxWidth, '');
                 }
             }
             if ($param_setMaxHeight > 0) {
                 $datosImg = ImageTransform::getDatosImg($uploads_path, $nameWidthExt);
                 if ($datosImg['height'] > $param_setMaxHeight) {
-                    // echo "thumbsJpeg() - 2";
-                    ImageTransform::thumbsJpeg($uploads_path, $nameWidthExt, '', $param_setMaxHeight, 'NADA');
+                    // echo "resize() - 2";
+                    ImageTransform::resize($uploads_path, $nameWidthExt, '', $param_setMaxHeight);
                 }
             }
 
@@ -145,7 +145,7 @@ class WInputFile_upload
             if ($param_thumbWidth > 0) {
                 $traza = $trazas . " >> Thumb: param_thumbWidth=$param_thumbWidth; uploads_path='$uploads_path'";
                 DebugTrace::out('WInputFile', $traza);
-                ImageTransform::thumbsJpeg($uploads_path, $nameWidthExt, $param_thumbWidth);
+                ImageTransform::resize($uploads_path, $nameWidthExt, $param_thumbWidth, '', 'th_');
             }
 
             // Watermark ---
