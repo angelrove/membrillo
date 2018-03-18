@@ -43,13 +43,18 @@ class AppCmsAjax extends Application
             $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         }
 
-        $service_path = $secc_dir . '/ajax-' . $_REQUEST['service'] . '.inc';
+        $service_path        = $secc_dir . '/ajax-' . $_REQUEST['service'] . '.inc';
+        $service_path_script = $secc_dir . '/script-' . $_REQUEST['service'] . '.php';
 
         // Load service ----
         try {
-            if ((file_exists($service_path))) {
+            if (file_exists($service_path)) {
                 include $service_path;
-            } else {
+            }
+            elseif (file_exists($service_path_script)) {
+                include $service_path_script;
+            }
+            else {
                 throw new \Exception("membrillo2 error: Service not found [$service_path]");
             }
         } catch (\Exception $e) {
