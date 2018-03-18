@@ -1,8 +1,23 @@
 
+//-- Scroll to previous position ----------------------
+// set scroll position in session
+$(window).scroll(function () {
+    sessionStorage.scrollPos = $(window).scrollTop();
+    console.log(sessionStorage.scrollPos+"\n");
+});
+
+// get scroll position
+var init = function () {
+    $(window).scrollTop(sessionStorage.scrollPos || 0)
+};
+window.onload = init;
+//-----------------------------------------------------
+
+
 $(document).ready(function()
 {
   // Focus (buscador) ---
-  $('.WFrame input[type="text"]').eq(0).focus();
+  // $('.WFrame input[type="text"]').eq(0).focus();
 
   //-----------------------------------------------------
   /** Events **/
