@@ -550,15 +550,18 @@ EOD;
                 $f_bgColor = 'background:' . $f_bgColor . ';';
             }
 
-            // getOnClick
+            // getOnClick (deprecated??)
             $f_onClick = $this->cellEditor->getOnClick($id, $dbField->name, $f_value, $row);
             if ($f_onClick === true) {
-                $f_onClick = ' class="onClickUser on_'.$dbField->name . '"';
+                $f_onClick = ' onClickUser on_'.$dbField->name.' ';
             }
             elseif($f_onClick) {
-                $f_onClick = ' class="onClickUser ' . $f_onClick . '"';
+                $f_onClick = ' onClickUser ' . $f_onClick.' ';
             }
         }
+
+        /** prevent default **/
+        $class_prevDef = ($dbField->preventDefault)? ' preventDefault ' : '';
 
         /** OUT **/
         $style = '';
@@ -566,7 +569,7 @@ EOD;
             $style = ' style="' . $style_align . $f_bgColor . '"';
         }
 
-        return '<td' . $f_onClick . $style . '>' . nl2br($f_valueCampo) . '</td>';
+        return '<td class="'.$f_onClick.$class_prevDef.'"' . $style . '>' . nl2br($f_valueCampo) . '</td>';
     }
     //-------------------------------------------------------
     // Buttons

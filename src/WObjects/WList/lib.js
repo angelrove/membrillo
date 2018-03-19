@@ -22,7 +22,7 @@ $(document).ready(function()
   /** Events **/
   //-----------------------------------------------------
   // onRow ----------------------------------------------
-  $('.List_tuplas td:not(.optionsBar, .onClickUser)').click(function(event) {
+  $('.List_tuplas td:not(.optionsBar, .onClickUser, .preventDefault)').click(function(event) {
     var row_id = $(this).parents("tr").attr('id');
     List_onEvent($(this), row_id, 'onRow', '', '');
   });

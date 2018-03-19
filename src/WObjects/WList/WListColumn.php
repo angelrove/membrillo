@@ -14,6 +14,7 @@ class WListColumn
     public $align;
     public $order;
     public $onClick;
+    public $preventDefault;
 
     //-------------------------------------------------------
     public function __construct($name, $title, $size = '', $align = '')
@@ -37,6 +38,11 @@ class WListColumn
     public function setOnClick()
     {
         $this->onClick = $this->name;
+    }
+    //-------------------------------------------------------
+    public function preventDefault()
+    {
+        $this->preventDefault = true;
     }
     //-------------------------------------------------------
 }
