@@ -2,20 +2,23 @@
 // Shortcuts ---------------------
 $(document).keydown(function(e)
 {
-   //------------------------
-   // Esc (Close)
+   // Esc (Close) ----------
    if(e.keyCode == 27) {
       if(scut_close) {
         WForm_close();
       };
    }
-   //------------------------
-   // Ctrl+Enter (Save)
-   if(e.keyCode == 13 && e.ctrlKey) {
-      WForm_save();
+
+   // Ctrl+Intro (Save) ----
+   if(e.keyCode == 13) {
+      if(e.ctrlKey) {
+         WForm_save();
+         $(".WForm").submit();
+      }
    }
-   //------------------------
 });
+//--------------------------------
+
 
 $(document).ready(function()
 {
