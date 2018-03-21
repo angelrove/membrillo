@@ -22,7 +22,7 @@ class WInputSelect
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $value, $name = '', $required = false)
+    public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
     {
         if (!$sqlQ) {
             return '';
@@ -56,10 +56,13 @@ class WInputSelect
 
         if ($name) {
             $required = ($required) ? 'required' : '';
+            if ($placeholder) {
+                $placeholder = '<option value="" class="placeholder">-- '.$placeholder.' --</option>';
+            }
 
             $strSelect =
                 "<select name=\"$name\" class=\"form-control\" $required>" .
-                    '<option></option>' .
+                    $placeholder .
                     $strSelect .
                 "</select>";
         }
