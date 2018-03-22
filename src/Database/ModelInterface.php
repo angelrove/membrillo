@@ -7,7 +7,7 @@ namespace angelrove\membrillo2\Database;
 
 interface ModelInterface
 {
-    public static function read();
+    public static function read(array $filtros=array());
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true);
 

@@ -123,9 +123,14 @@ class WInputSelect
 
         if ($name) {
             $required  = ($required) ? 'required' : '';
+
+            if ($placeholder) {
+                $placeholder = '<option value="" class="placeholder">-- '.$placeholder.' --</option>';
+            }
+
             $strSelect =
                 "<select name=\"$name\" class=\"form-control\" $required>" .
-                   '<option value="" class="placeholder">-- '.$placeholder.' --</option>' .
+                   $placeholder .
                    $strSelect .
                 '</select>';
         }
