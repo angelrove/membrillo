@@ -31,25 +31,28 @@ class GenQuery
      *  Ejem.: GenQuery::getSqlFiltros($listSql, $_REQUEST);
      */
     public static function getSqlFiltros(array $listSql,
-                                         array $listFiltros,
+                                         array $filtros,
                                          $sep = 'AND',
-                                         $pref = '')
-    {
+                                         $pref = ''): string {
         $sqlFiltros = '';
-        $sep        = ' ' . $sep . ' ';
+        $sep = ' ' . $sep . ' ';
 
         $c = 0;
-        foreach ($listSql as $field => $strSql) {
-            if ($listFiltros[$field] == '' || !$strSql) {
+        foreach ($listSql as $field => $query) {
+            if (!isset($filtros[$field]) || !$filtros[$field] || !$query) {
                 continue;
             }
 
+            // new $listSql format ---
+            if (is_array($query)) {
+                $query = $query[$filtros[$field]];
+            }
+
+            //----
             if ($c > 0) {
                 $sqlFiltros .= $sep;
             }
-
-            $sqlFiltros .= "\n   " . $strSql;
-
+            $sqlFiltros .= "\n   " . $query;
             $c = 1;
         }
 
