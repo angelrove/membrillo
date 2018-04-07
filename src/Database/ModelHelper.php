@@ -69,9 +69,9 @@ class ModelHelper
         GenQuery::helper_insert($TABLE);
     }
     //--------------------------------------------
-    public static function update($TABLE, array $listValues=array())
+    public static function update($TABLE, array $listValues=array(), $id = '')
     {
-        GenQuery::helper_update($TABLE, $listValues);
+        GenQuery::helper_update($TABLE, $listValues, $id);
     }
     //--------------------------------------------
     public static function delete($TABLE)
