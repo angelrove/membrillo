@@ -7,13 +7,11 @@
 namespace angelrove\membrillo2\WObjects\WForm;
 
 use angelrove\membrillo2\AppCms;
-use angelrove\membrillo2\Database\GenQuery;
 use angelrove\membrillo2\Messages;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\WPage\WPage;
 use angelrove\utils\CssJsLoad;
-use angelrove\utils\Db_mysql;
 
 use angelrove\membrillo2\WInputs\WInputSelect;
 use angelrove\membrillo2\WInputs\WInputCheck;
@@ -334,7 +332,7 @@ class WForm extends EventComponent
                 break;
 
             case 'number':
-                $extraHtml = (isset($params[1]))? 'min="'.$params[0].'" max="'.$params[1].'"' : '';
+                $extraHtml = $params[0]?? '';
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 

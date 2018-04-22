@@ -98,7 +98,7 @@ class WList extends EventComponent
                 // reiniciar la paginación
                 $this->wObjectStatus->delDato('id_page');
                 break;
-                //----------
+            //----------
         }
 
     }
@@ -195,7 +195,6 @@ class WList extends EventComponent
         $this->bt_delete         = true;
         $this->bt_delete_confirm = $isConfirm;
 
-        global $app;
         if ($this->bt_delete_confirm) {
             $this->msgConfirmDel = 'Eliminar';
         }
@@ -431,8 +430,6 @@ EOD;
     //--------------------------------------------------------------
     private function getHead()
     {
-        global $app;
-
         $orderSimbols = [
             'none' => '<i class="material-icons md-18">drag_handle</i>',
             'down' => '<i class="material-icons md-18">keyboard_arrow_down</i>',
