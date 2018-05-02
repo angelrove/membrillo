@@ -10,12 +10,12 @@ $(document).keydown(function(e)
    }
 
    // Ctrl+Intro (Save) ----
-   if(e.keyCode == 13) {
-      if(e.ctrlKey) {
-         WForm_save();
-         $(".WForm").submit();
-      }
-   }
+   // if(e.keyCode == 13) {
+   //    if(e.ctrlKey) {
+   //       WForm_save();
+   //       $(".WForm").submit();
+   //    }
+   // }
 });
 //--------------------------------
 

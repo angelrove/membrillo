@@ -74,7 +74,9 @@ class WInputSelect
      * from array
      * $tipoId: AUTO_INCR, AUTO_VALUE
      */
-    public static function getFromArray($datos, $id_selected, $name = '',
+    public static function getFromArray($datos,
+                                        $id_selected,
+                                        $name = '',
                                         $required = false,
                                         $tipoId = '',
                                         $placeholder='',
