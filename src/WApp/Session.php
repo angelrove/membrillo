@@ -10,6 +10,18 @@ namespace angelrove\membrillo2\WApp;
 class Session
 {
   //------------------------------------------------------
+  public static function start($expireAfter)
+  {
+    // server should keep session data for AT LEAST $expireAfter seconds
+    ini_set('session.gc_maxlifetime', $expireAfter);
+
+    // each client should remember their session id for EXACTLY $expireAfter seconds
+    session_set_cookie_params($expireAfter);
+
+    session_start();
+    // self::sessionExpireAt($expireAfter);
+  }
+  //------------------------------------------------------
   public static function set($key, $obj)
   {
     $sessionName = self::getSessionName();
