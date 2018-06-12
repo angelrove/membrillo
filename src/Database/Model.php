@@ -66,9 +66,9 @@ class Model
         return $datos;
     }
 
-    public static function create()
+    public static function create(array $listValues=array())
     {
-        GenQuery::helper_insert(self::$TABLE);
+        GenQuery::helper_insert(self::$TABLE, $listValues);
     }
 
     public static function update(array $listValues=array())
@@ -78,7 +78,7 @@ class Model
 
     public static function delete()
     {
-        GenQuery::delete(self::$TABLE);
+        return GenQuery::delete(self::$TABLE);
     }
     //--------
     public static function rows()

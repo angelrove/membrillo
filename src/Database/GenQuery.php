@@ -391,7 +391,9 @@ class GenQuery
     /* Delete row and uploaded files */
     public static function delete($DB_TABLE)
     {
-        $sqlQ = self::getQueryDelete($DB_TABLE, Event::$ROW_ID);
+        $ROW_ID = Event::$ROW_ID;
+
+        $sqlQ = self::getQueryDelete($DB_TABLE, $ROW_ID);
         Db_mysql::query($sqlQ);
         self::$executed_queries[] = $sqlQ;
 
@@ -402,7 +404,7 @@ class GenQuery
 
         DebugTrace::out('GenQuery::delete()', $sqlQ);
 
-        return;
+        return $ROW_ID;
     }
     //-----------
     public static function getQueryDelete($DB_TABLE, $id)

@@ -64,9 +64,9 @@ class ModelHelper
         return $datos;
     }
     //--------------------------------------------
-    public static function create($TABLE)
+    public static function create($TABLE, array $listValues=array())
     {
-        GenQuery::helper_insert($TABLE);
+        GenQuery::helper_insert($TABLE, $listValues);
     }
     //--------------------------------------------
     public static function update($TABLE, array $listValues=array(), $id = '')
@@ -76,7 +76,7 @@ class ModelHelper
     //--------------------------------------------
     public static function delete($TABLE)
     {
-        GenQuery::delete($TABLE);
+        return GenQuery::delete($TABLE);
     }
     //--------
     public static function rows()
