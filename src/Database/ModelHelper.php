@@ -79,9 +79,9 @@ class ModelHelper
         return GenQuery::delete($TABLE);
     }
     //--------
-    public static function rows()
+    public static function rows($TABLE)
     {
-        return self::read();
+        return self::read($TABLE);
     }
     //--------------------------------------------
 }
