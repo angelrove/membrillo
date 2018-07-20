@@ -336,6 +336,21 @@ class WForm extends EventComponent
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 
+            case 'url':
+                $extra = 'style="display:initial;width:95%"';
+
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required,
+                                             false,
+                                             $extra);
+
+                if ($this->datos[$name]) {
+                    $htmInput .= ' <a target="_blank" href="'.$this->datos[$name].'">'.
+                                    '<i class="fas fa-link fa-lg"></i>'.
+                                 ' </a>';
+                }
+
+                break;
+
             default:
                 // $type_text = (isset($params[0])? $params[0] : 'text';
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required);
