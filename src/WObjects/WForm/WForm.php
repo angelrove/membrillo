@@ -381,7 +381,7 @@ class WForm extends EventComponent
                 break;
         }
 
-        return '<input class="form-control"'.
+        return '<input class="form-control type_'.$type.'"'.
                    ' ' . $placeholder .
                    ' ' . $required .
                    ' ' . $extraHtml .
