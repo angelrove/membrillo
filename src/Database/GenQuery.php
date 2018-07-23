@@ -530,7 +530,12 @@ class GenQuery
                 break;
             //-------
             case 'datetime':
-                $value = "'$inputValue'";
+                if ($inputValue != 'NULL') {
+                    $value = "'$inputValue'";
+                }
+                else {
+                    $value = $inputValue;
+                }
                 break;
             //-------
             case 'file':
