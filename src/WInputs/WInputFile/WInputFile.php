@@ -42,13 +42,18 @@ class WInputFile
     private $watermark_text = '';
 
     //---------------------------------------------------------------------
-    public function __construct($name, $fileDatos, $label = '')
+    public function __construct($name, $fileDatos, $label = '', $isTypeImage='auto')
     {
         $this->name      = $name;
         $this->label     = $label;
         $this->fileDatos = $fileDatos;
 
-        Vendor::usef('lightbox');
+        if ($isTypeImage == false) {
+        }
+        else {
+            Vendor::usef('lightbox');
+        }
+
         CssJsLoad::set(__DIR__.'/libs.js');
     }
     //---------------------------------------------------------------------
@@ -267,7 +272,7 @@ EOD;
         $datosFile = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
         // print_r2($datosFile);
 
-        $dir                        = ($datosFile['dir']) ? '/' . $datosFile['dir'] : '';
+        $dir = ($datosFile['dir']) ? '/' . $datosFile['dir'] : '';
         $datosFile['ruta_completa'] = $CONFIG_APP['url_uploads'] . $dir . '/' . $datosFile['name'];
 
         if (!$datosFile['nameUser']) {
