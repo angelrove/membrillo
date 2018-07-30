@@ -64,7 +64,7 @@ class GenQuery
         return $sqlFiltros;
     }
     //------------------------------------------------------------------
-    public static function helper_insert($DB_TABLE, array $listValuesPers = array())
+    public static function helper_insert($DB_TABLE, array $listValuesPers = array(), $messageAuto=true)
     {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
@@ -76,7 +76,9 @@ class GenQuery
             return $errors;
         }
 
-        Messages::set("Insertado correctamente.");
+        if ($messageAuto) {
+            Messages::set("Insertado correctamente.");
+        }
     }
     //------------------------------------------------------------------
     public static function helper_update($DB_TABLE,

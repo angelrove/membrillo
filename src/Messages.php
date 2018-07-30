@@ -58,7 +58,7 @@ class Messages
     {
         CssJsLoad::set_script('
   $(document).ready(function() {
-     $("#WApplication_msgs_load>div").load("/index_ajax.php?sys_service=Messages_get").delay(7000).fadeOut();
+     $("#WApplication_msgs_load>div").load("/index_ajax.php?sys_service=Messages_get").delay(10000).fadeOut();
   });
 ', 'Messages');
 
