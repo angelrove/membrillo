@@ -17,9 +17,21 @@ class ModelHelper
     {
         return self::read($TABLE);
     }
-    public static function read($TABLE)
+    public static function read($TABLE, array $filtros=array())
     {
-        return GenQuery::select($TABLE);
+        // Filtros ---------
+        $listCondiciones = array();
+        foreach ($filtros as $column => $filtro) {
+            $listCondiciones[$column] = "$column = '$filtro'";
+        }
+
+        $sqlFiltros = GenQuery::getSqlFiltros($listCondiciones, $filtros, 'AND');
+        if ($sqlFiltros) {
+            $sqlFiltros = ' WHERE'.$sqlFiltros;
+        }
+
+        // Query -----------
+        return GenQuery::select($TABLE).$sqlFiltros;
     }
     //--------------------------------------------
 
