@@ -7,6 +7,8 @@ namespace angelrove\membrillo2\Database;
 
 interface ModelInterface
 {
+    public static function rows();
+
     public static function read(array $filtros=array());
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true);
@@ -23,5 +25,4 @@ interface ModelInterface
 
     public static function delete();
 
-    public static function rows();
 }

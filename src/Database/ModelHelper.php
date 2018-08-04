@@ -13,10 +13,15 @@ class ModelHelper
     //--------------------------------------------
     // CRUD
     //--------------------------------------------
+    public static function rows($TABLE)
+    {
+        return self::read($TABLE);
+    }
     public static function read($TABLE)
     {
         return GenQuery::select($TABLE);
     }
+    //--------------------------------------------
 
     public static function findById($TABLE, $id, $asArray=true, $setHtmlSpecialChars = true)
     {
@@ -77,11 +82,6 @@ class ModelHelper
     public static function delete($TABLE)
     {
         return GenQuery::delete($TABLE);
-    }
-    //--------
-    public static function rows($TABLE)
-    {
-        return self::read($TABLE);
     }
     //--------------------------------------------
 }
