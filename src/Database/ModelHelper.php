@@ -17,24 +17,15 @@ class ModelHelper
     {
         return self::read($TABLE);
     }
-    public static function read($TABLE, array $filtros=array())
+
+    public static function read($TABLE, array $filters=array())
     {
-        // Filtros ---------
-        $listCondiciones = array();
-        foreach ($filtros as $column => $filtro) {
-            $listCondiciones[$column] = "$column = '$filtro'";
-        }
+        $sqlFiltros = self::getSqlFiltros($filters);
 
-        $sqlFiltros = GenQuery::getSqlFiltros($listCondiciones, $filtros, 'AND');
-        if ($sqlFiltros) {
-            $sqlFiltros = ' WHERE'.$sqlFiltros;
-        }
-
-        // Query -----------
         return GenQuery::select($TABLE).$sqlFiltros;
     }
-    //--------------------------------------------
 
+    //--------------------------------------------
     public static function findById($TABLE, $id, $asArray=true, $setHtmlSpecialChars = true)
     {
         $sql = GenQuery::selectRow($TABLE, $id);
@@ -56,17 +47,9 @@ class ModelHelper
 
     public static function find($TABLE, array $filters)
     {
-        //---
-        $listWhere = array();
-        foreach ($filters as $key => $value) {
-            $listWhere[] = " $key = '$value'";
-        }
+        $sqlFiltros = self::getSqlFiltros($filters);
 
-        //---
-        $strWhere = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
-
-        //---
-        $sql = "SELECT * FROM ".$TABLE.' WHERE '.$strWhere." LIMIT 1";
+        $sql = "SELECT * FROM " . $TABLE . $sqlFiltros." LIMIT 1";
 
         return Db_mysql::getRow($sql);
     }
@@ -94,6 +77,21 @@ class ModelHelper
     public static function delete($TABLE)
     {
         return GenQuery::delete($TABLE);
+    }
+    //--------------------------------------------
+    public static function getSqlFiltros(array $filters)
+    {
+        $listWhere = array();
+        foreach ($filters as $column => $filtro) {
+            $listWhere[] = " $column = '$filtro'";
+        }
+        $sqlFiltros = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
+
+        if ($sqlFiltros) {
+            $sqlFiltros = ' WHERE '.$sqlFiltros;
+        }
+
+        return $sqlFiltros;
     }
     //--------------------------------------------
 }
