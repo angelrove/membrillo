@@ -66,12 +66,12 @@ class ModelHelper
     //--------------------------------------------
     public static function create($TABLE, array $listValues=array())
     {
-        GenQuery::helper_insert($TABLE, $listValues);
+        return GenQuery::helper_insert($TABLE, $listValues);
     }
     //--------------------------------------------
     public static function update($TABLE, array $listValues=array(), $id = '')
     {
-        GenQuery::helper_update($TABLE, $listValues, $id);
+        return GenQuery::helper_update($TABLE, $listValues, $id);
     }
     //--------------------------------------------
     public static function delete($TABLE)

@@ -16,7 +16,7 @@ Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.
 
 // font-awesome ---
 Vendor::conf('font-awesome', '', array(
-    'https://use.fontawesome.com/releases/v5.0.6/js/all.js',
+    'https://use.fontawesome.com/releases/v5.2.0/js/all.js',
 ));
 \angelrove\utils\CssJsLoad::set_script("
     window.FontAwesomeConfig.searchPseudoElements = true;

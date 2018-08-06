@@ -213,14 +213,15 @@ class WList extends EventComponent
     //-------------------------------------------------------
     public function setBtOpc($event, $label = '', $onClick = false, $title = '')
     {
-        $this->list_Op[$event] = array('event' => $event,
-            'oper'                                 => $event,
-            'label'                                => $label,
-            'onClick'                              => $onClick,
-            'title'                                => $title,
-            'href'                                 => '',
-            'target'                               => '',
-            'disabled'                             => '',
+        $this->list_Op[$event] = array(
+            'event'    => $event,
+            'oper'     => $event,
+            'label'    => $label,
+            'onClick'  => $onClick,
+            'title'    => $title,
+            'href'     => '',
+            'target'   => '',
+            'disabled' => '',
         );
     }
     //-------------------------------------------------------
