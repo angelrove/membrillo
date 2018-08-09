@@ -6,6 +6,7 @@
 namespace angelrove\membrillo2\Database;
 
 use angelrove\membrillo2\Database\GenQuery;
+use angelrove\membrillo2\Database\ModelHelper;
 use angelrove\utils\Db_mysql;
 
 class Model
@@ -22,48 +23,22 @@ class Model
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
     {
-        $sql = GenQuery::selectRow(self::$TABLE, $id);
-
-        if ($asArray) {
-            return Db_mysql::getRow($sql, $setHtmlSpecialChars);
-        } else{
-            return Db_mysql::getRowObject($sql, $setHtmlSpecialChars);
-        }
+        return ModelHelper::findById(self::$TABLE, $id, $asArray, $setHtmlSpecialChars);
     }
 
     public static function getValueById($id, $field)
     {
-        $sql = GenQuery::selectRow(self::$TABLE, $id);
-        $data = Db_mysql::getRow($sql);
-
-        return $data[$field];
+        return ModelHelper::getValueById(self::$TABLE, $id, $field);
     }
 
     public static function find(array $filters)
     {
-        //---
-        $listWhere = array();
-        foreach ($filters as $key => $value) {
-            $listWhere[] = " $key = '$value'";
-        }
-
-        //---
-        $strWhere = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
-
-        //---
-        $sql = "SELECT * FROM ".self::$TABLE.' WHERE '.$strWhere." LIMIT 1";
-
-        return Db_mysql::getRow($sql);
+        return ModelHelper::find(self::$TABLE, $filters);
     }
 
     public static function findEmpty()
     {
-        $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . self::$TABLE);
-        foreach ($columns as $key => $value) {
-            $datos[$key] = '';
-        }
-
-        return $datos;
+        return ModelHelper::findEmpty(self::$TABLE);
     }
 
     public static function create(array $listValues=array())
