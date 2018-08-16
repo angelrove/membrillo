@@ -16,9 +16,9 @@ class Model
     //--------------------------------------------
     // CRUD
     //--------------------------------------------
-    public static function read()
+    public static function read(array $filters=array())
     {
-        return GenQuery::select(self::$TABLE);
+        return ModelHelper::read(self::$TABLE, $filters);
     }
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
