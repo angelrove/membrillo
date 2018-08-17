@@ -39,8 +39,10 @@ class Frame
 
   ', 'WPage\Frame\get');
 
-        $tmpl_params = array('showClose' => $showClose,
-            'title'                          => $title);
+        $tmpl_params = array(
+            'showClose' => $showClose,
+            'title' => $title
+        );
         return FileContent::include_return(__DIR__ . '/tmpl_frame_init.inc', $tmpl_params);
     }
     //----------------------

@@ -109,7 +109,7 @@ class WList extends EventComponent
         switch (Event::$EVENT) {
             case CRUD_LIST_DETAIL: // reiniciar la paginación
                 $this->wObjectStatus->delDato('id_page');
-                break;
+            break;
         }
     }
     //--------------------------------------------------------------
