@@ -15,7 +15,13 @@ class AppCmsAjax extends Application
     //-----------------------------------------------------------------
     public function __construct($document_root)
     {
+        //-------
         parent::__construct($document_root);
+
+        // Parse params ----
+        if (!isset($_REQUEST['service']) && !isset($_REQUEST['sys_service'])) {
+            throw new \Exception("Error 'Service' not found");
+        }
 
         //----------------------------------------------------
         /* Globals */
