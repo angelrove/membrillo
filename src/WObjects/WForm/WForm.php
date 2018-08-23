@@ -310,12 +310,14 @@ class WForm extends EventComponent
         switch ($type) {
             case 'select':
                 $dbTable = $params[0];
-                $htmInput = WInputSelect::get2($dbTable, $this->datos[$name], $name, $required);
+                $emptyOption = (isset($params[1]) && $params[1])? '-':'';
+                $htmInput = WInputSelect::get2($dbTable, $this->datos[$name], $name, $required, $emptyOption);
                 break;
 
             case 'select_array':
                 $values = $params[0];
-                $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required);
+                $emptyOption = (isset($params[1]) && $params[1])? '-':'';
+                $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required, '', $emptyOption);
                 break;
 
             case 'checkbox':
