@@ -289,12 +289,15 @@ class GenQuery
         $strValues  = '';
         $listFields = self::getTableProperties($DB_TABLE);
 
-        foreach ($listFields as $fieldName => $fieldProp) {
-            // Valor
+        foreach ($listFields as $fieldName => $fieldProp)
+        {
+            // Value user ----
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
-            } else {
+            }
+            // Value _POST ---
+            else {
                 $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
 
                 if (isset($value->errors)) {
