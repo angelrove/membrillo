@@ -2,30 +2,18 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-/**********************/
-#sidetree {
-  border:1px solid #555; background-color:#fff;
-}
-#sidetree td {
-  padding:0px;
-}
-img {
-  vertical-align:top;
-}
-
 /****** CABECERA ******/
 .WTree_cabecera {
-  border-bottom:1px solid #999; border-collapse: collapse;
+  border-bottom:1px solid #999;
+  border-collapse: collapse;
   font-weight:bold;
-  background-color: #DEDCC7;
+  /*background-color: #DEDCC7;*/
 }
-.WTree_cabecera td.sidetreecontrol { width:45px; }
-#sidetreecontrol a { border:1px solid #33F; background-color:#fff; }
 .WTree_cabecera td.title {
-  height:16px; text-align:center;
+  text-align:center;
 }
 .WTree_cabecera td.btNuevo {
-  color:#0076AE; text-align:center; width:70px;
+  text-align:right;
 }
 
 /****** LISTADO ******/
@@ -43,8 +31,8 @@ img {
 
 .WTree_tuplas a {
   height:16px;
-  background-color: #FFF;
-  color:#000; text-decoration:none;
+  color:#000;
+  text-decoration:none;
 }
 .WTree_tuplas a:hover {
   text-decoration:none;
@@ -53,23 +41,93 @@ img {
 /* -------------------------- */
 .WTree_tuplas .tuplaL {
   font-weight:normal;
+  padding: 0 4px;
 }
-.WTree_tuplas .tuplaL1 {
-  font-weight:bold;
-}
+.WTree_tuplas .tuplaL1,
 .WTree_tuplas .tuplaL2 {
-  font-weight:bold;
+  /*font-weight:bold;*/
 }
 .WTree_tuplas .tuplaSelected {
   border:2px solid #AAF;
+  border: 1px solid burlywood;
+  background: #ffefdc;
 }
 
-.WTree_tuplas span.bt_del {
-  border:1px solid #999;
-  font-weight:bold; color:red;
-  padding:0px;padding-left:1px; padding-right:1px;
+/*---*/
+.WTree_tuplas .btOptions span {
+  /*
+  color: dodgerblue;
+  color: steelblue;
+  */
+  color: royalblue;
+}
+.WTree_tuplas .btOptions span:hover {
   cursor: pointer;
+}
+.WTree_tuplas .btOptions span.red {
+  color:red;
 }
 .WTree_tuplas input.check{
   margin:0px
 }
+
+/*------------*/
+#sidetree {
+  border:1px solid #a3a3a3;
+}
+#sidetree td {
+  padding: 6px;
+}
+#sidetree .well {
+  margin-bottom: inherit;
+}
+
+.WTree_tuplas img {
+  vertical-align:top;
+}
+.WTree_tuplas .selected {
+  background:#ecffec; border:1px solid #5C5;
+}
+.WTree_tuplas .selected a {
+  background:#d2ffd2;
+}
+
+.treeview li {
+  /*padding: 2px 0pt 2px 2px;*/
+}
+.treeview span.hover {
+  color: inherit;
+}
+.treeview span.hover:hover {
+  color: gray;
+  cursor: pointer;
+}
+
+#sidetreecontrol a {
+  border: 1px solid #bbcee7;
+  padding: 1px 4px;
+  background: #efefff;
+}
+
+/*-------------*/
+.treeview .hitarea {
+  cursor: pointer;
+  /*margin-top: 2px;*/
+}
+/*
+.treeview .hitarea::after {
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: white;
+}
+.treeview .expandable-hitarea::after {
+  content: "\f067";
+}
+.treeview .collapsable-hitarea::after {
+  content: "\f068";
+}
+*/

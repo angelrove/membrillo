@@ -1,13 +1,15 @@
 <?php
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
- *
+ * use http://bassistance.de/jquery-plugins/jquery-plugin-treeview/
+ *     https://github.com/jzaefferer/jquery-treeview
  */
 
 namespace angelrove\membrillo2\WObjects\WTree2;
 
 use angelrove\membrillo2\CrudUrl;
 use angelrove\utils\CssJsLoad;
+use angelrove\utils\Db_mysql;
 
 /*
  * Obligatorios:
@@ -18,9 +20,10 @@ use angelrove\utils\CssJsLoad;
 class WTree2
 {
     private $id;
-    private $dbTable = 'categorias';
+    private $dbTable;
     private $title   = 'Categorías';
     private $niveles;
+
     private $width;
     private $height;
 
@@ -35,11 +38,18 @@ class WTree2
     private $sqlWhere    = '';
     private $sqlWhere_L3 = '';
 
+    private $haveElementsOnLevel;
+    private $opCheckBox;
+    private $searchWord;
+
     //-----------------------------------------------------------------
-    public function __construct($idComponent, $dbTable, $width, $niveles = 3)
+    public function __construct($idComponent, $dbTable, $width=300, $niveles = 3)
     {
+        CssJsLoad::set(DOC_ROOT_MAIN.'/public/app/_libs/jquery-treeview/jquery.treeview.css');
+        CssJsLoad::set(DOC_ROOT_MAIN.'/public/app/_libs/jquery-treeview/jquery.treeview.js');
+        CssJsLoad::set(DOC_ROOT_MAIN.'/public/app/_libs/jquery-treeview/lib/jquery.cookie.js');
+
         CssJsLoad::set(__DIR__ . '/styles.css');
-        CssJsLoad::set(__DIR__ . '/libs.js');
         CssJsLoad::set(__DIR__ . '/libs2.js');
 
         $this->id      = $idComponent;
@@ -104,26 +114,46 @@ class WTree2
         $this->opNewSub   = false;
     }
     //-----------------------------------------------------------------
+    public function showSearcher()
+    {
+        $this->searcher = true;
+
+        global $objectsStatus;
+        $filtros = $objectsStatus->getDatos($this->id);
+        $this->searchWord = @$filtros['f_text'];
+    }
+    //-----------------------------------------------------------------
+    private function getSearcher()
+    {
+        return \angelrove\membrillo2\WObjects\WList\WList::searcher_complet($this->id, $this->searchWord);
+    }
+    //-----------------------------------------------------------------
     public function setSearchWord($searchWord)
     {
         $this->searchWord = $searchWord;
     }
     //-----------------------------------------------------------------
     //-----------------------------------------------------------------
-    public function getHtm()
+    public function get()
     {
         // HTM de categorías
         $strCategorias = $this->get_category_tree();
 
         // Button "Nuevo"
-        $href     = CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'nivel=1');
+        $href     = CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'level=1');
         $strNuevo = '<a class="btNuevo" href="' . $href . '">New...</a>';
 
         if ($this->opNew == false) {
             $strNuevo = '';
         }
 
-        // Marcar búsquedas
+        // Searcher ------
+        $htmSearcher = '';
+        if ($this->searcher) {
+            $htmSearcher = $this->getSearcher();
+        }
+
+        // Marcar búsquedas ---
         $strMarcar = '';
         foreach ($this->marcas as $id_cat => $xx) {
             $strMarcar .= '$("#cat_' . $id_cat . '").addClass("selected");';
@@ -149,22 +179,23 @@ $(document).ready(function() {
 });
 ');
 
-        // Out
-        $strTree = <<<EOD
-<style>
-.selected { background:#9F9; border:1px solid #3C3; }
-.selected a { background:#9F9; }
-</style>
-
+        // Out -----
+        return <<<EOD
 <script>
 var WTree2_CONTROL = '$this->id';
 </script>
 
 <div id="sidetree" style="width:$this->width">
+    $htmSearcher
+
     <!-- Cabecera -->
     <table class="WTree_cabecera" width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td class="sidetreecontrol">&nbsp;<span id="sidetreecontrol"><a href="?#">&nbsp;^ </a>&nbsp;<a href="?#">&nbsp;V&nbsp;</a></span></td>
+            <td id="sidetreecontrol">
+               <a href="?#"><i class="fas fa-angle-double-up fa-lg"></i></a>
+               &nbsp;
+               <a href="?#"><i class="fas fa-angle-double-down fa-lg"></i></a>
+            </td>
             <td class="title">$this->title</td>
             <td class="btNuevo">$strNuevo</td>
         </tr>
@@ -179,8 +210,6 @@ var WTree2_CONTROL = '$this->id';
     <!-- /TREE DATA -->
 </div>
 EOD;
-
-        return $strTree;
     }
     //-----------------------------------------------------------------
     // PRIVATE
@@ -202,12 +231,12 @@ EOD;
             $strTree .= $this->get_category_tree($id, $nivel);
             $strTree .= $this->getHtmCierre($id, $nivel, $count, $tieneSubc);
 
-            // Marcar búsqueda
+            // Search -----
             if ($this->searchWord) {
                 if (stripos($categ['nombre'], $this->searchWord) !== false) {
                     $this->marcas[$id] = true;
                 }
-                if ($this->marcas[$id] && $id_padre != 0) {
+                if (isset($this->marcas[$id]) && $this->marcas[$id] && $id_padre != 0) {
                     // padres
                     $this->marcas[$id_padre] = true;
                 }
@@ -223,43 +252,51 @@ EOD;
     {
         $sqlWhere_L3 = ($nivel == 3) ? $this->sqlWhere_L3 : '';
 
-        $sqlQ = "SELECT id, IF(nombre <> '', nombre, '[sin título]') AS nombre
+        $sqlQ = "SELECT id, IF(name <> '', name, '[sin título]') AS nombre
              FROM $this->dbTable
              WHERE id_padre='$id_padre' $this->sqlWhere $sqlWhere_L3
-             ORDER BY nombre";
-        //print_r2($sqlQ);
+             ORDER BY name";
+        // print_r2($sqlQ);
         return Db_mysql::getList($sqlQ);
     }
     //-----------------------------------------------------------------
     public function getHtmOpen($id, $nombre, $nivel, $count, $tieneSubc)
     {
-        global $seccCtrl;
+        global $seccCtrl, $objectsStatus;
 
         //$strDebug = " ($id)($nivel)($count)";
         $strTab     = $this->getStrTab($nivel);
         $classTupla = 'tuplaL' . $nivel;
+
+        // Selected ---
         if ($id == $objectsStatus->getRowId($this->id)) {
             $classTupla .= ' tuplaSelected';
         }
 
-        // Formatear nombre
+        // Formatear nombre ---
         $title = '';
         if (strlen($nombre) > 36) {
             $title  = 'title="' . $nombre . '"';
             $nombre = substr($nombre, 0, 36) . '...';
         }
 
-        // Buttons
+        // Buttons ---
         $listBt = $this->getButtons($id, $nivel, $nombre, $tieneSubc);
 
         //---
+        $classHover = ($tieneSubc)? ' hover' : '';
+
         $htmCateg = "\n$strTab<li>" .
                         $listBt['check'] .
-                        $listBt['update'] . ' ' .
-                        $listBt['new'] . ' ' .
-                        $listBt['del'] .
-                        ' <span id="cat_' . $id . '" class="tuplaL ' . $classTupla . '" ' . $title . '>' . $listBt['nombre'] . '</span> ' .
-                        $listBt['detalle'];
+                        '<span class="btOptions">'.
+                          $listBt['update'] . ' ' .
+                          $listBt['new'] . ' ' .
+                          $listBt['del'] .
+                        '</span>'.
+
+                        ' <span id="cat_'.$id.'" class="tuplaL '.$classTupla.$classHover.'" '.$title.'>'.
+                            $listBt['nombre'].
+                        '</span> '.$listBt['detalle'];
 
         if ($tieneSubc) {
             $htmCateg .= "\n$strTab<ul>";
@@ -295,46 +332,58 @@ EOD;
     //-----------------------------------------------------------------
     public function getButtons($id, $nivel, $nombre, $tieneSubc)
     {
-        $listBt           = array();
+        $listBt = array(
+            'update'=>'',
+            'new'  =>'',
+            'del'  =>'',
+            'detalle'=>'',
+            'check'=>'',
+        );
         $listBt['nombre'] = $nombre;
 
-        //-------
+        // Update -------
         if ($this->opUpdate == true) {
-            $listBt['update'] = '<i class="far fa-edit fa-lg" '.
-                                  'aria-hidden="true" onClick="wtree2_onUpdate(' . $id . ', ' . $nivel . ')"></i>';
+            $listBt['update'] = '<span class="wtree_onUpdate" data-id="'.$id.'" data-level="'.$nivel.'">'.
+                                    '<i class="fas fa-pen-square" aria-hidden="true"></i>'.
+                                 '</span>';
         }
 
-        //-------
+        // New ----------
         if ($this->opNewSub == true) {
             if ($nivel < $this->niveles) {
-                $listBt['new'] = '<i class="far fa-edit fa-lg" '.
-                                  ' aria-hidden="true" onClick="wtree2_onNewSub(' . $id . ', ' . $nivel . ')"></i>';
+                $listBt['new'] = '<span class="wtree_onNewSub" data-id="'.$id.'" data-level="'.$nivel.'">'.
+                                    '<i class="fas fa-plus-square" aria-hidden="true"></i>'.
+                                 '</span>';
             }
         }
 
-        //-------
+        // Delete -------
         if ($this->opDelete == true && !$tieneSubc) {
-            $listBt['del'] = '<span class="bt_del" onClick="wtree2_onDel(' . $id . ', ' . $nivel . ')">X</span>';
+            $listBt['del'] = '<span class="wtree_onDel red" data-id="'.$id.'" data-level="'.$nivel.'">'.
+                                 '<i class="fas fa-trash-alt" aria-hidden="true"></i>'.
+                             '</span>';
         }
 
-        //-------
+        // Detail -------
         if ($nivel >= $this->haveElementsOnLevel) {
             if (!$tieneSubc) {
-                $link             = CrudUrl::get(CRUD_LIST_DETAIL, $this->id, $id, '', 'nivel=' . $nivel)
-                $listBt['nombre'] = '<a href="' . $link . '">' . $listBt['nombre'] . '</a>';
+                // $link = CrudUrl::get(CRUD_LIST_DETAIL, $this->id, $id, '', 'level=' . $nivel);
+                // $listBt['nombre'] = '<a href="' . $link . '">' . $listBt['nombre'] . '</a>';
+                $listBt['nombre'] = $listBt['nombre'];
             } else {
-                $listBt['detalle'] = '<i class="fas fa-arrow-right fa-lg"'.
-                                        ' aria-hidden="true" onClick="wtree2_onDetalle(' . $id . ', ' . $nivel . ')"></i>';
+                $listBt['detalle'] = '<span class="wtree_onDetalle red" data-id="'.$id.'" data-level="'.$nivel.'">'.
+                                        '<i class="fas fa-arrow-right" aria-hidden="true"></i>'.
+                                     '</span>';
             }
         }
 
+        // Checkbox -----
         if ($this->opCheckBox == true && $nivel >= $this->check_onLevel) {
             $checked = '';
             if (in_array($id, $this->check_listSelected)) {
                 $checked = 'checked';
             }
-            $listBt['check'] = '<input type="checkbox" '.
-                                  'class="check" name="' . $this->check_name . '[]" value="' . $id . '" ' . $checked . '>';
+            $listBt['check'] = '<input type="checkbox" class="check" name="'.$this->check_name.'[]" value="'.$id.'" '.$checked.'>';
         }
 
         return $listBt;

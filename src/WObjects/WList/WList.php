@@ -306,43 +306,53 @@ class WList extends EventComponent
     //--------------------------------------------------------------
     // Form search
     //--------------------------------------------------------------
-    public function formSearch()
+    static public function searcher($id_object)
     {
-        $action = CrudUrl::get(CRUD_LIST_SEARCH, $this->id_object);
+        $action = CrudUrl::get(CRUD_LIST_SEARCH, $id_object);
 
-        echo <<<EOD
+        return <<<EOD
 <form class="FormSearch form-inline well well-sm"
       role="search"
       name="search_form"
       method="get"
       action="$action">
-
 EOD;
+    }
+    //--------------------------------------------------------------
+    static public function searcher_END()
+    {
+        return '</form>';
+    }
+    //--------------------------------------------------------------
+    static public function searcher_complet($id_object, $f_text)
+    {
+       return
+           self::searcher($id_object).
+           '<div class="form-group">
+              <input type="text"
+                     class="form-control input-sm"
+                     name="f_text"
+                     placeholder="Buscar"
+                     value="'.$f_text.'">
+            </div>'.
+            self::searcher_END();
+    }
+    //--------------------------------------------------------------
+    //--------------------------------------------------------------
+    public function formSearch()
+    {
+        echo self::searcher($this->id_object);
     }
     //--------------------------------------------------------------
     public function formSearch_END()
     {
-        echo ' </form>
-
-';
+        echo self::searcher_END();
     }
     //--------------------------------------------------------------
     public function formSearch_complet()
     {
         $f_text = $this->wObjectStatus->getDato('f_text');
-
-        $this->formSearch();
-        ?>
-      <div class="form-group">
-        <input type="text"
-               class="form-control input-sm"
-               name="f_text"
-               placeholder="Buscar"
-               value="<?=$f_text?>">
-      </div>
-      <?php
-        //$this->formSearch_btBuscar();
-        $this->formSearch_END();
+        echo self::searcher_complet($this->id_object, $f_text);
     }
     //--------------------------------------------------------------
     public function formSearch_btBuscar()

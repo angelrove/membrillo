@@ -32,6 +32,10 @@ class CrudUrl
         $crd_event = ($event) ? "/$event" : '';
         $crd_id    = ($id) ? "/$id" : '';
 
+        if ($control == '') {
+            return '/' . $_GET['secc'].'/';
+        }
+
         return '/' . $_GET['secc'] . '/crd/' . $control . $crd_event . $crd_id . '/' . $params;
     }
     //-------------------------------------------------------------

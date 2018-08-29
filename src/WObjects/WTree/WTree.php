@@ -6,7 +6,7 @@
  *   DB table: 'categorias' -> 'id_padre'
  *
  * Eventos:
- *   'editNew'     & 'ROW_PADRE_ID'
+ *   'editNew'     & 'ROW_PARENT_ID'
  *   'editUpdate'  & 'ROW_ID'
  */
 
@@ -15,6 +15,7 @@ namespace angelrove\membrillo2\WObjects\WTree;
 use angelrove\membrillo2\CrudUrl;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
+use angelrove\membrillo2\WObjectsStatus\Event;
 
 class WTree
 {
@@ -41,6 +42,10 @@ class WTree
     private $opUpdate = false;
     private $opNewSub = true;
     private $opDelete = true;
+
+    private $sqlWhere;
+    private $searcher = false;
+    private $f_search;
 
     //-----------------------------------------------------------------
     public function __construct($idComponent, $dbTable)
@@ -123,9 +128,29 @@ class WTree
         $this->opNewSub = $value;
     }
     //-----------------------------------------------------------------
+    public function showSearcher()
+    {
+        $this->searcher = true;
+    }
+    //-----------------------------------------------------------------
+    private function getSearcher()
+    {
+        global $objectsStatus;
+        $filtros = $objectsStatus->getDatos($this->id);
+
+        return \angelrove\membrillo2\WObjects\WList\WList::searcher_complet($this->id, @$filtros['f_text']);
+    }
+    //-----------------------------------------------------------------
     //-----------------------------------------------------------------
     public function get()
     {
+        // Searcher -------
+        global $objectsStatus;
+        $filtros = $objectsStatus->getDatos($this->id);
+        if (isset($filtros['f_text']) && $filtros['f_text']) {
+            $this->f_search = $filtros['f_text'];
+        }
+
         // Tupla seleccionada
         $this->id_selected = $this->getSelected();
 
@@ -133,7 +158,7 @@ class WTree
         $strCategorias = $this->get_category_tree(0, '');
 
         // Button "New..."
-        $href     = "'" . CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'ROW_PADRE_ID=0&nivel=1') . "'";
+        $href     = "'" . CrudUrl::get(CRUD_EDIT_NEW, $this->id, '', '', 'ROW_PARENT_ID=0&nivel=1') . "'";
         $strNuevo = '<button type="button" class="btn btn-xs btn-primary" onclick="location.href=' . $href . '">New...</button>';
 
         if ($this->opNew == false) {
@@ -144,13 +169,21 @@ class WTree
             $this->width = 'min-width:' . $this->width . 'px;';
         }
 
-        // Out
+        // Searcher ------
+        $htmSearcher = '';
+        if ($this->searcher) {
+            $htmSearcher = $this->getSearcher();
+        }
+
+        // Out ---------
         $id_tree = 'WTree_' . $this->id;
 
         $strTree = <<<EOD
 
 <!-- WTree -->
 <div id="$id_tree" class="WTree" style="$this->width">
+
+    $htmSearcher
 
     <table class="WTree_cabecera">
         <tr><th class="title">$this->title</th><th>$strNuevo</th></tr>
@@ -198,6 +231,15 @@ EOD;
                 $tupla_selected = 'tuplaSelected';
             }
 
+            // Searcher ------
+            $class_searched = '';
+            if ($this->f_search) {
+                if ($categ['nombre'] == $this->f_search) {
+                    $class_searched = 'searched';
+                    // $isDesplegado = true;
+                }
+            }
+
             // Imagen árbol ----
             $strImgTree = $this->getImgArbol($isHijo, $tieneSubc, $isDesplegado, $hayMasCateg);
 
@@ -222,22 +264,20 @@ EOD;
             $bt_delete = $this->getBt_delete($id, $tieneSubc);
             $bt_edit   = $this->getBt_edit($id, $id_top);
 
-            // OUT -----------
-            $categoria = $categ['nombre'];
-
             $htmBotones = '';
             if ($bt_edit || $bt_newSub || $bt_delete) {
                 $htmBotones = '<td class="columnOp">' . $bt_edit . $bt_newSub . $bt_delete . '</td>';
             }
 
+            $categoria = $categ['nombre'];
             // $categoria = "isHijo: $isHijo, tieneSubc: $tieneSubc, hayMasCateg:$hayMasCateg, isDesplegado: $isDesplegado";
 
-// $strTree .= "\n\n<!-- CAT: $id_padre ------------------------ -->\n".'<div id="cat_'.$id_padre.'" style="display:">';
+            // $strTree .= "\n\n<!-- CAT: $id_padre ------------------------ -->\n".'<div id="cat_'.$id_padre.'" style="display:">';
 
             $strTree .= <<<EOD
 $capas[fin]
   <!-- TUPLA -->
-  <table id="WTree_row_$id" class="row_$id tupla" param_ctrl="$this->id" param_nivel="$this->count_nivel" param_id_top="$id_top"><tr>
+  <table id="WTree_row_$id" class="row_$id tupla $class_searched" param_ctrl="$this->id" param_nivel="$this->count_nivel" param_id_top="$id_top"><tr>
       <td class="title on_row $tupla_selected" onclick="$strOnClickRow">
           $strTab $strImgTree $categoria
       </td>
@@ -282,12 +322,16 @@ EOD;
     {
         if ($this->wTreeData) {
             return $this->wTreeData->getCategorias($count_nivel, $id_padre);
-        } else {
+        }
+        else {
+            $xx = "";
+
             $sqlQ = "SELECT id,
-                       IF(nombre <> '', nombre, '[sin título]') AS nombre
+                       IF(name <> '', name, '[sin título]') AS nombre
                 FROM $this->dbTable
                 WHERE id_padre='$id_padre' $this->sqlWhere
-                ORDER BY nombre";
+                ORDER BY name";
+            // print_r2($sqlQ);
             return Db_mysql::getList($sqlQ);
         }
     }
@@ -411,7 +455,7 @@ EOD;
 
         if ($this->count_nivel < $this->niveles) {
             $CONTROL = (isset($this->id_levels[$this->count_nivel + 1])) ? $this->id_levels[$this->count_nivel + 1] : $this->id;
-            $href    = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel=' . ($this->count_nivel + 1) . '&ROW_PADRE_ID=' . $id);
+            $href    = CrudUrl::get(CRUD_EDIT_NEW, $CONTROL, '', '', 'nivel=' . ($this->count_nivel + 1) . '&ROW_PARENT_ID=' . $id);
             $bt      = '<a class="op_newSub" href="' . $href . '"><i class="fas fa-plus-circle fa-lg" title="Nueva subcategoría"></i></a>';
         }
 
