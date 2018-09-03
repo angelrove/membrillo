@@ -93,11 +93,12 @@ class ObjectsStatus
             if (!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
                 Messages::set_debug('>> Redirected ---');
 
-                if (Event::$REDIRECT_AFTER_OPER == 'clean') {
+                if (Event::$REDIRECT_AFTER_OPER_CLEAN) {
                     header('Location:' . CrudUrl::get('', '', '', ''));
                 } else {
                     header('Location:' . CrudUrl::get(Event::$EVENT, Event::$CONTROL, Event::$ROW_ID, '', 'OPERED=' . Event::$OPER));
                 }
+
                 exit();
             }
         }

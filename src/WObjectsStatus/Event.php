@@ -41,6 +41,7 @@ class Event
     public static $REQUEST_METHOD;
 
     public static $REDIRECT_AFTER_OPER = true;
+    public static $REDIRECT_AFTER_OPER_CLEAN = false;
 
     //----------------------------------------------------------------------------
     public static function initPage()
