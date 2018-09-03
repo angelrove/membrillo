@@ -196,7 +196,7 @@ class WList extends EventComponent
         $this->bt_delete_confirm = $isConfirm;
 
         if ($this->bt_delete_confirm) {
-            $this->msgConfirmDel = 'Eliminar';
+            $this->msgConfirmDel = '¿Estás seguro?';
         }
     }
     //-------------------------------------------------------
