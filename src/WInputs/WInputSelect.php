@@ -11,10 +11,10 @@ use angelrove\utils\Db_mysql;
 class WInputSelect
 {
     //------------------------------------------------------------------
-    public static function get2($dbTable, $value, $name = '', $required = false)
+    public static function get2($dbTable, $value, $name = '', $required = false, $placeholder='')
     {
         $sqlQ = "SELECT id, name FROM $dbTable ORDER BY name";
-        return self::get($sqlQ, $value, $name, $required);
+        return self::get($sqlQ, $value, $name, $required, $placeholder);
     }
     //------------------------------------------------------------------
     /**
@@ -22,7 +22,7 @@ class WInputSelect
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
+    public static function get($sqlQ, $value, $name='', $required=false, $placeholder = '')
     {
         if (!$sqlQ) {
             return '';
