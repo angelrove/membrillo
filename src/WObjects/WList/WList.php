@@ -36,6 +36,8 @@ class WList extends EventComponent
     private $event_fOnClick = 'fieldOnClick';
     private $event_numPage  = 'pagination';
 
+    private $noId = false;
+
     // Buttons
     private $onClickRow = '';
     private $list_Op    = array();
@@ -142,6 +144,11 @@ class WList extends EventComponent
             $this->bt_new    = false;
             $this->bt_delete = false;
         }
+    }
+    //-------------------------------------------------------
+    public function setNoId()
+    {
+        $this->noId = true;
     }
     //-------------------------------------------------------
     public function setScroll($height)
@@ -266,7 +273,7 @@ class WList extends EventComponent
             //print_r2($sqlQ);
 
             if ($this->paging_showOn === 'false') {
-                $listDatos = Db_mysql::getListObject($sqlQ);
+                $listDatos = Db_mysql::getListObject($sqlQ, $this->noId);
             } else {
                 list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
             }

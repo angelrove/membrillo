@@ -16,9 +16,9 @@ class Model
     //--------------------------------------------
     // CRUD
     //--------------------------------------------
-    public static function read(array $filters=array())
+    public static function read(array $filters=array(), $strict=false)
     {
-        return ModelHelper::read(self::$TABLE, $filters);
+        return ModelHelper::read(self::$TABLE, $filters, $strict);
     }
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
@@ -40,7 +40,7 @@ class Model
     {
         return ModelHelper::findEmpty(self::$TABLE);
     }
-
+    //--------------------------------------------
     public static function create(array $listValues=array())
     {
         GenQuery::helper_insert(self::$TABLE, $listValues);

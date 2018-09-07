@@ -18,9 +18,9 @@ class ModelHelper
         return self::read($TABLE);
     }
 
-    public static function read($TABLE, array $filters=array())
+    public static function read($TABLE, array $filters=array(), $strict=false)
     {
-        $sqlFiltros = self::getSqlFiltros($filters);
+        $sqlFiltros = self::getSqlFiltros($filters, $strict);
 
         return GenQuery::select($TABLE).$sqlFiltros;
     }
@@ -79,11 +79,15 @@ class ModelHelper
         return GenQuery::delete($TABLE);
     }
     //--------------------------------------------
-    public static function getSqlFiltros(array $filters)
+    public static function getSqlFiltros(array $filters, $strict=false)
     {
         $listWhere = array();
         foreach ($filters as $column => $filtro) {
-            $listWhere[] = " $column LIKE '%$filtro%'";
+            if ($strict == true) {
+                $listWhere[] = " $column = '$filtro'";
+            } else {
+                $listWhere[] = " $column LIKE '%$filtro%'";
+            }
         }
         $sqlFiltros = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
 
