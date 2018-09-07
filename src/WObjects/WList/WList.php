@@ -616,8 +616,8 @@ EOD;
 
         if ($this->bt_detalle) {
             $label                    = ''; // $label = <span>Detalle</span>
-            $htmButtons['bt_detalle'] = '<button type="button" class="on_detalle btn btn-xs btn-primary">'.
-                                          '<i class="fas fa-arrow-right fa-lg"></i>' . $label .
+            $htmButtons['bt_detalle'] = '<button type="button" class="on_detalle btn btn-xs btn-default">'.
+                                          '<i class="fas fa-caret-right fa-lg"></i>' . $label .
                                         '</button>';
         }
 
