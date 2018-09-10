@@ -168,7 +168,7 @@ class GenQuery
             $sqlQ = "SELECT id FROM $DB_TABLE WHERE `$fieldName`='$postValue' AND id <> '$id'";
             if (Db_mysql::getValue($sqlQ)) {
                 $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] .= $title . ': ' . AppCms::$lang['GenQuery_error_unique'];
+                $listErrors[$fieldName] .= $title.' = '.$postValue.' '.AppCms::$lang['GenQuery_error_unique'];
             }
         }
 
