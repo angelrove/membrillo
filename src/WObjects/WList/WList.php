@@ -341,6 +341,7 @@ EOD;
                      name="f_text"
                      placeholder="Buscar"
                      value="'.$f_text.'">
+                <a href="#" class="clear_search">X</a>
             </div>'.
             self::searcher_END();
     }

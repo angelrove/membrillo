@@ -21,6 +21,12 @@ $(document).ready(function()
   //-----------------------------------------------------
   /** Events **/
   //-----------------------------------------------------
+  // clear search ---------------------------------------
+  $('.FormSearch .clear_search').click(function(event) {
+     $(".FormSearch input[name=f_text]").val('');
+     $(".FormSearch").submit();
+  });
+
   // onRow ----------------------------------------------
   $('.List_tuplas td:not(.optionsBar, .onClickUser, .preventDefault)').click(function(event) {
     var row_id = $(this).parents("tr").attr('id');
