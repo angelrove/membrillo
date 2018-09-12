@@ -28,7 +28,7 @@ class WInputColor
     return <<<EOD
       <!-- WInputColor -->
       <span class="WInputColor">
-        <input type="text"  size="7" id="$name" name="$name" value="$value">
+        <input type="text" class="form-control" style="display:initial;width:90px" id="$name" name="$name" value="$value">
         <input type="color" id="WInputColor_$name" value="$value">
       <span>
       <!-- /WInputColor -->
