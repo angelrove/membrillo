@@ -31,9 +31,9 @@ class Model
         return ModelHelper::getValueById(self::$TABLE, $id, $field);
     }
 
-    public static function find(array $filters)
+    public static function find(array $filters, $strict=true)
     {
-        return ModelHelper::find(self::$TABLE, $filters);
+        return ModelHelper::find(self::$TABLE, $filters, $strict);
     }
 
     public static function findEmpty()

@@ -45,9 +45,9 @@ class ModelHelper
         return $data[$field];
     }
 
-    public static function find($TABLE, array $filters)
+    public static function find($TABLE, array $filters, $strict=true)
     {
-        $sqlFiltros = self::getSqlFiltros($filters);
+        $sqlFiltros = self::getSqlFiltros($filters, $strict);
 
         $sql = "SELECT * FROM " . $TABLE . $sqlFiltros." LIMIT 1";
 
