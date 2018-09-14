@@ -11,12 +11,13 @@ use angelrove\membrillo2\Messages;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\WPage\WPage;
-use angelrove\utils\CssJsLoad;
 
 use angelrove\membrillo2\WInputs\WInputSelect;
 use angelrove\membrillo2\WInputs\WInputCheck;
 use angelrove\membrillo2\WInputs\WInputTextarea;
 
+use angelrove\utils\CssJsLoad;
+use angelrove\utils\UtilsBasic;
 
 class WForm extends EventComponent
 {
@@ -41,8 +42,10 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, $data)
+    public function __construct($id_object, $data, $title='')
     {
+        $this->title = $title;
+
         CssJsLoad::set(__DIR__ . '/libs.js');
 
         //----------
@@ -71,11 +74,11 @@ class WForm extends EventComponent
         switch ($WEvent->EVENT) {
             //----------
             case CRUD_EDIT_UPDATE:
-                $this->title .= ' Update';
+                $this->title = UtilsBasic::implode(' - ', [$this->title, 'Update']);
                 break;
             //----------
             case CRUD_EDIT_NEW:
-                $this->title .= ' New';
+                $this->title = UtilsBasic::implode(' - ', [$this->title, 'New']);
                 break;
                 //----------
         }

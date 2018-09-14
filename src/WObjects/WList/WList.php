@@ -19,7 +19,7 @@ class WList extends EventComponent
     private $title;
     private $showScroll;
 
-    private $defaultOrder    = 'id';
+    private $defaultOrder    = '';
     private $defaultSelected = false;
     private $msgConfirmDel   = '';
 
@@ -373,16 +373,18 @@ EOD;
     private function getQuery($sqlQuery)
     {
         /** 'ORDER' **/
-        $param_field = $this->wObjectStatus->getDato('param_field');
-        $order_asc   = $this->wObjectStatus->getDato('order_asc');
+        $sqlOrder = '';
 
-        $sqlOrder = ' ORDER BY ';
+        // Ordenamiento de usuario
+        $param_field = $this->wObjectStatus->getDato('param_field');
         if ($param_field) {
-            // Ordenamiento de usuario
-            $sqlOrder .= $param_field . ' ' . $order_asc;
-        } else {
-            // para no solapar el ordenamiento del usuario con ordenamiento por defecto
-            $sqlOrder .= $this->defaultOrder;
+            $order_asc = $this->wObjectStatus->getDato('order_asc');
+
+            $sqlOrder = ' ORDER BY '.$param_field . ' ' . $order_asc;
+        }
+        // Ordenamiento por defecto
+        elseif($this->defaultOrder) {
+            $sqlOrder = ' ORDER BY '.$this->defaultOrder;
         }
 
         /** OUT **/

@@ -89,7 +89,7 @@ class ModelHelper
                 $listWhere[] = " $column LIKE '%$filtro%'";
             }
         }
-        $sqlFiltros = \angelrove\utils\UtilsBasic::array_implode(' AND ', $listWhere);
+        $sqlFiltros = \angelrove\utils\UtilsBasic::implode(' AND ', $listWhere);
 
         if ($sqlFiltros) {
             $sqlFiltros = ' WHERE '.$sqlFiltros;
