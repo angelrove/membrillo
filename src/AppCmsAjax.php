@@ -49,7 +49,7 @@ class AppCmsAjax extends Application
             $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         }
 
-        $service_path        = $secc_dir . '/ajax-' . $_REQUEST['service'] . '.inc';
+        $service_path        = $secc_dir . '/ajax-'   . $_REQUEST['service'] . '.inc';
         $service_path_script = $secc_dir . '/script-' . $_REQUEST['service'] . '.php';
 
         // Load service ----
