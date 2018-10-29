@@ -2,21 +2,21 @@
 use angelrove\membrillo2\WPage\WPage;
 use angelrove\membrillo2\WObjects\WForm\WForm;
 use angelrove\membrillo2\WObjectsStatus\Event;
-use App\Models\User;
+use App\Models\[Sample];
 
 $controlName = 'simple';
 
 // form_data -------
 switch(Event::$EVENT) {
   case CRUD_EDIT_NEW:
-    $form_data = User::findEmpty();
+    $form_data = [Sample]::findEmpty();
 
     // Default values
     $form_data['name'] = 'My name';
   break;
 
   case CRUD_EDIT_UPDATE:
-    $form_data = User::findById(Event::$ROW_ID);
+    $form_data = [Sample]::findById(Event::$ROW_ID);
   break;
 }
 

@@ -23,7 +23,8 @@ class Magic
 
     public static function comm_newsecc($docRoot, $name)
     {
-        $name = strtolower($name);
+        $name       = strtolower($name);
+        $name_model = ucfirst($name);
 
         // secc ---
         $dest   = $docRoot.'/app/sections/'.$name;
@@ -35,10 +36,14 @@ class Magic
         }
 
         FileSystem::recurse_copy($source, $dest);
+
+        // Replacements
+        FileSystem::strReplace($dest, '[Sample]', $name_model);
+
         echo("Section folder ... OK\n");
 
         // Model ---
-        $dest   = $docRoot.'/app/Models/'.ucfirst($name).'.php';
+        $dest   = $docRoot.'/app/Models/'.$name_model.'.php';
         $source = __DIR__.'/NewSecc/files/Models/Sample.php';
 
         if (file_exists($dest)) {
@@ -47,12 +52,12 @@ class Magic
         }
 
         // Replacements
-        // $str = file_get_contents($source);
-        // $str = str_replace("[Sample]", $name, $str);
-        // file_put_contents($source, $str);
+        $str = file_get_contents($source);
+        $str = str_replace("[Sample]",  $name_model, $str);
+        $str = str_replace("[samples]", $name, $str);
 
         // Copy file
-        copy($source, $dest);
+        file_put_contents($dest, $str);
         echo("Model ... OK\n");
 
         echo("Done!");

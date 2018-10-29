@@ -1,6 +1,5 @@
 <?php
 use angelrove\membrillo2\WObjectsStatus\Event;
-use App\Models\User;
 
 switch(Event::$EVENT) {
 

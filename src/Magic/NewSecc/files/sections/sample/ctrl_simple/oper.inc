@@ -1,25 +1,25 @@
 <?php
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\Messages;
-use App\Models\User;
+use App\Models\[Sample];
 
 switch(Event::$OPER) {
 
   case CRUD_OPER_INSERT:
-    User::create();
+    [Sample]::create();
   break;
 
   //--------------------
 
   case CRUD_OPER_UPDATE:
-    User::update();
+    [Sample]::update();
     Messages::set("¡Guardado!");
   break;
 
   //--------------------
 
   case CRUD_OPER_DELETE:
-    User::delete();
+    [Sample]::delete();
     Messages::set("¡Deleted!");
   break;
 
