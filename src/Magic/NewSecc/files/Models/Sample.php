@@ -4,13 +4,13 @@ namespace App\Models;
 use angelrove\membrillo2\Database\ModelInterface;
 use angelrove\membrillo2\Database\ModelHelper;
 
-class Formato implements ModelInterface
+class [Sample] implements ModelInterface
 {
-    public static $TABLE = 'formatos';
+    public static $TABLE = '[samples]';
 
     public static function rows()
     {
-        return ModelHelper::rows(self::$TABLE)." ORDER BY name";
+        return ModelHelper::rows(self::$TABLE);
     }
 
     public static function read(array $filtros=array(), $strict=false)
@@ -51,7 +51,7 @@ class Formato implements ModelInterface
 
     public static function delete()
     {
-        // ModelHelper::delete(self::$TABLE);
+        ModelHelper::delete(self::$TABLE);
     }
     //--------------------------------------------------------
 }
