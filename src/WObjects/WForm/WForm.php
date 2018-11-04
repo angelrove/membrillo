@@ -6,11 +6,11 @@
 
 namespace angelrove\membrillo2\WObjects\WForm;
 
-use angelrove\membrillo2\AppCms;
 use angelrove\membrillo2\Messages;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
 use angelrove\membrillo2\WPage\WPage;
+use angelrove\membrillo2\WApp\Local;
 
 use angelrove\membrillo2\WInputs\WInputSelect;
 use angelrove\membrillo2\WInputs\WInputCheck;
@@ -237,12 +237,12 @@ class WForm extends EventComponent
     // $flag: '', 'top'
     public function getButtons($flag = '')
     {
-        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . AppCms::$lang['accept'] . '</button> ' . "\n";
-        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary">' . AppCms::$lang['save']   . '</button> ' . "\n";
-        $bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . AppCms::$lang['save_and_new'] . '</button> ' . "\n";
+        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . Local::$t['accept'] . '</button> ' . "\n";
+        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary">' . Local::$t['save']   . '</button> ' . "\n";
+        $bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . Local::$t['save_and_new'] . '</button> ' . "\n";
 
-        $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">'  . AppCms::$lang['delete'] . '</button> ';
-        $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . AppCms::$lang['close'] . '</button>' . "\n";
+        $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">'  . Local::$t['delete'] . '</button> ';
+        $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . Local::$t['close'] . '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
 

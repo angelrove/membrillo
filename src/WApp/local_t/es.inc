@@ -1,5 +1,7 @@
 <?php
-self::$lang = array
+use angelrove\membrillo2\WApp\Local;
+
+Local::$t = array
 (
    'delete' => 'Eliminar',
    'new'    => 'Nuevo',

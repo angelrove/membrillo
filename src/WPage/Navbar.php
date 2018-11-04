@@ -7,6 +7,9 @@
 namespace angelrove\membrillo2\WPage;
 
 use angelrove\membrillo2\Login\Login;
+use angelrove\utils\CssJsLoad;
+use angelrove\membrillo2\WInputs\WInputSelect;
+use angelrove\membrillo2\WApp\Local;
 
 class Navbar
 {
@@ -25,10 +28,32 @@ class Navbar
         // Right items ---
         $str_close = '';
         if (Login::$login) {
-            $str_close = '<a href="/?APP_EVENT=close" title="Exit">'.Login::$login.' <i class="fas fa-sign-out-alt fa-lg"></i></a>';
+            $str_close = '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.Login::$login.' <i class="fas fa-sign-out-alt fa-lg"></i></a>';
         }
 
-        echo self::tmpl_navbar($set_inverse, $CONFIG_APP['data']['TITLE'], $buttons, $str_close);
+        // Lang ---
+        CssJsLoad::set_script(
+<<<EOD
+  $(document).ready(function() {
+    $("select[name='local']").change(function() {
+        location.href = '/?APP_EVENT=local&val='+$(this).val();
+    });
+  });
+EOD
+);
+
+        $str_langs =
+        "
+        <style>
+        select[name='local'] { width:initial; display:initial; }
+        </style>
+        ".
+        WInputSelect::getFromArray(['es'=>'Español', 'en'=>'English'], Local::getLang(), 'local');
+
+        // OUT ---
+        $strRight = $str_langs.$str_close;
+
+        echo self::tmpl_navbar($set_inverse, $CONFIG_APP['data']['TITLE'], $buttons, $strRight);
     }
     //---------------------------------------------------
     private static function getButtons()

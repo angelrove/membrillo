@@ -9,6 +9,7 @@ use angelrove\front_components\Pagination;
 use angelrove\membrillo2\CrudUrl;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\EventComponent;
+use angelrove\membrillo2\WApp\Local;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
 
@@ -412,7 +413,7 @@ EOD;
             $id_page = 1;
         }
 
-        $htmPaginacion = new Pagination($sqlQuery, $this->paging_numRows, $id_page);
+        $htmPaginacion = new Pagination($sqlQuery, $this->paging_numRows, $id_page, Local::getLang());
         if ($this->paging_config == 'basic') {
             $htmPaginacion->setNumPages(3);
         } else {

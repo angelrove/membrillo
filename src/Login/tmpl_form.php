@@ -23,7 +23,8 @@
   font-family: Arial, "Helvetica Neue", Verdana;
   font-size: 15px;
  }
- select, input[type="text"], input[type="password"] {
+ #boxForm select,
+ #boxForm input[type="text"], input[type="password"] {
   border-radius: 3px;
   border: 1px solid #bbb;
   padding: 6px 9px;
@@ -78,8 +79,6 @@
 </head>
 <body>
 
- <?php //print_r2($_SESSION);?>
-
  <!-- Formulario -->
  <table id="boxForm" cellspacing="0" cellpadding="0" align="center"><tr><td>
    <div class="boxCabecera"><?=$CONFIG_APP['data']['TITLE']?> - Login</div>
@@ -94,7 +93,7 @@
     <table>
       <tr><td>username </td><td><input type="text" name="LOGIN_USER"></td></tr>
       <tr><td>password</td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
-      <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="Aceptar"></td></tr>
+      <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="Ok"></td></tr>
     </table>
    </form>
  </td></tr>

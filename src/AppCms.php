@@ -10,7 +10,7 @@
  *          $seccCtrl
  *          $objectsStatus
  *          Event
- *          $LOCAL
+ *          Local
  *
  */
 
@@ -20,6 +20,7 @@ use angelrove\membrillo2\Login\LoginCtrl;
 use angelrove\membrillo2\WApp\Config_Secciones;
 use angelrove\membrillo2\WApp\SeccCtrl;
 use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo2\WApp\Local;
 use angelrove\membrillo2\WObjectsStatus\Event;
 use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
 use angelrove\utils\CssJsLoad;
@@ -28,7 +29,7 @@ use angelrove\utils\Vendor;
 
 class AppCms extends Application
 {
-    public static $lang = array();
+    public static $t = array();
 
     //-----------------------------------------------------------------
     public function __construct($document_root)
@@ -41,12 +42,15 @@ class AppCms extends Application
                $CONFIG_DB,
                $CONFIG_SECCIONES,
                $seccCtrl,
-               $objectsStatus,
-               $LOCAL;
+               $objectsStatus;
 
         //----------------------------------------------------
         /* Login */
         LoginCtrl::init();
+
+        //----------------------------------------------------
+        /* Local */
+        Local::_init();
 
         //----------------------------------------------------
         /* System Events */
@@ -91,8 +95,6 @@ class AppCms extends Application
         //----------------------------------------------------
         /* Config front */
         //----------------------------------------------------
-        // Lang ----------------------
-        include_once 'lang/es.inc';
 
         // CssJsLoad -----------------
         CssJsLoad::__init(CACHE_PATH, CACHE_URL);
@@ -133,6 +135,11 @@ class AppCms extends Application
 
         switch ($_REQUEST['APP_EVENT']) {
             case 'close':
+                Session::session_destroy();
+                break;
+
+            case 'local':
+                Local::setLang($_GET['val']);
                 Session::session_destroy();
                 break;
 
