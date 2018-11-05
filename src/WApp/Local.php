@@ -58,11 +58,17 @@ class Local
     //------------------------------------------------------
     public static function getSelector()
     {
+        $lang = self::getLang();
+        $lang_code = $lang.'-'.strtoupper($lang);
+
         CssJsLoad::set_script(
 <<<EOD
+  var Local_lang_code1 = '$lang';
+  var Local_lang_code2 = '$lang_code';
+
   $(document).ready(function() {
     $("select[name='local']").change(function() {
-        location.href = '/?APP_EVENT=local&val='+$(this).val();
+        location.href = './?APP_EVENT=local&val='+$(this).val();
     });
   });
 EOD
@@ -71,7 +77,7 @@ EOD
         "<style>select[name='local'] { width:initial; display:initial; }</style>".
         WInputSelect::getFromArray(
                             ['es'=>'Español', 'en'=>'English'],
-                            self::getLang(),
+                            $lang,
                             'local'
                         );
     }
@@ -81,7 +87,7 @@ EOD
     private static function getBrowserLang()
     {
         $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-        $lang = in_array($lang, self::$acceptLang) ? $lang : 'es';
+        $lang = in_array($lang, self::$acceptLang) ? $lang : 'en';
 
         return $lang;
     }

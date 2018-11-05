@@ -8,6 +8,7 @@ namespace angelrove\membrillo2\WInputs\WCalendar;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\membrillo2\CrudUrl;
+use angelrove\membrillo2\WApp\Local;
 
 
 class WCalendar
@@ -138,25 +139,42 @@ EOD;
     }
     return $valor;
   }
-  //-----------
-  private function numero_dia_semana($d,$m,$a) {
+  //------------------------------------------------------------------
+  private function numero_dia_semana($d,$m,$a)
+  {
     $f = getdate(mktime(0,0,0,$m,$d,$a));
     $d = $f['wday'];
     if($d == 0) $d = 7;
     return $d;
   }
-  //-----------
-  private function nombre_dia_semana($d,$m,$a) {
+  //------------------------------------------------------------------
+  private function nombre_dia_semana($d,$m,$a)
+  {
     $f = getdate(mktime(0,0,0,$m,$d,$a));
-    switch($f['wday']) {
-      case 1: $valor = 'lunes';     break;
-      case 2: $valor = 'martes';    break;
-      case 3: $valor = 'miércoles'; break;
-      case 4: $valor = 'jueves';    break;
-      case 5: $valor = 'viernes';   break;
-      case 6: $valor = 'sábado';    break;
-      case 0: $valor = 'domingo';   break;
+
+    if (Local::getLang() == 'es') {
+      switch($f['wday']) {
+        case 1: $valor = 'lunes';     break;
+        case 2: $valor = 'martes';    break;
+        case 3: $valor = 'miércoles'; break;
+        case 4: $valor = 'jueves';    break;
+        case 5: $valor = 'viernes';   break;
+        case 6: $valor = 'sábado';    break;
+        case 0: $valor = 'domingo';   break;
+      }
     }
+    else {
+      switch($f['wday']) {
+        case 1: $valor = 'Monday';    break;
+        case 2: $valor = 'Tuesday';   break;
+        case 3: $valor = 'Wednesday'; break;
+        case 4: $valor = 'Thursday';  break;
+        case 5: $valor = 'Friday';    break;
+        case 6: $valor = 'Saturday';  break;
+        case 0: $valor = 'Sunday';    break;
+      }
+    }
+
     return $valor;
   }
   //------------------------------------------------------------------
