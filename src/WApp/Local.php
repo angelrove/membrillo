@@ -5,45 +5,83 @@
  */
 
 namespace angelrove\membrillo2\WApp;
+use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo2\WInputs\WInputSelect;
+use angelrove\utils\CssJsLoad;
 
 class Local
 {
     public static $t = array();
+    private static $acceptLang = ['es', 'en'];
 
     //------------------------------------------------------
     public static function _init()
     {
-        //----
-        $lang = '';
+        // Default ----
         if (!self::getLang()) {
-            $lang = self::getBrowserLang();
-            self::setLang($lang);
-        }
-        else {
-            $lang = self::getLang();
+            self::setLang(self::getBrowserLang());
         }
 
         //----
+        self::loadLangFiles();
+    }
+    //------------------------------------------------------
+    private static function loadLangFiles()
+    {
+        $lang = self::getLang();
+
         include_once 'local_t/'.$lang.'.inc';
         include_once 'app/local_t/'.$lang.'.inc';
+    }
+    //------------------------------------------------------
+    public static function onChangeLang()
+    {
+        self::setLang($_GET['val']);
+
+        // Load lang files ----
+        self::loadLangFiles();
+
+        // Reload "CONFIG_SECC"
+        require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
     }
     //------------------------------------------------------
     public static function setLang($lang)
     {
         setcookie("userLang", $lang, time()+60*60*24*60);
+        $_COOKIE["userLang"] = $lang;
     }
     //------------------------------------------------------
     public static function getLang()
     {
-        return $_COOKIE["userLang"] ?? false;
+        return $_COOKIE["userLang"];
     }
     //------------------------------------------------------
-    public static function getBrowserLang()
+    public static function getSelector()
     {
-        $acceptLang = ['es', 'en'];
-
+        CssJsLoad::set_script(
+<<<EOD
+  $(document).ready(function() {
+    $("select[name='local']").change(function() {
+        location.href = '/?APP_EVENT=local&val='+$(this).val();
+    });
+  });
+EOD
+);
+        return
+        "<style>select[name='local'] { width:initial; display:initial; }</style>".
+        WInputSelect::getFromArray(
+                            ['es'=>'Español', 'en'=>'English'],
+                            self::getLang(),
+                            'local'
+                        );
+    }
+    //------------------------------------------------------
+    // PRIVATE
+    //------------------------------------------------------
+    private static function getBrowserLang()
+    {
         $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
-        $lang = in_array($lang, $acceptLang) ? $lang : 'en';
+        $lang = in_array($lang, self::$acceptLang) ? $lang : 'es';
 
         return $lang;
     }

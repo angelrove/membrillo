@@ -26,7 +26,6 @@ use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
 
-
 class AppCms extends Application
 {
     public static $t = array();
@@ -60,14 +59,13 @@ class AppCms extends Application
         /* System objects */
         //----------------------------------------------------
         // >> $CONFIG_SECCIONES -----
-        $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
-        if (!$CONFIG_SECCIONES) {
-            $CONFIG_SECCIONES = Session::set('CONFIG_SECCIONES', new Config_Secciones());
+        if (!Session::get('CONFIG_SECCIONES')) {
             require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
 
             // Usuario: cuando se ha cargado el último objeto de sesión
             require DOCUMENT_ROOT . '/app/onInitSession.inc';
         }
+        $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
 
         // Sección por defecto
         if (!isset($_REQUEST['secc']) || !$_REQUEST['secc']) {
@@ -139,8 +137,7 @@ class AppCms extends Application
                 break;
 
             case 'local':
-                Local::setLang($_GET['val']);
-                Session::session_destroy();
+                Local::onChangeLang();
                 break;
 
             case 'download':
