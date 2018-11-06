@@ -1,18 +1,15 @@
 <?php
 use angelrove\membrillo2\WApp\Local;
 
-Local::$t = array
-(
-   'delete' => 'Delete',
-   'new'    => 'New',
-   'accept' => 'Accept',
-   'save'   => 'Save',
-   'save_and_new' => 'Insert other &raquo;',
-   'close'  => 'Close',
-   'view'   => 'View',
-   'close_session' => 'Close session',
-
-   'WList_del_m' => "Va a eliminar el registro. Are you sure?",
-   'GenQuery_error_obliga' => 'campo obligatorio',
-   'GenQuery_error_unique' => 'está siendo utilizado',
-);
+Local::$t['delete'] = 'Delete';
+Local::$t['new']    = 'New';
+Local::$t['accept'] = 'Accept';
+Local::$t['save']   = 'Save';
+Local::$t['save_and_new'] = 'Insert other &raquo;';
+Local::$t['close']  = 'Close';
+Local::$t['view']   = 'View';
+Local::$t['Search'] = 'Search';
+Local::$t['close_session'] = 'Close session';
+Local::$t['WList_del_m'] = "Va a eliminar el registro. Are you sure?";
+Local::$t['GenQuery_error_obliga'] = 'campo obligatorio';
+Local::$t['GenQuery_error_unique'] = 'está siendo utilizado';

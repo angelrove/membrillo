@@ -30,7 +30,7 @@ class Local
     {
         $lang = self::getLang();
 
-        include_once 'local_t/'.$lang.'.inc';
+        include_once __DIR__.'/local_t/'.$lang.'.inc';
         include_once 'app/local_t/'.$lang.'.inc';
     }
     //------------------------------------------------------

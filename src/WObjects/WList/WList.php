@@ -340,7 +340,7 @@ EOD;
               <input type="text"
                      class="form-control input-sm"
                      name="f_text"
-                     placeholder="Buscar"
+                     placeholder="'.Local::$t['Search'].'"
                      value="'.$f_text.'">
                 <a href="#" class="clear_search">X</a>
             </div>'.
