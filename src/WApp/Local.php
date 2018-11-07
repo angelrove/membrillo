@@ -11,6 +11,8 @@ use angelrove\utils\CssJsLoad;
 
 class Local
 {
+    private static $cookieName = 'cmsLang';
+
     public static $t = array();
     private static $acceptLang = ['es', 'en'];
 
@@ -47,13 +49,13 @@ class Local
     //------------------------------------------------------
     public static function setLang($lang)
     {
-        setcookie("userLang", $lang, time()+60*60*24*60, '/');
-        $_COOKIE["userLang"] = $lang;
+        setcookie(self::$cookieName, $lang, time()+60*60*24*60, '/');
+        $_COOKIE[self::$cookieName] = $lang;
     }
     //------------------------------------------------------
     public static function getLang()
     {
-        return $_COOKIE["userLang"]?? false;
+        return $_COOKIE[self::$cookieName]?? false;
     }
     //------------------------------------------------------
     public static function getSelector()
