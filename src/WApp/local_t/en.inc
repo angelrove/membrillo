@@ -13,3 +13,7 @@ Local::$t['close_session'] = 'Close session';
 Local::$t['WList_del_m'] = "Va a eliminar el registro. Are you sure?";
 Local::$t['GenQuery_error_obliga'] = 'campo obligatorio';
 Local::$t['GenQuery_error_unique'] = 'está siendo utilizado';
+
+// Paginacion ---
+Local::$t['to'] = 'to';
+Local::$t['of'] = 'of';

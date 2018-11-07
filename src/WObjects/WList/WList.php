@@ -436,11 +436,15 @@ EOD;
         $htmPaginacion = '';
         if ($this->paging_config == 'basic') {
             $htmPaginacion = $listPaginas;
-        } else {
+        }
+        else {
+
+            $strPages = "($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
+
             $htmPaginacion = <<<EOD
          <div class="center-block2 clearfix">
            <div class="pull-left">$listPaginas</div>
-           <div class="pull-right resumen">&nbsp; ($str_desde a $str_hasta) de <b>$numTotal</b></div>
+           <div class="pull-right resumen">&nbsp; $strPages</div>
          </div>
 EOD;
         }
