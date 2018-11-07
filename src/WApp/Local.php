@@ -47,13 +47,13 @@ class Local
     //------------------------------------------------------
     public static function setLang($lang)
     {
-        setcookie("userLang", $lang, time()+60*60*24*60);
+        setcookie("userLang", $lang, time()+60*60*24*60, '/');
         $_COOKIE["userLang"] = $lang;
     }
     //------------------------------------------------------
     public static function getLang()
     {
-        return $_COOKIE["userLang"];
+        return $_COOKIE["userLang"]?? false;
     }
     //------------------------------------------------------
     public static function getSelector()

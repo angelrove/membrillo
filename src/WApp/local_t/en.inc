@@ -17,3 +17,7 @@ Local::$t['GenQuery_error_unique'] = 'está siendo utilizado';
 // Paginacion ---
 Local::$t['to'] = 'to';
 Local::$t['of'] = 'of';
+
+// Login ---
+Local::$t['Username'] = 'Username';
+Local::$t['Password'] = 'Password';

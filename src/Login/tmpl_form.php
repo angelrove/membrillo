@@ -1,4 +1,10 @@
-<?php  /* >> $msg */ ?>
+<?php
+/* >> $msg */
+
+use angelrove\membrillo2\WApp\Local;
+
+Local::_init();
+?>
 <html>
 <head>
  <title><?=$CONFIG_APP['data']['TITLE']?> - Login</title>
@@ -91,9 +97,9 @@
     <div class="boxErrMsg"><?=$msg?></div>
 
     <table>
-      <tr><td>username </td><td><input type="text" name="LOGIN_USER"></td></tr>
-      <tr><td>password</td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
-      <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="Ok"></td></tr>
+      <tr><td><?=Local::$t['Username']?> </td><td><input type="text" name="LOGIN_USER"></td></tr>
+      <tr><td><?=Local::$t['Password']?></td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
+      <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="<?=Local::$t['accept']?>"></td></tr>
     </table>
    </form>
  </td></tr>
