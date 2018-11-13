@@ -19,7 +19,7 @@ class Application
     public static $conf_db = array();
 
     //-----------------------------------------------------------------
-    public function __construct($document_root)
+    public function __construct($document_root, $isConsole=false)
     {
         ini_set('display_errors', 1);
 
@@ -53,34 +53,39 @@ class Application
         self::$conf_db = & $CONFIG_DB;
 
         //-------------------------------------
-        /* Error handler */
-        MyErrorHandler::init(
-            $CONFIG_APP['errors']['display'],
-            $CONFIG_APP['errors']['path_log'],
-            $CONFIG_APP['errors']['log_file_pref']
-        );
 
-        //-------------------------------------
-        /* DDBB */
-        $this->init_database();
+        if (!$isConsole) {
+            /* Error handler */
+            if (!$isConsole) {
+                MyErrorHandler::init(
+                    $CONFIG_APP['errors']['display'],
+                    $CONFIG_APP['errors']['path_log'],
+                    $CONFIG_APP['errors']['log_file_pref']
+                );
+            }
 
-        //-------------------------------------
-        /* Config file */
-        require DOCUMENT_ROOT . '/config_app.php';
+            /* DDBB */
+            if (isset(self::$conf_db['default'])) {
+                $this->init_database(self::$conf_db['default']);
+            }
 
+            //-------------------------------------
+            /* Config file */
+            require DOCUMENT_ROOT . '/config_app.php';
+
+            //-------------------------------------
+            /* Session start */
+            \angelrove\membrillo2\WApp\Session::start(24);
+        }
         //-------------------------------------
-        /* Session start */
-        \angelrove\membrillo2\WApp\Session::start(24);
+        else {
+            /* DDBB */
+            $this->init_database(self::$conf_db['default_local']);
+        }
     }
     //-----------------------------------------------------------------
-    private function init_database()
+    private function init_database($datosDb)
     {
-        if (!isset(self::$conf_db['default'])) {
-            return;
-        }
-
-        $datosDb = self::$conf_db['default'];
-
         Db_mysql::getConn(
             $datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']
         );

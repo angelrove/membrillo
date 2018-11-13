@@ -6,28 +6,41 @@
 
 namespace angelrove\membrillo2\Magic;
 
-use \angelrove\utils\FileSystem;
+use angelrove\membrillo2\Application;
+use angelrove\utils\FileSystem;
+use angelrove\utils\Db_mysql;
 
-class Magic
+class Magic extends Application
 {
-    public static function command($docRoot, $params)
+    private $document_root;
+
+    public function __construct($document_root)
+    {
+        parent::__construct($document_root, true);
+
+        $this->document_root = $document_root;
+    }
+
+    public function command($params)
     {
         list($command, $param) = each($params);
 
-        self::{'comm_'.$command}($docRoot, $param);
+        $this->{'comm_'.$command}($param);
     }
 
     /**
      * Commands
      */
 
-    public static function comm_newsecc($docRoot, $name)
+    public function comm_newsecc($name)
     {
-        $name       = strtolower($name);
-        $name_model = ucfirst($name);
+        // Model ---
+        $name_model = $this->comm_newmodel($name);
 
-        // secc ---
-        $dest   = $docRoot.'/app/sections/'.$name;
+        // Secc ---
+        $name_secc = strtolower($name);
+
+        $dest   = $this->document_root.'/app/sections/'.$name_secc;
         $source = __DIR__.'/NewSecc/files/sections/sample';
 
         if (is_dir($dest)) {
@@ -42,24 +55,44 @@ class Magic
 
         echo("Section folder ... OK\n");
 
-        // Model ---
-        $dest   = $docRoot.'/app/Models/'.$name_model.'.php';
+        echo("Done!");
+    }
+
+    public function comm_newmodel($name)
+    {
+        $name_secc  = strtolower($name);
+        $name_model = ucfirst($name_secc);
+
+        $dest   = $this->document_root.'/app/Models/'.$name_model.'.php';
         $source = __DIR__.'/NewSecc/files/Models/Sample.php';
 
         if (file_exists($dest)) {
             echo("The Model already exists!");
-            return;
+            return $name_model;
         }
 
         // Replacements
         $str = file_get_contents($source);
-        $str = str_replace("[Sample]",  $name_model, $str);
-        $str = str_replace("[samples]", $name, $str);
+        $str = str_replace("[name_model]", $name_model, $str);
+        $str = str_replace("[name_table]", $name_secc, $str);
 
         // Copy file
         file_put_contents($dest, $str);
+
+        // BBDD ----
+        $sqlTable = "
+          CREATE TABLE IF NOT EXISTS `$name_secc` (
+              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+              `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              `name` varchar(250) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) DEFAULT CHARSET=utf8;";
+
+        Db_mysql::query($sqlTable);
+        echo("Database table ... OK\n");
+
         echo("Model ... OK\n");
 
-        echo("Done!");
+        return $name_model;
     }
 }

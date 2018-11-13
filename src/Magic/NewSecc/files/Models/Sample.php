@@ -4,9 +4,9 @@ namespace App\Models;
 use angelrove\membrillo2\Database\ModelInterface;
 use angelrove\membrillo2\Database\ModelHelper;
 
-class [Sample] implements ModelInterface
+class [name_model] implements ModelInterface
 {
-    public static $TABLE = '[samples]';
+    public static $TABLE = '[name_table]';
 
     public static function rows()
     {
