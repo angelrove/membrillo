@@ -14,6 +14,8 @@ Local::$t['WList_del_m'] = "Va a eliminar el registro. Are you sure?";
 Local::$t['GenQuery_error_obliga'] = 'campo obligatorio';
 Local::$t['GenQuery_error_unique'] = 'está siendo utilizado';
 
+Local::$t['Saved'] = 'Saved!';
+
 // Paginacion ---
 Local::$t['to'] = 'to';
 Local::$t['of'] = 'of';

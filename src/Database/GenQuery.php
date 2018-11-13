@@ -77,7 +77,7 @@ class GenQuery
         }
 
         if ($messageAuto) {
-            Messages::set("Insertado correctamente.");
+            Messages::set(Local::$t['Saved']);
         }
     }
     //------------------------------------------------------------------
