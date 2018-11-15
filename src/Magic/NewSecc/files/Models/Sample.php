@@ -39,9 +39,9 @@ class [name_model] implements ModelInterface
     }
 
     //--------------------------------------------------------
-    public static function create()
+    public static function create(array $listValues=array())
     {
-        return ModelHelper::create(self::$TABLE);
+        return ModelHelper::create(self::$TABLE, $listValues);
     }
 
     public static function update(array $listValues=array(), $id='')
