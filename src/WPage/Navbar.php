@@ -60,7 +60,12 @@ class Navbar
             if (isset(self::$listSep[$item])) {
                 $ret .= '<li><div class="sep">|</div></li>';
             }
-            $ret .= self::getButton($seccion->id, $seccion->title, $seccion->link, $selected, $selected_padre);
+            $ret .= self::getButton($seccion->id,
+                                    $seccion->title,
+                                    $seccion->logo,
+                                    $seccion->link,
+                                    $selected,
+                                    $selected_padre);
         }
 
         return $ret;
@@ -71,7 +76,7 @@ class Navbar
         self::$listSep[$secc] = true;
     }
     //---------------------------------------------------
-    private static function getButton($sc_id, $title, $link, $modActual, $mod_padre = '')
+    private static function getButton($sc_id, $title, $logo, $link, $modActual, $mod_padre = '')
     {
         global $CONFIG_SECCIONES;
 
@@ -89,7 +94,7 @@ class Navbar
                     data-toggle="dropdown"
                     role="button"
                     aria-haspopup="true"
-                    aria-expanded="false">' . $title . ' <b class="caret"></b>' .
+                    aria-expanded="false">'.$logo.' ' . $title . ' <b class="caret"></b>' .
                 '</a>' .
                 '<ul class="dropdown-menu">';
 
@@ -100,13 +105,15 @@ class Navbar
                     $title = $id;
                 }
 
-                //-----
+                $logo = $CONFIG_SECCIONES->getSection_logo($mod);
+
                 if ($link = $CONFIG_SECCIONES->getSection_link($mod)) {
                     $ret .= '<li><a href="' . $link . '" target="_blank">' . $title . '</a></li>';
-                } else {
+                }
+                else {
                     $href   = '/' . $mod;
                     $active = ($mod == $modActual) ? 'active' : '';
-                    $ret .= '<li class="' . $active . '"><a href="' . $href . '">' . $title . '</a></li>';
+                    $ret .= '<li class="'.$active.'"><a href="'.$href.'">'.$logo.' '.$title.'</a></li>';
                 }
             }
 
@@ -115,7 +122,7 @@ class Navbar
         // menu ------
         else {
             $href = ($link) ? $link : '/' . $sc_id . '/';
-            $ret  = self::tmpl_item($li_active, $href, $sc_id, $title);
+            $ret  = self::tmpl_item($li_active, $href, $logo, $sc_id, $title);
         }
 
         $ret .= '</li>';
@@ -132,8 +139,9 @@ class Navbar
         self::$set_inverse = ($flag) ? 'navbar-inverse' : '';
     }
     //---------------------------------------------------
-    private static function tmpl_item($li_active, $href, $sc_id, $title) {
-        return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$title.'</a>';
+    private static function tmpl_item($li_active, $href, $logo, $sc_id, $title)
+    {
+        return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$logo.' '.$title.'</a>';
     }
     //---------------------------------------------------
     private static function tmpl_navbar($set_inverse, $title, $buttons, $str_close) {

@@ -12,6 +12,7 @@ class Config_Secciones_Item {
   public $title;
   public $folder;
   public $link;
+  public $logo;
   public $uploads_default;
   public $uploads_dir;
 

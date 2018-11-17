@@ -80,6 +80,13 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
+    public function setSection_logo($id_section, $logo)
+    {
+        if ($this->listSections[$id_section]) {
+            $this->listSections[$id_section]->logo = $logo;
+        }
+    }
+    //---------------------------------------------------
     public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default)
     {
         if ($this->listSections[$id_section]) {
@@ -142,6 +149,11 @@ class Config_Secciones
             return $path_secciones . $id;
         }
         return $path_secciones . $this->listSections[$id]->folder;
+    }
+    //---------------------------------------------------
+    public function getSection_logo($id)
+    {
+        return $this->listSections[$id]->logo;
     }
     //---------------------------------------------------
     public function getSection_link($id)
