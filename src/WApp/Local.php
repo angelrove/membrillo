@@ -58,6 +58,12 @@ class Local
         return $_COOKIE[self::$cookieName]?? false;
     }
     //------------------------------------------------------
+    public static function getLangLabel()
+    {
+        $lang = self::getLang();
+        return (!$lang || $lang=='es')? '' : '_'.$lang;
+    }
+    //------------------------------------------------------
     public static function getSelector()
     {
         $lang = self::getLang();
