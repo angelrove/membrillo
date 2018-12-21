@@ -13,7 +13,8 @@ class WInputHtml
     //----------------------------------------------------
     public function __construct()
     {
-        CssJsLoad::set_js('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.2/tinymce.min.js');
+        CssJsLoad::set_js('https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.8.5/tinymce.min.js');
+        // CssJsLoad::set_js('https://cloud.tinymce.com/stable/tinymce.min.js');
         CssJsLoad::set(__DIR__ . '/lib.js');
     }
     //-----------------------------------------------------------
