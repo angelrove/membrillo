@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 use angelrove\membrillo\Login\LoginCtrl;
 use angelrove\membrillo\WApp\Session;
@@ -61,7 +61,7 @@ class AppCmsAjax extends Application
                 include $service_path_script;
             }
             else {
-                throw new \Exception("membrillo2 error: Service not found [$service_path]");
+                throw new \Exception("membrillo error: Service not found [$service_path]");
             }
         } catch (\Exception $e) {
             throw $e;
@@ -80,7 +80,7 @@ class AppCmsAjax extends Application
                 Messages::get();
                 break;
             default:
-                throw new \Exception('membrillo2 error: service not found');
+                throw new \Exception('membrillo error: service not found');
                 break;
         }
 

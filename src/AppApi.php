@@ -13,7 +13,7 @@
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 use angelrove\membrillo\WApp\Config_Secciones;
 use angelrove\membrillo\WApp\SeccCtrl;

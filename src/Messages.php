@@ -17,7 +17,7 @@
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 use angelrove\utils\CssJsload;
 

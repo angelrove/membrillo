@@ -5,7 +5,7 @@
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 
 interface iWCalendarDayEditor

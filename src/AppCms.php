@@ -14,7 +14,7 @@
  *
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 use angelrove\membrillo\Login\LoginCtrl;
 use angelrove\membrillo\WApp\Config_Secciones;

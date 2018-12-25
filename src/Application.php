@@ -5,7 +5,7 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com> 2006
  */
 
-namespace angelrove\membrillo2;
+namespace angelrove\membrillo;
 
 use angelrove\utils\Db_mysql;
 use angelrove\utils\MyErrorHandler;
