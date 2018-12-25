@@ -3,13 +3,13 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\WObjects\WList;
+namespace angelrove\membrillo\WObjects\WList;
 
 use angelrove\front_components\Pagination;
-use angelrove\membrillo2\CrudUrl;
-use angelrove\membrillo2\WObjectsStatus\Event;
-use angelrove\membrillo2\WObjectsStatus\EventComponent;
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\CrudUrl;
+use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\EventComponent;
+use angelrove\membrillo\WApp\Local;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
 

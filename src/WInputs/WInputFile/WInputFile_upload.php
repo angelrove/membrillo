@@ -5,10 +5,10 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WInputFile;
+namespace angelrove\membrillo\WInputs\WInputFile;
 
-use angelrove\membrillo2\DebugTrace;
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\DebugTrace;
+use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\FileUpload;
 use angelrove\utils\Images\ImageTransform;

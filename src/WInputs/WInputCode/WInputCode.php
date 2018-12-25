@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WInputCode;
+namespace angelrove\membrillo\WInputs\WInputCode;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;

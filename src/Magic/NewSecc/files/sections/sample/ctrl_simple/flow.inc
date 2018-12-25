@@ -1,5 +1,5 @@
 <?php
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\Event;
 
 switch(Event::$EVENT) {
 

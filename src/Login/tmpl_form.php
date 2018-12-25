@@ -1,7 +1,7 @@
 <?php
 /* >> $msg */
 
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\WApp\Local;
 
 Local::_init();
 ?>

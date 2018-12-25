@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WApp;
+namespace angelrove\membrillo\WApp;
 
 class Session
 {

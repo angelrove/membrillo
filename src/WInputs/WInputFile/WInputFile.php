@@ -6,7 +6,7 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\WInputs\WInputFile;
+namespace angelrove\membrillo\WInputs\WInputFile;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\FileUploaded;

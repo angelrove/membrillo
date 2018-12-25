@@ -1,8 +1,8 @@
 <?php
 namespace App\Models;
 
-use angelrove\membrillo2\Database\ModelInterface;
-use angelrove\membrillo2\Database\ModelHelper;
+use angelrove\membrillo\Database\ModelInterface;
+use angelrove\membrillo\Database\ModelHelper;
 
 class [name_model] implements ModelInterface
 {

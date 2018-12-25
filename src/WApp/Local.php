@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo2\WApp;
-use angelrove\membrillo2\WApp\Session;
-use angelrove\membrillo2\WInputs\WInputSelect;
+namespace angelrove\membrillo\WApp;
+use angelrove\membrillo\WApp\Session;
+use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\utils\CssJsLoad;
 
 class Local

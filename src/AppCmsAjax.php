@@ -6,8 +6,8 @@
 
 namespace angelrove\membrillo2;
 
-use angelrove\membrillo2\Login\LoginCtrl;
-use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo\Login\LoginCtrl;
+use angelrove\membrillo\WApp\Session;
 
 
 class AppCmsAjax extends Application

@@ -3,7 +3,7 @@
  *
  */
 
-namespace angelrove\membrillo2\Database;
+namespace angelrove\membrillo\Database;
 
 interface ModelInterface
 {

@@ -16,13 +16,13 @@
 
 namespace angelrove\membrillo2;
 
-use angelrove\membrillo2\Login\LoginCtrl;
-use angelrove\membrillo2\WApp\Config_Secciones;
-use angelrove\membrillo2\WApp\SeccCtrl;
-use angelrove\membrillo2\WApp\Session;
-use angelrove\membrillo2\WApp\Local;
-use angelrove\membrillo2\WObjectsStatus\Event;
-use angelrove\membrillo2\WObjectsStatus\ObjectsStatus;
+use angelrove\membrillo\Login\LoginCtrl;
+use angelrove\membrillo\WApp\Config_Secciones;
+use angelrove\membrillo\WApp\SeccCtrl;
+use angelrove\membrillo\WApp\Session;
+use angelrove\membrillo\WApp\Local;
+use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\ObjectsStatus;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
 

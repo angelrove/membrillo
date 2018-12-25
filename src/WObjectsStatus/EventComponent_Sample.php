@@ -5,7 +5,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WObjectsStatus;
+namespace angelrove\membrillo\WObjectsStatus;
 
 class _SampleComponent extends EventComponent
 {

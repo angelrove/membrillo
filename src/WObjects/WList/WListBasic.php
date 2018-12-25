@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WObjects\WList;
+namespace angelrove\membrillo\WObjects\WList;
 
 class WListBasic extends EventComponent
 {

@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs;
+namespace angelrove\membrillo\WInputs;
 
 class WInputCheck
 {

@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo2\WObjectsStatus;
+namespace angelrove\membrillo\WObjectsStatus;
 
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\Event;
 
 class ObjectStatus
 {

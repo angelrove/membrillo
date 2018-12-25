@@ -1,5 +1,5 @@
 <?php
-namespace angelrove\membrillo2\WObjectsStatus;
+namespace angelrove\membrillo\WObjectsStatus;
 
 abstract class EventComponent2
 {

@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo2\Magic;
+namespace angelrove\membrillo\Magic;
 
-use angelrove\membrillo2\Application;
+use angelrove\membrillo\Application;
 use angelrove\utils\FileSystem;
 use angelrove\utils\Db_mysql;
 

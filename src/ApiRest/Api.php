@@ -5,9 +5,9 @@
  *
  */
 
-namespace angelrove\membrillo2\ApiRest;
+namespace angelrove\membrillo\ApiRest;
 
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\Event;
 
 class Api
 {

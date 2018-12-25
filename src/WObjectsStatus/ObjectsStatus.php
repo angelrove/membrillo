@@ -4,10 +4,10 @@
  *
  */
 
-namespace angelrove\membrillo2\WObjectsStatus;
+namespace angelrove\membrillo\WObjectsStatus;
 
-use angelrove\membrillo2\CrudUrl;
-use angelrove\membrillo2\Messages;
+use angelrove\membrillo\CrudUrl;
+use angelrove\membrillo\Messages;
 
 class ObjectsStatus
 {

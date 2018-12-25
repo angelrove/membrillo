@@ -1,7 +1,7 @@
 <?php
-use angelrove\membrillo2\WPage\WPage;
-use angelrove\membrillo2\WObjects\WList\WList;
-use angelrove\membrillo2\WObjects\WList\WListColumn;
+use angelrove\membrillo\WPage\WPage;
+use angelrove\membrillo\WObjects\WList\WList;
+use angelrove\membrillo\WObjects\WList\WListColumn;
 use App\Models\[Sample];
 
 

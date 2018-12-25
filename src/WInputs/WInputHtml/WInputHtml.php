@@ -3,7 +3,7 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\WInputs\WInputHtml;
+namespace angelrove\membrillo\WInputs\WInputHtml;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\FileContent;

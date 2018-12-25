@@ -1,6 +1,6 @@
 <?php
-use angelrove\membrillo2\WObjectsStatus\Event;
-use angelrove\membrillo2\Messages;
+use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\Messages;
 use App\Models\[Sample];
 
 switch(Event::$OPER) {

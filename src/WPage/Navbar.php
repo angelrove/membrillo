@@ -4,10 +4,10 @@
  *
  */
 
-namespace angelrove\membrillo2\WPage;
+namespace angelrove\membrillo\WPage;
 
-use angelrove\membrillo2\Login\Login;
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\Login\Login;
+use angelrove\membrillo\WApp\Local;
 
 class Navbar
 {

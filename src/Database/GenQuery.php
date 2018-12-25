@@ -5,15 +5,15 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\Database;
+namespace angelrove\membrillo\Database;
 
-use angelrove\membrillo2\Login\Login;
-use angelrove\membrillo2\WInputs\WInputFile\WInputFile_upload;
-use angelrove\membrillo2\WObjectsStatus\Event;
-use angelrove\membrillo2\WObjects\WForm\WForm;
-use angelrove\membrillo2\WApp\Local;
-use angelrove\membrillo2\DebugTrace;
-use angelrove\membrillo2\Messages;
+use angelrove\membrillo\Login\Login;
+use angelrove\membrillo\WInputs\WInputFile\WInputFile_upload;
+use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\WObjects\WForm\WForm;
+use angelrove\membrillo\WApp\Local;
+use angelrove\membrillo\DebugTrace;
+use angelrove\membrillo\Messages;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\FileUploaded;
 

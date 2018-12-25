@@ -4,17 +4,17 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\WObjects\WForm;
+namespace angelrove\membrillo\WObjects\WForm;
 
-use angelrove\membrillo2\Messages;
-use angelrove\membrillo2\WObjectsStatus\Event;
-use angelrove\membrillo2\WObjectsStatus\EventComponent;
-use angelrove\membrillo2\WPage\WPage;
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\Messages;
+use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\EventComponent;
+use angelrove\membrillo\WPage\WPage;
+use angelrove\membrillo\WApp\Local;
 
-use angelrove\membrillo2\WInputs\WInputSelect;
-use angelrove\membrillo2\WInputs\WInputCheck;
-use angelrove\membrillo2\WInputs\WInputTextarea;
+use angelrove\membrillo\WInputs\WInputSelect;
+use angelrove\membrillo\WInputs\WInputCheck;
+use angelrove\membrillo\WInputs\WInputTextarea;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;

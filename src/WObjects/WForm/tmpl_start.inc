@@ -1,6 +1,6 @@
 <?php
-use angelrove\membrillo2\CrudUrl;
-use angelrove\membrillo2\WPage\Frame;
+use angelrove\membrillo\CrudUrl;
+use angelrove\membrillo\WPage\Frame;
 
 $action = CrudUrl::get('', $this->id_object);
 ?>

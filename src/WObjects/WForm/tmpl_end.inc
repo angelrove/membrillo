@@ -1,5 +1,5 @@
 <?php
-use angelrove\membrillo2\WPage\Frame;
+use angelrove\membrillo\WPage\Frame;
 ?>
 
      <?=$this->getButtons();?>

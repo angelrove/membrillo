@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WInputColor;
+namespace angelrove\membrillo\WInputs\WInputColor;
 
 use angelrove\utils\CssJsLoad;
 

@@ -4,12 +4,12 @@
  *
  */
 
-namespace angelrove\membrillo2\WPage;
+namespace angelrove\membrillo\WPage;
 
-use angelrove\membrillo2\DebugTrace;
-use angelrove\membrillo2\Login\Login;
-use angelrove\membrillo2\Messages;
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\DebugTrace;
+use angelrove\membrillo\Login\Login;
+use angelrove\membrillo\Messages;
+use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\utils\CssJsLoad;
 
 class WPage

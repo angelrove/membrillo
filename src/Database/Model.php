@@ -3,10 +3,10 @@
  * DEPRECATED!
  */
 
-namespace angelrove\membrillo2\Database;
+namespace angelrove\membrillo\Database;
 
-use angelrove\membrillo2\Database\GenQuery;
-use angelrove\membrillo2\Database\ModelHelper;
+use angelrove\membrillo\Database\GenQuery;
+use angelrove\membrillo\Database\ModelHelper;
 use angelrove\utils\Db_mysql;
 
 class Model

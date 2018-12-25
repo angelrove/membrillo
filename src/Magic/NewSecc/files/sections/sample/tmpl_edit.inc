@@ -1,7 +1,7 @@
 <?php
-use angelrove\membrillo2\WPage\WPage;
-use angelrove\membrillo2\WObjects\WForm\WForm;
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\WPage\WPage;
+use angelrove\membrillo\WObjects\WForm\WForm;
+use angelrove\membrillo\WObjectsStatus\Event;
 use App\Models\[Sample];
 
 $controlName = 'simple';

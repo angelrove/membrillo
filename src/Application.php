@@ -75,7 +75,7 @@ class Application
 
             //-------------------------------------
             /* Session start */
-            \angelrove\membrillo2\WApp\Session::start(24);
+            \angelrove\membrillo\WApp\Session::start(24);
         }
         //-------------------------------------
         else {

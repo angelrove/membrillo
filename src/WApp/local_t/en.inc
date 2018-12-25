@@ -1,5 +1,5 @@
 <?php
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\WApp\Local;
 
 Local::$t['delete'] = 'Delete';
 Local::$t['new']    = 'New';

@@ -1,5 +1,5 @@
 <?php
-use angelrove\membrillo2\CrudUrl;
+use angelrove\membrillo\CrudUrl;
 
 $class_scroll = '';
 $styleScroll  = '';

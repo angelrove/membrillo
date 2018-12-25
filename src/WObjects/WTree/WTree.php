@@ -10,12 +10,12 @@
  *   'editUpdate'  & 'ROW_ID'
  */
 
-namespace angelrove\membrillo2\WObjects\WTree;
+namespace angelrove\membrillo\WObjects\WTree;
 
-use angelrove\membrillo2\CrudUrl;
+use angelrove\membrillo\CrudUrl;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
-use angelrove\membrillo2\WObjectsStatus\Event;
+use angelrove\membrillo\WObjectsStatus\Event;
 
 class WTree
 {
@@ -138,7 +138,7 @@ class WTree
         global $objectsStatus;
         $filtros = $objectsStatus->getDatos($this->id);
 
-        return \angelrove\membrillo2\WObjects\WList\WList::searcher_complet($this->id, @$filtros['f_text']);
+        return \angelrove\membrillo\WObjects\WList\WList::searcher_complet($this->id, @$filtros['f_text']);
     }
     //-----------------------------------------------------------------
     //-----------------------------------------------------------------

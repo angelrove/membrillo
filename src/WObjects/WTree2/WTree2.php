@@ -5,9 +5,9 @@
  *     https://github.com/jzaefferer/jquery-treeview
  */
 
-namespace angelrove\membrillo2\WObjects\WTree2;
+namespace angelrove\membrillo\WObjects\WTree2;
 
-use angelrove\membrillo2\CrudUrl;
+use angelrove\membrillo\CrudUrl;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
 
@@ -125,7 +125,7 @@ class WTree2
     //-----------------------------------------------------------------
     private function getSearcher()
     {
-        return \angelrove\membrillo2\WObjects\WList\WList::searcher_complet($this->id, $this->searchWord);
+        return \angelrove\membrillo\WObjects\WList\WList::searcher_complet($this->id, $this->searchWord);
     }
     //-----------------------------------------------------------------
     public function setSearchWord($searchWord)

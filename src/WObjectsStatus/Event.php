@@ -4,9 +4,9 @@
  *
  */
 
-namespace angelrove\membrillo2\WObjectsStatus;
+namespace angelrove\membrillo\WObjectsStatus;
 
-use angelrove\membrillo2\WApp\Session;
+use angelrove\membrillo\WApp\Session;
 
 // CRUD events --------------------------------
 // Note: added to WPage!

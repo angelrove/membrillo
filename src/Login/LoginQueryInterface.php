@@ -3,7 +3,7 @@
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo2\Login;
+namespace angelrove\membrillo\Login;
 
 
 interface LoginQueryInterface

@@ -4,11 +4,11 @@
  *
  */
 
-namespace angelrove\membrillo2\WInputs\WCalendar;
+namespace angelrove\membrillo\WInputs\WCalendar;
 
 use angelrove\utils\CssJsLoad;
-use angelrove\membrillo2\CrudUrl;
-use angelrove\membrillo2\WApp\Local;
+use angelrove\membrillo\CrudUrl;
+use angelrove\membrillo\WApp\Local;
 
 
 class WCalendar

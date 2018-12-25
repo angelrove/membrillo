@@ -4,7 +4,7 @@
  *
  */
 
-namespace angelrove\membrillo2\WPage;
+namespace angelrove\membrillo\WPage;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\FileContent;
@@ -15,7 +15,7 @@ class Frame
     public static function get($title = '', $showClose = false, $linkClose = '')
     {
         if (!$linkClose) {
-            $linkClose = \angelrove\membrillo2\CrudUrl::get_nocrud();
+            $linkClose = \angelrove\membrillo\CrudUrl::get_nocrud();
         }
 
         CssJsLoad::set_script('

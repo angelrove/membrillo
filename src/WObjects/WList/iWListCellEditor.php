@@ -1,5 +1,5 @@
 <?php
-namespace angelrove\membrillo2\WObjects\WList;
+namespace angelrove\membrillo\WObjects\WList;
 
 interface iWListCellEditor
 {
