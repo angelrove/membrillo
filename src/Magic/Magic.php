@@ -55,6 +55,11 @@ class Magic extends Application
 
         echo("Section folder ... OK\n");
 
+        // Register secc
+        $str = "\n".'$CONFIG_SECCIONES->setSection("'.$name_secc.'", "'.$name.'");';
+        file_put_contents('./app/CONFIG_SECC.inc', $str, FILE_APPEND);
+        echo("Navbar item ... OK\n");
+
         echo("Done!");
     }
 

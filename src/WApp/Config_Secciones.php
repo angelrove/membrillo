@@ -25,18 +25,14 @@ class Config_Secciones
     //---------------------------------------------------
     public function setSections(array $listSections, array $listSubSections = array())
     {
-        $this->listItems    = $listSections; // para WMain_menu
-        $this->listSubItems = $listSubSections; // para WMain_menu
-
         // Sections
-        foreach ($listSections as $id => $title) {
-            if (!$title) {
-                $title = $id;
-            }
-            $this->listSections[$id] = new Config_Secciones_Item($id, $title);
+        foreach ($listSections as $key => $title) {
+            $this->setSection($key, $title);
         }
 
         // Sub sections
+        $this->listSubItems = $listSubSections; // para WMain_menu
+
         foreach ($listSubSections as $id_padre => $listSub) {
             foreach ($listSub as $id => $title) {
                 if (!$title) {
@@ -47,6 +43,16 @@ class Config_Secciones
                 $this->listSections[$id] = new Config_Secciones_Item($id, $title);
             }
         }
+    }
+    //---------------------------------------------------
+    public function setSection($key, $title='')
+    {
+        if (!$title) {
+            $title = $key;
+        }
+
+        $this->listItems[$key]    = $title;
+        $this->listSections[$key] = new Config_Secciones_Item($key, $title);
     }
     //---------------------------------------------------
     public function isSeccion($id)
