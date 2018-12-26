@@ -67,7 +67,7 @@ class Magic extends Application
         $source = __DIR__.'/NewSecc/files/Models/Sample.php';
 
         if (file_exists($dest)) {
-            echo("The Model already exists!");
+            echo("The Model already exists!\n");
             return $name_model;
         }
 
