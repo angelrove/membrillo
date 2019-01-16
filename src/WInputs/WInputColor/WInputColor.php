@@ -30,7 +30,7 @@ class WInputColor
       <span class="WInputColor">
         <input type="text" class="form-control" style="display:initial;width:90px" id="$name" name="$name" value="$value">
         <input type="color" id="WInputColor_$name" value="$value">
-      <span>
+      </span>
       <!-- /WInputColor -->
 EOD;
   }
