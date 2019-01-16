@@ -368,8 +368,9 @@ class WForm extends EventComponent
                 break;
 
             default:
+                $extraHtml = $params[0]?? '';
                 // $type_text = (isset($params[0])? $params[0] : 'text';
-                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required);
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
         }
 

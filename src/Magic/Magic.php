@@ -14,24 +14,25 @@ class Magic extends Application
 {
     private $document_root;
 
+    //--------------------------------------------------------------
     public function __construct($document_root)
     {
         parent::__construct($document_root, true);
 
         $this->document_root = $document_root;
     }
-
+    //--------------------------------------------------------------
     public function command($params)
     {
         list($command, $param) = each($params);
 
         $this->{'comm_'.$command}($param);
     }
-
+    //--------------------------------------------------------------
     /**
      * Commands
      */
-
+    //--------------------------------------------------------------
     public function comm_newsecc($name)
     {
         // Model ---
@@ -62,7 +63,7 @@ class Magic extends Application
 
         echo("Done!");
     }
-
+    //--------------------------------------------------------------
     public function comm_newmodel($name)
     {
         $name_secc  = strtolower($name);
@@ -100,4 +101,5 @@ class Magic extends Application
 
         return $name_model;
     }
+    //--------------------------------------------------------------
 }
