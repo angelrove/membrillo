@@ -291,10 +291,10 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Inputs
     //------------------------------------------------------------------
-    public function getField($title, $htmInput)
+    public function getField($title, $htmInput, $name='')
     {
         return '
-        <div class="form-group">
+        <div class="form-group" id="obj_'.$name.'">
            <label class="col-sm-3 control-label">'.$title.'</label>
            <div class="col-sm-9">'.$htmInput.'</div>
         </div>
@@ -343,6 +343,10 @@ class WForm extends EventComponent
                 $htmInput = '<input disabled class="form-control" value="'.$this->datos[$name].'">';
                 break;
 
+            case 'hidden':
+                return '<input type="hidden" name="'.$name.'" value="'.$this->datos[$name].'">';
+                break;
+
             case 'number':
                 $extraHtml = $params[0]?? '';
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
@@ -374,7 +378,7 @@ class WForm extends EventComponent
                 break;
         }
 
-        return $this->getField($title, $htmInput);
+        return $this->getField($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
     public function getInput1($title,

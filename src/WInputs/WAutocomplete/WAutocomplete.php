@@ -28,13 +28,13 @@ class WAutocomplete
       CssJsLoad::set(__DIR__ . '/libs.js');
   }
   //---------------------------------------------------------------------
-  public function get($form, $label_name, $label_id) {
+  public function get($form, $input_label) {
 
     return '
       <!-- WAutocomplete -->
       <div id="WAutocomplete">
-        '.$form->getInput($this->input_name, $label_name, false).'
-        '.$form->getInput($this->input_id, $label_id, false, 'text', ['readonly']).'
+        '.$form->getInput($this->input_name, $input_label, false).'
+        '.$form->getInput($this->input_id, false, false, 'hidden').'
       </div>
       <!-- /WAutocomplete -->
       ';
