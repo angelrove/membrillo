@@ -40,13 +40,6 @@ class Messages
         $_SESSION['Messages_msg'][$type] .= '<div>' . $msg . '</div>';
     }
     //----------------------------------------------------
-    public static function set_empty()
-    {
-        $_SESSION['Messages_msg']['success'] = '';
-        $_SESSION['Messages_msg']['danger']  = '';
-        $_SESSION['Messages_msg']['debug']   = '';
-    }
-    //----------------------------------------------------
     public static function set_debug($msg)
     {
         if (IS_LOCALHOST) {
@@ -72,13 +65,7 @@ class Messages
     // Esta función es llamada por ajax
     public static function get()
     {
-        if (!isset($_SESSION['Messages_msg'])) {
-            $_SESSION['Messages_msg'] = array(
-                'success' => '',
-                'danger'  => '',
-                'debug'   => '',
-            );
-        }
+        self::parseSession();
 
         // OUT ---
         foreach ($_SESSION['Messages_msg'] as $type => $msg) {
@@ -91,6 +78,24 @@ class Messages
 
         // Empty ---
         self::set_empty();
+    }
+    //----------------------------------------------------
+    private static function parseSession()
+    {
+        if (!isset($_SESSION['Messages_msg'])) {
+            $_SESSION['Messages_msg'] = array(
+                'success' => '',
+                'danger'  => '',
+                'debug'   => '',
+            );
+        }
+    }
+    //----------------------------------------------------
+    public static function set_empty()
+    {
+        $_SESSION['Messages_msg']['success'] = '';
+        $_SESSION['Messages_msg']['danger']  = '';
+        $_SESSION['Messages_msg']['debug']   = '';
     }
     //----------------------------------------------------
 }
