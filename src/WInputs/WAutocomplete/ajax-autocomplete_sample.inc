@@ -1,15 +1,15 @@
 <?php
-use angelrove\utils\CallApi;
+use angelrove\utils\CallApi\CallApi;
 
 $URL_API = '/v3/public/posts?type=plan&search=';
 
 // Call API --------------
 $url_api = API_ENVIROMENT.$URL_API.$_GET['q'];
-$users = CallApi::call2AsObject('GET', $url_api, array());
+$response = CallApi::callAsObject('GET', $url_api, array());
 
 // Parse data ------------
 $result = array();
-foreach ($users->data as $key => $data) {
+foreach ($response->body->data as $key => $data) {
     $result[] = '{label: "'.labelToShow($data).'", value: '.$data->id.'}';
 }
 $result = implode(',', $result);
