@@ -45,6 +45,8 @@ class ApiRestCrudHelper
         return self::callApi('GET', $entity);
     }
     //--------------------------------------------------------------
+    // PRIVATE
+    //--------------------------------------------------------------
     private static function callApi($method, $entity, array $headers=array(), array $body=array())
     {
         $url = self::API_ENVIROMENT.$entity;
@@ -55,7 +57,65 @@ class ApiRestCrudHelper
         );
         $headers = array_merge($headers_def, $headers);
 
-        return CallApi::call($method, $url, $headers, $body);
+        // Call API --------
+        $response = CallApi::call($method, $url, $headers, $body);
+
+        // Parse result ----
+        return self::parseResult($response, $method);
+    }
+    //--------------------------------------------------------------
+    private static function parseResult($result, $method)
+    {
+        // GET ---
+        if ($method == 'GET' && $result->statusCode == '200') {
+            return [
+                'result' => true,
+                'statuscode' => $result->statusCode,
+                'body'   => $result->body
+            ];
+        }
+
+        // POST ---
+        if ($method == 'POST' && $result->statusCode == '200') {
+            return [
+                'result' => true,
+                'statuscode' => $result->statusCode,
+                'id'     => $result->body->id
+            ];
+        }
+
+        // PUT ---
+        if ($method == 'PUT' && $result->statusCode == '202') {
+            return [
+                'result' => true,
+                'statuscode' => $result->statusCode
+            ];
+        }
+
+        // ERROR ---
+        $ret = [
+            'result' => false,
+            'statuscode' => $result->statusCode
+        ];
+
+        if (isset($result->body->message)) {
+            $ret['message'] = $result->body->message;
+        } else {
+            $ret['message'] = htmlspecialchars(print_r($result->body, true));
+        }
+        $ret['message_format'] = self::formatMessage(
+                                  'Status: '.$result->statusCode.'<br>'.$ret['message']
+                                 );
+
+        return $ret;
+    }
+    //---------------------------------------------------------
+    private static function formatMessage($message)
+    {
+        return
+         '<div style="max-width:500px;color:#333;font-size:12px;background-color:#fff;padding:4px">'.
+             $message.
+         '</div>';
     }
     //--------------------------------------------------------------
 }
