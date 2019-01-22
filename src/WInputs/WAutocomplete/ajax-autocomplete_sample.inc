@@ -5,7 +5,7 @@ $URL_API = '/v3/public/posts?type=plan&search=';
 
 // Call API --------------
 $url_api = API_ENVIROMENT.$URL_API.$_GET['q'];
-$response = CallApi::callAsObject('GET', $url_api, array());
+$response = CallApi::call('GET', $url_api, array());
 
 // Parse data ------------
 $result = array();

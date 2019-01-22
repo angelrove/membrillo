@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * ModelInterface
  */
 
 namespace angelrove\membrillo\Database;
@@ -24,5 +24,4 @@ interface ModelInterface
     public static function update(array $listValues=array());
 
     public static function delete();
-
 }
