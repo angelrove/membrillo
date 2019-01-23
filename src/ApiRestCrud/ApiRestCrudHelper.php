@@ -15,39 +15,42 @@ class ApiRestCrudHelper
     private const API_ACCEPT_LANGUAGE = API_ACCEPT_LANGUAGE;
 
     //--------------------------------------------------------------
-    public static function create($entity, $body)
+    public static function create(array $conf, $data)
     {
-        return self::callApi('POST', $entity, array(), $body);
+        $body = self::parseData($data, $conf['columns']);
+        return self::callApi('POST', $conf['ENTITY'], array(), $body);
     }
     //--------------------------------------------------------------
-    public static function update($entity, $id, $body)
+    public static function update(array $conf, $id, $data)
     {
-        $entity = $entity.'/'.$id;
+        $body = self::parseData($data, $conf['columns']);
+        $entity = $conf['ENTITY'].'/'.$id;
         return self::callApi('PUT', $entity, array(), $body);
     }
     //--------------------------------------------------------------
-    public static function delete($id)
+    public static function delete(array $conf, $id)
     {
-        $entity = $entity.'/'.$id;
+        $entity = $conf['ENTITY'].'/'.$id;
         $body = array('status' => false);
 
         return self::callApi('PUT', $entity, array(), $body);
     }
     //--------------------------------------------------------------
-    public static function read($entity, $asJson=false, $params='')
+    public static function read(array $conf, $asJson=false, $params='')
     {
+        $entity = $conf['ENTITY_READ'];
         return self::callApi('GET', $entity, array(), array(), $asJson, $params);
     }
     //--------------------------------------------------------------
-    public static function readById($entity, $id)
+    public static function readById(array $conf, $id)
     {
-        $entity = $entity.'/'.$id;
+        $entity = $conf['ENTITY'].'/'.$id;
         return self::callApi('GET', $entity);
     }
     //--------------------------------------------------------------
     // PRIVATE
     //--------------------------------------------------------------
-    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, $params)
+    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, $params='')
     {
         $url = self::API_ENVIROMENT.$entity.'?'.$params;
 
@@ -62,6 +65,18 @@ class ApiRestCrudHelper
 
         // Parse result ----
         return self::parseResult($response, $method);
+    }
+    //---------------------------------------------------------
+    private static function parseData($data, $columns)
+    {
+        $dataParsed = array();
+        foreach ($columns as $column) {
+            if (isset($data[$column])) {
+                $dataParsed[$column] = $data[$column];
+            }
+        }
+
+        return $dataParsed;
     }
     //--------------------------------------------------------------
     private static function parseResult($result, $method)

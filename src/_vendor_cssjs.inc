@@ -38,3 +38,10 @@ Vendor::conf('lightbox', '//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/', ar
     'js/lightbox.min.js',
     'css/lightbox.min.css',
 ));
+
+// Datatables ---
+Vendor::conf('datatables',
+   'https://cdn.datatables.net/v/bs/dt-1.10.18/b-1.5.4/b-html5-1.5.4/b-print-1.5.4/', array(
+         'datatables.min.js',
+         'datatables.min.css',
+));
