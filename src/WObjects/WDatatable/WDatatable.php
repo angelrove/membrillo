@@ -17,6 +17,11 @@ class WDatatable
     private $jsonData;
 
     private $bt_new = false;
+    private $bt_update = false;
+
+    // Events
+    private $event_new    = '';
+    private $event_update = '';
 
     //-------------------------------------------------------
     // PUBLIC
@@ -25,16 +30,28 @@ class WDatatable
     {
         Vendor::usef('datatables');
         CssJsLoad::set(__DIR__ . '/styles.css');
-        // CssJsLoad::set(__DIR__ . '/lib.js');
+        CssJsLoad::set(__DIR__ . '/lib.js');
 
         $this->id_control = $id_control;
         $this->jsonData   = $jsonData;
         $this->columns    = $columns;
     }
     //-------------------------------------------------------
-    public function showBtNew()
+    public function showNew()
     {
+        $this->event_new = CRUD_EDIT_NEW;
         $this->bt_new = true;
+    }
+    //-------------------------------------------------------
+    public function showUpdate()
+    {
+        $this->event_update = CRUD_EDIT_UPDATE;
+        $this->bt_update = true;
+    }
+    //-------------------------------------------------------
+    public function showDelete()
+    {
+        $this->bt_delete = true;
     }
     //-------------------------------------------------------
     public function get()
@@ -50,57 +67,53 @@ class WDatatable
         foreach ($this->columns as $column) {
             $strColumns .= "{ data: '".$column->name."', name: '".$column->title."' },";
         }
-        // $strColumns .= "{data: 'action', name: 'action', orderable: false, searchable: false}";
 
         CssJsLoad::set_script(
 <<<EOD
+var id_component  = '$id_component';
+var href_new      = '$href_new';
+var show_btNew    = '$this->bt_new';
+var show_btUpdate = '$this->bt_update';
+
 $(document).ready(function() {
+
     var dataTable = $('#$id_component').DataTable( {
         ajax: '/index_ajax.php?service=read',
-        columns: [
-            $strColumns
-            {
-                "data": null,
-                "className": 'options',
-                "render": function(data, type, full, meta) {
-                   if (full.activated) {
-                       return '<button class="btn btn-xs btn-primary pull-right"> Enabled</button>';
-                   } else {
-                       return '<button class="btn btn-xs btn-danger pull-right"> Disabled</button>';
-                   }
-                }
-            }
-        ],
         dom: 'Bfrtip',
+
         buttons: [
             'print',
             'csvHtml5',
             // { text: 'TSV', extend: 'csvHtml5', fieldSeparator: '\t', extension: '.csv' }
+        ],
+
+        columns: [
+            $strColumns
+            {
+                className: 'options', data: null, orderable: false, searchable: false,
+                render: function(data, type, full, meta) {
+                   // if (full.activated) {]
+
+                   var bt_update = '<button onclick="WDatatable_onUpdate(\''+id_component+'\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
+
+                   var bt_delete = '<button onclick="WDatatable_onDelete(\''+id_component+'\', '+data.id+')" class="on_delete btn btn-xs btn-danger">Delete</button> ';
+                   bt_delete = '';
+
+                   return bt_update+bt_delete;
+                }
+            },
         ]
     });
 
-    // Delete button ---
-    $(".dt-buttons").append(
-        '<a href="$href_delete" class="btn btn-warning"><i class="fa fa-trash"></i> Delete</a>'
-    );
-
     // New button ---
-    if('$this->bt_new') {
+    if(show_btNew) {
         $(".dt-buttons").append(
-            ' <a href="$href_new" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
+            '<a href="javascript:href_new" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
         );
     }
 
     // Other buttons ---
 
-// $('#dataTable').on( 'click', 'tbody tr', function () {
-//     dataTable.row( this ).delete( {
-//         buttons: [
-//             { label: 'Cancel', fn: function () { this.close(); } },
-//             'Delete'
-//         ]
-//     } );
-// } );
 
 });
 EOD
@@ -112,8 +125,13 @@ EOD
             $strColumns .= '<th>'.$column->title.'</th>';
         }
 
+        // Action ---
+        $action = CrudUrl::get('', $this->id_control);
+
         return '
-<table id="'.$id_component.'" class="table table-striped table-bordered table-hover" style="width:100%">
+<table id="'.$id_component.'"
+       class="table table-striped table-bordered table-hover" style="width:100%"
+       param_action="'.$action.'">
     <thead><tr>
       '.$strColumns.'
       <th></th>
