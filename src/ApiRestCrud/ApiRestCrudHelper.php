@@ -34,9 +34,9 @@ class ApiRestCrudHelper
         return self::callApi('PUT', $entity, array(), $body);
     }
     //--------------------------------------------------------------
-    public static function read($entity)
+    public static function read($entity, $asJson=false, $params='')
     {
-        return self::callApi('GET', $entity);
+        return self::callApi('GET', $entity, array(), array(), $asJson, $params);
     }
     //--------------------------------------------------------------
     public static function readById($entity, $id)
@@ -47,9 +47,9 @@ class ApiRestCrudHelper
     //--------------------------------------------------------------
     // PRIVATE
     //--------------------------------------------------------------
-    private static function callApi($method, $entity, array $headers=array(), array $body=array())
+    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, $params)
     {
-        $url = self::API_ENVIROMENT.$entity;
+        $url = self::API_ENVIROMENT.$entity.'?'.$params;
 
         $headers_def = array(
             'x-auth-token'   => self::API_AUTH_TOKEN,
@@ -58,7 +58,7 @@ class ApiRestCrudHelper
         $headers = array_merge($headers_def, $headers);
 
         // Call API --------
-        $response = CallApi::call($method, $url, $headers, $body);
+        $response = CallApi::call($method, $url, $headers, $body, $asJson);
 
         // Parse result ----
         return self::parseResult($response, $method);
