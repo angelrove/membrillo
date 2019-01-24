@@ -47,6 +47,10 @@ class ApiRestCrudHelper
         $entity = $conf['ENTITY'].'/'.$id;
         return self::callApi('GET', $entity);
     }
+    public static function readEmpty(array $conf)
+    {
+        return array_fill_keys($conf['columns'], '');
+    }
     //--------------------------------------------------------------
     // PRIVATE
     //--------------------------------------------------------------
@@ -55,11 +59,12 @@ class ApiRestCrudHelper
         // Params ---
         $paramsStr = '';
         foreach ($params as $param => $value) {
-            $paramsStr = $param.'='.$value.'&';
+            $paramsStr .= $param.'='.$value.'&';
         }
 
         // Url ---
         $url = self::API_ENVIROMENT.$entity.'?'.$paramsStr;
+        // print_r2($url);
 
         // Header ---
         $headers_def = array(

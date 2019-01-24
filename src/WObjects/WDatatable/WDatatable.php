@@ -87,6 +87,8 @@ $(document).ready(function() {
             // { text: 'TSV', extend: 'csvHtml5', fieldSeparator: '\t', extension: '.csv' }
         ],
 
+        "order": [[ 0, "desc" ]],
+
         columns: [
             $strColumns
             {
