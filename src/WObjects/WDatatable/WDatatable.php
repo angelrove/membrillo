@@ -108,7 +108,7 @@ $(document).ready(function() {
     // New button ---
     if(show_btNew) {
         $(".dt-buttons").append(
-            '<a href="javascript:href_new" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
+            '<a href="" onclick="location.href=href_new;return false;" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
         );
     }
 

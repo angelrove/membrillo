@@ -13,7 +13,7 @@ interface ApiRestCrudInterface
 
     public static function delete($id);
 
-    public static function read($asJson=false, $params='');
+    public static function read($asJson=false, array $params=array());
 
     public static function readById($id);
 }

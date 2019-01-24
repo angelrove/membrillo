@@ -50,10 +50,18 @@ class ApiRestCrudHelper
     //--------------------------------------------------------------
     // PRIVATE
     //--------------------------------------------------------------
-    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, $params='')
+    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, array $params=array())
     {
-        $url = self::API_ENVIROMENT.$entity.'?'.$params;
+        // Params ---
+        $paramsStr = '';
+        foreach ($params as $param => $value) {
+            $paramsStr = $param.'='.$value.'&';
+        }
 
+        // Url ---
+        $url = self::API_ENVIROMENT.$entity.'?'.$paramsStr;
+
+        // Header ---
         $headers_def = array(
             'x-auth-token'   => self::API_AUTH_TOKEN,
             'Accept-Language'=> self::API_ACCEPT_LANGUAGE
