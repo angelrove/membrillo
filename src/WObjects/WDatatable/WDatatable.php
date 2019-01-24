@@ -18,10 +18,13 @@ class WDatatable
 
     private $bt_new = false;
     private $bt_update = false;
+    private $bt_delete = false;
 
     // Events
     private $event_new    = '';
     private $event_update = '';
+
+    private $defaultOrder = '';
 
     //-------------------------------------------------------
     // PUBLIC
@@ -54,6 +57,11 @@ class WDatatable
         $this->bt_delete = true;
     }
     //-------------------------------------------------------
+    public function setDefaultOrder($defaultOrder)
+    {
+        $this->defaultOrder = $defaultOrder;
+    }
+    //-------------------------------------------------------
     public function get()
     {
         $id_component = 'datatable_'.$this->id_control;
@@ -74,11 +82,13 @@ var id_component  = '$id_component';
 var href_new      = '$href_new';
 var show_btNew    = '$this->bt_new';
 var show_btUpdate = '$this->bt_update';
+var show_btDelete = '$this->bt_delete';
 
 $(document).ready(function() {
 
     var dataTable = $('#$id_component').DataTable( {
         ajax: '/index_ajax.php?service=read',
+        select: false,
         dom: 'Bfrtip',
 
         buttons: [
@@ -87,8 +97,6 @@ $(document).ready(function() {
             // { text: 'TSV', extend: 'csvHtml5', fieldSeparator: '\t', extension: '.csv' }
         ],
 
-        "order": [[ 0, "desc" ]],
-
         columns: [
             $strColumns
             {
@@ -96,12 +104,14 @@ $(document).ready(function() {
                 render: function(data, type, full, meta) {
                    // if (full.activated) {]
 
-                   var bt_update = '<button onclick="WDatatable_onUpdate(\''+id_component+'\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
-
-                   var bt_delete = '<button onclick="WDatatable_onDelete(\''+id_component+'\', '+data.id+')" class="on_delete btn btn-xs btn-danger">Delete</button> ';
-                   bt_delete = '';
-
-                   return bt_update+bt_delete;
+                   var strButtons = '';
+                   if(show_btUpdate) {
+                       strButtons = strButtons+'<button onclick="WDatatable_onUpdate(\''+id_component+'\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
+                   }
+                   if(show_btDelete) {
+                       strButtons = strButtons+'<button onclick="WDatatable_onDelete(\''+id_component+'\', '+data.id+')" class="on_delete btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button> ';
+                   }
+                   return strButtons;
                 }
             },
         ]
@@ -130,16 +140,20 @@ EOD
         // Action ---
         $action = CrudUrl::get('', $this->id_control);
 
-        return '
-<table id="'.$id_component.'"
-       class="table table-striped table-bordered table-hover" style="width:100%"
-       param_action="'.$action.'">
+        return <<<EOD
+<table id="$id_component"
+       data-order='[[ 0, "desc" ]]'
+       data-page-length="20"
+       class="table table-striped table-bordered table-hover"
+       style="width:100%"
+       param_action="$action">
     <thead><tr>
-      '.$strColumns.'
+      $strColumns
       <th></th>
     </tr></thead>
 </table>
-        ';
+EOD;
+
     }
     //--------------------------------------------------------------
 }

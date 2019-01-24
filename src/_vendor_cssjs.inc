@@ -41,7 +41,7 @@ Vendor::conf('lightbox', '//cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/', ar
 
 // Datatables ---
 Vendor::conf('datatables',
-   'https://cdn.datatables.net/v/bs/dt-1.10.18/b-1.5.4/b-html5-1.5.4/b-print-1.5.4/', array(
+   'https://cdn.datatables.net/v/bs/dt-1.10.18/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/sl-1.2.6/', array(
          'datatables.min.js',
          'datatables.min.css',
 ));

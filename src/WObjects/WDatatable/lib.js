@@ -1,11 +1,15 @@
 
 //----------------------------------------------------------------
-
 function WDatatable_onUpdate(id_component, id)
 {
     list_onEvent(id_component, id, CRUD_EDIT_UPDATE, '', '');
 }
-
+//----------------------------------------------------------------
+function WDatatable_onDelete(id_component, id)
+{
+    list_onEvent(id_component, id, '', CRUD_OPER_DELETE, '');
+}
+//----------------------------------------------------------------
 function list_onEvent(id_component, id, event, oper, txConfirm)
 {
   var action = $('#'+id_component).attr('param_action');
@@ -23,3 +27,4 @@ function list_onEvent(id_component, id, event, oper, txConfirm)
      location.href = href_event;
   }
 }
+//----------------------------------------------------------------
