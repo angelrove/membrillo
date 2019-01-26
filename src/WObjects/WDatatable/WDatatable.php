@@ -20,6 +20,8 @@ class WDatatable
     private $bt_update = false;
     private $bt_delete = false;
 
+    private $rowOptions = array();
+
     // Events
     private $event_new    = '';
     private $event_update = '';
@@ -62,20 +64,46 @@ class WDatatable
         $this->defaultOrder = $defaultOrder;
     }
     //-------------------------------------------------------
+    public function setRowOption($event, $label = '', $title = '')
+    {
+        $this->rowOptions[$event] = array(
+            'event'    => $event,
+            'oper'     => $event,
+            'label'    => $label,
+            'title'    => $title,
+        );
+    }
+    //-------------------------------------------------------
+    private function getOptionButton($event, $oper, $id, $title)
+    {
+        $href = CrudUrl::get($event, $this->id_control, '$id', $oper);
+
+        return <<<EOD
+ <button onclick="location.href=\'$href\'" class="btn btn-xs btn-primary">$title</button>
+EOD;
+    }
+    //-------------------------------------------------------
     public function get()
     {
         $id_component = 'datatable_'.$this->id_control;
 
-        // Options links ---
+        // Options links ----
         $href_new    = CrudUrl::get(CRUD_EDIT_NEW, $this->id_control);
         $href_delete = CrudUrl::get(CRUD_OPER_DELETE, $this->id_control);
 
-        // Js ----
+        // Columns ----------
         $strColumns = '';
         foreach ($this->columns as $column) {
             $strColumns .= "{ data: '".$column->name."', name: '".$column->title."' },";
         }
 
+        // Option buttons ---
+        $strRowOptions = '';
+        foreach ($this->rowOptions as $event => $data) {
+            $strRowOptions .= $this->getOptionButton($event, $data['oper'], '$id', $data['title']);
+        }
+
+        // Out Js -----------
         CssJsLoad::set_script(
 <<<EOD
 var id_component  = '$id_component';
@@ -87,7 +115,7 @@ var show_btDelete = '$this->bt_delete';
 $(document).ready(function() {
 
     var dataTable = $('#$id_component').DataTable( {
-        ajax: '/index_ajax.php?service=read',
+        ajax: '/index_ajax.php?service=datatable-read',
         select: false,
         dom: 'Bfrtip',
 
@@ -106,12 +134,12 @@ $(document).ready(function() {
 
                    var strButtons = '';
                    if(show_btUpdate) {
-                       strButtons = strButtons+'<button onclick="WDatatable_onUpdate(\''+id_component+'\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
+                       strButtons = strButtons+'<button onclick="WDatatable_onUpdate(\'$id_component\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
                    }
                    if(show_btDelete) {
                        strButtons = strButtons+'<button onclick="WDatatable_onDelete(\''+id_component+'\', '+data.id+')" class="on_delete btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button> ';
                    }
-                   return strButtons;
+                   return strButtons+'$strRowOptions';
                 }
             },
         ]
