@@ -38,7 +38,7 @@ class ApiRestCrudHelper
     //--------------------------------------------------------------
     public static function read(array $conf, $asJson=false, $params='')
     {
-        $entity = $conf['ENTITY_READ'];
+        $entity = ($conf['ENTITY_READ'])?? $conf['ENTITY'];
         return self::callApi('GET', $entity, array(), array(), $asJson, $params);
     }
     //--------------------------------------------------------------
