@@ -160,6 +160,12 @@ class WDatatable
         $action = CrudUrl::get('', $this->id_control);
 
         return <<<EOD
+<style>
+#$id_component td.options {
+    white-space: nowrap;
+}
+</style>
+
 <table id="$id_component"
        data-order='[[ 0, "desc" ]]'
        data-page-length="20"
