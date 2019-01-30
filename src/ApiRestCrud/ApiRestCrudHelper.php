@@ -6,6 +6,7 @@
 namespace angelrove\membrillo\ApiRestCrud;
 
 use angelrove\membrillo\ApiRestCrud\ApiRestCrudInterface;
+use angelrove\membrillo\Messages;
 use angelrove\utils\CallApi\CallApi;
 
 class ApiRestCrudHelper
@@ -140,6 +141,8 @@ class ApiRestCrudHelper
         $ret['message_format'] = self::formatMessage(
                                   'Status: '.$result->statusCode.'<br>'.$ret['message']
                                  );
+
+        Messages::set('Error: '.$ret['message_format'], 'danger');
 
         return $ret;
     }
