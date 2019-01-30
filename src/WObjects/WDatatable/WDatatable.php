@@ -14,7 +14,6 @@ class WDatatable
 {
     private $id_control;
     private $columns;
-    private $jsonData;
 
     private $bt_new = false;
     private $bt_update = false;
@@ -31,14 +30,13 @@ class WDatatable
     //-------------------------------------------------------
     // PUBLIC
     //-------------------------------------------------------
-    public function __construct($id_control, $jsonData, array $columns)
+    public function __construct($id_control, array $columns)
     {
         Vendor::usef('datatables');
         CssJsLoad::set(__DIR__ . '/styles.css');
         CssJsLoad::set(__DIR__ . '/lib.js');
 
         $this->id_control = $id_control;
-        $this->jsonData   = $jsonData;
         $this->columns    = $columns;
     }
     //-------------------------------------------------------
