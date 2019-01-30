@@ -10,13 +10,15 @@ class Column
 {
     public $name;
     public $title;
+    public $type;
     public $orderable;
 
     //-------------------------------------------------------
-    public function __construct($name, $title, $orderable = false)
+    public function __construct($name, $title, $type = '', $orderable = false)
     {
         $this->name  = $name;
         $this->title = $title;
+        $this->type = $type;
         $this->orderable = $orderable;
     }
     //-------------------------------------------------------

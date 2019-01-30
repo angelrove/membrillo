@@ -64,108 +64,99 @@ class WDatatable
         $this->defaultOrder = $defaultOrder;
     }
     //-------------------------------------------------------
-    public function setRowOption($event, $label = '', $title = '')
+    public function setRowOption($event, $title = '')
     {
         $this->rowOptions[$event] = array(
             'event'    => $event,
             'oper'     => $event,
-            'label'    => $label,
             'title'    => $title,
         );
     }
     //-------------------------------------------------------
-    private function getOptionButton($event, $oper, $id, $title)
+    // GETS
+    //-------------------------------------------------------
+    private function getJsColumns()
     {
-        $href = CrudUrl::get($event, $this->id_control, '$id', $oper);
+        // Columns ---
+        $columns = '';
+        foreach ($this->columns as $column) {
+            $columns .= "{ data: '".$column->name."', name: '".$column->title."' },\n";
+        }
 
-        return <<<EOD
- <button onclick="location.href=\'$href\'" class="btn btn-xs btn-primary">$title</button>
-EOD;
+        // Column options ---
+        $strOptions = '';
+        $btOptions = array();
+
+        // edit
+        if ($this->bt_update) {
+            $btOptions[] = "<button param_event='$this->event_update' class='btn btn-xs btn-default'><i class='far fa-edit fa-lg'></i></button>";
+        }
+        // delete
+        if ($this->bt_delete) {
+            $btOptions[] = "<button param_event='delete' class='btn btn-xs btn-danger'><i class='far fa-trash-alt fa-lg'></i></button>";
+        }
+        // User options
+        foreach ($this->rowOptions as $event => $data) {
+            $btOptions[] = "<button param_event='$event' class='btn btn-xs btn-primary'>$data[title]</button>";
+        }
+
+        if ($btOptions) {
+            $listButtons = implode('&nbsp;&nbsp;', $btOptions);
+
+            $strOptions = "{
+                data: null,
+                orderable:  false,
+                searchable: false,
+                targets: -1,
+                className: 'options',
+                defaultContent: \"$listButtons\",
+            } \n";
+        }
+
+        // OUT ----
+        return "[\n$columns $strOptions]";
     }
     //-------------------------------------------------------
     public function get()
     {
         $id_component = 'datatable_'.$this->id_control;
 
-        // Options links ----
-        $href_new    = CrudUrl::get(CRUD_EDIT_NEW, $this->id_control);
-        $href_delete = CrudUrl::get(CRUD_OPER_DELETE, $this->id_control);
+        // Js ------
+        $strColumns = $this->getJsColumns();
 
-        // Columns ----------
-        $strColumns = '';
-        foreach ($this->columns as $column) {
-            $strColumns .= "{ data: '".$column->name."', name: '".$column->title."' },";
+        $href_new = '';
+        if ($this->bt_new) {
+            $href_new = CrudUrl::get(CRUD_EDIT_NEW, $this->id_control);
         }
 
-        // Option buttons ---
-        $strRowOptions = '';
-        foreach ($this->rowOptions as $event => $data) {
-            $strRowOptions .= $this->getOptionButton($event, $data['oper'], '$id', $data['title']);
+        // Render types
+        $colsRender_datetime = array();
+        $colsRender_bool = array();
+        foreach ($this->columns as $key => $column) {
+            if ($column->type == 'datetime') {
+                $colsRender_datetime[] = $key;
+            }
+            elseif ($column->type == 'boolean') {
+                $colsRender_bool[] = $key;
+            }
         }
+        $colsRender_datetime = implode(',', $colsRender_datetime);
+        $colsRender_bool = implode(',', $colsRender_bool);
 
-        // Out Js -----------
-        CssJsLoad::set_script(
-<<<EOD
-var id_component  = '$id_component';
-var href_new      = '$href_new';
-var show_btNew    = '$this->bt_new';
-var show_btUpdate = '$this->bt_update';
-var show_btDelete = '$this->bt_delete';
+        CssJsLoad::set_script("
+ var id_component = '$id_component';
+ var dt_cols = $strColumns;
+ var colsRender_datetime = [$colsRender_datetime];
+ var colsRender_bool = [$colsRender_bool];
+ var href_new = '$href_new';
+");
 
-$(document).ready(function() {
-
-    var dataTable = $('#$id_component').DataTable( {
-        ajax: '/index_ajax.php?service=datatable-read',
-        select: false,
-        dom: 'Bfrtip',
-
-        buttons: [
-            'print',
-            'csvHtml5',
-            // { text: 'TSV', extend: 'csvHtml5', fieldSeparator: '\t', extension: '.csv' }
-        ],
-
-        columns: [
-            $strColumns
-            {
-                className: 'options', data: null, orderable: false, searchable: false,
-                render: function(data, type, full, meta) {
-                   // if (full.activated) {]
-
-                   var strButtons = '';
-                   if(show_btUpdate) {
-                       strButtons = strButtons+'<button onclick="WDatatable_onUpdate(\'$id_component\', '+data.id+')" class="on_update btn btn-xs btn-primary">Edit</button> ';
-                   }
-                   if(show_btDelete) {
-                       strButtons = strButtons+'<button onclick="WDatatable_onDelete(\''+id_component+'\', '+data.id+')" class="on_delete btn btn-xs btn-danger"><i class="far fa-trash-alt"></i></button> ';
-                   }
-                   return strButtons+'$strRowOptions';
-                }
-            },
-        ]
-    });
-
-    // New button ---
-    if(show_btNew) {
-        $(".dt-buttons").append(
-            '<a href="" onclick="location.href=href_new;return false;" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
-        );
-    }
-
-    // Other buttons ---
-
-
-});
-EOD
-);
-
-        // Html ---
+        // Html ----
         $strColumns = '';
         foreach ($this->columns as $column) {
             $strColumns .= '<th>'.$column->title.'</th>';
         }
 
-        // Action ---
         $action = CrudUrl::get('', $this->id_control);
 
         return <<<EOD
