@@ -142,7 +142,8 @@ class ApiRestCrudHelper
                                   'Status: '.$result->statusCode.'<br>'.$ret['message']
                                  );
 
-        Messages::set('Error: '.$ret['message_format'], 'danger');
+        // Message
+        Messages::set($ret['message_format'], 'danger');
 
         return $ret;
     }
