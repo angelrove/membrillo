@@ -74,7 +74,13 @@ class ApiRestCrudHelper
         $headers = array_merge($headers_def, $headers);
 
         // Call API --------
-        $response = CallApi::call($method, $url, $headers, $body, $asJson);
+        try {
+            $response = CallApi::call($method, $url, $headers, $body, $asJson);
+        } catch (\Exception $e) {
+            $response = new \StdClass();
+            $response->statusCode = 'Exception';
+            $response->body       = $e->getMessage();
+        }
 
         // Parse result ----
         return self::parseResult($response, $method);
