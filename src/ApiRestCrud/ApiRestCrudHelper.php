@@ -42,7 +42,8 @@ class ApiRestCrudHelper
     {
         $body = self::parseData($data, $columns);
         $entity = $conf['ENTITY'].'/'.$id;
-        return self::callApi('PUT', $entity, array(), $body);
+
+        return self::callApi($conf['UPDATE_METHOD'], $entity, array(), $body);
     }
 
     public static function delete(array $conf, $id)
@@ -116,6 +117,14 @@ class ApiRestCrudHelper
                 'result' => true,
                 'statuscode' => $result->statusCode,
                 'id'     => $result->body->id
+            ];
+        }
+
+        // PATCH ---
+        if ($method == 'PATCH' && $result->statusCode == '202') {
+            return [
+                'result' => true,
+                'statuscode' => $result->statusCode
             ];
         }
 

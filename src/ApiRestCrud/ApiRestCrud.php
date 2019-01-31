@@ -6,13 +6,9 @@ use angelrove\membrillo\ApiRestCrud\ApiRestCrudHelper;
 
 abstract class ApiRestCrud implements ApiRestCrudInterface
 {
-    abstract protected static function read_defaultParams();
     abstract protected static function update_parseData(array $data);
 
-    public static function read($asJson=false, array $params=array())
-    {
-        $params_def = static::read_defaultParams();
-        $params = array_merge($params, $params_def);
+    public static function read($asJson=false, array $params=array()) {
         return ApiRestCrudHelper::read(static::CONF, $asJson, $params);
     }
 
