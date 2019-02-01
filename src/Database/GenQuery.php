@@ -535,11 +535,10 @@ class GenQuery
                 break;
             //-------
             case 'datetime':
-                if ($inputValue != 'NULL') {
-                    $value = "'$inputValue'";
-                }
-                else {
+                if ($inputValue == 'NULL') {
                     $value = $inputValue;
+                } else {
+                    $value = "'$inputValue'";
                 }
                 break;
             //-------
@@ -557,7 +556,11 @@ class GenQuery
                 break;
             //-------
             default:
-                $value = "'$inputValue'";
+                if ($inputValue == 'NULL') {
+                    $value = $inputValue;
+                } else {
+                    $value = "'$inputValue'";
+                }
                 break;
                 //-------
         }
