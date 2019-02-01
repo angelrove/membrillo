@@ -18,7 +18,7 @@ class ApiRestCrudHelper
     public static function read(array $conf, $asJson=false, $params='')
     {
         $entity = ($conf['ENTITY_READ'])?? $conf['ENTITY'];
-        return self::callApi('GET', $entity, array(), array(), $asJson, $params);
+        return self::callApi('GET', $entity, array(), array(), $params, $asJson);
     }
 
     public static function readById(array $conf, $id)
@@ -56,7 +56,13 @@ class ApiRestCrudHelper
     //--------------------------------------------------------------
     // PRIVATE
     //--------------------------------------------------------------
-    private static function callApi($method, $entity, array $headers=array(), array $body=array(), $asJson=false, array $params=array())
+    private static function callApi($method,
+                                    $entity,
+                                    array $headers=array(),
+                                    array $body=array(),
+                                    array $params=array(),
+                                    $asJson=false
+                                    )
     {
         // Params ---
         $paramsStr = '';

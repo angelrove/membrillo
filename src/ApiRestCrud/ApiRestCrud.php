@@ -4,10 +4,8 @@ namespace angelrove\membrillo\ApiRestCrud;
 use angelrove\membrillo\ApiRestCrud\ApiRestCrudInterface;
 use angelrove\membrillo\ApiRestCrud\ApiRestCrudHelper;
 
-abstract class ApiRestCrud implements ApiRestCrudInterface
+class ApiRestCrud implements ApiRestCrudInterface
 {
-    abstract protected static function update_parseData(array $data);
-
     public static function read($asJson=false, array $params=array()) {
         return ApiRestCrudHelper::read(static::CONF, $asJson, $params);
     }
@@ -22,12 +20,10 @@ abstract class ApiRestCrud implements ApiRestCrudInterface
     }
 
     public static function create($data) {
-        $data = static::update_parseData($data);
         return ApiRestCrudHelper::create(static::CONF, static::$columns, $data);
     }
 
     public static function update($id, $data) {
-        $data = static::update_parseData($data);
         return ApiRestCrudHelper::update(static::CONF, static::$columns, $id, $data);
     }
 
