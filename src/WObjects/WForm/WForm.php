@@ -324,6 +324,7 @@ class WForm extends EventComponent
                 break;
 
             case 'select_array':
+            case 'select_object':
                 $values = $params[0];
                 $emptyOption = (isset($params[1]) && $params[1])? '-':'';
                 $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required, '', $emptyOption);

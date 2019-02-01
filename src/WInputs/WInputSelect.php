@@ -85,26 +85,34 @@ class WInputSelect
     {
         $strSelect = '';
 
-        foreach ($datos as $id => $nombre) {
+        foreach ($datos as $key => $row)
+        {
+            $id = $key;
+            $nombre = $row;
+
+            // Object type ---
             if ($tipoId == 'AUTO_VALUE') {
-                $id = $nombre;
+                $id = $row;
             }
-            if (is_array($nombre)) {
-                if (isset($nombre['nombre'])) {
-                    $nombre = $nombre['nombre'];
+            if (is_array($row)) {
+                if (isset($row['nombre'])) {
+                    $nombre = $row['nombre'];
+                } else {
+                    $nombre = $row['name'];
                 }
-                else {
-                    $nombre = $nombre['name'];
-                }
+            }
+            if (is_object($row)) {
+                $id     = $row->id;
+                $nombre = $row->name;
             }
 
-            // Selected
+            // Selected ---
             $SELECTED = '';
             if ($id == $id_selected) {
                 $SELECTED = ' SELECTED';
             }
 
-            // optgroup
+            // optgroup ---
             if (isset($listGroup[$id])) {
                 if ($strSelect) {
                     $strSelect .= '</optgroup>';
@@ -119,6 +127,7 @@ class WInputSelect
             }
             $strSelect .= '<option ' . $style . ' value="' . $id . '"' . $SELECTED . '>' . $nombre . '</option>';
         }
+
         if ($listGroup) {
             $strSelect .= '</optgroup>';
         }
