@@ -399,7 +399,13 @@ class WForm extends EventComponent
 
         switch ($type) {
             case 'datetime-local':
-                $value = str_replace(" ", "T", $value);
+            case 'datetime':
+                $type = 'datetime-local';
+                if (is_integer($value)) {
+                    $value = self::timestampToDate($value, 'Y-m-d\TH:i');
+                } else {
+                    $value = str_replace(" ", "T", $value);
+                }
                 break;
         }
 
@@ -411,6 +417,18 @@ class WForm extends EventComponent
                    ' name="'  . $name  . '"'.
                    ' value="' . $value . '"'.
                '>';
+    }
+    //---------------------------------------------------
+    static private function timestampToDate($timestamp, $toFormat='Y-m-d\TH:i', $toTimezone=NULL)
+    {
+        $datetime = new \DateTime();
+        $datetime->setTimestamp($timestamp);
+
+        if ($toTimezone) {
+            $datetime->setTimeZone(new \DateTimeZone($toTimezone));
+        }
+
+        return $datetime->format($toFormat);
     }
     //------------------------------------------------------------------
     // OLD
