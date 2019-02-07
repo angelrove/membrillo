@@ -12,8 +12,18 @@ $(document).ready(function() {
 
         aoColumns: dt_cols,
 
+        // Render ---
         columnDefs: [
             {
+                // relation
+                'render': function ( data, type, row ) {
+                   console.log(data);
+                   return data.name;
+                },
+                'targets': colsRender_relation
+            },
+            {
+                // datetime
                 'render': function ( data, type, row ) {
                    var d = new Date(data*1000);
                    return d.toLocaleString();
@@ -21,6 +31,7 @@ $(document).ready(function() {
                 'targets': colsRender_datetime
             },
             {
+                // bool
                 'render': function ( data, type, row ) {
                     if(data == true) {
                        return '<span style="color:green"><i class="fas fa-check"></i></span>';

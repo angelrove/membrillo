@@ -152,7 +152,7 @@ EOD;
             $href_new = CrudUrl::get(CRUD_EDIT_NEW, $this->id_control);
         }
 
-        // Render types
+        // Render types ---
         $colsRender_datetime = array();
         $colsRender_bool = array();
         foreach ($this->columns as $key => $column) {
@@ -162,15 +162,21 @@ EOD;
             elseif ($column->type == 'boolean') {
                 $colsRender_bool[] = $key;
             }
+            elseif ($column->type == 'relation') {
+                $colsRender_relation[] = $key;
+            }
         }
         $colsRender_datetime = implode(',', $colsRender_datetime);
         $colsRender_bool = implode(',', $colsRender_bool);
+        $colsRender_relation = implode(',', $colsRender_relation);
 
         CssJsLoad::set_script("
  var id_component = '$id_component';
  var dt_cols = $strColumns;
+
  var colsRender_datetime = [$colsRender_datetime];
- var colsRender_bool = [$colsRender_bool];
+ var colsRender_bool     = [$colsRender_bool];
+ var colsRender_relation = [$colsRender_relation];
  var href_new = '$href_new';
 ");
 
