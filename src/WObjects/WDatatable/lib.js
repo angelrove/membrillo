@@ -15,7 +15,7 @@ $(document).ready(function() {
         columnDefs: [
             {
                 'render': function ( data, type, row ) {
-                   var d = new Date(data);
+                   var d = new Date(data*1000);
                    return d.toLocaleString();
                 },
                 'targets': colsRender_datetime
