@@ -70,6 +70,31 @@ class WDatatable
             'title'    => $title,
         );
     }
+    //--------------------------------------------------------------
+    // Searcher
+    //--------------------------------------------------------------
+    public function searcher()
+    {
+        $action = CrudUrl::get(CRUD_LIST_SEARCH, $this->id_control);
+
+        return <<<EOD
+<form class="FormSearch form-inline well well-sm"
+      role="search"
+      name="search_form"
+      method="get"
+      action="$action">
+EOD;
+    }
+    //-------------------------------------------------------
+    public function searcher_bt()
+    {
+        echo '&nbsp;<button type="submit" class="btn btn-primary btn-sm">Search</button>';
+    }
+    //-------------------------------------------------------
+    public function searcher_END()
+    {
+        return '</form>';
+    }
     //-------------------------------------------------------
     // GETS
     //-------------------------------------------------------
