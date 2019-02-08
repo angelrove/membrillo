@@ -121,3 +121,7 @@ body.pagekey_WForm>main>.page-header {
 .WForm .oper_buttons .btn {
     padding: 5px 12px;
 }
+
+input.form-control.type_datetime-local {
+    width: initial;
+}

@@ -419,6 +419,7 @@ class WForm extends EventComponent
                '>';
     }
     //---------------------------------------------------
+    // Input datetime helpers
     static private function timestampToDate($timestamp, $toFormat='Y-m-d\TH:i', $toTimezone=NULL)
     {
         $datetime = new \DateTime();
@@ -429,6 +430,26 @@ class WForm extends EventComponent
         }
 
         return $datetime->format($toFormat);
+    }
+    //---------------------------------------------------
+    static public function dateTimeToTimestamp($dateTime)
+    {
+       $time = false;
+
+       // 2018-01-01T22:02 -------
+       if ($date = \DateTime::createFromFormat('Y-m-d\TH:i', $dateTime)) {
+       }
+       // 2018-01-01T22:02:00 -------
+       elseif ($date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime)) {
+       }
+
+       if ($date) {
+           return $date->getTimestamp();
+       } else {
+           throw new \Exception("WForm::dateTimeToTimestamp(): Error processing date!! [$dateTime]");
+       }
+
+       return $time;
     }
     //------------------------------------------------------------------
     // OLD

@@ -72,7 +72,7 @@ class ApiRestCrudHelper
 
         // Url ---
         $url = self::API_ENVIROMENT.$entity.'?'.$paramsStr;
-        // print_r2($url);
+        // print_r2($url);print_r2($body);exit();
 
         // Header ---
         $headers_def = array(
