@@ -154,7 +154,9 @@ EOD;
 
         // Render types ---
         $colsRender_datetime = array();
-        $colsRender_bool = array();
+        $colsRender_bool     = array();
+        $colsRender_relation = array();
+
         foreach ($this->columns as $key => $column) {
             if ($column->type == 'datetime') {
                 $colsRender_datetime[] = $key;
@@ -166,8 +168,9 @@ EOD;
                 $colsRender_relation[] = $key;
             }
         }
+
         $colsRender_datetime = implode(',', $colsRender_datetime);
-        $colsRender_bool = implode(',', $colsRender_bool);
+        $colsRender_bool     = implode(',', $colsRender_bool);
         $colsRender_relation = implode(',', $colsRender_relation);
 
         CssJsLoad::set_script("
