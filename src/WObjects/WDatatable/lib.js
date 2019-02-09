@@ -1,27 +1,30 @@
+/*
+ * WDatatables
+ *
+ * rendering data: https://datatables.net/reference/option/ajax.dataSrc
+ */
 
 $(document).ready(function() {
 
     // Datatable-------------
     var dataTable = $('#'+id_component).DataTable( {
-        ajax: '/index_ajax.php?service=datatable-read',
-        select: true,
-        dom: 'Bfrtip',
-        buttons: [
-            'print', 'csvHtml5', 'copyHtml5'
-        ],
+        // select: true,
 
+        // Ajax ---
+        ajax: {
+          url: '/index_ajax.php?service=datatable-read',
+          dataSrc: "data"
+        },
+
+        // Option buttons ---
+        dom: 'Bfrtip',
+        buttons: [ 'print', 'csvHtml5', 'copyHtml5' ],
+
+        // Columns ---
         aoColumns: dt_cols,
 
-        // Render ---
+        // Render types ---
         columnDefs: [
-            {
-                // relation
-                'render': function ( data, type, row ) {
-                   console.log(data);
-                   return data.name;
-                },
-                'targets': colsRender_relation
-            },
             {
                 // datetime
                 'render': function ( data, type, row ) {
@@ -29,6 +32,13 @@ $(document).ready(function() {
                    return d.toLocaleString();
                 },
                 'targets': colsRender_datetime
+            },
+            {
+                // relation
+                'render': function ( data, type, row ) {
+                   return data.name;
+                },
+                'targets': colsRender_relation
             },
             {
                 // bool
