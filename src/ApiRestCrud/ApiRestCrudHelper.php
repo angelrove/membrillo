@@ -5,15 +5,20 @@
 
 namespace angelrove\membrillo\ApiRestCrud;
 
-use angelrove\membrillo\ApiRestCrud\ApiRestCrudInterface;
 use angelrove\membrillo\Messages;
 use angelrove\utils\CallApi\CallApi;
 
 class ApiRestCrudHelper
 {
-    private const API_ENVIROMENT = API_ENVIROMENT;
-    private const API_AUTH_TOKEN = API_AUTH_TOKEN;
-    private const API_ACCEPT_LANGUAGE = API_ACCEPT_LANGUAGE;
+    private static $api_enviroment;
+    private static $api_auth_token;
+    private static $api_accept_language;
+
+    public static function __initConf($api_enviroment, $api_auth_token, $api_accept_language) {
+        self::$api_enviroment = $api_enviroment;
+        self::$api_auth_token = $api_auth_token;
+        self::$api_accept_language = $api_accept_language;
+    }
 
     public static function read(array $conf, $asJson=false, $params='')
     {
@@ -71,13 +76,13 @@ class ApiRestCrudHelper
         }
 
         // Url ---
-        $url = self::API_ENVIROMENT.$entity.'?'.$paramsStr;
+        $url = self::$api_enviroment.$entity.'?'.$paramsStr;
         // print_r2($url);print_r2($body);exit();
 
         // Header ---
         $headers_def = array(
-            'x-auth-token'   => self::API_AUTH_TOKEN,
-            'Accept-Language'=> self::API_ACCEPT_LANGUAGE
+            'x-auth-token'   => self::$api_auth_token,
+            'Accept-Language'=> self::$api_accept_language
         );
         $headers = array_merge($headers_def, $headers);
 
@@ -91,7 +96,14 @@ class ApiRestCrudHelper
         }
 
         // Parse result ----
-        return self::parseResult($response, $method);
+        $ret = self::parseResult($response, $method);
+
+        // Output message errors (!ajax) ---
+        if ($ret['result'] == false) {
+            Messages::set($ret['message_format'], 'danger');
+        }
+
+        return $ret;
     }
 
     private static function parseData($data, $columns)
@@ -156,9 +168,6 @@ class ApiRestCrudHelper
         $ret['message_format'] = self::formatMessage(
                                   'Status: '.$result->statusCode.'<br>'.$ret['message']
                                  );
-
-        // Message
-        Messages::set($ret['message_format'], 'danger');
 
         return $ret;
     }

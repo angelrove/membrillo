@@ -6,6 +6,10 @@ use angelrove\membrillo\ApiRestCrud\ApiRestCrudHelper;
 
 class ApiRestCrud implements ApiRestCrudInterface
 {
+    public static function __initConf($api_enviroment, $api_auth_token, $api_accept_language) {
+        ApiRestCrudHelper::__initConf($api_enviroment, $api_auth_token, $api_accept_language);
+    }
+
     public static function read($asJson=false, array $params=array()) {
         return ApiRestCrudHelper::read(static::CONF, $asJson, $params);
     }
