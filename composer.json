@@ -10,12 +10,13 @@
     ],
 
     "repositories": [
-       { "type": "git", "url": "https://github.com/angelrove/utils.git" }
+        { "type": "git", "url": "https://github.com/angelrove/utils.git" }
     ],
 
     "require-dev": {
         "angelrove/utils": "dev-master"
     },
+
     "require": {
     },
 
