@@ -69,9 +69,12 @@ class LoginCtrl
 
        $datos = Db_mysql::getRow($sqlQ);
 
+       // Timezone
+       $timezone_name = timezone_name_from_abbr("", $_REQUEST['timezone_offset']*60, false);
+
        // Login
        if($datos) {
-          new Login($datos['id'], $datos['login'], $datos);
+          new Login($datos['id'], $datos['login'], $datos, $timezone_name);
        }
     }
 

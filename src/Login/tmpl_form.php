@@ -90,18 +90,21 @@ Local::_init();
    <div class="boxCabecera"><?=$CONFIG_APP['data']['TITLE']?> - Login</div>
 
    <form class="cuerpo_form" name="formLogin" method="POST" action="">
-    <?php  foreach($_GET as $name=>$value) { ?>
-       <input type="hidden" name="<?=$name?>" value="<?=$value?>">
-    <?php }?>
+      <input type="hidden" name="timezone_offset">
 
-    <div class="boxErrMsg"><?=$msg?></div>
+      <?php  foreach($_GET as $name=>$value) { ?>
+         <input type="hidden" name="<?=$name?>" value="<?=$value?>">
+      <?php }?>
 
-    <table>
-      <tr><td><?=Local::$t['Username']?> </td><td><input type="text" name="LOGIN_USER"></td></tr>
-      <tr><td><?=Local::$t['Password']?></td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
-      <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="<?=Local::$t['accept']?>"></td></tr>
-    </table>
+      <div class="boxErrMsg"><?=$msg?></div>
+
+      <table>
+        <tr><td><?=Local::$t['Username']?> </td><td><input type="text" name="LOGIN_USER"></td></tr>
+        <tr><td><?=Local::$t['Password']?></td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
+        <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="<?=Local::$t['accept']?>"></td></tr>
+      </table>
    </form>
+
  </td></tr>
  </table>
  <!-- FIN Formulario -->
@@ -112,6 +115,18 @@ Local::_init();
  </td></tr></table>
  <!-- / Pie -->
 
-<script type="text/javascript">document.formLogin.LOGIN_USER.focus();</script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+document.formLogin.LOGIN_USER.focus();
+
+// Timezone ---
+$(document).ready(function() {
+  var timezone_offset_minutes = new Date().getTimezoneOffset();
+  timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
+
+  $("input[name='timezone_offset']").val(timezone_offset_minutes);
+});
+</script>
+
 </body>
 </html>

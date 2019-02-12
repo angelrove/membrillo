@@ -18,6 +18,7 @@ use angelrove\membrillo\WInputs\WInputTextarea;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;
+use angelrove\membrillo\Login\Login;
 
 class WForm extends EventComponent
 {
@@ -402,7 +403,7 @@ class WForm extends EventComponent
             case 'datetime':
                 $type = 'datetime-local';
                 if (is_integer($value)) {
-                    $value = self::timestampToDate($value, 'Y-m-d\TH:i');
+                    $value = self::timestampToDate($value, 'Y-m-d\TH:i', Login::$timezone);
                 } else {
                     $value = str_replace(" ", "T", $value);
                 }
