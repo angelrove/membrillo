@@ -22,7 +22,7 @@
 
     "autoload": {
         "psr-4": {
-          "angelrove\\utils\\": "vendor/angelrove/utils/src/",
+          "angelrove\\utils\\": "vendor/angelrove/utils/src/"
         }
     }
 
