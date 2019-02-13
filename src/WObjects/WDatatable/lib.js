@@ -1,5 +1,5 @@
-/*
- * WDatatables
+/**
+ * WDatatables with https://datatables.net
  *
  * rendering data: https://datatables.net/reference/option/ajax.dataSrc
  */

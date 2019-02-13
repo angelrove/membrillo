@@ -103,7 +103,17 @@ EOD;
         // Columns ---
         $columns = '';
         foreach ($this->columns as $column) {
-            $columns .= "{ data: '".$column->name."', name: '".$column->title."' },\n";
+            $paramsType = "";
+            switch ($column->type) {
+                case 'datetime':
+                    $paramsType = ",width: 100";
+                break;
+                case 'boolean':
+                    $paramsType = ",className: 'text-center'";
+                break;
+            }
+
+            $columns .= "{ data: '".$column->name."', name: '".$column->title."' $paramsType },\n";
         }
 
         // Column options ---
@@ -145,7 +155,7 @@ EOD;
         $id_component = 'datatable_'.$this->id_control;
 
         // Js ------
-        $strColumns = $this->getJsColumns();
+        $dtColumns = $this->getJsColumns();
 
         $href_new = '';
         if ($this->bt_new) {
@@ -174,21 +184,22 @@ EOD;
         $colsRender_relation = implode(',', $colsRender_relation);
 
         CssJsLoad::set_script("
- var id_component = '$id_component';
- var dt_cols = $strColumns;
+  var id_component = '$id_component';
+  var dt_cols = $dtColumns;
 
- var colsRender_datetime = [$colsRender_datetime];
- var colsRender_bool     = [$colsRender_bool];
- var colsRender_relation = [$colsRender_relation];
- var href_new = '$href_new';
+  var colsRender_datetime = [$colsRender_datetime];
+  var colsRender_bool     = [$colsRender_bool];
+  var colsRender_relation = [$colsRender_relation];
+  var href_new = '$href_new';
 ");
 
-        // Html ----
-        $strColumns = '';
+        // Columns head ----
+        $strColumnsHead = '';
         foreach ($this->columns as $column) {
-            $strColumns .= '<th>'.$column->title.'</th>';
+            $strColumnsHead .= '<th>'.$column->title.'</th>';
         }
 
+        // Action ----------
         $action = CrudUrl::get('', $this->id_control);
 
         return <<<EOD
@@ -205,7 +216,7 @@ EOD;
        style="width:100%"
        param_action="$action">
     <thead><tr>
-      $strColumns
+      $strColumnsHead
       <th></th>
     </tr></thead>
 </table>
