@@ -110,6 +110,9 @@ EOD;
                 case 'boolean':
                     $paramsType = ",className: 'text-center'";
                 break;
+                case 'number':
+                    $paramsType = ",className: 'text-right'";
+                break;
             }
 
             $columns .= "{ data: '".$column->name."', name: '".$column->title."' $paramsType },\n";
