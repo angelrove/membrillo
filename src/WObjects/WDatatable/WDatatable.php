@@ -6,7 +6,6 @@
 namespace angelrove\membrillo\WObjects\WDatatable;
 
 use angelrove\membrillo\CrudUrl;
-// use angelrove\membrillo\WApp\Local;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Vendor;
 
@@ -105,13 +104,13 @@ EOD;
             $paramsType = "";
             switch ($column->type) {
                 case 'datetime':
-                    $paramsType = ",width: 100";
+                    $paramsType = ",className:'datetime', width:118";
                 break;
                 case 'boolean':
-                    $paramsType = ",className: 'text-center'";
+                    $paramsType = ",className:'text-center'";
                 break;
-                case 'number':
-                    $paramsType = ",className: 'text-right'";
+                case 'price':
+                    $paramsType = ",className:'price', width:66";
                 break;
             }
 
@@ -209,6 +208,12 @@ EOD;
 .btn-group, .btn-group-vertical { display: block; }
 .dt-buttons a.btn { margin-left: 10px !important; }
 #$id_component td.options { white-space: nowrap; }
+
+table.dataTable td.datetime,
+table.dataTable td.price {
+    text-align: right;
+    font-family: monospace;
+}
 </style>
 
 <table id="$id_component"
