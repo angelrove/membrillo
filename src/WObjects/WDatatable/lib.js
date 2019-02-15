@@ -12,7 +12,7 @@ $(document).ready(function() {
 
         // Ajax ---
         ajax: {
-          url: '/index_ajax.php?service=datatable-read',
+          url: '/index_ajax.php?service='+id_component,
           dataSrc: "data"
         },
 

@@ -33,7 +33,6 @@ class WDatatable
     public function __construct($id_control, array $columns)
     {
         Vendor::usef('datatables');
-        CssJsLoad::set(__DIR__ . '/styles.css');
         CssJsLoad::set(__DIR__ . '/lib.js');
 
         $this->id_control = $id_control;
@@ -62,7 +61,7 @@ class WDatatable
         $this->defaultOrder = $defaultOrder;
     }
     //-------------------------------------------------------
-    public function setRowOption($event, $title = '')
+    public function rowOption($event, $title = '')
     {
         $this->rowOptions[$event] = array(
             'event'    => $event,
@@ -204,9 +203,9 @@ EOD;
 
         return <<<EOD
 <style>
-#$id_component td.options {
-    white-space: nowrap;
-}
+.btn-group, .btn-group-vertical { display: block; }
+.dt-buttons a.btn { margin-left: 10px !important; }
+#$id_component td.options { white-space: nowrap; }
 </style>
 
 <table id="$id_component"
