@@ -106,11 +106,11 @@ EOD;
                 case 'datetime':
                     $paramsType = ",className:'datetime', width:118";
                 break;
-                case 'boolean':
-                    $paramsType = ",className:'text-center'";
-                break;
                 case 'price':
                     $paramsType = ",className:'price', width:66";
+                break;
+                case 'boolean':
+                    $paramsType = ",className:'text-center'";
                 break;
             }
 
