@@ -1,11 +1,10 @@
 <?php
 use angelrove\utils\CallApi\CallApi;
 
-$URL_API = '/v3/public/posts?type=plan&search=';
-
 // Call API --------------
-$url_api = API_ENVIROMENT.$URL_API.$_GET['q'];
-$response = CallApi::call('GET', $url_api, array());
+$URL_API = '/v3/public/posts?type=plan&search=';
+$URL_API = API_ENVIROMENT.$URL_API.$_GET['q'];
+$response = CallApi::call('GET', $URL_API, array());
 
 // Parse data ------------
 $result = array();
