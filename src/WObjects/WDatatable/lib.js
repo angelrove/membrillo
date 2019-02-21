@@ -5,6 +5,97 @@
  *
  */
 
+$(document).ready(function() {
+
+    // Datatable-------------
+    var dataTable = $('#'+id_component).DataTable( {
+        // serverSide: true,
+        // select: true,
+        // processing: true,
+
+        ajax: {
+          url: '/index_ajax.php?service='+id_component,
+          dataSrc: 'data'
+        },
+
+        // Option buttons ---
+        dom: 'Bfrtip',
+        buttons: [ 'print', 'csvHtml5', 'copyHtml5' ],
+
+        // Columns ---
+        aoColumns: dt_cols,
+
+        // Render types ---
+        columnDefs: [
+            {
+                // relation
+                'render': function ( data, type, row ) {
+                   return data.name;
+                },
+                'targets': colsRender_relation
+            },
+            {
+                // render
+                'render': function ( data, type, row ) {
+                   return dt_render(data, type, row);
+                },
+                'targets': colsRender_render
+            },
+            {
+                // datetime
+                'render': function ( data, type, row ) {
+                   var d = new Date(data*1000);
+                   return d.toLocaleString();
+                },
+                'targets': colsRender_datetime
+            },
+            {
+                // bool
+                'render': function ( data, type, row ) {
+                    if(data == true) {
+                       return '<span style="color:green"><i class="fas fa-check"></i></span>';
+                    } else {
+                       return '';
+                    }
+                },
+                'targets': colsRender_bool
+            }
+        ]
+
+    });
+
+    // Option: New -----
+    if(href_new) {
+        $(".dt-buttons").append(
+            '<a href="" onclick="location.href=href_new;return false;" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'
+        );
+    }
+
+    // Options events -------
+    dataTable.on( 'click', 'button', function () {
+        var event = $(this).attr('param_event');
+        var data = dataTable.row( $(this).parents('tr') ).data();
+        var id = data.id;
+
+        list_onEvent(id_component, id, event, event, '');
+    } );
+
+    // Row event handlers ------
+    dataTable.on( 'click', 'tr', function () {
+        // var row_num = parseInt( $(this).index() );
+        console.log( dataTable.row( this ).data().id );
+
+        // if ( $(this).hasClass('selected') ) {
+        //     $(this).removeClass('selected');
+        // }
+        // else {
+        //     table.$('tr.selected').removeClass('selected');
+        //     $(this).addClass('selected');
+        // }
+    } );
+
+});
+
 //----------------------------------------------------------------
 function WDatatable_onUpdate(id_component, id) {
     list_onEvent(id_component, id, CRUD_EDIT_UPDATE, '', '');
