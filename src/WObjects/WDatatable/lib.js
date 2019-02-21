@@ -2,15 +2,17 @@
  * WDatatables with https://datatables.net
  *
  * rendering data: https://datatables.net/reference/option/ajax.dataSrc
+ *
  */
 
 $(document).ready(function() {
 
     // Datatable-------------
     var dataTable = $('#'+id_component).DataTable( {
+        // serverSide: true,
         // select: true,
+        processing: true,
 
-        // Ajax ---
         ajax: {
           url: '/index_ajax.php?service='+id_component,
           dataSrc: "data"
@@ -55,7 +57,7 @@ $(document).ready(function() {
 
     });
 
-    // Option: Edit New -----
+    // Option: New -----
     if(href_new) {
         $(".dt-buttons").append(
             '<a href="" onclick="location.href=href_new;return false;" class="btn btn-success"><i class="fa fa-plus"></i> New</a>'

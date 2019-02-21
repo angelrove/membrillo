@@ -104,7 +104,7 @@ EOD;
             $paramsType = "";
             switch ($column->type) {
                 case 'datetime':
-                    $paramsType = ",className:'datetime', width:118";
+                    $paramsType = ",className:'datetime', width:108";
                 break;
                 case 'price':
                     $paramsType = ",className:'price', width:66";
@@ -143,6 +143,7 @@ EOD;
                 searchable: false,
                 targets: -1,
                 className: 'options',
+                width: 108,
                 defaultContent: \"$listButtons\",
             } \n";
         }
@@ -207,7 +208,10 @@ EOD;
 <style>
 .btn-group, .btn-group-vertical { display: block; }
 .dt-buttons a.btn { margin-left: 10px !important; }
-#$id_component td.options { white-space: nowrap; }
+#$id_component td.options,
+#$id_component td.datetime {
+    white-space: nowrap;
+}
 
 table.dataTable td.datetime,
 table.dataTable td.price {
@@ -217,9 +221,9 @@ table.dataTable td.price {
 </style>
 
 <table id="$id_component"
+       class="table table-striped table-bordered table-hover"
        data-order='[[ 0, "desc" ]]'
        data-page-length="20"
-       class="table table-striped table-bordered table-hover"
        style="width:100%"
        param_action="$action">
     <thead><tr>
