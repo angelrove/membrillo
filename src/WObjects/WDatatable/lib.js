@@ -1,13 +1,11 @@
 /**
  * WDatatables with https://datatables.net
- *
- * rendering data: https://datatables.net/reference/option/ajax.dataSrc
+ * José Angel Romero <jangel.romero@gmail.com>
  *
  */
 
 $(document).ready(function() {
 
-    // Datatable-------------
     var dataTable = $('#'+id_component).DataTable( {
         // serverSide: true,
         // select: true,
