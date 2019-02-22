@@ -42,6 +42,13 @@ $(document).ready(function() {
                 'targets': colsRender_render
             },
             {
+                // render options
+                'render': function ( data, type, row ) {
+                   return dt_render_options(data, type, row);
+                },
+                'targets': colsRender_render_options
+            },
+            {
                 // datetime
                 'render': function ( data, type, row ) {
                    var d = new Date(data*1000);
@@ -89,7 +96,7 @@ $(document).ready(function() {
         //     $(this).removeClass('selected');
         // }
         // else {
-        //     table.$('tr.selected').removeClass('selected');
+        //     dataTable.$('tr.selected').removeClass('selected');
         //     $(this).addClass('selected');
         // }
     } );

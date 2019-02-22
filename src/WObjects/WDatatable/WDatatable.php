@@ -19,6 +19,7 @@ class WDatatable
     private $bt_delete = false;
 
     private $rowOptions = array();
+    private $renderOptions = false;
 
     // Events
     private $event_new    = '';
@@ -62,15 +63,16 @@ class WDatatable
     //-------------------------------------------------------
     public function rowOption($event, $title = '')
     {
-        $this->rowOptions[$event] = array(
+        $this->rowOptions[] = array(
             'event'    => $event,
             'oper'     => $event,
             'title'    => $title,
         );
     }
     //-------------------------------------------------------
-    public function addColumn($column)
+    public function renderOptions()
     {
+        $this->renderOptions = true;
     }
     //--------------------------------------------------------------
     // Searcher
@@ -120,42 +122,42 @@ EOD;
                     $paramsType = ",className:'render'";
                 break;
             }
-            $columns .= "{ data: '".$column->name."' $paramsType },\n";
+
+            $columns .= " { data: '".$column->name."' $paramsType },\n";
         }
 
-        // Column options ---
-        $strOptions = '';
+        // Options column ---
+        $columns .= " { data: null, orderable:false, searchable:false, targets: -1, className:'options', width:108, defaultContent: btOptions }, \n";
+
+        // OUT ----
+        return "[\n$columns]";
+    }
+    //-------------------------------------------------------
+    private function getOptionsBt()
+    {
         $btOptions = array();
 
         // edit
         if ($this->bt_update) {
             $btOptions[] = "<button param_event='$this->event_update' class='btn btn-xs btn-default'><i class='far fa-edit fa-lg'></i></button>";
         }
+
         // delete
         if ($this->bt_delete) {
             $btOptions[] = "<button param_event='delete' class='btn btn-xs btn-danger'><i class='far fa-trash-alt fa-lg'></i></button>";
         }
+
         // User options
-        foreach ($this->rowOptions as $event => $data) {
-            $btOptions[] = "<button param_event='$event' class='btn btn-xs btn-primary'>$data[title]</button>";
+        foreach ($this->rowOptions as $data) {
+            $btOptions[] = "<button param_event='$data[event]' class='btn btn-xs btn-primary'>$data[title]</button>";
         }
 
+        $listButtons = '';
         if ($btOptions) {
             $listButtons = implode('&nbsp;&nbsp;', $btOptions);
-
-            $strOptions = "{
-                data: null,
-                orderable:  false,
-                searchable: false,
-                targets: -1,
-                className: 'options',
-                width: 108,
-                defaultContent: \"$listButtons\",
-            } \n";
         }
 
-        // OUT ----
-        return "[\n$columns $strOptions]";
+        return $listButtons;
     }
     //-------------------------------------------------------
     public function get()
@@ -164,6 +166,8 @@ EOD;
 
         // Js ------
         $dtColumns = $this->getJsColumns();
+
+        $btOptions = $this->getOptionsBt();
 
         $href_new = '';
         if ($this->bt_new) {
@@ -175,6 +179,7 @@ EOD;
         $colsRender_bool     = array();
         $colsRender_relation = array();
         $colsRender_render   = array();
+        $colsRender_render_options = ($this->renderOptions)? '-1' : '';
 
         foreach ($this->columns as $key => $column) {
             if ($column->type == 'datetime') {
@@ -200,12 +205,15 @@ EOD;
         CssJsLoad::set_script(
 <<<EOD
 var id_component = '$id_component';
+
+var btOptions = "$btOptions";
 var dt_cols = $dtColumns;
 
 var colsRender_datetime = [$colsRender_datetime];
 var colsRender_bool     = [$colsRender_bool];
 var colsRender_relation = [$colsRender_relation];
 var colsRender_render   = [$colsRender_render];
+var colsRender_render_options = [$colsRender_render_options];
 
 var href_new = '$href_new';
 EOD
