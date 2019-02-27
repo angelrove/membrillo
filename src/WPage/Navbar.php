@@ -26,7 +26,9 @@ class Navbar
         // Right items ---
         $str_close = '';
         if (Login::$login) {
-            $str_close = '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.Login::$login.' <i class="fas fa-sign-out-alt fa-lg"></i></a>';
+            $str_close = '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
+                            Login::$INFO['name'].' <i class="fas fa-sign-out-alt fa-lg"></i>'.
+                         '</a>';
         }
 
         // Lang ---

@@ -115,6 +115,7 @@ class AppCms extends Application
         Vendor::usef('font-awesome');
         Vendor::usef('material-icons');
         Vendor::usef('lightbox');
+        Vendor::usef('datatables');
 
         //----------------------------------------------------
         /* Parse event */
