@@ -56,18 +56,19 @@ class LoginCtrl
     if(isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER'])
     {
        // Query
-       $sqlQ = '';
+       $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
+       $sqlQ = "SELECT * FROM $login_table
+                WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
 
        if(isset(self::$iLoginQuery)) {
           $sqlQ = self::$iLoginQuery->get($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD']);
        }
 
-       if(!$sqlQ) {
-          $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
-          $sqlQ = "SELECT * FROM $login_table WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
+       if(is_array($sqlQ)) {
+          $datos = $sqlQ;
+       } else {
+          $datos = Db_mysql::getRow($sqlQ);
        }
-
-       $datos = Db_mysql::getRow($sqlQ);
 
        // Timezone
        $timezone_name = timezone_name_from_abbr("", $_REQUEST['timezone_offset']*60, false);
