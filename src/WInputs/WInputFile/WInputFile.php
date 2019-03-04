@@ -270,14 +270,15 @@ EOD;
 
         /* Datos file */
         $datosFile = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
-        // print_r2($datosFile);
+        // print_r2($datosFile); exit();
 
-        $dir = ($datosFile['dir']) ? '/' . $datosFile['dir'] : '';
-        $datosFile['ruta_completa'] = $CONFIG_APP['url_uploads'] . $dir . '/' . $datosFile['name'];
+        // $dir = ($datosFile['dir']) ? '/' . $datosFile['dir'] : '';
+        // $datosFile['ruta_completa'] = $CONFIG_APP['url_uploads'] . $dir . '/' . $datosFile['name'];
 
         if (!$datosFile['nameUser']) {
             $datosFile['nameUser'] = $datosFile['name'];
         }
+        // print_r2($datosFile); exit();
 
         /* Out */
         // View -------
