@@ -65,7 +65,7 @@ class WInputFile_upload
             $traza = $trazas . ' >> delete: "' . $file_path . '/' . $fileToDelete . '"';
             DebugTrace::out('WInputFile', $traza);
 
-            unlink($file_path . '/' . $fileToDelete);
+            @unlink($file_path . '/' . $fileToDelete);
             @unlink($file_path . '/' . 'th_' . $fileToDelete); // intenta eliminar un posible thumbnail
 
             if (!$fileNew) {

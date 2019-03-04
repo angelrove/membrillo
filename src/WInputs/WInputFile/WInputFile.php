@@ -222,6 +222,10 @@ EOD;
     // A partir de la extensión
     private function get_typeFile($file)
     {
+        if (substr($file, 0, 4) == 'http') {
+            return 'IMAGE_LINK';
+        }
+
         $ext = substr($file, -4, 4);
         //echo "file='$file'; ext=".$ext."<br />";
 
@@ -270,15 +274,9 @@ EOD;
 
         /* Datos file */
         $datosFile = FileUploaded::getInfo($this->fileDatos, $seccCtrl->UPLOADS_DIR_DEFAULT);
-        // print_r2($datosFile); exit();
-
-        // $dir = ($datosFile['dir']) ? '/' . $datosFile['dir'] : '';
-        // $datosFile['ruta_completa'] = $CONFIG_APP['url_uploads'] . $dir . '/' . $datosFile['name'];
-
         if (!$datosFile['nameUser']) {
             $datosFile['nameUser'] = $datosFile['name'];
         }
-        // print_r2($datosFile); exit();
 
         /* Out */
         // View -------
@@ -288,6 +286,8 @@ EOD;
         $linkView = '';
         if ($fileProp_TYPE == 'IMAGE') {
             $linkView = '<div class="view_image">' . FileUploaded::getHtmlImg($datosFile, 'lightbox', '', '', true) . '</div>';
+        } elseif($fileProp_TYPE == 'IMAGE_LINK') {
+            $linkView = '<div class="view_image">' . FileUploaded::getHtmlImg($datosFile, 'lightbox', '', '', true) . '</div>';
         } elseif ($datosFile['mime'] == 'application/pdf' || $datosFile['mime'] == 'text/plain') {
             // Open: "pdf" and "txt" ---
             $linkView = '<a class="img-thumbnail" href="' . $fileProp_URL . '" target="_blank">' .
@@ -296,7 +296,7 @@ EOD;
         } elseif (!$datosFile['mime']) {
             // Open: if not a MIME Type ---
             $linkView = '<a class="img-thumbnail" href="' . $fileProp_URL . '" target="_blank">' .
-                '<i class="fas fa-file-text fa-4x" aria-hidden="true"></i>' .
+                '<i class="fas fa-file-alt fa-4x"></i>' .
                 '</a>';
         }
 
