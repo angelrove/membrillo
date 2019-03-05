@@ -5,15 +5,16 @@
  */
 
 namespace angelrove\membrillo\WApp;
+
 use angelrove\membrillo\WApp\Session;
 use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\utils\CssJsLoad;
 
 class Local
 {
-    private static $cookieName = 'cmsLang';
-
     public static $t = array();
+
+    private static $cookieName = 'cmsLang';
     private static $acceptLang = ['es', 'en'];
 
     //------------------------------------------------------

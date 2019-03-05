@@ -41,6 +41,10 @@ class AppCmsAjax extends Application
         $this->system_services();
 
         //----------------------------------------------------//
+        /* Load on init */
+        require DOCUMENT_ROOT . '/app/onInitPage.inc';
+
+        //----------------------------------------------------//
         /* User Service */
         $secc_dir = '';
         if (isset($_REQUEST['secc']) && $_REQUEST['secc']) {
