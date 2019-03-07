@@ -101,7 +101,6 @@ Local::_init();
       <table>
         <tr><td><?=Local::$t['Username']?> </td><td><input type="text" name="LOGIN_USER"></td></tr>
         <tr><td><?=Local::$t['Password']?></td><td><input type="password" name="LOGIN_PASSWD"></td></tr>
-        <tr><td colspan="2"><a href="https://hobbiespot.com/us/register/fb/auth">Facebook</a></td></tr>
         <tr><td colspan="2" align="right"><input class="bt_form" type="submit" value="<?=Local::$t['accept']?>"></td></tr>
       </table>
    </form>

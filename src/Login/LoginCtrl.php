@@ -94,7 +94,7 @@ class LoginCtrl
        }
        else {
           $template = 'tmpl_form.php';
-          $msg = (isset($_REQUEST['LOGIN_USER']))? 'Usuario no válido.' : '';
+          $msg = (isset($_REQUEST['LOGIN_USER']))? 'Username or password is incorrect' : '';
           include($template);
        }
 
