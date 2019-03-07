@@ -94,6 +94,10 @@ class LoginCtrl
        }
        else {
           $template = 'tmpl_form.php';
+          if($CONFIG_APP['login']['LOGIN_VIEW']) {
+              $template = $CONFIG_APP['login']['LOGIN_VIEW'];
+          }
+
           $msg = (isset($_REQUEST['LOGIN_USER']))? 'Username or password is incorrect' : '';
           include($template);
        }
