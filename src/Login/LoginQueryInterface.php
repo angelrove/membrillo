@@ -8,5 +8,5 @@ namespace angelrove\membrillo\Login;
 
 interface LoginQueryInterface
 {
-   public function get($user, $passwd);
+   public function get($user, $passwd, $params);
 }

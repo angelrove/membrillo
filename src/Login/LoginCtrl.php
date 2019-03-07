@@ -52,34 +52,39 @@ class LoginCtrl
   {
     global $CONFIG_APP;
 
-    // Login --------------
+    // Authenticate --------------
+    $userData = array();
+
     if(isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER'])
     {
-       // Query
-       $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
-       $sqlQ = "SELECT * FROM $login_table
-                WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
-
+       // User query
+       $sqlQ = '';
        if(isset(self::$iLoginQuery)) {
-          $sqlQ = self::$iLoginQuery->get($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD']);
+          $sqlQ = self::$iLoginQuery->get($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD'], $_REQUEST);
+       }
+       // Default query
+       else {
+          $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
+          $sqlQ = "SELECT * FROM $login_table
+                   WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
        }
 
        if(is_array($sqlQ)) {
-          $datos = $sqlQ;
+          $userData = $sqlQ;
        } else {
-          $datos = Db_mysql::getRow($sqlQ);
+          $userData = Db_mysql::getRow($sqlQ);
        }
 
        // Timezone
        $timezone_name = timezone_name_from_abbr("", $_REQUEST['timezone_offset']*60, false);
 
        // Login
-       if($datos) {
-          new Login($datos['id'], $datos['login'], $datos, $timezone_name);
+       if(isset($userData['id'])) {
+           new Login($userData['id'], $userData['login'], $userData, $timezone_name);
        }
     }
 
-    // Authenticate form -------
+    // Authenticate form view -------
     if(!Login::$user_id)
     {
        global $CONFIG_APP;
