@@ -115,17 +115,8 @@ Local::_init();
  </td></tr></table>
  <!-- / Pie -->
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 document.formLogin.LOGIN_USER.focus();
-
-// Timezone ---
-$(document).ready(function() {
-  var timezone_offset_minutes = new Date().getTimezoneOffset();
-  timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
-
-  $("input[name='timezone_offset']").val(timezone_offset_minutes);
-});
 </script>
 
 </body>

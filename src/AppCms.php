@@ -152,6 +152,21 @@ class AppCms extends Application
 
                 exit();
                 break;
+
+            case 'timezone':
+                if (isset($_GET['tofm'])) {
+                   \angelrove\membrillo\Login\Login::set_timezone(timezone_name_from_abbr("", $_GET['tofm']*60, false));
+                }
+                else {
+                   echo
+  "<script>
+  var timezone_offset_minutes = new Date().getTimezoneOffset();
+  timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
+  location.href='/?APP_EVENT=timezone&tofm='+timezone_offset_minutes;
+  </script> "; exit();
+                }
+
+                break;
         }
     }
     //-----------------------------------------------------------------

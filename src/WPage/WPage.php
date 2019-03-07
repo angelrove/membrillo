@@ -60,6 +60,7 @@ class WPage
         var CRUD_OPER_UPDATE = '<?=CRUD_OPER_UPDATE?>';
         var CRUD_OPER_DELETE = '<?=CRUD_OPER_DELETE?>';
 
+        var timezone  = '<?=Login::$timezone?>';
         var main_secc = "<?=$_GET['secc']?>";
         </script>
       </head>

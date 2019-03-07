@@ -37,8 +37,7 @@ class LoginCtrl
     // Set login
     if($isAjax == true) {
        die('Restricted area.');
-    }
-    else {
+    } else {
        self::initPage();
     }
   }
@@ -75,34 +74,28 @@ class LoginCtrl
           $userData = Db_mysql::getRow($sqlQ);
        }
 
-       // Timezone
-       $timezone_name = timezone_name_from_abbr("", $_REQUEST['timezone_offset']*60, false);
-
-       // Login
+       // Login ok
        if(isset($userData['id'])) {
-           new Login($userData['id'], $userData['login'], $userData, $timezone_name);
+           new Login($userData['id'], $userData['login'], $userData);
+           header("Location: /?APP_EVENT=timezone"); exit();
        }
+
     }
 
     // Authenticate form view -------
     if(!Login::$user_id)
     {
-       global $CONFIG_APP;
+        global $CONFIG_APP;
 
-       if($CONFIG_APP['login']['LOGIN_URL']) {
-          header("Location:".$CONFIG_APP['login']['LOGIN_URL']."?msg=ko");
-       }
-       else {
-          $template = 'tmpl_form.php';
-          if($CONFIG_APP['login']['LOGIN_VIEW']) {
-              $template = $CONFIG_APP['login']['LOGIN_VIEW'];
-          }
+        $msg = (isset($_REQUEST['LOGIN_USER']))? 'Username or password is incorrect' : '';
 
-          $msg = (isset($_REQUEST['LOGIN_USER']))? 'Username or password is incorrect' : '';
-          include($template);
-       }
+        if($CONFIG_APP['login']['LOGIN_VIEW']) {
+            include $CONFIG_APP['login']['LOGIN_VIEW'];
+        } else {
+            include 'tmpl_form.php';
+        }
 
-       exit();
+        exit();
     }
   }
   //-----------------------------------------------------------------
