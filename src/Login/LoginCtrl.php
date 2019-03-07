@@ -55,7 +55,7 @@ class LoginCtrl
     // Authenticate --------------
     $userData = array();
 
-    if(isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER'])
+    if( (isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER']) || isset($_REQUEST['auth_token']) )
     {
        // User query
        $sqlQ = '';
