@@ -304,9 +304,12 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     public function getInput($name, $title='', $required=false, $type='text', array $params=array())
     {
-        if (!$title) {
+        if ($title === false) {
+
+        } elseif ($title == '') {
             $title = $name;
         }
+
         if (!$type) {
             $type = 'text';
         }
@@ -380,6 +383,9 @@ class WForm extends EventComponent
                 break;
         }
 
+        if ($title === false) {
+            return $htmInput;
+        }
         return $this->getField($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
