@@ -39,7 +39,7 @@ class Navbar
 
         $title = $CONFIG_APP['data']['TITLE'];
         if ($CONFIG_APP['data']['TITLE_IMG']) {
-            $title = '<img src="'.$CONFIG_APP['data']['TITLE_IMG'].'">';
+            $title = '<img class="img-responsive" src="'.$CONFIG_APP['data']['TITLE_IMG'].'">';
         }
 
         echo self::tmpl_navbar($set_inverse, $title, $buttons, $strRight);
