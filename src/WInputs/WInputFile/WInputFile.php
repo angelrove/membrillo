@@ -308,7 +308,7 @@ EOD;
 
         // Download ---
         $linkDownload =
-           '<a class="btn btn-default btn-sm" href="' . $fileProp_URL . '" download>' .
+           '<a class="btn btn-default btn-sm" href="' . $fileProp_URL . '" target="_blank" download>' .
               '<i class="fas fa-download fa-2x" aria-hidden="true"></i>' .
            '</a>';
 
