@@ -164,11 +164,6 @@ class WForm extends EventComponent
         );
     }
     //------------------------------------------------------------------
-    public function setListenerOnSubmit($onSubmit)
-    {
-        $this->onSubmit = $onSubmit . '()';
-    }
-    //------------------------------------------------------------------
     public function set_title($title)
     {
         $this->title = $title;
