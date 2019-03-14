@@ -18,6 +18,7 @@ $action = CrudUrl::get('', $this->id_object);
          method  ="POST"
          action  ="<?=$action?>">
 
+   <input type="hidden" id="ACTION" name="ACTION" value="<?=$action?>">
    <input type="hidden" id="EVENT"  name="EVENT"  value="<?=$event?>">
    <input type="hidden" id="ROW_ID" name="ROW_ID" value="<?=$row_id?>">
    <input type="hidden" id="OPER"   name="OPER"   value="<?=$oper?>">

@@ -312,20 +312,35 @@ class WForm extends EventComponent
         switch ($type) {
             case 'select':
                 $dbTable = $params[0];
-                $emptyOption = (isset($params[1]) && $params[1])? '-':'';
+
+                $emptyOption = '';
+                if (isset($params[1]) && $params[1]) {
+                    $emptyOption = ($params[1] === true)? '-' : $params[1];
+                }
+
                 $htmInput = WInputSelect::get2($dbTable, $this->datos[$name], $name, $required, $emptyOption);
                 break;
 
             case 'select_query':
                 $sqlQ = $params[0];
-                $emptyOption = (isset($params[1]) && $params[1])? '-':'';
+
+                $emptyOption = '';
+                if (isset($params[1]) && $params[1]) {
+                    $emptyOption = ($params[1] === true)? '-' : $params[1];
+                }
+
                 $htmInput = WInputSelect::get($sqlQ, $this->datos[$name], $name, $required, $emptyOption);
                 break;
 
             case 'select_array':
             case 'select_object':
                 $values = $params[0];
-                $emptyOption = (isset($params[1]) && $params[1])? '-':'';
+
+                $emptyOption = '';
+                if (isset($params[1]) && $params[1]) {
+                    $emptyOption = ($params[1] === true)? '-' : $params[1];
+                }
+
                 $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required, '', $emptyOption);
                 break;
 

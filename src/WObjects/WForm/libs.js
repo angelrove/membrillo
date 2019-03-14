@@ -36,7 +36,7 @@ $(document).ready(function()
          param_row_id = '/'+formEdit.ROW_ID.value;
       }
 
-      formEdit.action = formEdit.action+formEdit.EVENT.value+param_row_id+'/';
+      formEdit.action = formEdit.ACTION.value+formEdit.EVENT.value+param_row_id+'/';
       // alert("action: "+formEdit.action);
     });
 
