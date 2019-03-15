@@ -15,14 +15,14 @@ class Frame
     public static function get($title = '', $showClose = false, $linkClose = '')
     {
         if (!$linkClose) {
-            $linkClose = \angelrove\membrillo\CrudUrl::get_nocrud();
+            $linkClose = '"/"+main_secc';
         }
 
         CssJsLoad::set_script('
    $(document).ready(function() {
      //-----------------
      $(".WFrame>.panel-heading>button.close").click(function() {
-        window.location = "' . $linkClose . '";
+        window.location = ' . $linkClose . ';
      });
      //-----------------
    });
@@ -32,7 +32,7 @@ class Frame
      var WFrame_showClose = ' . ($showClose ? "true" : "false") . ';
 
      if(WFrame_showClose == true && e.keyCode == 27) {
-        window.location = "' . $linkClose . '";
+        window.location = ' . $linkClose . ';
      }
      //-----------------
    });

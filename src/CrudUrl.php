@@ -39,10 +39,4 @@ class CrudUrl
         return '/' . $_GET['secc'] . '/crd/' . $control . $crd_event . $crd_id . '/' . $params;
     }
     //-------------------------------------------------------------
-    public static function get_nocrud($params = '')
-    {
-        $params = ($params) ? '/?' . $params : '/';
-        return '/' . $_GET['secc'] . $params;
-    }
-    //-------------------------------------------------------------
 }
