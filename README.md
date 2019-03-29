@@ -1,2 +1,2 @@
 # membrillo
-My little and prettty framework
+My little and pretty framework
