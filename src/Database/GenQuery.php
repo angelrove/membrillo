@@ -393,6 +393,19 @@ class GenQuery
     //------------------------------------------------------------------
     // DELETE
     //------------------------------------------------------------------
+    public static function softDelete($DB_TABLE)
+    {
+        $sqlQ = "UPDATE " . $DB_TABLE . " SET deleted_at=NOW() WHERE id='" . Event::$ROW_ID . "'";
+        Db_mysql::query($sqlQ);
+        self::$executed_queries[] = $sqlQ;
+
+        self::log_updates($sqlQ); // Log
+
+        DebugTrace::out('GenQuery::softDelete()', $sqlQ);
+
+        return Event::$ROW_ID;
+    }
+    //-----------
     /* Delete row and uploaded files */
     public static function delete($DB_TABLE)
     {

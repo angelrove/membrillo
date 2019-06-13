@@ -13,6 +13,7 @@ class WListColumn
     public $size;
     public $align;
     public $order;
+    public $class;
     public $onClick;
     public $preventDefault;
 
@@ -33,6 +34,11 @@ class WListColumn
     public function setOrder($field = '')
     {
         $this->order = (!$field) ? $this->name : $field;
+    }
+    //-------------------------------------------------------
+    public function setClass()
+    {
+        $this->class = $this->name;
     }
     //-------------------------------------------------------
     public function setOnClick()

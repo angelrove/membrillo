@@ -89,7 +89,8 @@ class Magic extends Application
         $sqlTable = "
           CREATE TABLE IF NOT EXISTS `$name_secc` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-              `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              `deleted_at` TIMESTAMP,
               `name` varchar(250) NOT NULL,
               PRIMARY KEY (`id`)
             ) DEFAULT CHARSET=utf8;";

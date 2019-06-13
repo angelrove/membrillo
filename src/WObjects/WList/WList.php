@@ -592,7 +592,7 @@ EOD;
             $style = ' style="' . $style_align . $f_bgColor . '"';
         }
 
-        return '<td class="'.$f_onClick.$class_prevDef.'"' . $style . '>' . nl2br($f_valueCampo) . '</td>';
+        return '<td class="'.$f_onClick.$class_prevDef.' '.$dbField->class.'"' . $style . '>' . nl2br($f_valueCampo) . '</td>';
     }
     //-------------------------------------------------------
     // Buttons

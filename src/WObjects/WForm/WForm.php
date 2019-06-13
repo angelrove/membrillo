@@ -28,6 +28,7 @@ class WForm extends EventComponent
 
     private $onSubmit;
     private $readOnly = false;
+    private $eventDefault = false;
 
     // Buttons
     private $bt_ok     = true;
@@ -157,6 +158,11 @@ class WForm extends EventComponent
             $row_id = $this->WEvent->ROW_ID;
         }
 
+        if ($this->eventDefault) {
+            $event  = $this->eventDefault;
+            $oper   = $this->eventDefault;
+        }
+
         return array(
             'event'  => $event,
             'oper'   => $oper,
@@ -167,6 +173,11 @@ class WForm extends EventComponent
     public function set_title($title)
     {
         $this->title = $title;
+    }
+    //------------------------------------------------------------------
+    public function set_eventDefault($event)
+    {
+        $this->eventDefault = $event;
     }
     //------------------------------------------------------------------
     public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del = false)
@@ -297,6 +308,10 @@ class WForm extends EventComponent
         ';
     }
     //------------------------------------------------------------------
+    /*
+     * $type: select, select_query, select_array, select_object,
+     *        checkbox, textarea, text_read, hidden, number, url
+     */
     public function getInput($name, $title='', $required=false, $type='text', array $params=array())
     {
         if ($title === false) {

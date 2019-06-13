@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * ModelHelper
  */
 
 namespace angelrove\membrillo\Database;
@@ -20,6 +20,10 @@ class ModelHelper
 
     public static function read($TABLE, array $filters=array(), $strict=false)
     {
+        if (!isset($filters['deleted_at'])) {
+            $filters['deleted_at'] = 'NULL';
+        }
+
         $sqlFiltros = self::getSqlFiltros($filters, $strict);
 
         return GenQuery::select($TABLE).$sqlFiltros;
@@ -79,11 +83,19 @@ class ModelHelper
         return GenQuery::delete($TABLE);
     }
     //--------------------------------------------
+    public static function softDelete($TABLE)
+    {
+        return GenQuery::softDelete($TABLE);
+    }
+    //--------------------------------------------
     public static function getSqlFiltros(array $filters, $strict=false)
     {
         $listWhere = array();
         foreach ($filters as $column => $filtro) {
-            if ($strict == true) {
+            if ($filtro == 'NULL' || $filtro == 'NOT NULL') {
+                $listWhere[] = " $column IS $filtro";
+            }
+            elseif ($strict == true) {
                 $listWhere[] = " $column = '$filtro'";
             } else {
                 $listWhere[] = " $column LIKE '%$filtro%'";

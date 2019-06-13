@@ -4,11 +4,8 @@ namespace App\Models;
 use angelrove\membrillo\Database\ModelInterface;
 use angelrove\membrillo\Database\ModelHelper;
 
-class [name_model] implements ModelInterface
+class ModelAbstract implements ModelInterface
 {
-    public static $TABLE = '[name_table]';
-    // public static $SOFT_DELETE = true;
-
     public static function rows()
     {
         return ModelHelper::rows(self::$TABLE);
@@ -16,7 +13,7 @@ class [name_model] implements ModelInterface
 
     public static function read(array $filtros=array(), $strict=false)
     {
-        return ModelHelper::read(self::$TABLE, $filtros, $strict);
+        return ModelHelper::read(self::$TABLE, $filtros, $strict, $SOFT_DELETE);
     }
 
     public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
@@ -53,7 +50,6 @@ class [name_model] implements ModelInterface
     public static function delete()
     {
         return ModelHelper::softDelete(self::$TABLE);
-        // ModelHelper::delete(self::$TABLE);
     }
     //--------------------------------------------------------
 }
