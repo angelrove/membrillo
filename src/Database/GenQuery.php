@@ -347,6 +347,9 @@ class GenQuery
                 throw $e;
             }
 
+            // Envío el nuevo ROW_ID al evento en curso
+            Event::setRowId($id);
+
             self::$executed_queries[] = $sqlQ;
             self::log_updates($sqlQ); // Log
         }
