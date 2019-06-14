@@ -65,7 +65,9 @@ class LoginCtrl
        else {
           $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
           $sqlQ = "SELECT * FROM $login_table
-                   WHERE login='$_REQUEST[LOGIN_USER]' AND passwd='$_REQUEST[LOGIN_PASSWD]'";
+                   WHERE login  = '$_REQUEST[LOGIN_USER]' AND
+                         passwd = '$_REQUEST[LOGIN_PASSWD]' AND
+                         deleted_at IS NULL";
        }
 
        if(is_array($sqlQ)) {
