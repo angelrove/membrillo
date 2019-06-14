@@ -334,6 +334,8 @@ EOD;
     //--------------------------------------------------------------
     static public function searcher_complet($id_object, $f_text)
     {
+       $deltext = ($f_text)? '<a href="#" class="clear_search"><i class="fas fa-times fa-lg"></i></a>' : '';
+
        return
            self::searcher($id_object).
            '<div class="form-group">
@@ -342,7 +344,7 @@ EOD;
                      name="f_text"
                      placeholder="'.Local::$t['Search'].'"
                      value="'.$f_text.'">
-                <a href="#" class="clear_search">X</a>
+              '.$deltext.'
             </div>'.
             self::searcher_END();
     }
