@@ -216,6 +216,7 @@ class GenQuery
                 case 'timestamp':
                 case 'datetime':
                     $strDates .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y %H:%i') AS " . $fieldName . "_format";
+                    $strDates .= ",\n UNIX_TIMESTAMP($fieldName) AS " . $fieldName . "_unix";
                     break;
 
                 case 'file':
