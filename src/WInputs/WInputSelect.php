@@ -12,8 +12,8 @@ class WInputSelect
 {
     //------------------------------------------------------------------
     /**
-     * from Sql
-     * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
+     *  from Sql
+     *  Ejem..: $sqlQ = "SELECT id, CONCAT(apellido,' ',nombre) AS name FROM users";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
     public static function get($sqlQ, $value, $name='', $required=false, $placeholder = '')

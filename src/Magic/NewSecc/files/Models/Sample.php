@@ -1,59 +1,13 @@
 <?php
 namespace App\Models;
 
-use angelrove\membrillo\Database\ModelInterface;
-use angelrove\membrillo\Database\ModelHelper;
+use angelrove\membrillo\Database\Model;
+use angelrove\membrillo\Database\GenQuery;
 
-class [name_model] implements ModelInterface
+class [name_model] extends Model
 {
-    public static $TABLE = '[name_table]';
-    // public static $SOFT_DELETE = true;
-
-    public static function rows()
-    {
-        return ModelHelper::rows(self::$TABLE);
-    }
-
-    public static function read(array $filtros=array(), $strict=false)
-    {
-        return ModelHelper::read(self::$TABLE, $filtros, $strict);
-    }
-
-    public static function findById($id, $asArray=true, $setHtmlSpecialChars = true)
-    {
-        return ModelHelper::findById(self::$TABLE, $id, $asArray, $setHtmlSpecialChars);
-    }
-
-    public static function getValueById($id, $field)
-    {
-        return ModelHelper::getValueById(self::$TABLE, $id, $field);
-    }
-
-    public static function find(array $filters)
-    {
-        return ModelHelper::find(self::$TABLE, $filters);
-    }
-
-    public static function findEmpty()
-    {
-        return ModelHelper::findEmpty(self::$TABLE);
-    }
-
-    //--------------------------------------------------------
-    public static function create(array $listValues=array())
-    {
-        return ModelHelper::create(self::$TABLE, $listValues);
-    }
-
-    public static function update(array $listValues=array(), $id='')
-    {
-        return ModelHelper::update(self::$TABLE, $listValues, $id);
-    }
-
-    public static function delete()
-    {
-        return ModelHelper::softDelete(self::$TABLE);
-        // ModelHelper::delete(self::$TABLE);
-    }
-    //--------------------------------------------------------
+    protected const CONF = array(
+        'table' => '[table_name]',
+        'soft_delete' => true,
+    );
 }
