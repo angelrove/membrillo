@@ -11,12 +11,6 @@ use angelrove\utils\Db_mysql;
 class WInputSelect
 {
     //------------------------------------------------------------------
-    public static function get2($dbTable, $value, $name = '', $required = false, $placeholder='')
-    {
-        $sqlQ = "SELECT id, name FROM $dbTable ORDER BY name";
-        return self::get($sqlQ, $value, $name, $required, $placeholder);
-    }
-    //------------------------------------------------------------------
     /**
      * from Sql
      * Ejem..: $sqlQ = "SELECT idusuario AS id, CONCAT(apellido,' ',nombre) AS nombre FROM usuarios";
@@ -28,13 +22,13 @@ class WInputSelect
             return '';
         }
 
+        $sqlQ .= " ORDER BY name";
         $strSelect        = '';
         $selected_isArray = is_array($value);
 
         $rows = Db_mysql::getList($sqlQ);
         foreach ($rows as $id => $row) {
-
-            $nombre = @($row['nombre'] || $row['name'])? @($row['nombre'].$row['name']) : $id;
+            $nombre = ($row['name'])? $row['name'] : $id;
 
             // Selected
             $SELECTED = '';

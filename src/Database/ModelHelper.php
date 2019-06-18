@@ -10,29 +10,20 @@ use angelrove\utils\Db_mysql;
 
 class ModelHelper
 {
-    //--------------------------------------------
-    // CRUD
-    //--------------------------------------------
-    public static function rows($TABLE)
+    public static function read($CONF, array $filters=array(), $strict=false)
     {
-        return self::read($TABLE);
-    }
-
-    public static function read($TABLE, array $filters=array(), $strict=false)
-    {
-        if (!isset($filters['deleted_at'])) {
+        if ($CONF['soft_delete'] && !isset($filters['deleted_at'])) {
             $filters['deleted_at'] = 'NULL';
         }
 
         $sqlFiltros = self::getSqlFiltros($filters, $strict);
 
-        return GenQuery::select($TABLE).$sqlFiltros;
+        return GenQuery::select($CONF['table']).$sqlFiltros;
     }
 
-    //--------------------------------------------
-    public static function findById($TABLE, $id, $asArray=true, $setHtmlSpecialChars = true)
+    public static function findById($CONF, $id, $asArray=true, $setHtmlSpecialChars = true)
     {
-        $sql = GenQuery::selectRow($TABLE, $id);
+        $sql = GenQuery::selectRow($CONF['table'], $id);
 
         if ($asArray) {
             return Db_mysql::getRow($sql, $setHtmlSpecialChars);
@@ -41,51 +32,50 @@ class ModelHelper
         }
     }
 
-    public static function getValueById($TABLE, $id, $field)
+    public static function getValueById($CONF, $id, $field)
     {
-        $sql = GenQuery::selectRow($TABLE, $id);
+        $sql = GenQuery::selectRow($CONF['table'], $id);
         $data = Db_mysql::getRow($sql);
 
         return $data[$field];
     }
 
-    public static function find($TABLE, array $filters, $strict=true)
+    public static function find($CONF, array $filters, $strict=true)
     {
         $sqlFiltros = self::getSqlFiltros($filters, $strict);
 
-        $sql = "SELECT * FROM " . $TABLE . $sqlFiltros." LIMIT 1";
+        $sql = "SELECT * FROM " . $CONF['table'] . $sqlFiltros." LIMIT 1";
 
         return Db_mysql::getRow($sql);
     }
 
-    public static function findEmpty($TABLE)
+    public static function findEmpty($CONF)
     {
-        $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . $TABLE);
+        $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . $CONF['table']);
         foreach ($columns as $key => $value) {
             $datos[$key] = '';
         }
 
         return $datos;
     }
-    //--------------------------------------------
-    public static function create($TABLE, array $listValues=array())
+
+    public static function create($CONF, array $listValues=array())
     {
-        return GenQuery::helper_insert($TABLE, $listValues);
+        return GenQuery::helper_insert($CONF['table'], $listValues);
     }
-    //--------------------------------------------
-    public static function update($TABLE, array $listValues=array(), $id = '')
+
+    public static function update($CONF, array $listValues=array(), $id = '')
     {
-        return GenQuery::helper_update($TABLE, $listValues, $id);
+        return GenQuery::helper_update($CONF['table'], $listValues, $id);
     }
-    //--------------------------------------------
-    public static function delete($TABLE)
+
+    public static function delete($CONF)
     {
-        return GenQuery::delete($TABLE);
-    }
-    //--------------------------------------------
-    public static function softDelete($TABLE)
-    {
-        return GenQuery::softDelete($TABLE);
+        if ($CONF['soft_delete']) {
+            return GenQuery::softDelete($CONF['table']);
+        } else {
+            return GenQuery::delete($CONF['table']);
+        }
     }
     //--------------------------------------------
     public static function getSqlFiltros(array $filters, $strict=false)
