@@ -24,6 +24,7 @@ class GenQuery
     //------------------------------------------------------------
     // Helpers
     //------------------------------------------------------------
+    // Si $conditions contiene "[VALUE]" o es un array, se considera que viene de buscador
     public static function getSqlFilters(array $filter_conditions, array $filter_data=array())
     {
         $listWhere = array();
@@ -31,7 +32,7 @@ class GenQuery
         {
             // Viene de Buscador (rango de valores) ---
             if (is_array($condition)) {
-                if (isset($filter_data[$key])) {
+                if (isset($filter_data[$key]) && isset($condition[$filter_data[$key]])) {
                     $listWhere[] = $condition[$filter_data[$key]];
                 }
                 // condición por defecto (key 'default')
