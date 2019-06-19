@@ -3,7 +3,6 @@
 
 use angelrove\membrillo\WApp\Local;
 
-Local::_init();
 ?>
 <html>
 <head>

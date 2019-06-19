@@ -32,6 +32,14 @@ class Session
     return $_SESSION[$sessionName][$key]; // devuelve una referencia
   }
   //------------------------------------------------------
+  public static function unset($key)
+  {
+    $sessionName = self::getSessionName();
+    if(isset($_SESSION[$sessionName][$key])) {
+       unset($_SESSION[$sessionName][$key]);
+    }
+  }
+  //------------------------------------------------------
   public static function get($key)
   {
     $sessionName = self::getSessionName();
@@ -46,15 +54,12 @@ class Session
   {
     global $CONFIG_APP;
 
-    $loginUrl = '';
+    $loginUrl = '/';
     if($CONFIG_APP['login']['LOGIN_URL']) {
        $loginUrl = $CONFIG_APP['login']['LOGIN_URL'];
     }
-    else {
-       $loginUrl = '/';
-    }
 
-    // Eliminar sesión
+    // Destroy session
     session_unset();
     session_destroy();
 
@@ -65,7 +70,6 @@ class Session
     else {
       header("Location: $loginUrl");
     }
-
     exit();
   }
   //------------------------------------------------------

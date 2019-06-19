@@ -25,26 +25,30 @@ class Local
             self::setLang(self::getBrowserLang());
         }
 
-        //----
         self::loadLangFiles();
+    }
+    //------------------------------------------------------
+    public static function _init_sections()
+    {
+        self::loadLangFilesSection();
     }
     //------------------------------------------------------
     private static function loadLangFiles()
     {
         $dir_lang = 'local_t/'.self::getLang().'.inc';
 
-        // Lang global ---
         include_once __DIR__.'/'.$dir_lang;
         include_once 'app/'.$dir_lang;
-
-        // Lang secc ---
+    }
+    //------------------------------------------------------
+    private static function loadLangFilesSection()
+    {
         global $CONFIG_SECCIONES, $seccCtrl;
-        if (isset($seccCtrl)) {
-            $secc_folder = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+        $secc_folder = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
 
-            if (file_exists($secc_folder.'/'.$dir_lang)) {
-                include_once $secc_folder.'/'.$dir_lang;
-            }
+        $dir_lang = 'local_t/'.self::getLang().'.inc';
+        if (file_exists($secc_folder.'/'.$dir_lang)) {
+            include_once $secc_folder.'/'.$dir_lang;
         }
     }
     //------------------------------------------------------
@@ -52,11 +56,8 @@ class Local
     {
         self::setLang($_GET['val']);
 
-        // Load lang files ----
-        self::loadLangFiles();
-
         // Reload "CONFIG_SECC"
-        require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
+        Session::unset('CONFIG_SECCIONES');
     }
     //------------------------------------------------------
     public static function setLang($lang)

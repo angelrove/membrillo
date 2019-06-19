@@ -44,16 +44,25 @@ class AppCms extends Application
                $objectsStatus;
 
         //----------------------------------------------------
+        /* System Events */
+        $this->system_services();
+
+        //----------------------------------------------------
+        /* Local */
+        Local::_init();
+
+        //----------------------------------------------------
         /* Login */
         LoginCtrl::init();
 
         //----------------------------------------------------
         /* System Events */
-        $this->system_services();
+        $this->system_services_postlogin();
 
         //----------------------------------------------------
         /* System objects */
         //----------------------------------------------------
+
         // >> $CONFIG_SECCIONES -----
         if (!Session::get('CONFIG_SECCIONES')) {
             require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
@@ -91,7 +100,7 @@ class AppCms extends Application
         //----------------------------------------------------
 
         // Local ---------------------
-        Local::_init();
+        Local::_init_sections();
 
         // CssJsLoad -----------------
         CssJsLoad::__init(CACHE_PATH, CACHE_URL);
@@ -134,23 +143,11 @@ class AppCms extends Application
         switch ($_REQUEST['APP_EVENT']) {
             case 'close':
                 Session::session_destroy();
-                break;
+            break;
 
             case 'local':
                 Local::onChangeLang();
-                break;
-
-            case 'download':
-                $file     = $_REQUEST['f'];
-                $fileUser = $_REQUEST['fu'];
-                $mime     = $_REQUEST['mime'];
-
-                header("Content-type: $mime;");
-                header('Content-Disposition: attachment; filename="' . $fileUser . '";');
-                readfile($file);
-
-                exit();
-                break;
+            break;
 
             case 'timezone':
                 if (isset($_GET['tofm'])) {
@@ -165,7 +162,28 @@ class AppCms extends Application
   </script> "; exit();
                 }
 
-                break;
+            break;
+        }
+    }
+    //-----------------------------------------------------------------
+    private function system_services_postlogin()
+    {
+        if (!isset($_REQUEST['APP_EVENT'])) {
+            return true;
+        }
+
+        switch ($_REQUEST['APP_EVENT']) {
+            case 'download':
+                $file     = $_REQUEST['f'];
+                $fileUser = $_REQUEST['fu'];
+                $mime     = $_REQUEST['mime'];
+
+                header("Content-type: $mime;");
+                header('Content-Disposition: attachment; filename="' . $fileUser . '";');
+                readfile($file);
+
+                exit();
+            break;
         }
     }
     //-----------------------------------------------------------------
