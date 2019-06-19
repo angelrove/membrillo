@@ -27,25 +27,27 @@ class GenQuery
     public static function getSqlFilters(array $filter_conditions, array $filter_data=array())
     {
         $listWhere = array();
-        foreach ($filter_conditions as $key => $filter)
+        foreach ($filter_conditions as $key => $condition)
         {
-            // Buscador (rango de valores) ---
-            if (is_array($filter)) {
+            // Viene de Buscador (rango de valores) ---
+            if (is_array($condition)) {
                 if (isset($filter_data[$key])) {
-                    $listWhere[] = $filter[$filter_data[$key]];
-                } else {
-                    $listWhere[] = $filter['default'];
+                    $listWhere[] = $condition[$filter_data[$key]];
+                }
+                // condición por defecto (key 'default')
+                elseif(isset($condition['default'])) {
+                    $listWhere[] = $condition['default'];
                 }
             }
-            // Buscador ---
-            elseif (strpos($filter, '[VALUE]') !== false) {
+            // Viene de Buscador ($condition contiene "[value]") ---
+            elseif (strpos($condition, '[VALUE]') !== false) {
                 if (isset($filter_data[$key]) && $filter_data[$key]) {
-                    $listWhere[] = str_replace('[VALUE]', $filter_data[$key], $filter);
+                    $listWhere[] = str_replace('[VALUE]', $filter_data[$key], $condition);
                 }
             }
-            // No viene de buscador ---
+            // Se incluye siempre ---
             else {
-                $listWhere[] = $filter;
+                $listWhere[] = $condition;
             }
         }
 
