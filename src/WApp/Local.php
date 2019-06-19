@@ -31,10 +31,21 @@ class Local
     //------------------------------------------------------
     private static function loadLangFiles()
     {
-        $lang = self::getLang();
+        $dir_lang = 'local_t/'.self::getLang().'.inc';
 
-        include_once __DIR__.'/local_t/'.$lang.'.inc';
-        include_once 'app/local_t/'.$lang.'.inc';
+        // Lang global ---
+        include_once __DIR__.'/'.$dir_lang;
+        include_once 'app/'.$dir_lang;
+
+        // Lang secc ---
+        global $CONFIG_SECCIONES, $seccCtrl;
+        if (isset($seccCtrl)) {
+            $secc_folder = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+
+            if (file_exists($secc_folder.'/'.$dir_lang)) {
+                include_once $secc_folder.'/'.$dir_lang;
+            }
+        }
     }
     //------------------------------------------------------
     public static function onChangeLang()

@@ -48,10 +48,6 @@ class AppCms extends Application
         LoginCtrl::init();
 
         //----------------------------------------------------
-        /* Local */
-        Local::_init();
-
-        //----------------------------------------------------
         /* System Events */
         $this->system_services();
 
@@ -93,6 +89,9 @@ class AppCms extends Application
         //----------------------------------------------------
         /* Config front */
         //----------------------------------------------------
+
+        // Local ---------------------
+        Local::_init();
 
         // CssJsLoad -----------------
         CssJsLoad::__init(CACHE_PATH, CACHE_URL);
