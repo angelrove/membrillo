@@ -7,13 +7,24 @@ use angelrove\utils\Db_mysql;
 
 class Model implements ModelInterface
 {
-    public static function read(array $filters=array(), $strict=false)
-    {
-        if (static::CONF['soft_delete'] && !isset($filters['deleted_at'])) {
-            $filters['deleted_at'] = 'NULL';
-        }
+    /*
+     * Sample $conditions param:
+        $conditions[] = "id <> 1";
 
-        $sqlFilters = self::getSqlFilters($filters, $strict);
+        // Search ---
+        $conditions['f_text'] = "name LIKE '%[VALUE]%'";
+        $conditions['f_status'] = [
+            'default' => "deleted_at IS NULL",
+            'deleted' => "deleted_at IS NOT NULL",
+        ];
+     */
+    public static function read(array $filter_conditions=array(), array $filter_data=array())
+    {
+        if (static::CONF['soft_delete'] && !$filter_conditions) {
+            $filter_conditions[] = 'deleted_at IS NULL';
+        }
+        $sqlFilters = GenQuery::getSqlFilters($filter_conditions, $filter_data);
+        // print_r2($sqlFilters);
 
         return GenQuery::select(static::CONF['table']).$sqlFilters;
     }
@@ -37,9 +48,9 @@ class Model implements ModelInterface
         return $data[$field];
     }
 
-    public static function find(array $filters)
+    public static function find(array $filter_conditions)
     {
-        $sqlFilters = self::getSqlFilters($filters, $strict);
+        $sqlFilters = GenQuery::getSqlFilters($filter_conditions);
 
         $sql = "SELECT * FROM " . static::CONF['table'] . $sqlFilters." LIMIT 1";
 
@@ -74,27 +85,4 @@ class Model implements ModelInterface
             return GenQuery::delete(static::CONF['table']);
         }
     }
-    //------------------------------------------------------------------------
-    public static function getSqlFilters(array $filters, $strict=false)
-    {
-        $listWhere = array();
-        foreach ($filters as $column => $filtro) {
-            if ($filtro == 'NULL' || $filtro == 'NOT NULL') {
-                $listWhere[] = " $column IS $filtro";
-            }
-            elseif ($strict == true) {
-                $listWhere[] = " $column = '$filtro'";
-            } else {
-                $listWhere[] = " $column LIKE '%$filtro%'";
-            }
-        }
-        $sqlFilters = \angelrove\utils\UtilsBasic::implode(' AND ', $listWhere);
-
-        if ($sqlFilters) {
-            $sqlFilters = ' WHERE '.$sqlFilters;
-        }
-
-        return $sqlFilters;
-    }
-    //------------------------------------------------------------------------
 }

@@ -121,19 +121,25 @@ class ObjectsStatus
     //----------------------------------------------------------------------------
     public function setDato($idControl, $name, $value)
     {
-        if (!isset($this->listObjects[$idControl])) {
-            $this->setNewObject($idControl); // Crea el nuevo objeto
-        }
-
-        return $this->listObjects[$idControl]->setDato($name, $value);
+        $this->setNewObject($idControl);
+        $this->listObjects[$idControl]->setDato($name, $value);
     }
     //----------------------------------------------------------------------------
-    public function getDatos($idControl)
+    public function getDatos($idControl, $defaults=array())
     {
-        if (isset($this->listObjects[$idControl])) {
+        if($defaults) {
+            $this->setNewObject($idControl);
+            foreach ($defaults as $name => $value) {
+                $this->listObjects[$idControl]->setDataDefault($name, $value);
+            }
             return $this->listObjects[$idControl]->getDatos();
         }
-        return array();
+        elseif (isset($this->listObjects[$idControl])) {
+            return $this->listObjects[$idControl]->getDatos();
+        }
+        else {
+            return array();
+        }
     }
     //----------------------------------------------------------------------------
     public function getDato($idControl, $name)

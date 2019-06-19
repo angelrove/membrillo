@@ -24,6 +24,40 @@ class GenQuery
     //------------------------------------------------------------
     // Helpers
     //------------------------------------------------------------
+    public static function getSqlFilters(array $filter_conditions, array $filter_data=array())
+    {
+        $listWhere = array();
+        foreach ($filter_conditions as $key => $filter)
+        {
+            // Buscador (rango de valores) ---
+            if (is_array($filter)) {
+                if (isset($filter_data[$key])) {
+                    $listWhere[] = $filter[$filter_data[$key]];
+                } else {
+                    $listWhere[] = $filter['default'];
+                }
+            }
+            // Buscador ---
+            elseif (strpos($filter, '[VALUE]') !== false) {
+                if (isset($filter_data[$key]) && $filter_data[$key]) {
+                    $listWhere[] = str_replace('[VALUE]', $filter_data[$key], $filter);
+                }
+            }
+            // No viene de buscador ---
+            else {
+                $listWhere[] = $filter;
+            }
+        }
+
+        $sqlFilters = \angelrove\utils\UtilsBasic::implode(' AND ', $listWhere);
+
+        if ($sqlFilters) {
+            $sqlFilters = ' WHERE '.$sqlFilters;
+        }
+
+        return $sqlFilters;
+    }
+    //------------------------------------------------------------
     /*
      * Buscador: Concatenar filtros
      *  $listSql['campo1'] = "campo1 LIKE '%$_REQUEST[campo1]%'";

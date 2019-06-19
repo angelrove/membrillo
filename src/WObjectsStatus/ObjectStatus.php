@@ -116,6 +116,13 @@ class ObjectStatus
         $this->datos[$name] = $value;
     }
     //----------------------------------------------------------------------------
+    public function setDataDefault($name, $value='')
+    {
+        if (!isset($this->datos[$name])) {
+            $this->datos[$name] = $value;
+        }
+    }
+    //----------------------------------------------------------------------------
     public function getDato($name)
     {
         if (isset($this->datos[$name])) {
