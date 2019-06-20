@@ -28,7 +28,7 @@ $form->setButtons(true, true, true);
   <?php $form->get()?>
 
     <?=$form->getInput('name', 'Nombre', true)?>
-    <?=$form->getInput('profile', 'Profile', true, 'select_array', [1=>'A',1=>'B',1=>'C',])?>
+    <?=$form->getInput('profile', 'Profile', false, 'select_array', [['1'=>'A','2'=>'B','3'=>'C']])?>
 
   <?php $form->get_end()?>
 <?php WPage::get_end()?>

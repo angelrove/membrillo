@@ -80,7 +80,9 @@ class Application
         //-------------------------------------
         else {
             /* DDBB */
-            $this->init_database(self::$conf_db['default_local']);
+            $DB_data = self::$conf_db['default'];
+            $DB_data['HOST'] = 'localhost';
+            $this->init_database($DB_data);
         }
     }
     //-----------------------------------------------------------------

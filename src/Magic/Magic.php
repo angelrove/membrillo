@@ -35,10 +35,12 @@ class Magic extends Application
     //--------------------------------------------------------------
     public function comm_newsecc($name)
     {
-        // Model ---
+        echo("\n");
+
+        // Create Model ---
         $name_model = $this->comm_newmodel($name);
 
-        // Secc ---
+        // Create Section folder ---
         $name_secc = strtolower($name);
 
         $dest   = $this->document_root.'/app/sections/'.$name_secc;
@@ -51,17 +53,17 @@ class Magic extends Application
 
         FileSystem::recurse_copy($source, $dest);
 
-        // Replacements
+        // Replacements ---
         FileSystem::strReplace($dest, '[Sample]', $name_model);
 
-        echo("Section folder ... OK\n");
+        echo(" Section ...... OK\n");
 
-        // Register secc
+        // Navbar item -----
         $str = "\n".'$CONFIG_SECCIONES->setSection("'.$name_secc.'", "'.$name.'");';
         file_put_contents('./app/CONFIG_SECC.inc', $str, FILE_APPEND);
-        echo("Navbar item ... OK\n");
+        echo(" Nav item ..... OK\n");
 
-        echo("Done!");
+        echo("\nDone!\n");
     }
     //--------------------------------------------------------------
     public function comm_newmodel($name)
@@ -77,7 +79,7 @@ class Magic extends Application
             return $name_model;
         }
 
-        // Replacements
+        // File replacements ---
         $str = file_get_contents($source);
         $str = str_replace("[name_model]", $name_model, $str);
         $str = str_replace("[name_table]", $name_secc, $str);
@@ -85,20 +87,21 @@ class Magic extends Application
         // Copy file
         file_put_contents($dest, $str);
 
-        // BBDD ----
+        // DDBB ----------------
         $sqlTable = "
           CREATE TABLE IF NOT EXISTS `$name_secc` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
               `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              `deleted_at` TIMESTAMP,
+              `deleted_at` TIMESTAMP NULL DEFAULT NULL,
               `name` varchar(250) NOT NULL,
+              `profile` varchar(250),
               PRIMARY KEY (`id`)
             ) DEFAULT CHARSET=utf8;";
 
         Db_mysql::query($sqlTable);
-        echo("Database table ... OK\n");
+        echo(" DB table ..... OK\n");
 
-        echo("Model ... OK\n");
+        echo(" Model ........ OK\n");
 
         return $name_model;
     }
