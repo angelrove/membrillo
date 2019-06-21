@@ -7,7 +7,7 @@ use App\Models\[Sample];
 $controlName = 'simple';
 
 //-----------------------------
-$campos = array(new WListColumn('created_at', 'Created at', '90', 'center'),
+$campos = array(new WListColumn('created_at_format', 'Created at', '90', 'center'),
                 new WListColumn('name',  'Name',  '220'),
                 );
 
