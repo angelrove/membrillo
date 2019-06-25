@@ -23,6 +23,7 @@ class ObjectsStatus
         if (!isset($this->listObjects[$idControl])) {
             $this->listObjects[$idControl] = new ObjectStatus($idControl, $path);
         }
+
         return $this->listObjects[$idControl];
     }
     //----------------------------------------------------------------------------
@@ -127,19 +128,16 @@ class ObjectsStatus
     //----------------------------------------------------------------------------
     public function getDatos($idControl, $defaults=array())
     {
-        if($defaults) {
+        if (!isset($this->listObjects[$idControl])) {
             $this->setNewObject($idControl);
-            foreach ($defaults as $name => $value) {
-                $this->listObjects[$idControl]->setDataDefault($name, $value);
-            }
-            return $this->listObjects[$idControl]->getDatos();
         }
-        elseif (isset($this->listObjects[$idControl])) {
-            return $this->listObjects[$idControl]->getDatos();
+
+        // Set default values ---
+        foreach ($defaults as $name => $value) {
+            $this->listObjects[$idControl]->setDataDefault($name, $value);
         }
-        else {
-            return array();
-        }
+
+        return $this->listObjects[$idControl]->getDatos();
     }
     //----------------------------------------------------------------------------
     public function getDato($idControl, $name)

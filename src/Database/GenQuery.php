@@ -40,7 +40,7 @@ class GenQuery
                     $listWhere[] = $condition['default'];
                 }
             }
-            // Viene de Buscador ($condition contiene "[value]") ---
+            // Viene de Buscador ($condition contiene "[VALUE]") ---
             elseif (strpos($condition, '[VALUE]') !== false) {
                 if (isset($filter_data[$key]) && $filter_data[$key]) {
                     $listWhere[] = str_replace('[VALUE]', $filter_data[$key], $condition);
