@@ -50,8 +50,17 @@ class WInputSelect
 
         if ($name) {
             $required = ($required) ? 'required' : '';
+
+            // Placeholder ---
             if ($placeholder) {
-                $placeholder = '<option value="" class="placeholder">-- '.$placeholder.' --</option>';
+                $value = '';
+                $label = $placeholder;
+                if($placeholder == 'NULL') {
+                    $value = 'NULL';
+                    $label = '-';
+                }
+
+                $placeholder = '<option value="'.$value.'" class="placeholder">-- '.$label.' --</option>';
             }
 
             $strSelect =
@@ -129,10 +138,19 @@ class WInputSelect
         if ($name) {
             $required  = ($required) ? 'required' : '';
 
+            // Placeholder ---
             if ($placeholder) {
-                $placeholder = '<option value="" class="placeholder">-- '.$placeholder.' --</option>';
+                $value = '';
+                $label = $placeholder;
+                if($placeholder == 'NULL') {
+                    $value = 'NULL';
+                    $label = '-';
+                }
+
+                $placeholder = '<option value="'.$value.'" class="placeholder">-- '.$label.' --</option>';
             }
 
+            //----
             $strSelect =
                 "<select name=\"$name\" class=\"form-control\" $required>" .
                    $placeholder .
