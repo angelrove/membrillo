@@ -88,7 +88,7 @@ class Config_Secciones
     //---------------------------------------------------
     public function setSection_logo($id_section, $logo)
     {
-        if ($this->listSections[$id_section]) {
+        if (isset($this->listSections[$id_section])) {
             $this->listSections[$id_section]->logo = $logo;
         }
     }
