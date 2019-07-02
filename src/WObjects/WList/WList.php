@@ -57,23 +57,27 @@ class WList extends EventComponent
     //-------------------------------------------------------
     // PUBLIC
     //-------------------------------------------------------
-    public function __construct($id_control, $sqlQ, array $dbFields)
+    public function __construct($id_control, $sqlQ, array $dbFields, array $params=array())
     {
-        CssJsLoad::set(__DIR__ . '/style.css');
-        CssJsLoad::set(__DIR__ . '/lib.js');
-
         //------
         parent::__construct($id_control);
 
         $this->sqlQuery = $sqlQ;
         $this->dbFields = $dbFields;
 
+        //------
         // if (se ejecuta por 1º vez) { // inicializar datos
         //   $this->wObjectStatus->setDato('param_fieldPrev', '');
         // }
 
-        //---------
-        $this->parse_event($this->WEvent);
+        //------
+        if (isset($params['basic']) && $params['basic']) {
+
+        } else {
+            CssJsLoad::set(__DIR__ . '/style.css');
+            CssJsLoad::set(__DIR__ . '/lib.js');
+            $this->parse_event($this->WEvent);
+        }
     }
     //--------------------------------------------------------------
     public function parse_event($WEvent)

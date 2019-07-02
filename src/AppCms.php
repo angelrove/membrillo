@@ -16,6 +16,7 @@
 
 namespace angelrove\membrillo;
 
+use angelrove\membrillo\Login\Login;
 use angelrove\membrillo\Login\LoginCtrl;
 use angelrove\membrillo\WApp\Config_Secciones;
 use angelrove\membrillo\WApp\SeccCtrl;
@@ -150,16 +151,17 @@ class AppCms extends Application
             break;
 
             case 'timezone':
-                if (isset($_GET['tofm'])) {
-                   \angelrove\membrillo\Login\Login::set_timezone(timezone_name_from_abbr("", $_GET['tofm']*60, false));
+                if (isset($_GET['name'])) {
+                    Login::set_timezone($_GET['name']);
                 }
                 else {
-                   echo
-  "<script>
-  var timezone_offset_minutes = new Date().getTimezoneOffset();
-  timezone_offset_minutes = timezone_offset_minutes == 0 ? 0 : -timezone_offset_minutes;
-  location.href='/?APP_EVENT=timezone&tofm='+timezone_offset_minutes;
-  </script> "; exit();
+                   echo '
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
+  <script>
+      var tz = jstz.determine();
+      location.href = "/?APP_EVENT=timezone&name="+tz.name();
+  </script>
+  '; exit();
                 }
 
             break;

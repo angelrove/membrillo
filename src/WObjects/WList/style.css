@@ -6,6 +6,10 @@
   border-top:1px solid #ddd;
   border-bottom:1px solid #ddd;
 }
+.FormSearch {
+  margin-bottom: 12px;
+}
+
 div.List_paginacion {
   padding: 4px;
 }
@@ -13,15 +17,11 @@ div.List_paginacion {
   margin-bottom: 0;
 }
 
-.FormSearch {
-  margin-bottom: 12px;
-}
-
 /****** Paginación ***/
 .List_paginacion.top    { border-bottom:0; }
 .List_paginacion.bottom { border-top:0; }
 
-/******* Datos *******/
+/******* Data *******/
 .List_tuplas tbody td {
   cursor:pointer;
 }
@@ -40,12 +40,12 @@ table.List_tuplas tbody tr.selected td {
 
 /******* optionsBar *******/
 .List_tuplas .optionsBar {
-  padding:2px;
+  padding: 2px;
   vertical-align: middle;
   text-align: center;
   white-space: nowrap;
   cursor: default;
-  width: 146px;
+  width: 100px;
 }
 /*-----*/
 .List_tuplas .optionsBar a,

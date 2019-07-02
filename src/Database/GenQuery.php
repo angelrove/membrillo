@@ -589,7 +589,7 @@ class GenQuery
                 break;
             //-------
             case 'datetime':
-                if ($inputValue == 'NULL') {
+                if ($inputValue == 'NULL' || $inputValue == 'NOW()') {
                     $value = $inputValue;
                 } else {
                     $value = "'$inputValue'";

@@ -31,13 +31,11 @@ class WForm extends EventComponent
     private $eventDefault = false;
 
     // Buttons
-    private $bt_ok     = true;
-    private $bt_upd    = false;
-    private $bt_del    = false;
-    private $bt_cancel = true;
-
-    private $bt_saveNext       = false;
-    private $bt_saveNext_label = '';
+    private $bt_ok       = true;
+    private $bt_cancel   = true;
+    private $bt_upd      = false;
+    private $bt_del      = false;
+    private $bt_saveNext = false;
 
     private $setButtons_top = false;
 
@@ -77,12 +75,12 @@ class WForm extends EventComponent
             //----------
             case CRUD_EDIT_UPDATE:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'Update']);
-                break;
+            break;
             //----------
             case CRUD_EDIT_NEW:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'New']);
-                break;
-                //----------
+            break;
+            //----------
         }
 
         // If Errors ----
@@ -180,11 +178,10 @@ class WForm extends EventComponent
         $this->eventDefault = $event;
     }
     //------------------------------------------------------------------
-    public function setButtons($bt_ok, $bt_upd, $bt_cancel, $bt_del = false)
+    public function setButtons($bt_ok, $bt_upd, $bt_cancel)
     {
         $this->bt_ok     = $bt_ok;
         $this->bt_upd    = $bt_upd;
-        $this->bt_del    = $bt_del;
         $this->bt_cancel = $bt_cancel;
     }
     //------------------------------------------------------------------
@@ -193,10 +190,16 @@ class WForm extends EventComponent
         $this->bt_cancel = $flag;
     }
     //------------------------------------------------------------------
-    public function show_btSaveNext($label = '')
+    public function set_bt_delete($label = '')
     {
-        $this->bt_saveNext       = true;
-        $this->bt_saveNext_label = $label;
+        $label = ($label)? $label : '<i class="far fa-trash-alt"></i> '.Local::$t['delete'];
+        $this->bt_del = '<button type="button" class="WForm_btDelete btn btn-danger"> '.$label.'</button> ';
+    }
+    //------------------------------------------------------------------
+    public function show_bt_saveNext($label = '')
+    {
+        $label = ($label)?? Local::$t['save_and_new'];
+        $this->bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . $label . '</button> ';
     }
     //---------------------------------------------------------------------
     public function setButtons_top()
@@ -246,9 +249,6 @@ class WForm extends EventComponent
     {
         $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . Local::$t['save'] . '</button> ' . "\n";
         $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary">' . Local::$t['save_continue']   . '</button> ' . "\n";
-        $bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . Local::$t['save_and_new'] . '</button> ' . "\n";
-
-        $bt_eliminar = '<button type="button" class="WForm_btDelete btn btn-danger">'  . Local::$t['delete'] . '</button> ';
         $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . Local::$t['close'] . '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
@@ -261,19 +261,16 @@ class WForm extends EventComponent
             $bt_guardar = '';
         }
 
-        if (!$this->bt_saveNext) {
-            $bt_saveNext = '';
-        }
-
         if (!$this->bt_cancel || $flag == 'TOP') {
             $bt_cancelar = '';
         }
-        if (!$this->bt_del || $flag == 'TOP' || !$this->WEvent->ROW_ID) {
-            $bt_eliminar = '';
+
+        if ($flag == 'TOP' || !$this->WEvent->ROW_ID) {
+            $this->bt_del = '';
         }
 
         // $strButtons
-        $strButtons = $bt_aceptar . $bt_guardar . $bt_eliminar . $bt_saveNext . $bt_cancelar;
+        $strButtons = $this->bt_del . $bt_aceptar . $bt_guardar . $this->bt_saveNext . $bt_cancelar;
 
         if ($this->readOnly) {
             $strButtons = $bt_cancelar;
@@ -430,6 +427,7 @@ class WForm extends EventComponent
         }
 
         switch ($type) {
+            // See: UtilsBasic::strDateChromeToTimestamp()
             case 'datetime-local':
             case 'datetime':
                 $type = 'datetime-local';
