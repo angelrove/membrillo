@@ -20,7 +20,6 @@ class WList extends EventComponent
     private $title;
     private $showScroll;
 
-    private $defaultOrder    = '';
     private $defaultSelected = false;
     private $msgConfirmDel   = '';
 
@@ -57,6 +56,9 @@ class WList extends EventComponent
     //-------------------------------------------------------
     // PUBLIC
     //-------------------------------------------------------
+    /*
+     * Params: basic, order
+     */
     public function __construct($id_control, $sqlQ, array $dbFields, array $params=array())
     {
         //------
@@ -72,12 +74,30 @@ class WList extends EventComponent
 
         //------
         if (isset($params['basic']) && $params['basic']) {
-
-        } else {
-            CssJsLoad::set(__DIR__ . '/style.css');
-            CssJsLoad::set(__DIR__ . '/lib.js');
-            $this->parse_event($this->WEvent);
+            return;
         }
+
+        //------
+        CssJsLoad::set(__DIR__ . '/style.css');
+        CssJsLoad::set(__DIR__ . '/lib.js');
+
+        //------
+        $this->parse_event($this->WEvent);
+    }
+    //--------------------------------------------------------------
+    public function setDefaultOrder($column, $order='ASC')
+    {
+        global $objectsStatus;
+
+        $datos = $this->wObjectStatus->getDatos();
+        if (isset($datos['param_field'])) {
+            return;
+        }
+
+        //----
+        $objectsStatus->setDato($this->id_object, 'param_field', $column);
+        $objectsStatus->setDato($this->id_object, 'param_fieldPrev', $column);
+        $objectsStatus->setDato($this->id_object, 'order_asc', $order);
     }
     //--------------------------------------------------------------
     public function parse_event($WEvent)
@@ -130,11 +150,6 @@ class WList extends EventComponent
     public function setListFields(array $dbFields)
     {
         $this->dbFields = $dbFields;
-    }
-    //-------------------------------------------------------
-    public function setDefaultOrder($defaultOrder)
-    {
-        $this->defaultOrder = $defaultOrder;
     }
     //-------------------------------------------------------
     /* Selección de la primera tupla por defecto */
@@ -388,10 +403,6 @@ EOD;
             $order_asc = $this->wObjectStatus->getDato('order_asc');
 
             $sqlOrder = ' ORDER BY '.$param_field . ' ' . $order_asc;
-        }
-        // Ordenamiento por defecto
-        elseif($this->defaultOrder) {
-            $sqlOrder = ' ORDER BY '.$this->defaultOrder;
         }
 
         /** OUT **/
