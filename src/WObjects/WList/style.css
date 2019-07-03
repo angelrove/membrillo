@@ -17,6 +17,11 @@ div.List_paginacion {
   margin-bottom: 0;
 }
 
+/****** Order ***/
+.btFieldOrder>.material-icons {
+  color: #444;
+}
+
 /****** Paginación ***/
 .List_paginacion.top    { border-bottom:0; }
 .List_paginacion.bottom { border-top:0; }

@@ -475,12 +475,13 @@ EOD;
     {
         $orderSimbols = [
             'none' => '<i class="material-icons md-18">drag_handle</i>',
-            'down' => '<i class="material-icons md-18">keyboard_arrow_down</i>',
-            'up'   => '<i class="material-icons md-18">keyboard_arrow_up</i>'
+            'down' => '<i class="material-icons">keyboard_arrow_down</i>',
+            'up'   => '<i class="material-icons">keyboard_arrow_up</i>'
         ];
 
         /** Títulos de los campos **/
-        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC')? $orderSimbols['down'] : $orderSimbols['up'];
+        $orderSimbol = ($this->wObjectStatus->getDato('order_asc') == 'DESC')? $orderSimbols['up'] :
+                                                                               $orderSimbols['down'];
         $param_field = $this->wObjectStatus->getDato('param_field');
 
         $htmTitles = '';
