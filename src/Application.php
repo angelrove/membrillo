@@ -25,29 +25,22 @@ class Application
 
         //-------------------------------------
         /* Globals */
+        // Document root ---
+        define('DOC_ROOT_MAIN', dirname($document_root));
         define('DOCUMENT_ROOT', $document_root);
-        define('DOC_ROOT', $document_root);
-        define('BASE_DIR', dirname($document_root));
+
+        // Cache ---
+        define('CACHE_PATH', $document_root.'/_cache');
+        define('CACHE_URL', '/_cache');
+
+        // Logs errors ---
+        define('PATH_LOG', $document_root.'/_logs');
+        define('LOG_FILE_PREF', basename($document_root).'-');
 
         //-------------------------------------
         /* Config */
         global $CONFIG_APP;
-
-        $CONFIG_APP = array(
-            'errors' => array(
-                'path_log'      => '',
-                'log_file_pref' => '',
-                'display'       => '',
-            ),
-        );
-
-        // Config file -------
-        require BASE_DIR . '/cache_version.php';
-        require BASE_DIR . '/config/app.php';
-
-        // Config file -------
-        $APP_TYPE = '';
-        require DOCUMENT_ROOT . '/config_host.php';
+        require DOC_ROOT_MAIN . '/config/app.php';
 
         //-------
         self::$conf    = & $CONFIG_APP;
@@ -58,23 +51,15 @@ class Application
         if (!$isConsole) {
             /* Error handler */
             if (!$isConsole) {
-                MyErrorHandler::init(
-                    $CONFIG_APP['errors']['display'],
-                    $CONFIG_APP['errors']['path_log'],
-                    $CONFIG_APP['errors']['log_file_pref']
-                );
+                MyErrorHandler::init(DISPLAY_ERRORS, PATH_LOG, LOG_FILE_PREF);
             }
 
-            /* DDBB */
-            if (isset(self::$conf_db['default'])) {
-                $this->init_database(self::$conf_db['default']);
-            }
+            /* Database */
+            $this->init_database(self::$conf_db['default']);
 
-            //-------------------------------------
-            /* Config file */
-            require DOCUMENT_ROOT . '/config_app.php';
+            /* Config */
+            require DOCUMENT_ROOT . '/config.php';
 
-            //-------------------------------------
             /* Session start */
             \angelrove\membrillo\WApp\Session::start(24);
         }

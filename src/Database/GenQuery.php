@@ -502,9 +502,7 @@ class GenQuery
     //------------------------------------------------------------------
     public static function log_updates($sqlQ)
     {
-        global $CONFIG_APP;
-
-        if (!$CONFIG_APP['debug']['LOG_UPDATES']) {
+        if (!LOG_SQL) {
             return;
         }
 

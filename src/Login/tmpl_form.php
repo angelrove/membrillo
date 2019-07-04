@@ -2,6 +2,7 @@
 /* >> $msg */
 
 use angelrove\membrillo\WApp\Local;
+global $CONFIG_APP;
 
 ?>
 <html>
@@ -110,7 +111,7 @@ use angelrove\membrillo\WApp\Local;
 
  <!-- Pie -->
  <table align="center"><tr><td id="Login_pie">
-  &copy; <?=COMPANY_NAME?>
+  &copy; <?=$CONFIG_APP['data']['COMPANY_NAME']?>
  </td></tr></table>
  <!-- / Pie -->
 
