@@ -42,7 +42,8 @@ class Application
         );
 
         // Config file -------
-        require BASE_DIR . '/config_host.php';
+        require BASE_DIR . '/cache_version.php';
+        require BASE_DIR . '/config/app.php';
 
         // Config file -------
         $APP_TYPE = '';
