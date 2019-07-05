@@ -34,7 +34,7 @@ class Application
         define('CACHE_URL', '/_cache');
 
         // Logs errors ---
-        define('PATH_LOG', $document_root.'/_logs');
+        define('PATH_LOG', DOC_ROOT_MAIN.'/_logs');
         define('LOG_FILE_PREF', basename($document_root).'-');
 
         //-------------------------------------
