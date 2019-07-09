@@ -35,7 +35,7 @@ class WCalendar
   private $showBtNew_lb = '';
 
   //------------------------------------------------------------------
-  /* calendars[]: ->nombre, ->class, ->style, ->id_rango */
+  /* calendars[]: ->name, ->class, ->style, ->id_rango */
   function __construct($control, $calendars='')
   {
     $this->control   = $control;
@@ -148,7 +148,7 @@ EOD;
     return $d;
   }
   //------------------------------------------------------------------
-  private function nombre_dia_semana($d,$m,$a)
+  private function name_dia_semana($d,$m,$a)
   {
     $f = getdate(mktime(0,0,0,$m,$d,$a));
 
@@ -283,7 +283,7 @@ EOD;
                 foreach($this->calendars as $calendar) {
                    if($calendar[$time]) {
                       $properties['id_rango']= $calendar[$time]->id_rango;
-                      $properties['tooltip'] = $calendar[$time]->nombre;
+                      $properties['tooltip'] = $calendar[$time]->name;
                       $properties['class']   = $calendar[$time]->class;
                       $properties['style']   = $calendar[$time]->style;
                    }

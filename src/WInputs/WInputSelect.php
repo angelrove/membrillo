@@ -13,7 +13,7 @@ class WInputSelect
     //------------------------------------------------------------------
     /**
      *  from Sql
-     *  Ejem..: $sqlQ = "SELECT id, CONCAT(apellido,' ',nombre) AS name FROM users";
+     *  Ejem..: $sqlQ = "SELECT id, CONCAT(apellido,' ',name) AS name FROM users";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
     public static function get($sqlQ, $value, $name='', $required=false, $placeholder = '')
@@ -28,7 +28,7 @@ class WInputSelect
 
         $rows = Db_mysql::getList($sqlQ);
         foreach ($rows as $id => $row) {
-            $nombre = ($row['name'])? $row['name'] : $id;
+            $label = ($row['name'])? $row['name'] : $id;
 
             // Selected
             $SELECTED = '';
@@ -45,7 +45,7 @@ class WInputSelect
             }
 
             // Option
-            $strSelect .= "<option value=\"$id\" $SELECTED>$nombre</option>";
+            $strSelect .= "<option value=\"$id\" $SELECTED>$label</option>";
         }
 
         if ($name) {
@@ -91,22 +91,18 @@ class WInputSelect
         foreach ($datos as $key => $row)
         {
             $id = $key;
-            $nombre = $row;
+            $title_option = $row;
 
             // Object type ---
             if ($tipoId == 'AUTO_VALUE') {
                 $id = $row;
             }
             if (is_array($row)) {
-                if (isset($row['nombre'])) {
-                    $nombre = $row['nombre'];
-                } else {
-                    $nombre = $row['name'];
-                }
+                $title_option = $row['name'];
             }
             if (is_object($row)) {
                 $id     = $row->id;
-                $nombre = $row->name;
+                $title_option = $row->name;
             }
 
             // Selected ---
@@ -128,13 +124,14 @@ class WInputSelect
             if ($listColors) {
                 $style = 'style="background:' . $listColors[$id] . '"';
             }
-            $strSelect .= '<option ' . $style . ' value="' . $id . '"' . $SELECTED . '>' . $nombre . '</option>';
+            $strSelect .= '<option ' . $style . ' value="' . $id . '"' . $SELECTED . '>' . $title_option . '</option>';
         }
 
         if ($listGroup) {
             $strSelect .= '</optgroup>';
         }
 
+        //------------
         if ($name) {
             $required  = ($required) ? 'required' : '';
 

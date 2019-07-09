@@ -25,9 +25,9 @@ class WInputRadios
             $isAsociativo = $is_assoc;
         }
 
-        foreach ($listDatos as $id => $nombre) {
+        foreach ($listDatos as $id => $label) {
             if ($isAsociativo == false) {
-                $id = $nombre;
+                $id = $label;
             }
 
             // Selected
@@ -51,7 +51,7 @@ class WInputRadios
                 id="$idCheck"
                 name="$name"
                 value="$id" $SELECTED>
-           $nombre
+           $label
          </label>
 EOD;
         }
@@ -75,10 +75,6 @@ EOD;
         $idCheck   = $name . '_' . $id_check . '_';
 
         foreach ($listDatos as $id => $image) {
-            if ($isAsociativo == false) {
-                $id = $nombre;
-            }
-
             // Selected
             $SELECTED = '';
             if ($id == $id_selected) {

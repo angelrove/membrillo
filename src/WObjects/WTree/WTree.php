@@ -234,7 +234,7 @@ EOD;
             // Searcher ------
             $class_searched = '';
             if ($this->f_search) {
-                if ($categ['nombre'] == $this->f_search) {
+                if ($categ['name'] == $this->f_search) {
                     $class_searched = 'searched';
                     // $isDesplegado = true;
                 }
@@ -269,7 +269,7 @@ EOD;
                 $htmBotones = '<td class="columnOp">' . $bt_edit . $bt_newSub . $bt_delete . '</td>';
             }
 
-            $categoria = $categ['nombre'];
+            $categoria = $categ['name'];
             // $categoria = "isHijo: $isHijo, tieneSubc: $tieneSubc, hayMasCateg:$hayMasCateg, isDesplegado: $isDesplegado";
 
             // $strTree .= "\n\n<!-- CAT: $id_padre ------------------------ -->\n".'<div id="cat_'.$id_padre.'" style="display:">';
@@ -327,7 +327,7 @@ EOD;
             $xx = "";
 
             $sqlQ = "SELECT id,
-                       IF(name <> '', name, '[sin título]') AS nombre
+                       IF(name <> '', name, '[sin título]') AS name
                 FROM $this->dbTable
                 WHERE id_padre='$id_padre' $this->sqlWhere
                 ORDER BY name";

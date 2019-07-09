@@ -227,13 +227,13 @@ EOD;
             $count++;
 
             $tieneSubc = Db_mysql::getValue("SELECT id FROM $this->dbTable WHERE id_padre='$id' $this->sqlWhere");
-            $strTree .= $this->getHtmOpen($id, $categ['nombre'], $nivel, $count, $tieneSubc);
+            $strTree .= $this->getHtmOpen($id, $categ['name'], $nivel, $count, $tieneSubc);
             $strTree .= $this->get_category_tree($id, $nivel);
             $strTree .= $this->getHtmCierre($id, $nivel, $count, $tieneSubc);
 
             // Search -----
             if ($this->searchWord) {
-                if (stripos($categ['nombre'], $this->searchWord) !== false) {
+                if (stripos($categ['name'], $this->searchWord) !== false) {
                     $this->marcas[$id] = true;
                 }
                 if (isset($this->marcas[$id]) && $this->marcas[$id] && $id_padre != 0) {
@@ -252,7 +252,7 @@ EOD;
     {
         $sqlWhere_L3 = ($nivel == 3) ? $this->sqlWhere_L3 : '';
 
-        $sqlQ = "SELECT id, IF(name <> '', name, '[sin título]') AS nombre
+        $sqlQ = "SELECT id, IF(name <> '', name, '[sin título]') AS name
              FROM $this->dbTable
              WHERE id_padre='$id_padre' $this->sqlWhere $sqlWhere_L3
              ORDER BY name";
@@ -260,7 +260,7 @@ EOD;
         return Db_mysql::getList($sqlQ);
     }
     //-----------------------------------------------------------------
-    public function getHtmOpen($id, $nombre, $nivel, $count, $tieneSubc)
+    public function getHtmOpen($id, $name, $nivel, $count, $tieneSubc)
     {
         global $seccCtrl, $objectsStatus;
 
@@ -273,15 +273,15 @@ EOD;
             $classTupla .= ' tuplaSelected';
         }
 
-        // Formatear nombre ---
+        // Formatear name ---
         $title = '';
-        if (strlen($nombre) > 36) {
-            $title  = 'title="' . $nombre . '"';
-            $nombre = substr($nombre, 0, 36) . '...';
+        if (strlen($name) > 36) {
+            $title  = 'title="' . $name . '"';
+            $name = substr($name, 0, 36) . '...';
         }
 
         // Buttons ---
-        $listBt = $this->getButtons($id, $nivel, $nombre, $tieneSubc);
+        $listBt = $this->getButtons($id, $nivel, $name, $tieneSubc);
 
         //---
         $classHover = ($tieneSubc)? ' hover' : '';
@@ -295,7 +295,7 @@ EOD;
                         '</span>'.
 
                         ' <span id="cat_'.$id.'" class="tuplaL '.$classTupla.$classHover.'" '.$title.'>'.
-                            $listBt['nombre'].
+                            $listBt['name'].
                         '</span> '.$listBt['detalle'];
 
         if ($tieneSubc) {
@@ -330,7 +330,7 @@ EOD;
         return $strTab;
     }
     //-----------------------------------------------------------------
-    public function getButtons($id, $nivel, $nombre, $tieneSubc)
+    public function getButtons($id, $nivel, $name, $tieneSubc)
     {
         $listBt = array(
             'update'=>'',
@@ -339,7 +339,7 @@ EOD;
             'detalle'=>'',
             'check'=>'',
         );
-        $listBt['nombre'] = $nombre;
+        $listBt['name'] = $name;
 
         // Update -------
         if ($this->opUpdate == true) {
@@ -368,8 +368,8 @@ EOD;
         if ($nivel >= $this->haveElementsOnLevel) {
             if (!$tieneSubc) {
                 // $link = CrudUrl::get(CRUD_LIST_DETAIL, $this->id, $id, '', 'level=' . $nivel);
-                // $listBt['nombre'] = '<a href="' . $link . '">' . $listBt['nombre'] . '</a>';
-                $listBt['nombre'] = $listBt['nombre'];
+                // $listBt['name'] = '<a href="' . $link . '">' . $listBt['name'] . '</a>';
+                $listBt['name'] = $listBt['name'];
             } else {
                 $listBt['detalle'] = '<span class="wtree_onDetalle red" data-id="'.$id.'" data-level="'.$nivel.'">'.
                                         '<i class="fas fa-arrow-right" aria-hidden="true"></i>'.
