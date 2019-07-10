@@ -115,7 +115,7 @@ class Navbar
                 $logo = $CONFIG_SECCIONES->getSection_logo($mod);
 
                 if ($link = $CONFIG_SECCIONES->getSection_link($mod)) {
-                    $ret .= '<li><a href="' . $link . '" target="_blank">' . $title . '</a></li>';
+                    $ret .= '<li><a href="' . $link . '" target="_blank">'.$logo.' '.$title.'</a></li>';
                 }
                 else {
                     $href   = '/' . $mod;
