@@ -198,7 +198,9 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     public function show_bt_saveNext($label = '')
     {
-        $label = ($label)?? Local::$t['save_and_new'];
+        if (!$label) {
+            $label = Local::$t['save_and_new'];
+        }
         $this->bt_saveNext = '<button type="submit" class="WForm_btInsert btn btn-primary">' . $label . '</button> ';
     }
     //---------------------------------------------------------------------
