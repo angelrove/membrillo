@@ -61,6 +61,9 @@ fieldset.fieldset_old legend {
 
 
 /* ---- NAVBAR Black ----- */
+.nav>li {
+    color: white;
+}
 
 .navbar-inverse .dropdown-menu {
     padding: 0;

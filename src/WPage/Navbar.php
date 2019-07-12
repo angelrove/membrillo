@@ -26,8 +26,9 @@ class Navbar
         // Right items ---
         $str_close = '';
         if (Login::$login) {
-            $str_close = '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
-                            Login::$INFO['name'].' <i class="fas fa-sign-out-alt fa-lg"></i>'.
+            $str_close = '&nbsp; '.Login::$INFO['name'].
+                         '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
+                            ' <i class="fas fa-sign-out-alt fa-lg"></i>'.
                          '</a>';
         }
 
@@ -151,7 +152,7 @@ class Navbar
         return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$logo.' '.$title.'</a>';
     }
     //---------------------------------------------------
-    private static function tmpl_navbar($set_inverse, $title, $buttons, $str_close) {
+    private static function tmpl_navbar($set_inverse, $title, $buttons, $str_right) {
       return '
 
       <!-- Navbar -->
@@ -172,7 +173,7 @@ class Navbar
                     ' . $buttons . '
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                    <li>' . $str_close . '</li>
+                    <li>' . $str_right . '</li>
                   </ul>
               </div>
           </div>
