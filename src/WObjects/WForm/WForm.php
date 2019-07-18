@@ -381,6 +381,11 @@ class WForm extends EventComponent
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 
+            case 'price':
+                $extraHtml = 'min="0" step=".01"';
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], 'number', $required, false, $extraHtml);
+                break;
+
             case 'url':
                 $extra = 'style="display:initial;width:95%"';
 
