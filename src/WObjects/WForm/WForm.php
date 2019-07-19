@@ -378,11 +378,13 @@ class WForm extends EventComponent
 
             case 'number':
                 $extraHtml = $params[0]?? '';
+                $extraHtml .= 'style="width:initial"';
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 
             case 'price':
-                $extraHtml = 'min="0" step=".01" style="width:initial"';
+                $extraHtml = $params[0]?? '';
+                $extraHtml .= ' min="0" step=".01" style="width:initial"';
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], 'number', $required, false, $extraHtml);
                 break;
 
