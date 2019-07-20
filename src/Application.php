@@ -54,11 +54,12 @@ class Application
                 MyErrorHandler::init(DISPLAY_ERRORS, PATH_LOG, LOG_FILE_PREF);
             }
 
-            /* Database */
-            $this->init_database(self::$conf_db['default']);
-
             /* Config */
             require DOCUMENT_ROOT . '/config.php';
+
+            /* Database */
+            $this->init_database(self::$conf_db['default']);
+            Db_mysql::debug_sql(DEBUG_SQL);
 
             /* Session start */
             \angelrove\membrillo\WApp\Session::start(24);
