@@ -284,21 +284,7 @@ class WList extends EventComponent
         $this->parseEvents();
 
         /** Cuerpo **/
-        // Datos
-        $listDatos     = array();
-        $htmPaginacion = '';
-
-        if ($this->sqlQuery) {
-            $sqlQ = $this->getQuery($this->sqlQuery);
-            //print_r2($sqlQ);
-
-            if ($this->paging_showOn === 'false') {
-                $listDatos = Db_mysql::getListObject($sqlQ, $this->noId);
-            } else {
-                list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
-            }
-            //print_r2($listDatos);
-        }
+        list($htmPaginacion, $listDatos) = $this->getData($this->sqlQuery);
 
         /** Default selected **/
         if ($this->defaultSelected == true && !$this->wObjectStatus->getRowId()) {
@@ -320,6 +306,33 @@ class WList extends EventComponent
         ob_start(); /* ¡¡Para retornar el contenido del include!! */
         include 'tmpl_list.inc';
         return ob_get_clean();
+    }
+    //--------------------------------------------------------------
+    public function getData($sqlQuery)
+    {
+        $listDatos = array();
+        $htmPaginacion = '';
+
+        // Array ---
+        if ($sqlQuery && is_array($sqlQuery)) {
+            return [$htmPaginacion, $sqlQuery];
+        }
+        // SQL -----
+        elseif ($sqlQuery) {
+            $sqlQ = $this->getQuery($sqlQuery);
+
+            if ($this->paging_showOn === 'false') {
+                $listDatos = Db_mysql::getListObject($sqlQ, $this->noId);
+            } else {
+                list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
+            }
+
+            return [$htmPaginacion, $listDatos];
+        }
+        // Default ---
+        else {
+            return [$htmPaginacion, $listDatos];
+        }
     }
     //--------------------------------------------------------------
     public function getDebug()
