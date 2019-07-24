@@ -101,7 +101,8 @@ class GenQuery
         return $sqlFiltros;
     }
     //------------------------------------------------------------------
-    public static function helper_insert($DB_TABLE, array $listValuesPers = array(), $messageAuto=true)
+    public static function helper_insert($DB_TABLE,
+                                         array $listValuesPers=[], $messageAuto=true)
     {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
@@ -119,7 +120,7 @@ class GenQuery
     }
     //------------------------------------------------------------------
     public static function helper_update($DB_TABLE,
-                                         array $listValuesPers = array(), $id = '')
+                                         array $listValuesPers=[], $id='')
     {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
@@ -333,6 +334,11 @@ class GenQuery
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
+                if ($value == 'NULL') {
+
+                } else {
+                    $value = "'$value'";
+                }
             }
             // Value _POST ---
             else {
@@ -407,7 +413,13 @@ class GenQuery
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
-            } else {
+                if ($value == 'NULL') {
+
+                } else {
+                    $value = "'$value'";
+                }
+            }
+            else {
                 $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
                 if (isset($value->errors)) {
                     return $value;
