@@ -45,7 +45,7 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setSection($key, $title='')
+    public function setSection($key, $title='', $isDefault=false)
     {
         if (!$title) {
             $title = $key;
@@ -53,6 +53,12 @@ class Config_Secciones
 
         $this->listItems[$key]    = $title;
         $this->listSections[$key] = new Config_Secciones_Item($key, $title);
+
+        if ($isDefault == true) {
+            $this->defaultSecc = $key;
+        }
+
+        return $this->listSections[$key];
     }
     //---------------------------------------------------
     public function isSeccion($id)
@@ -89,7 +95,7 @@ class Config_Secciones
     public function setSection_logo($id_section, $logo)
     {
         if (isset($this->listSections[$id_section])) {
-            $this->listSections[$id_section]->logo = $logo;
+            $this->listSections[$id_section]->logo($logo);
         }
     }
     //---------------------------------------------------

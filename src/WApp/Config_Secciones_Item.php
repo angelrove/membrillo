@@ -20,4 +20,8 @@ class Config_Secciones_Item {
     $this->id    = $id_section;
     $this->title = $title;
   }
+
+  public function logo($logo) {
+    $this->logo = $logo;
+  }
 }
