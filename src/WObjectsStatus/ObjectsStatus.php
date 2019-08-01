@@ -74,7 +74,7 @@ class ObjectsStatus
     public function parseEvent($path_secc)
     {
         // onInitPage
-        include $path_secc . '/onInitPage.inc';
+        @include $path_secc . '/onInitPage.inc';
 
         // Default view
         if (!Event::$EVENT) {
