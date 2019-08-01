@@ -15,6 +15,7 @@ define('CRUD_DEFAULT', 'default');
 
 define('CRUD_EDIT_NEW', 'new'); // Read
 define('CRUD_EDIT_UPDATE', 'edit');
+define('CRUD_EDIT_PASS', 'edit_pass');
 
 define('CRUD_LIST_SEARCH', 'search'); // List
 define('CRUD_LIST_DETAIL', 'select');

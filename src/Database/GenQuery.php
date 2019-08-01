@@ -592,11 +592,11 @@ class GenQuery
             //-------
             case 'date':
                 $value = "STR_TO_DATE('$inputValue', '%d/%m/%Y')";
-                break;
+            break;
             //-------
             case 'timestamp':
                 $value = "$inputValue";
-                break;
+            break;
             //-------
             case 'datetime':
                 if ($inputValue == 'NULL' || $inputValue == 'NOW()') {
@@ -604,7 +604,7 @@ class GenQuery
                 } else {
                     $value = "'$inputValue'";
                 }
-                break;
+            break;
             //-------
             case 'file':
                 if (count($_FILES) == 0) {
@@ -617,16 +617,22 @@ class GenQuery
                 } else {
                     $value = "'$datosFile'";
                 }
-                break;
+            break;
             //-------
             default:
+                global $CONFIG_APP;
+
+                if ($fieldName == 'password' && $CONFIG_APP['login']['LOGIN_HASH']) {
+                    $inputValue = password_hash($inputValue, PASSWORD_BCRYPT);
+                }
+
                 if ($inputValue == 'NULL') {
                     $value = $inputValue;
                 } else {
                     $value = "'$inputValue'";
                 }
-                break;
-                //-------
+            break;
+            //-------
         }
 
         return $value;

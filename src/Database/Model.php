@@ -85,22 +85,36 @@ class Model implements ModelInterface
             return GenQuery::delete(static::CONF['table']);
         }
     }
+    //-----------------------------------------------------------------
+    // Login
+    //-----------------------------------------------------------------
+    // $hash = password_hash($inputValue, PASSWORD_BCRYPT);
+    public static function login($email, $passwd, array $conditions = array()) : ?array
+    {
+        $conditions[] = "email='$email'";
+        $conditions[] = "password='$passwd'";
+        $conditions[] = "deleted_at IS NULL";
 
-    public static function login($email, $pass, array $conditions = array()) : ?array
+        if ($data = Db_mysql::getRow(self::read($conditions))) {
+            return $data;
+        }
+
+        return NULL;
+    }
+
+    public static function login_hash($email, $passwd, array $conditions = array()) : ?array
     {
         $conditions[] = "email='$email'";
         $conditions[] = "deleted_at IS NULL";
 
         // Password hash verify ---
-        $hash = password_hash($pass, PASSWORD_BCRYPT);
-
-        $sqlQ = self::read($conditions);
-        if ($data = Db_mysql::getRow($sqlQ)) {
-            if (password_verify($data['password'], $hash)) {
+        if ($data = Db_mysql::getRow(self::read($conditions))) {
+            if (password_verify($passwd, $data['password'])) {
                 return $data;
             }
         }
 
         return NULL;
     }
+    //-----------------------------------------------------------------
 }
