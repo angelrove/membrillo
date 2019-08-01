@@ -62,13 +62,12 @@ class WMessages
   //----------------------------------------------------
   public static function setMsg($id_user, $tag) {
     $sqlQ = "INSERT INTO sys_messages(id_user, tag) VALUES('$id_user', '$tag')";
-   Db_mysql::query($sqlQ);
+    Db_mysql::query($sqlQ);
   }
   //----------------------------------------------------
   public static function delMsg($tag) {
-
     $sqlQ = "DELETE FROM sys_messages WHERE id_user='".Login::$user_id."' AND tag='$tag'";
-   Db_mysql::query($sqlQ);
+    Db_mysql::query($sqlQ);
   }
   //----------------------------------------------------
   // GETs

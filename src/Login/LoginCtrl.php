@@ -49,42 +49,41 @@ class LoginCtrl
   //------------------------------------------------
   public static function initPage()
   {
-    global $CONFIG_APP;
-
     // Authenticate --------------
     $userData = array();
 
-    if( (isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER']) || isset($_REQUEST['auth_token']) )
+    // Login -----------
+    if( (isset($_REQUEST['LOGIN_USER']) && $_REQUEST['LOGIN_USER']) ||
+         isset($_REQUEST['auth_token']) )
     {
-       // User query
-       $sqlQ = '';
-       if(isset(self::$iLoginQuery)) {
-          $sqlQ = self::$iLoginQuery->get($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD'], $_REQUEST);
-       }
-       // Default query
-       else {
-          $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
-          $sqlQ = "SELECT * FROM $login_table
-                   WHERE login  = '$_REQUEST[LOGIN_USER]' AND
-                         passwd = '$_REQUEST[LOGIN_PASSWD]' AND
-                         deleted_at IS NULL";
-       }
+       // User data
+       $userData = array();
 
-       if(is_array($sqlQ)) {
-          $userData = $sqlQ;
-       } else {
+       //--------
+       if(isset(self::$iLoginQuery)) {
+          $ret = self::$iLoginQuery->get($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD'], $_REQUEST);
+
+          if(is_array($ret)) {
+             $userData = $ret;
+          } else {
+             $userData = Db_mysql::getRow($ret);
+          }
+       }
+       //--------
+       else {
+          $sqlQ = self::getQuery($_REQUEST['LOGIN_USER'], $_REQUEST['LOGIN_PASSWD']);
           $userData = Db_mysql::getRow($sqlQ);
        }
 
        // Login ok
        if(isset($userData['id'])) {
-           new Login($userData['id'], $userData['login'], $userData);
+           new Login($userData['id'], $userData['email'], $userData);
            header("Location: /?APP_EVENT=timezone"); exit();
        }
 
     }
 
-    // Authenticate form view -------
+    // Authenticate view -------
     if(!Login::$user_id)
     {
         global $CONFIG_APP;
@@ -99,6 +98,21 @@ class LoginCtrl
 
         exit();
     }
+  }
+  //-----------------------------------------------------------------
+  private static function getQuery($user, $pass)
+  {
+      global $CONFIG_APP;
+
+      $login_table = $CONFIG_APP['login']['LOGIN_TABLE'];
+
+      $sqlQ = "SELECT id, login, passwd
+               FROM $login_table
+               WHERE login = '$user' AND
+                     passwd = '$pass' AND
+                     deleted_at IS NULL";
+
+      return $sqlQ;
   }
   //-----------------------------------------------------------------
 }
