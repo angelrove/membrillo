@@ -22,6 +22,7 @@ class WList extends EventComponent
 
     private $defaultSelected = false;
     private $msgConfirmDel   = '';
+    private $addRow;
 
     // Pagination
     private $paging_showOn  = 'top'; // top, bottom, false
@@ -274,32 +275,27 @@ class WList extends EventComponent
         $this->paging_numRows = $paging_numRows;
     }
     //-------------------------------------------------------
+    public function addRow(Object $row)
+    {
+        $this->addRow = $row;
+    }
+    //-------------------------------------------------------
     // OUT
     //-------------------------------------------------------
     public function get()
     {
         $controlID = $this->id_object;
 
-        /** Eventos **/
+        /** Events **/
         $this->parseEvents();
 
-        /** Cuerpo **/
-        list($htmPaginacion, $listDatos) = $this->getData($this->sqlQuery);
+        /** >> $htmPaginacion **/
+        list($htmPaginacion, $listRows) = $this->getData($this->sqlQuery);
 
-        /** Default selected **/
-        if ($this->defaultSelected == true && !$this->wObjectStatus->getRowId()) {
-            $primero = current($listDatos);
-            $this->wObjectStatus->setRowId($primero->id);
-        }
+        /** >> $htmListDatos **/
+        $htmListDatos = $this->getHtmRowsValues($listRows);
 
-        /** HTM: datos **/
-        $htmListDatos = '';
-        if ($listDatos) {
-            $id_selected  = $this->wObjectStatus->getRowId();
-            $htmListDatos = $this->getHtmRowsValues($listDatos, $id_selected);
-        }
-
-        /** HTM: Cabecera **/
+        /** >> $htmColumnas **/
         $htmColumnas = $this->getHead();
 
         /** OUT **/
@@ -315,7 +311,7 @@ class WList extends EventComponent
 
         // Array ---
         if ($sqlQuery && is_array($sqlQuery)) {
-            return [$htmPaginacion, $sqlQuery];
+            $listDatos = $sqlQuery;
         }
         // SQL -----
         elseif ($sqlQuery) {
@@ -326,13 +322,14 @@ class WList extends EventComponent
             } else {
                 list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
             }
+        }
 
-            return [$htmPaginacion, $listDatos];
+        // Add row ---
+        if ($this->addRow) {
+            $listDatos['NULL'] = $this->addRow;
         }
-        // Default ---
-        else {
-            return [$htmPaginacion, $listDatos];
-        }
+
+        return [$htmPaginacion, $listDatos];
     }
     //--------------------------------------------------------------
     public function getDebug()
@@ -543,8 +540,22 @@ EOD;
     //-------------------------------------------------------
     // Datos
     //-------------------------------------------------------
-    private function getHtmRowsValues(array $rows, $id_selected)
+    private function getHtmRowsValues(array $rows)
     {
+        if (!$rows) {
+            return '';
+        }
+
+        // $id_selected ---
+        $id_selected = $this->wObjectStatus->getRowId();
+
+        // Selected first by default
+        if (!$id_selected && $this->defaultSelected == true) {
+            $firstRow = $listRows[array_key_first($listRows)];
+            $this->wObjectStatus->setRowId($firstRow->id);
+            $id_selected = $firstRow->id;
+        }
+
         /** TRs **/
         $htmList = '';
         $count   = 0;
