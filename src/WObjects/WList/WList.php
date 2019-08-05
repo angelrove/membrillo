@@ -22,7 +22,7 @@ class WList extends EventComponent
 
     private $defaultSelected = false;
     private $msgConfirmDel   = '';
-    private $addRow;
+    private $rowAdd = false;
 
     private $htmPaginacion;
     private $listRows;
@@ -63,7 +63,7 @@ class WList extends EventComponent
     /*
      * Params: basic, order
      */
-    public function __construct($id_control, $sqlQ, array $dbFields, array $params=array())
+    public function __construct($id_control, $sqlQ, array $dbFields, array $params = array())
     {
         //------
         parent::__construct($id_control);
@@ -87,12 +87,9 @@ class WList extends EventComponent
 
         //------
         $this->parse_event($this->WEvent);
-
-        /** >> htmPaginacion, listRows **/
-        list($this->htmPaginacion, $this->listRows) = $this->getData($this->sqlQuery);
     }
     //--------------------------------------------------------------
-    public function setDefaultOrder($column, $order='ASC')
+    public function setDefaultOrder($column, $order = 'ASC')
     {
         global $objectsStatus;
 
@@ -134,7 +131,6 @@ class WList extends EventComponent
                 break;
             //----------
         }
-
     }
     //-------------------------------------------------------
     /* Eventos de otros controles List */
@@ -143,7 +139,7 @@ class WList extends EventComponent
         switch (Event::$EVENT) {
             case CRUD_LIST_DETAIL: // reiniciar la paginación
                 $this->wObjectStatus->delDato('id_page');
-            break;
+                break;
         }
     }
     //--------------------------------------------------------------
@@ -162,10 +158,7 @@ class WList extends EventComponent
     /* Selected first by default */
     public function setDefaultSelected()
     {
-        if (!$this->wObjectStatus->getRowId()) {
-            $firstId = $this->listRows[array_key_first($this->listRows)]->id;
-            $this->wObjectStatus->setRowId($firstId);
-        }
+        $this->defaultSelected = true;
     }
     //-------------------------------------------------------
     public function setReadOnly($isReadonly)
@@ -286,8 +279,10 @@ class WList extends EventComponent
     //-------------------------------------------------------
     public function addRow($id, Object $row)
     {
-        $this->listRows[$id] = $row;
-        // print_r2($this->listRows);
+        $this->rowAdd = [
+            'id'  => $id,
+            'data' => $row,
+        ];
     }
     //-------------------------------------------------------
     // OUT
@@ -295,6 +290,22 @@ class WList extends EventComponent
     public function get()
     {
         $controlID = $this->id_object;
+
+        /** >> htmPaginacion, listRows **/
+        list($this->htmPaginacion, $this->listRows) = $this->getData($this->sqlQuery);
+
+        /** Add row **/
+        if ($this->rowAdd) {
+            $this->listRows[$this->rowAdd['id']] = $this->rowAdd['data'];
+        }
+
+        /** Default selected **/
+        if ($this->defaultSelected) {
+            if (!$this->wObjectStatus->getRowId()) {
+                $firstId = $this->listRows[array_key_first($this->listRows)]->id;
+                $this->wObjectStatus->setRowId($firstId);
+            }
+        }
 
         /** Events **/
         $this->parseEvents();
@@ -330,6 +341,7 @@ class WList extends EventComponent
         elseif ($sqlQuery) {
             $sqlQ = $this->getQuery($sqlQuery);
             list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
+            // print_r2($sqlQ);
         }
 
         return [$htmPaginacion, $listDatos];
@@ -346,7 +358,7 @@ class WList extends EventComponent
     //--------------------------------------------------------------
     // Form search
     //--------------------------------------------------------------
-    static public function searcher($id_object)
+    public static function searcher($id_object)
     {
         $action = CrudUrl::get(CRUD_LIST_SEARCH, $id_object);
 
@@ -359,16 +371,16 @@ class WList extends EventComponent
 EOD;
     }
     //--------------------------------------------------------------
-    static public function searcher_END()
+    public static function searcher_END()
     {
         return '</form>';
     }
     //--------------------------------------------------------------
-    static public function searcher_complet($id_object, $f_text)
+    public static function searcher_complet($id_object, $f_text)
     {
-       $deltext = ($f_text)? '<a href="#" class="clear_search"><i class="fas fa-times fa-lg"></i></a>' : '';
+        $deltext = ($f_text)? '<a href="#" class="clear_search"><i class="fas fa-times fa-lg"></i></a>' : '';
 
-       return
+        return
            self::searcher($id_object).
            '<div class="form-group">
               <input type="text"
@@ -431,11 +443,11 @@ EOD;
 
         // Páginas
         $urlFormat = CrudUrl::get(
-                                  $this->event_numPage,
-                                  $this->id_object,
-                                  '',
-                                  '',
-                                  'id_page=[id_page]'
+            $this->event_numPage,
+            $this->id_object,
+            '',
+            '',
+            'id_page=[id_page]'
         );
 
         $id_page = $this->wObjectStatus->getDato('id_page');
@@ -466,9 +478,7 @@ EOD;
         $htmPaginacion = '';
         if ($this->paging_config == 'basic') {
             $htmPaginacion = $listPaginas;
-        }
-        else {
-
+        } else {
             $strPages = "($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
 
             $htmPaginacion = <<<EOD
@@ -513,10 +523,11 @@ EOD;
             // OnClick
             if ($dbField->onClick) {
                 $link = CrudUrl::get(
-                  $this->event_fOnClick,
-                  $this->id_object,
-                  '', '',
-                  "onClick_field=$dbField->onClick&id_page=0"
+                    $this->event_fOnClick,
+                    $this->id_object,
+                    '',
+                    '',
+                    "onClick_field=$dbField->onClick&id_page=0"
                 );
 
                 $dbField->title = '<a class="btFieldOrder" href="' . $link . '">' . $dbField->title . '</a>';
@@ -572,7 +583,8 @@ EOD;
                 $strField = $this->getHtmField($id, $row, $dbField, $id_selected);
                 if ($strField == "EXIT_ROW") {
                     $strCols = '';
-                    break;}
+                    break;
+                }
                 $strCols .= $strField;
             }
             if ($strCols == '') {
@@ -615,8 +627,7 @@ EOD;
             $f_onClick = $this->cellEditor->getOnClick($id, $dbField->name, $f_value, $row);
             if ($f_onClick === true) {
                 $f_onClick = ' onClickUser on_'.$dbField->name.' ';
-            }
-            elseif($f_onClick) {
+            } elseif ($f_onClick) {
                 $f_onClick = ' onClickUser ' . $f_onClick.' ';
             }
         }
