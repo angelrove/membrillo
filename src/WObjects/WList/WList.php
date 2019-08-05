@@ -22,7 +22,7 @@ class WList extends EventComponent
 
     private $defaultSelected = false;
     private $msgConfirmDel   = '';
-    private $rowAdd = false;
+    private $rowsAdd = false;
 
     private $htmPaginacion;
     private $listRows;
@@ -277,12 +277,9 @@ class WList extends EventComponent
         $this->paging_numRows = $paging_numRows;
     }
     //-------------------------------------------------------
-    public function addRow($id, Object $row)
+    public function addRows(array $rows)
     {
-        $this->rowAdd = [
-            'id'  => $id,
-            'data' => $row,
-        ];
+        $this->rowsAdd = $rows;
     }
     //-------------------------------------------------------
     // OUT
@@ -295,8 +292,8 @@ class WList extends EventComponent
         list($this->htmPaginacion, $this->listRows) = $this->getData($this->sqlQuery);
 
         /** Add row **/
-        if ($this->rowAdd) {
-            $this->listRows[$this->rowAdd['id']] = $this->rowAdd['data'];
+        if ($this->rowsAdd) {
+            $this->listRows = $this->rowsAdd + $this->listRows;
         }
 
         /** Default selected **/
