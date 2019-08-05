@@ -126,6 +126,7 @@ class ObjectsStatus
         $this->listObjects[$idControl]->setDato($name, $value);
     }
     //----------------------------------------------------------------------------
+    /* Get object data or create new */
     public function getDatos($idControl, $defaults=array())
     {
         if (!isset($this->listObjects[$idControl])) {

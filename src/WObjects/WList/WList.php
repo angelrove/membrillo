@@ -24,6 +24,9 @@ class WList extends EventComponent
     private $msgConfirmDel   = '';
     private $addRow;
 
+    private $htmPaginacion;
+    private $listRows;
+
     // Pagination
     private $paging_showOn  = 'top'; // top, bottom, false
     private $paging_numRows = 100;
@@ -84,6 +87,9 @@ class WList extends EventComponent
 
         //------
         $this->parse_event($this->WEvent);
+
+        /** >> htmPaginacion, listRows **/
+        list($this->htmPaginacion, $this->listRows) = $this->getData($this->sqlQuery);
     }
     //--------------------------------------------------------------
     public function setDefaultOrder($column, $order='ASC')
@@ -153,10 +159,13 @@ class WList extends EventComponent
         $this->dbFields = $dbFields;
     }
     //-------------------------------------------------------
-    /* Selección de la primera tupla por defecto */
+    /* Selected first by default */
     public function setDefaultSelected()
     {
-        $this->defaultSelected = true;
+        if (!$this->wObjectStatus->getRowId()) {
+            $firstId = $this->listRows[array_key_first($this->listRows)]->id;
+            $this->wObjectStatus->setRowId($firstId);
+        }
     }
     //-------------------------------------------------------
     public function setReadOnly($isReadonly)
@@ -275,9 +284,10 @@ class WList extends EventComponent
         $this->paging_numRows = $paging_numRows;
     }
     //-------------------------------------------------------
-    public function addRow(Object $row)
+    public function addRow($id, Object $row)
     {
-        $this->addRow = $row;
+        $this->listRows[$id] = $row;
+        // print_r2($this->listRows);
     }
     //-------------------------------------------------------
     // OUT
@@ -289,11 +299,14 @@ class WList extends EventComponent
         /** Events **/
         $this->parseEvents();
 
-        /** >> $htmPaginacion **/
-        list($htmPaginacion, $listRows) = $this->getData($this->sqlQuery);
+        /** >> htmPaginacion **/
+        if ($this->paging_showOn === 'false') {
+            $this->htmPaginacion = '';
+        }
+        $htmPaginacion = &$this->htmPaginacion;
 
         /** >> $htmListDatos **/
-        $htmListDatos = $this->getHtmRowsValues($listRows);
+        $htmListDatos = $this->getHtmRowsValues($this->listRows);
 
         /** >> $htmColumnas **/
         $htmColumnas = $this->getHead();
@@ -316,17 +329,7 @@ class WList extends EventComponent
         // SQL -----
         elseif ($sqlQuery) {
             $sqlQ = $this->getQuery($sqlQuery);
-
-            if ($this->paging_showOn === 'false') {
-                $listDatos = Db_mysql::getListObject($sqlQ, $this->noId);
-            } else {
-                list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
-            }
-        }
-
-        // Add row ---
-        if ($this->addRow) {
-            $listDatos['NULL'] = $this->addRow;
+            list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
         }
 
         return [$htmPaginacion, $listDatos];
@@ -548,13 +551,6 @@ EOD;
 
         // $id_selected ---
         $id_selected = $this->wObjectStatus->getRowId();
-
-        // Selected first by default
-        if (!$id_selected && $this->defaultSelected == true) {
-            $firstRow = $listRows[array_key_first($listRows)];
-            $this->wObjectStatus->setRowId($firstRow->id);
-            $id_selected = $firstRow->id;
-        }
 
         /** TRs **/
         $htmList = '';
