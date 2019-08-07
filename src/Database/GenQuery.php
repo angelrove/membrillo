@@ -25,18 +25,17 @@ class GenQuery
     // Helpers
     //------------------------------------------------------------
     // Si $conditions contiene "[VALUE]" o es un array, se considera que viene de buscador
-    public static function getSqlFilters(array $filter_conditions, array $filter_data=array())
+    public static function getSqlFilters(array $filter_conditions, array $filter_data = array())
     {
         $listWhere = array();
-        foreach ($filter_conditions as $key => $condition)
-        {
+        foreach ($filter_conditions as $key => $condition) {
             // Viene de Buscador (rango de valores) ---
             if (is_array($condition)) {
                 if (isset($filter_data[$key]) && isset($condition[$filter_data[$key]])) {
                     $listWhere[] = $condition[$filter_data[$key]];
                 }
                 // condición por defecto (key 'default')
-                elseif(isset($condition['default'])) {
+                elseif (isset($condition['default'])) {
                     $listWhere[] = $condition['default'];
                 }
             }
@@ -67,10 +66,12 @@ class GenQuery
      *  ...
      *  Ejem.: GenQuery::getSqlFiltros($listSql, $_REQUEST);
      */
-    public static function getSqlFiltros(array $listSql,
-                                         array $filtros,
-                                         $sep = 'AND',
-                                         $pref = ''): string {
+    public static function getSqlFiltros(
+        array $listSql,
+        array $filtros,
+        $sep = 'AND',
+        $pref = ''
+    ): string {
         $sqlFiltros = '';
         $sep = ' ' . $sep . ' ';
 
@@ -101,9 +102,11 @@ class GenQuery
         return $sqlFiltros;
     }
     //------------------------------------------------------------------
-    public static function helper_insert($DB_TABLE,
-                                         array $listValuesPers=[], $messageAuto=true)
-    {
+    public static function helper_insert(
+        $DB_TABLE,
+        array $listValuesPers = [],
+        $messageAuto = true
+    ) {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
             return $errors;
@@ -119,9 +122,11 @@ class GenQuery
         }
     }
     //------------------------------------------------------------------
-    public static function helper_update($DB_TABLE,
-                                         array $listValuesPers=[], $id='')
-    {
+    public static function helper_update(
+        $DB_TABLE,
+        array $listValuesPers = [],
+        $id = ''
+    ) {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
             return $errors;
@@ -137,11 +142,12 @@ class GenQuery
     //------------------------------------------------------------------
     // Parse form
     //------------------------------------------------------------------
-    public static function parseForm($DB_TABLE,
-                                     $id = '',
-                                     array $uniques = array(),
-                                     array $notNull = array())
-    {
+    public static function parseForm(
+        $DB_TABLE,
+        $id = '',
+        array $uniques = array(),
+        array $notNull = array()
+    ) {
         global $app;
 
         $listErrors = array();
@@ -179,9 +185,7 @@ class GenQuery
                     $value = $_POST[$fieldName . '_prev'];
                 }
                 $value = $value . $_FILES[$fieldName]['name'];
-            }
-            // Type: Other ---
-            else {
+            } else {
                 $value = $_POST[$fieldName];
             }
 
@@ -206,7 +210,7 @@ class GenQuery
             $sqlQ = "SELECT id FROM $DB_TABLE WHERE `$fieldName`='$postValue' AND id <> '$id'";
             if (Db_mysql::getValue($sqlQ)) {
                 $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] .= $title.' = '.$postValue.' '.Local::$t['GenQuery_error_unique'];
+                $listErrors[$fieldName] = $title . ' = ' . $postValue . ' ' . Local::$t['GenQuery_error_unique'];
             }
         }
 
@@ -264,7 +268,8 @@ class GenQuery
         }
 
         // Query
-        return "SELECT * $strDates \nFROM $DB_TABLE";
+        $sqlQ = "SELECT * $strDates \nFROM $DB_TABLE";
+        return $sqlQ;
     }
     //------------------------------------------------------------------
     public static function selectRow($DB_TABLE, $id)
@@ -328,14 +333,12 @@ class GenQuery
         $strValues  = '';
         $listFields = self::getTableProperties($DB_TABLE);
 
-        foreach ($listFields as $fieldName => $fieldProp)
-        {
+        foreach ($listFields as $fieldName => $fieldProp) {
             // Value user ----
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
                 if ($value == 'NULL') {
-
                 } else {
                     $value = "'$value'";
                 }
@@ -414,12 +417,10 @@ class GenQuery
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
                 if ($value == 'NULL') {
-
                 } else {
                     $value = "'$value'";
                 }
-            }
-            else {
+            } else {
                 $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
                 if (isset($value->errors)) {
                     return $value;
@@ -427,7 +428,6 @@ class GenQuery
                 if ($value === false) {
                     continue;
                 }
-
             }
 
             // Query
@@ -592,11 +592,11 @@ class GenQuery
             //-------
             case 'date':
                 $value = "STR_TO_DATE('$inputValue', '%d/%m/%Y')";
-            break;
+                break;
             //-------
             case 'timestamp':
                 $value = "$inputValue";
-            break;
+                break;
             //-------
             case 'datetime':
                 if ($inputValue == 'NULL' || $inputValue == 'NOW()') {
@@ -604,7 +604,7 @@ class GenQuery
                 } else {
                     $value = "'$inputValue'";
                 }
-            break;
+                break;
             //-------
             case 'file':
                 if (count($_FILES) == 0) {
@@ -617,7 +617,7 @@ class GenQuery
                 } else {
                     $value = "'$datosFile'";
                 }
-            break;
+                break;
             //-------
             default:
                 global $CONFIG_APP;
@@ -631,7 +631,7 @@ class GenQuery
                 } else {
                     $value = "'$inputValue'";
                 }
-            break;
+                break;
             //-------
         }
 

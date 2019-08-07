@@ -16,13 +16,17 @@ class WInputSelect
      *  Ejem..: $sqlQ = "SELECT id, CONCAT(apellido,' ',name) AS name FROM users";
      *  $selected: puede ser un id o una lista de IDs (para selects multiples)
      */
-    public static function get($sqlQ, $value, $name='', $required=false, $placeholder = '')
+    public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
     {
         if (!$sqlQ) {
             return '';
         }
 
-        $sqlQ .= " ORDER BY name";
+        // Default order ---
+        if (stripos($sqlQ, "ORDER BY") === false) {
+            $sqlQ .= " ORDER BY name";
+        }
+
         $strSelect        = '';
         $selected_isArray = is_array($value);
 
@@ -36,12 +40,10 @@ class WInputSelect
                 if (array_search($id, $value) !== false) {
                     $SELECTED = 'SELECTED';
                 }
-
             } else {
                 if ($id == $value) {
                     $SELECTED = 'SELECTED';
                 }
-
             }
 
             // Option
@@ -55,7 +57,7 @@ class WInputSelect
             if ($placeholder) {
                 $value = '';
                 $label = $placeholder;
-                if($placeholder == 'NULL') {
+                if ($placeholder == 'NULL') {
                     $value = 'NULL';
                     $label = '-';
                 }
@@ -77,19 +79,19 @@ class WInputSelect
      * from array
      * $tipoId: AUTO_INCR, AUTO_VALUE
      */
-    public static function getFromArray($datos,
-                                        $id_selected,
-                                        $name = '',
-                                        $required = false,
-                                        $tipoId = '',
-                                        $placeholder='',
-                                        $listColors = '',
-                                        $listGroup = array())
-    {
+    public static function getFromArray(
+        $datos,
+        $id_selected,
+        $name = '',
+        $required = false,
+        $tipoId = '',
+        $placeholder = '',
+        $listColors = '',
+        $listGroup = array()
+    ) {
         $strSelect = '';
 
-        foreach ($datos as $key => $row)
-        {
+        foreach ($datos as $key => $row) {
             $id = $key;
             $title_option = $row;
 
@@ -139,7 +141,7 @@ class WInputSelect
             if ($placeholder) {
                 $value = '';
                 $label = $placeholder;
-                if($placeholder == 'NULL') {
+                if ($placeholder == 'NULL') {
                     $value = 'NULL';
                     $label = '-';
                 }
