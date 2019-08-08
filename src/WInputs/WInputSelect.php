@@ -18,6 +18,10 @@ class WInputSelect
      */
     public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
     {
+        if (is_array($sqlQ)) {
+            return self::getFromArray($sqlQ, $value, $name, $required, '', $placeholder);
+        }
+
         if (!$sqlQ) {
             return '';
         }
