@@ -20,32 +20,20 @@ class Config_Secciones
     //---------------------------------------------------
     public function __construct()
     {
-
     }
     //---------------------------------------------------
-    public function setSections(array $listSections, array $listSubSections = array())
+    public function setSections(array $listSections, array $listSubSections = array()): void
     {
-        // Sections
+        // Sections -----
         foreach ($listSections as $key => $title) {
             $this->setSection($key, $title);
         }
 
-        // Sub sections
-        $this->listSubItems = $listSubSections; // para WMain_menu
-
-        foreach ($listSubSections as $id_padre => $listSub) {
-            foreach ($listSub as $id => $title) {
-                if (!$title) {
-                    $title = $id;
-                }
-
-                $id                      = $id_padre . '/' . $id;
-                $this->listSections[$id] = new Config_Secciones_Item($id, $title);
-            }
-        }
+        // Sub sections ---
+        $this->setSubSections($listSubSections);
     }
     //---------------------------------------------------
-    public function setSection($key, $title='', $isDefault=false)
+    public function setSection($key, $title = '', bool $isDefault = false): Config_Secciones_Item
     {
         if (!$title) {
             $title = $key;
@@ -61,7 +49,27 @@ class Config_Secciones
         return $this->listSections[$key];
     }
     //---------------------------------------------------
-    public function isSeccion($id)
+    public function setSubSections(array $listSubSections = array()): void
+    {
+        foreach ($listSubSections as $id_padre => $listSub) {
+            foreach ($listSub as $id => $title) {
+                $this->setSubSection($id_padre, $id, $title);
+            }
+        }
+    }
+    //---------------------------------------------------
+    public function setSubSection($id_padre, $id, $title = ''): void
+    {
+        if (!$title) {
+            $title = $id;
+        }
+        $this->listSubItems[$id_padre][$id] = $title; // para WMain_menu
+
+        $id = $id_padre . '/' . $id;
+        $this->listSections[$id] = new Config_Secciones_Item($id, $title);
+    }
+    //---------------------------------------------------
+    public function isSeccion($id): bool
     {
         if (isset($this->listSections[$id])) {
             return true;
@@ -71,35 +79,35 @@ class Config_Secciones
     //---------------------------------------------------
     // SET
     //---------------------------------------------------
-    public function setSection_folder($id_section, $folder)
+    public function setSection_folder($id_section, $folder): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->folder = $folder;
         }
     }
     //---------------------------------------------------
-    public function setSection_db($id_section, $db)
+    public function setSection_db($id_section, $db): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->db = $db;
         }
     }
     //---------------------------------------------------
-    public function setSection_link($id_section, $link)
+    public function setSection_link($id_section, $link): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->link = $link;
         }
     }
     //---------------------------------------------------
-    public function setSection_logo($id_section, $logo)
+    public function setSection_logo($id_section, $logo): void
     {
         if (isset($this->listSections[$id_section])) {
             $this->listSections[$id_section]->logo($logo);
         }
     }
     //---------------------------------------------------
-    public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default)
+    public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->uploads_dir     = $uploads_dir; // personalizado para la sección
@@ -107,7 +115,7 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setDefault($id_secc)
+    public function setDefault($id_secc): void
     {
         $this->defaultSecc = $id_secc;
     }
@@ -186,7 +194,6 @@ class Config_Secciones
         } else {
             return $this->listSections[$id]->uploads_default;
         }
-
     }
     //---------------------------------------------------
     public function getTitle($id)
