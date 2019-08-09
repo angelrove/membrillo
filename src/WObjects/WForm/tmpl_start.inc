@@ -7,12 +7,12 @@ $action = CrudUrl::get('', $this->id_object);
 
  <?=Frame::get($this->title, $this->bt_cancel)?>
    <script>
-   var scut_id_object = '<?=$this->id_object?>';
-   var scut_close     = '<?=$this->bt_cancel?>';
+   var scut_close = '<?=$this->bt_cancel?>';
    </script>
 
    <form class="WForm form-horizontal"
          enctype="multipart/form-data"
+         scut_id_object="<?=$this->id_object?>"
          id      ="form_edit_<?=$this->id_object?>"
          name    ="form_edit_<?=$this->id_object?>"
          method  ="POST"

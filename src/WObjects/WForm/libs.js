@@ -5,7 +5,7 @@ $(document).keydown(function(e)
    // Esc (Close) ----------
    if(e.keyCode == 27) {
       if(scut_close) {
-        WForm_close();
+         WForm_close();
       };
    }
 
@@ -28,16 +28,18 @@ $(document).ready(function()
     // Submit -----------------------------------
     $(".WForm").submit(function( event )
     {
-      // action: ROW_ID ---
-      var formEdit = document.getElementById('form_edit_'+scut_id_object);
+       var scut_id_object = $(this).attr("scut_id_object");
 
-      var param_row_id = '';
-      if(formEdit.ROW_ID.value) {
-         param_row_id = '/'+formEdit.ROW_ID.value;
-      }
+       // action: ROW_ID ---
+       var formEdit = document.getElementById('form_edit_'+scut_id_object);
 
-      formEdit.action = formEdit.ACTION.value+formEdit.EVENT.value+param_row_id+'/';
-      // alert("action: "+formEdit.action);
+       var param_row_id = '';
+       if(formEdit.ROW_ID.value) {
+          param_row_id = '/'+formEdit.ROW_ID.value;
+       }
+
+       formEdit.action = formEdit.ACTION.value+formEdit.EVENT.value+param_row_id+'/';
+       // alert("scut_id_object: "+scut_id_object+"; action: "+formEdit.action);
     });
 
     // Enter ------------------------------------
@@ -48,28 +50,32 @@ $(document).ready(function()
     // Save -------------------------------------
     $(".WForm_btUpdate").click(function()
     {
-       WForm_save();
+       var scut_id_object = $(this).attr("scut_id_object");
+       WForm_save(scut_id_object);
     });
     // Save and new -----------------------------
     $(".WForm_btInsert").click(function()
     {
-      WForm_insert();
+       var scut_id_object = $(this).attr("scut_id_object");
+       WForm_insert(scut_id_object);
     });
     // Delete -----------------------------------
     $(".WForm_btDelete").click(function()
     {
-      $("#form_edit_"+scut_id_object+" #OPER").val(CRUD_OPER_DELETE);
+       var scut_id_object = $(this).attr("scut_id_object");
 
-      // action
-      var formEdit = document.getElementById('form_edit_'+scut_id_object);
-      formEdit.action = formEdit.action+formEdit.EVENT.value+'/'+formEdit.ROW_ID.value+'/?OPER='+formEdit.OPER.value;
+       $("#form_edit_"+scut_id_object+" #OPER").val(CRUD_OPER_DELETE);
 
-      var res = confirm("¿Estás seguro?");
-      if(res == true) {
-         formEdit.submit();
-      } else {
-         return false;
-      }
+       // action
+       var formEdit = document.getElementById('form_edit_'+scut_id_object);
+       formEdit.action = formEdit.action+formEdit.EVENT.value+'/'+formEdit.ROW_ID.value+'/?OPER='+formEdit.OPER.value;
+
+       var res = confirm("¿Estás seguro?");
+       if(res == true) {
+          formEdit.submit();
+       } else {
+          return false;
+       }
     });
     // Close ------------------------------------
     $(".WForm_btClose").click(function()
@@ -85,27 +91,27 @@ $(document).ready(function()
 //   $(".WForm").submit();
 // }
 //-------------------------------------------
-function WForm_insert()
+function WForm_insert(scut_id_object)
 {
-  $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_NEW);
-  // $(".WForm").submit();
+   $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_NEW);
+   // $(".WForm").submit();
 }
 //-------------------------------------------
-function WForm_save()
+function WForm_save(scut_id_object)
 {
-  $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_UPDATE);
-  // $(".WForm").submit();
+   $("#form_edit_"+scut_id_object+" #EVENT").val(CRUD_EDIT_UPDATE);
+   // $(".WForm").submit();
 }
 //-------------------------------------------
 function WForm_close()
 {
-  //var res = confirm("¿Seguro?");
-  var res = true;
-  if(res == true) {
-     window.location = '/'+main_secc+'/';
-  }
-  else {
-     return false;
-  }
+   //var res = confirm("¿Seguro?");
+   var res = true;
+   if(res == true) {
+      window.location = '/'+main_secc+'/';
+   }
+   else {
+      return false;
+   }
 }
 //-------------------------------------------

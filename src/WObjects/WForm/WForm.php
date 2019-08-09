@@ -249,9 +249,15 @@ class WForm extends EventComponent
     // $flag: '', 'top'
     public function getButtons($flag = '')
     {
-        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary">' . Local::$t['save'] . '</button> ' . "\n";
-        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary">' . Local::$t['save_continue']   . '</button> ' . "\n";
-        $bt_cancelar = '<button type="button" class="WForm_btClose  btn btn-default">' . Local::$t['close'] . '</button>' . "\n";
+        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary" scut_id_object="'.$this->id_object.'">' .
+                            Local::$t['save'] .
+                        '</button> ' . "\n";
+        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary" scut_id_object="'.$this->id_object.'">' .
+                            Local::$t['save_continue'] .
+                        '</button> ' . "\n";
+        $bt_cancelar = '<button type="button" class="WForm_btClose btn btn-default" scut_id_object="'.$this->id_object.'">' .
+                            Local::$t['close'] .
+                        '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
 

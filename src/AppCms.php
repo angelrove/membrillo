@@ -75,7 +75,8 @@ class AppCms extends Application
 
         // Sección por defecto
         if (!isset($_REQUEST['secc']) || !$_REQUEST['secc']) {
-            header('Location: /' . $CONFIG_SECCIONES->getDefault() . '/');exit();
+            header('Location: /' . $CONFIG_SECCIONES->getDefault() . '/');
+            exit();
         }
 
         // >> $seccCtrl -------------
@@ -142,27 +143,27 @@ class AppCms extends Application
         switch ($_REQUEST['APP_EVENT']) {
             case 'close':
                 Session::session_destroy();
-            break;
+                break;
 
             case 'local':
                 Local::onChangeLang();
-            break;
+                break;
 
             case 'timezone':
                 if (isset($_GET['name'])) {
                     Login::set_timezone($_GET['name']);
-                }
-                else {
-                   echo '
+                } else {
+                    echo '
   <script src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
   <script>
       var tz = jstz.determine();
       location.href = "/?APP_EVENT=timezone&name="+tz.name();
   </script>
-  '; exit();
+  ';
+                    exit();
                 }
 
-            break;
+                break;
         }
     }
     //-----------------------------------------------------------------
