@@ -105,13 +105,13 @@ function WForm_save(scut_id_object)
 //-------------------------------------------
 function WForm_close()
 {
-   //var res = confirm("¿Seguro?");
-   var res = true;
-   if(res == true) {
-      window.location = '/'+main_secc+'/';
-   }
-   else {
-      return false;
-   }
+    window.location.href = '/'+main_secc+'/';
+
+    // var res = confirm("¿Seguro?");
+    // if(res == true) {
+    //    window.location.href = '/'+main_secc+'/';
+    // } else {
+    //    return false;
+    // }
 }
 //-------------------------------------------
