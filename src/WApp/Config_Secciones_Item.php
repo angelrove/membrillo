@@ -10,13 +10,14 @@ class Config_Secciones_Item
 {
     public $id;
     public $title;
-    public $folder;
-    public $link;
     public $logo;
+    public $folder;
+    public $path;
+    public $link;
     public $uploads_default;
     public $uploads_dir;
 
-    function __construct($id_section, $title)
+    public function __construct($id_section, $title)
     {
         $this->id    = $id_section;
         $this->title = $title;
@@ -25,5 +26,18 @@ class Config_Secciones_Item
     public function logo($logo)
     {
         $this->logo = $logo;
+        return $this;
+    }
+
+    public function folder($folder)
+    {
+        $this->folder = $folder;
+        return $this;
+    }
+
+    public function path($path)
+    {
+        $this->path = $path;
+        return $this;
     }
 }

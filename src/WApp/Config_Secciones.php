@@ -58,7 +58,7 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setSubSection($id_padre, $id, $title = ''): void
+    public function setSubSection($id_padre, $id, $title = ''): Config_Secciones_Item
     {
         if (!$title) {
             $title = $id;
@@ -67,6 +67,8 @@ class Config_Secciones
 
         $id = $id_padre . '/' . $id;
         $this->listSections[$id] = new Config_Secciones_Item($id, $title);
+
+        return $this->listSections[$id];
     }
     //---------------------------------------------------
     public function isSeccion($id): bool
@@ -78,6 +80,13 @@ class Config_Secciones
     }
     //---------------------------------------------------
     // SET
+    //---------------------------------------------------
+    public function setSection_logo($id_section, $logo): void
+    {
+        if (isset($this->listSections[$id_section])) {
+            $this->listSections[$id_section]->logo($logo);
+        }
+    }
     //---------------------------------------------------
     public function setSection_folder($id_section, $folder): void
     {
@@ -97,13 +106,6 @@ class Config_Secciones
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->link = $link;
-        }
-    }
-    //---------------------------------------------------
-    public function setSection_logo($id_section, $logo): void
-    {
-        if (isset($this->listSections[$id_section])) {
-            $this->listSections[$id_section]->logo($logo);
         }
     }
     //---------------------------------------------------
@@ -165,10 +167,18 @@ class Config_Secciones
     {
         $path_secciones = DOCUMENT_ROOT . '/app/sections/';
 
-        if (!$this->listSections[$id]->folder) {
-            return $path_secciones . $id;
+        // Path section ---
+        if ($this->listSections[$id]->path) {
+            return $this->listSections[$id]->path;
         }
-        return $path_secciones . $this->listSections[$id]->folder;
+
+        // Folder
+        if ($this->listSections[$id]->folder) {
+            return $path_secciones . $this->listSections[$id]->folder;
+        }
+
+        // Default ---
+        return $path_secciones . $id;
     }
     //---------------------------------------------------
     public function getSection_logo($id)

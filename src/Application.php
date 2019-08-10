@@ -12,7 +12,6 @@ use angelrove\utils\MyErrorHandler;
 
 include_once 'print_r2.php';
 
-
 class Application
 {
     public static $conf    = array();
