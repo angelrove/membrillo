@@ -18,7 +18,7 @@ class Application
     public static $conf_db = array();
 
     //-----------------------------------------------------------------
-    public function __construct($document_root, $isConsole=false)
+    public function __construct($document_root, $isConsole = false)
     {
         ini_set('display_errors', 1);
 
@@ -57,25 +57,28 @@ class Application
             require DOCUMENT_ROOT . '/config.php';
 
             /* Database */
-            $this->init_database(self::$conf_db['default']);
+            $this->initDatabase(self::$conf_db['default']);
             Db_mysql::debug_sql(DEBUG_SQL);
 
             /* Session start */
-            \angelrove\membrillo\WApp\Session::start(24);
+            \angelrove\membrillo\WApp\Session::start(48);
         }
         //-------------------------------------
         else {
             /* DDBB */
             $DB_data = self::$conf_db['default'];
             $DB_data['HOST'] = 'localhost';
-            $this->init_database($DB_data);
+            $this->initDatabase($DB_data);
         }
     }
     //-----------------------------------------------------------------
-    private function init_database($datosDb)
+    private function initDatabase($datosDb)
     {
         Db_mysql::getConn(
-            $datosDb['HOST'], $datosDb['USER'], $datosDb['PASSWORD'], $datosDb['DBNAME']
+            $datosDb['HOST'],
+            $datosDb['USER'],
+            $datosDb['PASSWORD'],
+            $datosDb['DBNAME']
         );
     }
     //-----------------------------------------------------------------
