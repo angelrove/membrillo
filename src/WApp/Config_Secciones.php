@@ -88,6 +88,13 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
+    public function setSection_path($id_section, $path): void
+    {
+        if ($this->listSections[$id_section]) {
+            $this->listSections[$id_section]->path = $path;
+        }
+    }
+    //---------------------------------------------------
     public function setSection_folder($id_section, $folder): void
     {
         if ($this->listSections[$id_section]) {
@@ -169,7 +176,7 @@ class Config_Secciones
 
         // Path section ---
         if ($this->listSections[$id]->path) {
-            return $this->listSections[$id]->path;
+            $path_secciones = $this->listSections[$id]->path;
         }
 
         // Folder
