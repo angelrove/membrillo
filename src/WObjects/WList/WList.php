@@ -299,8 +299,11 @@ class WList extends EventComponent
         /** Default selected **/
         if ($this->defaultSelected) {
             if (!$this->wObjectStatus->getRowId()) {
-                $firstId = $this->listRows[array_key_first($this->listRows)]->id;
-                $this->wObjectStatus->setRowId($firstId);
+                $keyFirst = array_key_first($this->listRows);
+                if ($keyFirst) {
+                    $firstId = $this->listRows[$keyFirst]->id;
+                    $this->wObjectStatus->setRowId($firstId);
+                }
             }
         }
 
