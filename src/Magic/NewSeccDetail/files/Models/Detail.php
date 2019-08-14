@@ -38,11 +38,17 @@ class [name_model] extends Model
         $sqlFilters = GenQuery::getSqlFilters($conditions, $filter_data);
         // print_r2($sqlFilters);
 
-        return "SELECT A.*,
-                       B.name AS department
-                 FROM ".self::CONF['table']." AS A
-                 LEFT JOIN [table_parent] B ON(A.[parent_id]=B.id)
-                 $sqlFilters";
+        $dbTable = self::CONF['table'];
+
+        $sqlQ = <<<EOD
+            SELECT A.*,
+                B.name AS department
+            FROM $dbTable AS A
+            LEFT JOIN [table_parent] B ON(A.[parent_id]=B.id)
+            $sqlFilters
+        EOD;
+
+        return $sqlQ;
     }
     //-------------------------------------------------------------------
 }
