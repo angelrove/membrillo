@@ -15,17 +15,16 @@ class [name_model] extends Model
     //-------------------------------------------------------------------
     public static function list(array $filter_data)
     {
+        $conditions = [
+        ];
+
         // [parent_id]
         if (isset($filter_data['f_parent'])) {
-            if ($filter_data['f_parent'] == 'NULL') {
-                $conditions['f_parent'] = "A.[parent_id] IS NULL";
-            } else {
-                $conditions['f_parent'] = "A.[parent_id] = '[VALUE]'";
-            }
+            $conditions['f_parent'] = "A.[parent_id] = '[VALUE]'";
         }
 
         // Search ---
-        $conditions['f_text'] = "(A.name LIKE '%[VALUE]%' OR A.email LIKE '%[VALUE]%')";
+        $conditions['f_text'] = "(A.name LIKE '%[VALUE]%')";
         if ($filter_data['f_text']) {
             $conditions['f_parent'] = false;
         }
@@ -34,8 +33,6 @@ class [name_model] extends Model
            'default' => "A.deleted_at IS NULL",
                    1 => "A.deleted_at IS NOT NULL",
         ];
-
-        $conditions['f_profile'] = "A.profile = '[VALUE]'";
 
         // Query ---
         $sqlFilters = GenQuery::getSqlFilters($conditions, $filter_data);

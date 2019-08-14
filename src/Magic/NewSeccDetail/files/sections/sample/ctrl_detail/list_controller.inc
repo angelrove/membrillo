@@ -26,7 +26,6 @@ if ($id_padre) {
 // Wlist ----------------------
 $columns = array(
     new WListColumn('name', Local::$t['Name']),
-    new WListColumn('email', 'Email'),
 );
 
 if ($filtros['f_deleted']) {
