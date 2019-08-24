@@ -13,7 +13,7 @@ $columns = array(
 );
 
 $listParent = new WList($id_control, [Sample]::read(), $columns);
-$listParent->setDefaultSelected();
+// $listParent->setDefaultSelected();
 $listParent->setDefaultOrder('name');
 
 $listParent->showPagination(false);
