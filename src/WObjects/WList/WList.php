@@ -641,6 +641,10 @@ EOD;
             case 'datetime':
                 $f_valueCampo = date('d/m/Y H:i', strtotime($f_valueCampo));
                 break;
+
+            case 'date':
+                $f_valueCampo = date('d/m/Y', strtotime($f_valueCampo));
+                break;
         }
 
         /** prevent default **/
