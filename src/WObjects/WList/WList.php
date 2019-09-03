@@ -632,6 +632,17 @@ EOD;
             }
         }
 
+        /** Parse data type **/
+        switch ($dbField->type) {
+            case 'boolean':
+                $f_valueCampo = ($f_valueCampo)?'<i class="fas fa-check fa-lg"></i>' : '';
+                break;
+
+            case 'datetime':
+                $f_valueCampo = date('d/m/Y H:i', strtotime($f_valueCampo));
+                break;
+        }
+
         /** prevent default **/
         $class_prevDef = ($dbField->preventDefault)? ' preventDefault ' : '';
 

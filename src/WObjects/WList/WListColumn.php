@@ -12,18 +12,25 @@ class WListColumn
     public $title;
     public $size;
     public $align;
+    public $type;
     public $order;
     public $class;
     public $onClick;
     public $preventDefault;
 
     //-------------------------------------------------------
-    public function __construct($name, $title, $size = '', $align = '')
+    public function __construct($name, $title, $size = '', $align = '', $type = '')
     {
         $this->name  = $name;
         $this->title = $title;
         $this->size  = $size;
         $this->align = $align;
+        $this->type = $type;
+    }
+    //-------------------------------------------------------
+    public function setType($type)
+    {
+        $this->type = $type;
     }
     //-------------------------------------------------------
     public function setWidth($size)

@@ -74,6 +74,7 @@ class Application
     //-----------------------------------------------------------------
     private function initDatabase($datosDb)
     {
+        // Db_mysql ---
         Db_mysql::getConn(
             $datosDb['HOST'],
             $datosDb['USER'],

@@ -42,7 +42,7 @@ class [name_model] extends Model
 
         $sqlQ = <<<EOD
             SELECT A.*,
-                B.name AS department
+                B.name
             FROM $dbTable AS A
             LEFT JOIN [table_parent] B ON(A.[parent_id]=B.id)
             $sqlFilters

@@ -42,7 +42,7 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, array $data, $title='')
+    public function __construct($id_object, array $data, $title = '')
     {
         $this->title = $title;
 
@@ -75,11 +75,11 @@ class WForm extends EventComponent
             //----------
             case CRUD_EDIT_UPDATE:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'Update']);
-            break;
+                break;
             //----------
             case CRUD_EDIT_NEW:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'New']);
-            break;
+                break;
             //----------
         }
 
@@ -303,7 +303,7 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Inputs
     //------------------------------------------------------------------
-    public function getField($title, $htmInput, $name='')
+    public function getField($title, $htmInput, $name = '')
     {
         return '
         <div class="form-group" id="obj_'.$name.'">
@@ -313,14 +313,18 @@ class WForm extends EventComponent
         ';
     }
     //------------------------------------------------------------------
+    public function input($name, $type = 'text', $title = '', $required = false, array $params = array())
+    {
+        return $this->getInput($name, $title, $required, $type, $params);
+    }
+    //------------------------------------------------------------------
     /*
      * $type: select, select_query, select_array, select_object,
      *        checkbox, textarea, text_read, hidden, number, url
      */
-    public function getInput($name, $title='', $required=false, $type='text', array $params=array())
+    public function getInput($name, $title = '', $required = false, $type = 'text', array $params = array())
     {
         if ($title === false) {
-
         } elseif ($title == '') {
             $title = $name;
         }
@@ -374,6 +378,7 @@ class WForm extends EventComponent
                 $htmInput = WInputTextarea::get($name, $this->datos[$name], $required, '', $maxlength, $attributes);
                 break;
 
+            case 'readonly':
             case 'text_read':
                 $htmInput = '<input disabled class="form-control" value="'.$this->datos[$name].'">';
                 break;
@@ -401,9 +406,15 @@ class WForm extends EventComponent
                     $title = '<a target="_blank" href="'.$this->datos[$name].'">'.$title.'</a>';
                 }
 
-                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required,
-                                             false,
-                                             $extra);
+                $htmInput = $this->getInput1(
+                    $title,
+                    $name,
+                    $this->datos[$name],
+                    $type,
+                    $required,
+                    false,
+                    $extra
+                );
 
                 // if ($this->datos[$name]) {
                 //     $htmInput .= ' <a target="_blank" href="'.$this->datos[$name].'">'.
@@ -426,14 +437,15 @@ class WForm extends EventComponent
         return $this->getField($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
-    public function getInput1($title,
-                              $name,
-                              $value = '',
-                              $type = 'text',
-                              $required = false,
-                              $flag_placeholder = false,
-                              $extraHtml='')
-    {
+    public function getInput1(
+        $title,
+        $name,
+        $value = '',
+        $type = 'text',
+        $required = false,
+        $flag_placeholder = false,
+        $extraHtml = ''
+    ) {
         $required = ($required) ? 'required' : '';
 
         $placeholder = '';
@@ -465,7 +477,7 @@ class WForm extends EventComponent
     }
     //---------------------------------------------------
     // Input datetime helpers
-    static private function timestampToDate($timestamp, $toFormat='Y-m-d\TH:i', $toTimezone=NULL)
+    private static function timestampToDate($timestamp, $toFormat = 'Y-m-d\TH:i', $toTimezone = null)
     {
         $datetime = new \DateTime();
         $datetime->setTimestamp($timestamp);
@@ -477,24 +489,24 @@ class WForm extends EventComponent
         return $datetime->format($toFormat);
     }
     //---------------------------------------------------
-    static public function dateTimeToTimestamp($dateTime)
+    public static function dateTimeToTimestamp($dateTime)
     {
-       $time = false;
+        $time = false;
 
        // 2018-01-01T22:02 -------
-       if ($date = \DateTime::createFromFormat('Y-m-d\TH:i', $dateTime)) {
-       }
+        if ($date = \DateTime::createFromFormat('Y-m-d\TH:i', $dateTime)) {
+        }
        // 2018-01-01T22:02:00 -------
-       elseif ($date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime)) {
-       }
+        elseif ($date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime)) {
+        }
 
-       if ($date) {
-           return $date->getTimestamp();
-       } else {
-           throw new \Exception("WForm::dateTimeToTimestamp(): Error processing date!! [$dateTime]");
-       }
+        if ($date) {
+            return $date->getTimestamp();
+        } else {
+            throw new \Exception("WForm::dateTimeToTimestamp(): Error processing date!! [$dateTime]");
+        }
 
-       return $time;
+        return $time;
     }
     //------------------------------------------------------------------
     // OLD
