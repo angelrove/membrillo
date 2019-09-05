@@ -376,21 +376,39 @@ EOD;
         return '</form>';
     }
     //--------------------------------------------------------------
-    public static function searcher_complet($id_object, $f_text)
+    public static function searcher_complet($id_object)
     {
-        $deltext = ($f_text)? '<a href="#" class="clear_search"><i class="fas fa-times fa-lg"></i></a>' : '';
-
         return
            self::searcher($id_object).
-           '<div class="form-group">
-              <input type="text"
-                     class="form-control input-sm"
-                     name="f_text"
-                     placeholder="'.Local::$t['Search'].'"
-                     value="'.$f_text.'">
-              '.$deltext.'
-            </div>'.
-            self::searcher_END();
+           self::inputSearch($id_object).
+           self::searcher_END();
+    }
+    //-------------------------------------------------------
+    public function getInputSearch($placeholder = '')
+    {
+        return self::inputSearch($this->id_object, $placeholder);
+    }
+    //-------------------------------------------------------
+    public static function inputSearch($id_object, $placeholder = '')
+    {
+        $placeholder = ($placeholder)? $placeholder : Local::$t['Search'];
+
+        //---
+        global $objectsStatus;
+        $value = $objectsStatus->getDato($id_object, 'f_text');
+
+        //---
+        $deltext = ($value)? '<a href="#" class="clear_search"><i class="fas fa-times-circle fa-lg" style="color:dimgray"></i></a>' : '';
+
+        //---
+        return <<<EOD
+        <input type="text"
+               class="form-control input-sm"
+               name="f_text"
+               placeholder="$placeholder"
+               value="$value"> $deltext
+        &nbsp;
+        EOD;
     }
     //--------------------------------------------------------------
     //--------------------------------------------------------------
@@ -482,11 +500,11 @@ EOD;
             $strPages = "($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
 
             $htmPaginacion = <<<EOD
-         <div class="center-block2 clearfix">
-           <div class="pull-left">$listPaginas</div>
-           <div class="pull-right resumen">&nbsp; $strPages</div>
-         </div>
-EOD;
+                <div class="center-block2 clearfix">
+                   <div class="pull-left">$listPaginas</div>
+                   <div class="pull-right resumen">&nbsp; $strPages</div>
+                </div>
+                EOD;
         }
 
         return array($htmPaginacion, $rows);

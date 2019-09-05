@@ -24,12 +24,22 @@ class GenQuery
     //------------------------------------------------------------
     // Helpers
     //------------------------------------------------------------
-    // Si $conditions contiene "[VALUE]" o es un array, se considera que viene de buscador
+    /**
+     * Si $conditions contiene "[VALUE]" o es un array, se considera que viene de buscador
+     */
     public static function getSqlFilters(array $filter_conditions, array $filter_data = array())
     {
         $listWhere = array();
         foreach ($filter_conditions as $key => $condition) {
-            // Viene de Buscador (rango de valores) ---
+
+            /*
+             * Viene de Buscador (rango de valores):
+             *
+             * $conditions['f_deleted'] = [
+             *    'default' => "A.deleted_at IS NULL",
+             *            1 => "A.deleted_at IS NOT NULL",
+             * ];
+             */
             if (is_array($condition)) {
                 if (isset($filter_data[$key]) && isset($condition[$filter_data[$key]])) {
                     $listWhere[] = $condition[$filter_data[$key]];
@@ -39,16 +49,20 @@ class GenQuery
                     $listWhere[] = $condition['default'];
                 }
             }
-            // Viene de Buscador ($condition contiene "[VALUE]") ---
+
+            /* Viene de Buscador ($condition contiene "[VALUE]") */
             elseif (strpos($condition, '[VALUE]') !== false) {
                 if (isset($filter_data[$key]) && $filter_data[$key]) {
-                    $listWhere[] = str_replace('[VALUE]', $filter_data[$key], $condition);
+                    $replaceVal = $filter_data[$key];
+                    $listWhere[] = str_replace('[VALUE]', $replaceVal, $condition);
                 }
             }
-            // Se incluye siempre ---
+
+            /* Se incluye siempre */
             else {
                 $listWhere[] = $condition;
             }
+
         }
 
         $sqlFilters = \angelrove\utils\UtilsBasic::implode(' AND ', $listWhere);
@@ -412,15 +426,18 @@ class GenQuery
         $listFields = self::getTableProperties($DB_TABLE);
 
         foreach ($listFields as $fieldName => $fieldProp) {
-            // Valor
             $value = '';
+
+            // Value ---
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
                 if ($value == 'NULL') {
                 } else {
                     $value = "'$value'";
                 }
-            } else {
+            }
+            // Value ---
+            else {
                 $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
                 if (isset($value->errors)) {
                     return $value;
@@ -579,12 +596,16 @@ class GenQuery
     {
         $inputValue = '';
 
+        // Get value ---
         if (isset($_POST[$fieldName])) {
             $inputValue = $_POST[$fieldName];
         } elseif (isset($_FILES[$fieldName])) {
         } else {
             return false;
         }
+
+        // Trim ---
+        $inputValue = trim($inputValue);
 
         // Formatear entrada según el tipo ---
         //echo "'$fieldName' >> '$fieldType' = '$inputValue'<br>";
@@ -595,9 +616,6 @@ class GenQuery
                 break;
             //-------
             case 'timestamp':
-                $value = "$inputValue";
-                break;
-            //-------
             case 'datetime':
                 if ($inputValue == 'NULL' || $inputValue == 'NOW()') {
                     $value = $inputValue;
@@ -634,6 +652,7 @@ class GenQuery
                 break;
             //-------
         }
+        // print_r2("$fieldType : $value");
 
         return $value;
     }
