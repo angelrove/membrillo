@@ -61,7 +61,7 @@ fieldset.fieldset_old legend {
 
 
 /* ---- NAVBAR Black ----- */
-.nav>li {
+.navbar-nav>li {
     color: white;
 }
 

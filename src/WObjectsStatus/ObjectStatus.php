@@ -49,17 +49,44 @@ class ObjectStatus
         }
     }
     //----------------------------------------------------------------------------
+    // Operations
     public function parse_oper($oper, $row_id)
     {
         global $objectsStatus;
-        include $this->path . '/oper.inc';
+
+        $path = $this->path;
+        if (is_dir($this->path)) {
+            include $this->path . '/oper.inc';
+            return;
+        }
+
+        $path2 = $this->path_secc.'/ctrl_global';
+        if (is_dir($path2)) {
+            include $path2.'/oper.inc';
+            return;
+        }
+
+        throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
     }
     //----------------------------------------------------------------------------
+    // Flow
     public function parse_event($event)
     {
         global $objectsStatus;
 
-        include $this->path . '/flow.inc';
+        $path = $this->path;
+        if (is_dir($path)) {
+            include $path . '/flow.inc';
+            return;
+        }
+
+        $path2 = $this->path_secc.'/ctrl_global';
+        if (is_dir($path2)) {
+            include $path2.'/flow.inc';
+            return;
+        }
+
+        throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
     }
     //----------------------------------------------------------------------------
     public function parse_event_api($event)

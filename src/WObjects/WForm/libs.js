@@ -22,6 +22,11 @@ $(document).keydown(function(e)
 
 $(document).ready(function()
 {
+    // Search -----------------------------------
+    $(".FormSearch select, .FormSearch input:checkbox, .FormSearch input:radio").change(function() {
+        $(".FormSearch").submit();
+    });
+
     // Focus in the first
     // $('input').eq(0).focus();
 
