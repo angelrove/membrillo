@@ -92,12 +92,18 @@ class ObjectsStatus
 
             // redirect
             if (!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
-                Messages::set_debug('>> Redirected ---');
+                // Messages::set_debug('>> Redirected ---');
 
                 if (Event::$REDIRECT_AFTER_OPER_CLEAN) {
                     header('Location:' . CrudUrl::get('', '', '', ''));
                 } else {
-                    header('Location:' . CrudUrl::get(Event::$EVENT, Event::$CONTROL, Event::$ROW_ID, '', 'OPERED=' . Event::$OPER));
+                    header('Location:' . CrudUrl::get(
+                        Event::$EVENT,
+                        Event::$CONTROL,
+                        Event::$ROW_ID,
+                        '',
+                        'OPERED=' . Event::$OPER
+                    ));
                 }
 
                 exit();
@@ -127,7 +133,7 @@ class ObjectsStatus
     }
     //----------------------------------------------------------------------------
     /* Get object data or create new */
-    public function getDatos($idControl, $defaults=array())
+    public function getDatos($idControl, $defaults = array())
     {
         if (!isset($this->listObjects[$idControl])) {
             $this->setNewObject($idControl);

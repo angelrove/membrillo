@@ -20,7 +20,7 @@ switch(Event::$OPER) {
 
   case CRUD_OPER_DELETE:
     [Sample]::delete();
-    Messages::set("¡Deleted!");
+    Messages::set("Deleted!");
   break;
 
 }

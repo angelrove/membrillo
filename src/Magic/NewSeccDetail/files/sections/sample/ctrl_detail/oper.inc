@@ -12,13 +12,13 @@ switch (Event::$OPER) {
 
     case CRUD_OPER_UPDATE:
         [Model_detail]::update();
-        Messages::set("¡Saved!");
+        Messages::set("Saved!");
         break;
 
   //--------------------
 
     case CRUD_OPER_DELETE:
         [Model_detail]::delete();
-        Messages::set("¡Deleted!");
+        Messages::set("Deleted!");
         break;
 }
