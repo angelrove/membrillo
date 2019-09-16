@@ -715,6 +715,7 @@ EOD;
         foreach ($this->list_Op as $key => $bt_opc) {
             // optionsEditor ----
             $ret_optionsEditor = '';
+
             if ($this->optionsEditor) {
                 $ret_optionsEditor = $this->optionsEditor->showBtOp($key, $id, $row);
 
