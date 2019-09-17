@@ -587,8 +587,10 @@ EOD;
         foreach ($rows as $id => $row) {
             /** RowEditor **/
             $row_bgColor = '';
+            $row_class   = '';
             if (isset($this->rowEditor)) {
                 $row_bgColor = $this->rowEditor->getBgColorAt($id, $id_selected, $row);
+                $row_class   = $this->rowEditor->getClass($id, $id_selected, $row);
             }
 
             /** Datos **/
@@ -613,8 +615,9 @@ EOD;
             $strButtons = $this->getHtmButtons($id, $row, ++$count);
 
             /** Color de la tupla **/
-            $styleColor    = ($row_bgColor) ? " style=\"background:$row_bgColor\"" : '';
             $styleSelected = ($id == $id_selected) ? ' class="success"' : '';
+            $styleColor    = ($row_bgColor) ? " style=\"background:$row_bgColor\"" : '';
+            $styleSelected = ($row_class) ? " class=\"$row_class\"" : $styleSelected;
 
             /** Tupla **/
             $htmList .= "\n<tr id='$id'" . $styleSelected . $styleColor . ">\n$strCols $strButtons\n</tr>";

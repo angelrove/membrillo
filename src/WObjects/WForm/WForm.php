@@ -346,7 +346,7 @@ class WForm extends EventComponent
                 break;
 
             case 'select_query':
-                $sqlQ = $params[0];
+                $sqlQ = ($params['query'])?? $params[0];
 
                 $emptyOption = '';
                 if (isset($params[1]) && $params[1]) {
