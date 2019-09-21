@@ -17,7 +17,7 @@ interface ModelInterface
 
     public static function findEmpty();
 
-    public static function create(array $listValues=array());
+    public static function create(array $listValues=array(), $messageAuto = true);
 
     public static function update(array $listValues=array(), $id='');
 

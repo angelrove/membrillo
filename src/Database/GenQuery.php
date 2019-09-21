@@ -49,7 +49,6 @@ class GenQuery
                     $listWhere[] = $condition['default'];
                 }
             }
-
             /* Viene de Buscador ($condition contiene "[VALUE]") */
             elseif (strpos($condition, '[VALUE]') !== false) {
                 if (isset($filter_data[$key]) && $filter_data[$key]) {
@@ -57,7 +56,6 @@ class GenQuery
                     $listWhere[] = str_replace('[VALUE]', $replaceVal, $condition);
                 }
             }
-
             /* Se incluye siempre */
             else {
                 $listWhere[] = $condition;
@@ -116,11 +114,8 @@ class GenQuery
         return $sqlFiltros;
     }
     //------------------------------------------------------------------
-    public static function helper_insert(
-        $DB_TABLE,
-        array $listValuesPers = [],
-        $messageAuto = true
-    ) {
+    public static function helper_insert($DB_TABLE, array $listValuesPers = [], $messageAuto = true)
+    {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
             return $errors;
@@ -136,11 +131,8 @@ class GenQuery
         }
     }
     //------------------------------------------------------------------
-    public static function helper_update(
-        $DB_TABLE,
-        array $listValuesPers = [],
-        $id = ''
-    ) {
+    public static function helper_update($DB_TABLE, array $listValuesPers = [], $id = '')
+    {
         // Parse from ---
         if ($errors = self::parseForm($DB_TABLE)) {
             return $errors;
@@ -463,8 +455,10 @@ class GenQuery
     //------------------------------------------------------------------
     // DELETE
     //------------------------------------------------------------------
-    public static function softDelete($DB_TABLE)
+    public static function softDelete($DB_TABLE, $id='')
     {
+        $ROW_ID = ($id)? $id : Event::$ROW_ID;
+
         $sqlQ = "UPDATE " . $DB_TABLE . " SET deleted_at=NOW() WHERE id='" . Event::$ROW_ID . "'";
         Db_mysql::query($sqlQ);
         self::$executed_queries[] = $sqlQ;
@@ -477,9 +471,9 @@ class GenQuery
     }
     //-----------
     /* Delete row and uploaded files */
-    public static function delete($DB_TABLE)
+    public static function delete($DB_TABLE, $id='')
     {
-        $ROW_ID = Event::$ROW_ID;
+        $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
         $sqlQ = self::getQueryDelete($DB_TABLE, $ROW_ID);
         Db_mysql::query($sqlQ);

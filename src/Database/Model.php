@@ -69,9 +69,9 @@ class Model implements ModelInterface
         return $datos;
     }
 
-    public static function create(array $listValues = array())
+    public static function create(array $listValues = array(), $messageAuto = true)
     {
-        return GenQuery::helper_insert(static::CONF['table'], $listValues);
+        return GenQuery::helper_insert(static::CONF['table'], $listValues, $messageAuto);
     }
 
     public static function update(array $listValues = array(), $id = '')
@@ -79,12 +79,14 @@ class Model implements ModelInterface
         return GenQuery::helper_update(static::CONF['table'], $listValues, $id);
     }
 
-    public static function delete()
+    public static function delete($id='')
     {
+        $ROW_ID = ($id)? $id : Event::$ROW_ID;
+
         if (static::CONF['soft_delete']) {
-            return GenQuery::softDelete(static::CONF['table']);
+            return GenQuery::softDelete(static::CONF['table'], $ROW_ID);
         } else {
-            return GenQuery::delete(static::CONF['table']);
+            return GenQuery::delete(static::CONF['table'], $ROW_ID);
         }
     }
     //-----------------------------------------------------------------

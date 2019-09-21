@@ -348,9 +348,9 @@ class WForm extends EventComponent
             case 'select_query':
                 $sqlQ = ($params['query'])?? $params[0];
 
-                $emptyOption = '';
-                if (isset($params[1]) && $params[1]) {
-                    $emptyOption = ($params[1] === true)? '-' : $params[1];
+                $emptyOption = ($params['emptyOption'])?? $params[1] ?? '';
+                if ($emptyOption === true) {
+                    $emptyOption = '-';
                 }
 
                 $htmInput = WInputSelect::get($sqlQ, $this->datos[$name], $name, $required, $emptyOption);
