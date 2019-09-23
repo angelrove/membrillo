@@ -344,14 +344,11 @@ class GenQuery
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
-                if ($value == 'NULL') {
-                } else {
-                    $value = "'$value'";
-                }
+                $value = self::parseValue($value, $fieldName, $fieldProp->type);
             }
             // Value _POST ---
             else {
-                $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
+                $value = self::getValueFromRequest($DB_TABLE, $fieldName, $fieldProp->type);
 
                 if (isset($value->errors)) {
                     return $value;
@@ -423,14 +420,11 @@ class GenQuery
             // Value ---
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
-                if ($value == 'NULL') {
-                } else {
-                    $value = "'$value'";
-                }
+                $value = self::parseValue($value, $fieldName, $fieldProp->type);
             }
             // Value ---
             else {
-                $value = self::getValueToInsert($DB_TABLE, $fieldName, $fieldProp->type);
+                $value = self::getValueFromRequest($DB_TABLE, $fieldName, $fieldProp->type);
                 if (isset($value->errors)) {
                     return $value;
                 }
@@ -586,11 +580,11 @@ class GenQuery
         return $tableProp;
     }
     //------------------------------------------------------------------
-    private static function getValueToInsert($DB_TABLE, $fieldName, $fieldType)
+    private static function getValueFromRequest($DB_TABLE, $fieldName, $fieldType)
     {
         $inputValue = '';
 
-        // Get value ---
+        // POST ---
         if (isset($_POST[$fieldName])) {
             $inputValue = $_POST[$fieldName];
         } elseif (isset($_FILES[$fieldName])) {
@@ -598,55 +592,58 @@ class GenQuery
             return false;
         }
 
+        // FILES ---
+        if ($fieldType == 'file') {
+            if (count($_FILES) == 0) {
+                throw new \Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
+            }
+
+            $inputValue = WInputFile_upload::getFile($DB_TABLE, $fieldName);
+            if (isset($inputValue->errors)) {
+                throw new \Exception("ERROR [upload] with column '$fieldName'", E_USER_ERROR);
+            }
+        }
+
+        return self::parseValue($inputValue, $fieldName, $fieldType);
+    }
+    //------------------------------------------------------------------
+    private static function parseValue($inputValue, $fieldName, $fieldType)
+    {
         // Trim ---
         $inputValue = trim($inputValue);
 
-        // Formatear entrada según el tipo ---
-        //echo "'$fieldName' >> '$fieldType' = '$inputValue'<br>";
+        // NULL ---
+        if ($inputValue == 'NULL') {
+            return $inputValue;
+        }
+
+        // Password ---
+        global $CONFIG_APP;
+        if ($fieldName == 'password' && $CONFIG_APP['login']['LOGIN_HASH']) {
+            $value = password_hash($inputValue, PASSWORD_BCRYPT);
+            return "'$value'";
+        }
+
+        // Column type ---
         switch ($fieldType) {
-            //-------
             case 'date':
                 $value = "STR_TO_DATE('$inputValue', '%d/%m/%Y')";
                 break;
-            //-------
+
             case 'timestamp':
             case 'datetime':
-                if ($inputValue == 'NULL' || $inputValue == 'NOW()') {
+                if ($inputValue == 'NOW()') {
                     $value = $inputValue;
                 } else {
                     $value = "'$inputValue'";
                 }
                 break;
-            //-------
-            case 'file':
-                if (count($_FILES) == 0) {
-                    throw new \Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
-                }
 
-                $datosFile = WInputFile_upload::getFile($DB_TABLE, $fieldName);
-                if (isset($datosFile->errors)) {
-                    $value = $datosFile;
-                } else {
-                    $value = "'$datosFile'";
-                }
-                break;
-            //-------
             default:
-                global $CONFIG_APP;
-
-                if ($fieldName == 'password' && $CONFIG_APP['login']['LOGIN_HASH']) {
-                    $inputValue = password_hash($inputValue, PASSWORD_BCRYPT);
-                }
-
-                if ($inputValue == 'NULL') {
-                    $value = $inputValue;
-                } else {
-                    $value = "'$inputValue'";
-                }
+                $value = "'$inputValue'";
                 break;
-            //-------
         }
-        // print_r2("$fieldType : $value");
+        // print_r2("DEBUG: '$fieldName' >> $fieldType: $value");
 
         return $value;
     }
