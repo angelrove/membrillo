@@ -192,6 +192,11 @@ class WList extends EventComponent
         $this->cellEditor = $cellEditor;
     }
     //-------------------------------------------------------
+    public function setColumnEditor(iWListCellEditor $cellEditor)
+    {
+        $this->cellEditor = $cellEditor;
+    }
+    //-------------------------------------------------------
     public function setOptionsEditor(iWListCellOptionsEditor $optionsEditor)
     {
         $this->optionsEditor = $optionsEditor;

@@ -31,6 +31,9 @@ class Model implements ModelInterface
         return $sqlQ;
     }
 
+    /**
+     * Return one row by id
+     */
     public static function findById($id, $asArray = true, $setHtmlSpecialChars = true)
     {
         $sql = GenQuery::selectRow(static::CONF['table'], $id);
