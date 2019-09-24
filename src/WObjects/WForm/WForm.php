@@ -64,6 +64,11 @@ class WForm extends EventComponent
         $this->parse_event($this->WEvent);
     }
     //--------------------------------------------------------------
+    public function setData(array $data)
+    {
+        return $this->datos = $data;
+    }
+    //--------------------------------------------------------------
     public function getData()
     {
         return $this->datos;
