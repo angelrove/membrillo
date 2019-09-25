@@ -24,6 +24,7 @@ class Model implements ModelInterface
             $filter_conditions[] = 'deleted_at IS NULL';
         }
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions, $filter_data);
+        // print_r2($sqlFilters);
 
         $sqlQ = GenQuery::select(static::CONF['table']).$sqlFilters;
         // print_r2($sqlQ);
