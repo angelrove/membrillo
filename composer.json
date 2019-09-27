@@ -7,9 +7,9 @@
         { "name": "Jose Angel Romero", "email": "jangel.romero@gmail.com" }
     ],
     "require": {
-        "php": "^7.1.3",
-        "angelrove/utils": "^3.0",
-        "angelrove/front-components": "^3.0"
+        "php": "^7.2",
+        "angelrove/utils": "dev-master",
+        "angelrove/front-components": "dev-master"
     },
     "autoload": {
         "psr-4": {
