@@ -2,29 +2,18 @@
     "name": "angelrove/membrillo",
     "type": "library",
     "description": "My little and pretty framework ",
-    "homepage": "https://github.com/angelrove/membrillo",
     "license": "MIT",
     "authors": [
         { "name": "Jose Angel Romero", "email": "jangel.romero@gmail.com" }
     ],
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "angelrove/utils": "dev-master",
+        "angelrove/front-components": "dev-master"
     },
-    "repositories": [
-        { "type": "git", "url": "https://github.com/angelrove/utils.git" }
-    ],
-
-    "require-dev": {
-        "angelrove/utils": "dev-master"
-    },
-
-    "require": {
-    },
-
     "autoload": {
         "psr-4": {
-          "angelrove\\utils\\": "vendor/angelrove/utils/src/"
+            "angelrove\\membrillo\\": "vendor/angelrove/membrillo/src/"
         }
     }
-
 }
