@@ -2,13 +2,14 @@
     "name": "angelrove/membrillo",
     "type": "library",
     "description": "My little and pretty framework ",
+    "homepage": "https://github.com/angelrove/membrillo",
+    "license": "MIT",
     "authors": [
-        {
-            "name": "Jose Angel Romero",
-            "email": "jangel.romero@gmail.com"
-        }
+        { "name": "Jose Angel Romero", "email": "jangel.romero@gmail.com" }
     ],
-
+    "require": {
+        "php": "^7.1"
+    },
     "repositories": [
         { "type": "git", "url": "https://github.com/angelrove/utils.git" }
     ],
