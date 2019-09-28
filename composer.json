@@ -11,10 +11,6 @@
         "angelrove/utils": "^3.0",
         "angelrove/front-components": "^3.0"
     },
-    "require-dev": {
-        "angelrove/utils": "dev-master",
-        "angelrove/front-components": "dev-master"
-    },
     "autoload": {
         "psr-4": {
             "angelrove\\membrillo\\": "src/"
