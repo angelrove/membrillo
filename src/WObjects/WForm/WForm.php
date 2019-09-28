@@ -33,6 +33,7 @@ class WForm extends EventComponent
     // Buttons
     private $bt_ok       = true;
     private $bt_cancel   = true;
+    private $bt_cancel_label = '';
     private $bt_upd      = false;
     private $bt_del      = false;
     private $bt_saveNext = false;
