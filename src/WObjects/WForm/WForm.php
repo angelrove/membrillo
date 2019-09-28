@@ -190,9 +190,10 @@ class WForm extends EventComponent
         $this->bt_cancel = $bt_cancel;
     }
     //------------------------------------------------------------------
-    public function set_bt_cancel($flag)
+    public function set_bt_cancel($flag, $label = '')
     {
         $this->bt_cancel = $flag;
+        $this->bt_cancel_label = $label;
     }
     //------------------------------------------------------------------
     public function set_bt_delete($label = '')
@@ -254,28 +255,30 @@ class WForm extends EventComponent
     // $flag: '', 'top'
     public function getButtons($flag = '')
     {
-        $bt_aceptar  = '<button type="submit" class="WForm_bfAccept btn btn-primary" scut_id_object="'.$this->id_object.'">' .
-                            Local::$t['save'] .
-                        '</button> ' . "\n";
-        $bt_guardar  = '<button type="submit" class="WForm_btUpdate btn btn-primary" scut_id_object="'.$this->id_object.'">' .
-                            Local::$t['save_continue'] .
-                        '</button> ' . "\n";
-        $bt_cancelar = '<button type="button" class="WForm_btClose btn btn-default" scut_id_object="'.$this->id_object.'">' .
-                            Local::$t['close'] .
-                        '</button>' . "\n";
+        $bt_enter  = '<button type="submit" class="WForm_bfAccept btn btn-primary" scut_id_object="'.$this->id_object.'">' .
+                         Local::$t['save'] .
+                     '</button> ' . "\n";
+        $bt_save   = '<button type="submit" class="WForm_btUpdate btn btn-primary" scut_id_object="'.$this->id_object.'">' .
+                         Local::$t['save_continue'] .
+                     '</button> ' . "\n";
+
+        $label = ($this->bt_cancel_label)? $this->bt_cancel_label : Local::$t['close'];
+        $bt_cancel = '<button type="button" class="WForm_btClose btn btn-default" scut_id_object="'.$this->id_object.'">' .
+                         $label .
+                     '</button>' . "\n";
 
         $datosEv = $this->getFormEvent();
 
         if (!$this->bt_ok) {
-            $bt_aceptar = '';
+            $bt_enter = '';
         }
 
         if (!$this->bt_upd) {
-            $bt_guardar = '';
+            $bt_save = '';
         }
 
         if (!$this->bt_cancel || $flag == 'TOP') {
-            $bt_cancelar = '';
+            $bt_cancel = '';
         }
 
         if ($flag == 'TOP' || !$this->WEvent->ROW_ID) {
@@ -283,10 +286,10 @@ class WForm extends EventComponent
         }
 
         // $strButtons
-        $strButtons = $this->bt_del . $bt_aceptar . $bt_guardar . $this->bt_saveNext . $bt_cancelar;
+        $strButtons = $this->bt_del . $bt_enter . $bt_save . $this->bt_saveNext . $bt_cancel;
 
         if ($this->readOnly) {
-            $strButtons = $bt_cancelar;
+            $strButtons = $bt_cancel;
         }
 
         // OUT
