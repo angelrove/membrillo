@@ -45,18 +45,23 @@ a:hover {
 /* fieldset old */
 
 fieldset.fieldset_old {
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 28px;
+    border: 1px solid #e1e1e1;
     background: whitesmoke;
+    margin-bottom: 28px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 26px;
+    padding-bottom: 10px;
 }
 
 fieldset.fieldset_old legend {
-    padding: 0px 12px;
-    margin-bottom: 5px;
-    border: 0;
     width: initial;
+    border: 0;
+    padding: 0px 12px;
+    margin-bottom: 0px;
     background: #fff;
+    font-weight: normal;
+    font-style: italic;
 }
 
 
