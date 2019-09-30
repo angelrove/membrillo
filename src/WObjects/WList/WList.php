@@ -751,9 +751,6 @@ EOD;
             if ($bt_opc['href']) {
                 $bt_href = $bt_opc['href'];
             }
-            if (!$bt_opc['title']) {
-                $bt_opc['title'] = $bt_opc['label'];
-            }
 
             $bt_target = '';
             if ($bt_opc['target']) {
