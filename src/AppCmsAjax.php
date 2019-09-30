@@ -83,6 +83,7 @@ class AppCmsAjax extends Application
             case 'Messages_get':
                 Messages::get();
                 break;
+
             default:
                 throw new \Exception('membrillo error: service not found');
                 break;

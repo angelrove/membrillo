@@ -18,7 +18,7 @@ class Model implements ModelInterface
             'deleted' => "deleted_at IS NOT NULL",
         ];
      */
-    public static function read(array $filter_conditions = array(), array $filter_data = array())
+    public static function read(array $filter_conditions = array(), array $filter_data = array()): string
     {
         if (static::CONF['soft_delete'] && !$filter_conditions) {
             $filter_conditions[] = 'deleted_at IS NULL';
@@ -54,7 +54,7 @@ class Model implements ModelInterface
         return $data[$field];
     }
 
-    public static function find(array $filter_conditions)
+    public static function find(array $filter_conditions): array
     {
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions);
 
@@ -63,8 +63,10 @@ class Model implements ModelInterface
         return Db_mysql::getRow($sql);
     }
 
-    public static function findEmpty()
+    public static function findEmpty(): array
     {
+        $datos = array();
+
         $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . static::CONF['table']);
         foreach ($columns as $key => $value) {
             $datos[$key] = '';
@@ -97,7 +99,7 @@ class Model implements ModelInterface
     // Login
     //-----------------------------------------------------------------
     // $hash = password_hash($inputValue, PASSWORD_BCRYPT);
-    public static function login($email, $passwd, array $conditions = array()) : ?array
+    public static function login($email, $passwd, array $conditions = array()): ?array
     {
         $conditions[] = "email='$email'";
         $conditions[] = "password='$passwd'";
@@ -110,7 +112,7 @@ class Model implements ModelInterface
         return null;
     }
 
-    public static function login_hash($email, $passwd, array $conditions = array()) : ?array
+    public static function login_hash($email, $passwd, array $conditions = array()): ?array
     {
         $conditions[] = "email='$email'";
         $conditions[] = "deleted_at IS NULL";

@@ -49,6 +49,7 @@ class Messages
     //----------------------------------------------------
     public static function show()
     {
+        // Call to "Messages::get()" function by ajax ---
         CssJsLoad::set_script('
   $(document).ready(function() {
      $("#WApplication_msgs_load>div").load("/index_ajax.php?sys_service=Messages_get").delay(10000).fadeOut();
@@ -59,7 +60,7 @@ class Messages
      <!-- Messages -->
      <div id="WApplication_msgs_load"><div></div></div>
      <!-- /Messages -->
-     <?php
+        <?php
     }
     //----------------------------------------------------
     // Esta función es llamada por ajax
@@ -67,7 +68,7 @@ class Messages
     {
         self::parseSession();
 
-        // OUT ---
+        // Print messages ---
         foreach ($_SESSION['Messages_msg'] as $type => $msg) {
             if (!$msg) {
                 continue;

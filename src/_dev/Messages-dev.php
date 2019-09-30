@@ -102,8 +102,8 @@ class WMessages
              FROM sys_messages
              WHERE id_user='".Login::$user_id."'
              GROUP BY tag";
-    $msgs = Db_mysql::getList($sqlQ);
-    if($msgs) {
+
+    if($msgs = Db_mysql::getList($sqlQ)) {
        foreach($msgs as $msg) {
           if(!$msg['num']) continue;
           $txtMsg .= "<b>$msg[id]</b>(<b>$msg[num]</b>)<br>";

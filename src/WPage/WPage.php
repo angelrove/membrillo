@@ -62,6 +62,7 @@ class WPage
 
         var timezone  = '<?=Login::$timezone?>';
         var main_secc = "<?=$_GET['secc']?>";
+        var login_user_id = "<?=Login::$user_id?>";
         </script>
       </head>
       <body class="pagekey_<?=$seccCtrl->getKey()?> pagekey_<?=self::$pagekey?>">
@@ -92,7 +93,8 @@ class WPage
       <!-- content -->
       <main class="container-fluid">
         <?php self::get_page_header()?>
-        <?php Messages::show()?>
+        <?php Messages::show() ?>
+        <?php //\angelrove\membrillo\Notifications::_init() ?>
         <?php
     }
     //---------------------------------
