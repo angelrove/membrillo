@@ -54,7 +54,7 @@ class Model implements ModelInterface
         return $data[$field];
     }
 
-    public static function find(array $filter_conditions): array
+    public static function find(array $filter_conditions): ?array
     {
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions);
 
