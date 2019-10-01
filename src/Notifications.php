@@ -21,9 +21,9 @@ class Notifications
      function getNotifications() {
          $.ajax({
              data: {
-                "sys_service" : "Notifications_get"
+                "sys_ajaxsv" : "Notifications_get"
              },
-             url:  "/index_ajax.php",
+             url:  "/index.php",
              success: function (response) {
                 // notificationsCall(response)
              }

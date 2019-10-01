@@ -52,7 +52,12 @@ class Messages
         // Call to "Messages::get()" function by ajax ---
         CssJsLoad::set_script('
   $(document).ready(function() {
-     $("#WApplication_msgs_load>div").load("/index_ajax.php?sys_service=Messages_get").delay(10000).fadeOut();
+    $.ajax({
+        url: "/?sys_ajaxsv=Messages_get",
+        success: function(ret) {
+            $("#WApplication_msgs_load>div").html(ret).delay(10000).fadeOut();
+        },
+    });
   });
 ', 'Messages');
 

@@ -75,7 +75,7 @@ class WPage
     {
         ?>
        <!-- js -->
-       <?php CssJsLoad::get_js();?>
+       <?php CssJsLoad::get_js(); ?>
        <!-- /js -->
       </body>
       </html>

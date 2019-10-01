@@ -2,13 +2,13 @@
 /**
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
+ * >> $_REQUEST: 'ajaxsv', 'sys_ajaxsv'
  */
 
 namespace angelrove\membrillo;
 
 use angelrove\membrillo\Login\LoginCtrl;
 use angelrove\membrillo\WApp\Session;
-
 
 class AppCmsAjax extends Application
 {
@@ -17,11 +17,6 @@ class AppCmsAjax extends Application
     {
         //-------
         parent::__construct($document_root);
-
-        // Parse params ----
-        if (!isset($_REQUEST['service']) && !isset($_REQUEST['sys_service'])) {
-            throw new \Exception("Error 'Service' not found");
-        }
 
         //----------------------------------------------------
         /* Globals */
@@ -53,33 +48,30 @@ class AppCmsAjax extends Application
             $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         }
 
-        $service_path        = $secc_dir . '/ajax-'   . $_REQUEST['service'] . '.inc';
-        $service_path_script = $secc_dir . '/script-' . $_REQUEST['service'] . '.php';
+        $service_path        = $secc_dir . '/ajax-'   . $_REQUEST['ajaxsv'] . '.inc';
+        $service_path_script = $secc_dir . '/script-' . $_REQUEST['ajaxsv'] . '.php';
 
         // Load service ----
         try {
             if (file_exists($service_path)) {
                 include $service_path;
-            }
-            elseif (file_exists($service_path_script)) {
+            } elseif (file_exists($service_path_script)) {
                 include $service_path_script;
-            }
-            else {
-                throw new \Exception("membrillo error: Service not found [$service_path]");
+            } else {
+                throw new \Exception("ajax error: Service not found [$service_path]");
             }
         } catch (\Exception $e) {
             throw $e;
         }
-
     }
     //-----------------------------------------------------------------
     private function system_services()
     {
-        if (!isset($_REQUEST['sys_service'])) {
+        if (!isset($_REQUEST['sys_ajaxsv'])) {
             return true;
         }
 
-        switch ($_REQUEST['sys_service']) {
+        switch ($_REQUEST['sys_ajaxsv']) {
             case 'Messages_get':
                 Messages::get();
                 break;

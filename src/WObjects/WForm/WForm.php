@@ -44,25 +44,20 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, array $data, $title = '')
+    public function __construct($id_object, ?array $data, $title = '')
     {
-        $this->title = $title;
-
-        CssJsLoad::set(__DIR__ . '/libs.js');
-
-        //----------
-        parent::__construct($id_object);
-
-        $this->datos = $data;
-        if (!$this->datos) {
-            $strErr = 'ERROR: WForm: el registro solicitado no existe';
+        if (!$data) {
+            $strErr = 'ERROR: WForm: the requested "id" does not exist';
             include '404.php';
-            exit();
         }
 
-        WPage::add_pagekey('WForm');
+        $this->title = $title;
+        $this->datos = $data;
 
-        //---------
+        //----------
+        CssJsLoad::set(__DIR__ . '/libs.js');
+        parent::__construct($id_object);
+        WPage::add_pagekey('WForm');
         $this->parse_event($this->WEvent);
     }
     //--------------------------------------------------------------
