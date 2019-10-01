@@ -42,12 +42,12 @@ hr {
     z-index: 1000;
     top: 1px;
     left: 28%;
-    border-radius: 0;
+    /*border-radius: 0;*/
     max-width:530px
 }
 
 .WApplication_msgs.alert {
-    padding: 10px;
+    padding: 10px 13px;
     margin-bottom: 10px;
 }
 

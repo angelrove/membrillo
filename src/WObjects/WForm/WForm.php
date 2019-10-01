@@ -32,6 +32,7 @@ class WForm extends EventComponent
 
     // Buttons
     private $bt_ok       = true;
+    private $bt_ok_label = '';
     private $bt_cancel   = true;
     private $bt_cancel_label = '';
     private $bt_upd      = false;
@@ -191,6 +192,11 @@ class WForm extends EventComponent
         $this->bt_cancel = $bt_cancel;
     }
     //------------------------------------------------------------------
+    public function set_bt_ok_label($label = '')
+    {
+        $this->bt_ok_label = $label;
+    }
+    //------------------------------------------------------------------
     public function set_bt_cancel($flag, $label = '')
     {
         $this->bt_cancel = $flag;
@@ -256,9 +262,11 @@ class WForm extends EventComponent
     // $flag: '', 'top'
     public function getButtons($flag = '')
     {
+        $label = ($this->bt_ok_label)? $this->bt_ok_label : Local::$t['save'];
         $bt_enter  = '<button type="submit" class="WForm_bfAccept btn btn-primary" scut_id_object="'.$this->id_object.'">' .
-                         Local::$t['save'] .
+                         $label .
                      '</button> ' . "\n";
+
         $bt_save   = '<button type="submit" class="WForm_btUpdate btn btn-primary" scut_id_object="'.$this->id_object.'">' .
                          Local::$t['save_continue'] .
                      '</button> ' . "\n";
