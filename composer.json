@@ -9,7 +9,8 @@
     "require": {
         "php": "^7.2",
         "angelrove/utils": "dev-master",
-        "angelrove/front-components": "dev-master"
+        "angelrove/front-components": "dev-master",
+        "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
         "psr-4": {
