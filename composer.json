@@ -8,8 +8,8 @@
     ],
     "require": {
         "php": "^7.2",
-        "angelrove/utils": "dev-master",
-        "angelrove/front-components": "dev-master",
+        "angelrove/utils": "^3.1",
+        "angelrove/front-components": "^3.0",
         "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
