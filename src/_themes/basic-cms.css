@@ -54,6 +54,10 @@ hr {
 
 /* ---- HEADER ----- */
 
+.page-header {
+    border-bottom: 0;
+}
+
 header.page-header {
     background-color: #191c22;
     margin: 0;
@@ -67,9 +71,7 @@ header.page-header h1 {
     font-weight: 300;
 }
 
-
 /* ---- NAVBAR ----- */
-
 
 /** height **/
 

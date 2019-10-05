@@ -46,3 +46,13 @@ footer {
 .WFrame .panel-default>.panel-heading {
     border-width: 0;
 }
+
+/* Media ------------*/
+@media (max-width: 767px) {
+    .navbar {
+        margin-bottom: 0;
+    }
+    main.container-fluid, main.container {
+        margin: 0;
+    }
+}
