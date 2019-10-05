@@ -21,9 +21,9 @@ class Config_Secciones
     public function __construct()
     {
         // System section 'My account' ---
-        $this->setSection("myaccount", Local::$t['My account']);
-        $this->setSubSection("myaccount", "mydata", Local::$t['My data']);
-        $this->setSubSection("myaccount", "updatepasswd", Local::$t['Change password']);
+        $this->setSection("myaccount")->hide();
+        $this->setSubSection("myaccount", "mydata");
+        $this->setSubSection("myaccount", "updatepasswd");
     }
     //---------------------------------------------------
     public function setSections(array $listSections, array $listSubSections = array()): void
@@ -89,6 +89,13 @@ class Config_Secciones
     {
         if (isset($this->listSections[$id_section])) {
             $this->listSections[$id_section]->logo($logo);
+        }
+    }
+    //---------------------------------------------------
+    public function setSection_hide(): void
+    {
+        if (isset($this->listSections[$id_section])) {
+            $this->listSections[$id_section]->hide();
         }
     }
     //---------------------------------------------------

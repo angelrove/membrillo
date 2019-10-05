@@ -11,6 +11,7 @@ class Config_Secciones_Item
     public $id;
     public $title;
     public $logo;
+    public $hide;
     public $folder;
     public $path;
     public $link;
@@ -26,6 +27,12 @@ class Config_Secciones_Item
     public function logo($logo)
     {
         $this->logo = $logo;
+        return $this;
+    }
+
+    public function hide()
+    {
+        $this->hide = true;
         return $this;
     }
 

@@ -1,10 +1,13 @@
 <?php
 use angelrove\membrillo\WApp\Local;
 
+// My account
 Local::$t['My account'] = 'My account';
 Local::$t['My data'] = 'My data';
 Local::$t['Change password'] = 'Change password';
+Local::$t['Logout'] = 'Logout';
 
+//-----------
 Local::$t['delete'] = 'Delete';
 Local::$t['new']    = 'New';
 Local::$t['accept'] = 'Accept';

@@ -24,7 +24,7 @@ class Navbar
         $set_inverse = self::$set_inverse;
 
         // Right items ---
-        $navRight = self::navBarRightx();
+        $navRight = self::navBarRight();
 
         // OUT ---
         $title = $CONFIG_APP['data']['TITLE'];
@@ -37,27 +37,7 @@ class Navbar
     //---------------------------------------------------
     private static function navBarRight()
     {
-        if (!Login::$login) {
-            return;
-        }
-
-        $myAccountItem = self::myAccountItem();
-
-        $str_user = Login::$INFO['name'].
-                    $myAccountItem.
-                    '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
-                       ' <i class="fas fa-sign-out-alt fa-lg"></i>'.
-                    '</a>';
-
         $strLang = Local::getSelector();
-
-        return $strLang.' &nbsp; '.$str_user;
-    }
-    //---------------------------------------------------
-    private static function navBarRightx()
-    {
-        $strLang = Local::getSelector();
-        // $strLang = '<select></select>';
 
         return '
 <li><a href="#">'.$strLang.'</a></li>
@@ -66,10 +46,10 @@ class Navbar
         <i class="fas fa-user-cog fa-lg"></i> '.Login::$INFO['name'].' <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-        <li><a href="/myaccount/mydata"> My data</a></li>
-        <li><a href="/myaccount/updatepasswd"> Change password</a></li>
+        <li><a href="/myaccount/mydata">'.Local::$t['My data'].'</a></li>
+        <li><a href="/myaccount/updatepasswd">'.Local::$t['Change password'].'</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="/?APP_EVENT=close"><i class="fas fa-sign-out-alt fa-lg"></i> Loout</a></li>
+        <li><a href="/?APP_EVENT=close"><i class="fas fa-sign-out-alt fa-lg"></i> '.Local::$t['Logout'].'</a></li>
     </ul>
 </li>
         ';
@@ -90,19 +70,21 @@ class Navbar
         foreach ($listItems as $item => $val) {
             $seccion = $secciones[$item];
 
-            if (!$seccion->title) {
+            if ($seccion->hide) {
                 continue;
             }
 
             if (isset(self::$listSep[$item])) {
                 $ret .= '<li><div class="sep">|</div></li>';
             }
-            $ret .= self::getButton($seccion->id,
-                                    $seccion->title,
-                                    $seccion->logo,
-                                    $seccion->link,
-                                    $selected,
-                                    $selected_padre);
+            $ret .= self::getButton(
+                $seccion->id,
+                $seccion->title,
+                $seccion->logo,
+                $seccion->link,
+                $selected,
+                $selected_padre
+            );
         }
 
         return $ret;
@@ -146,8 +128,7 @@ class Navbar
 
                 if ($link = $CONFIG_SECCIONES->getSection_link($mod)) {
                     $ret .= '<li><a href="' . $link . '" target="_blank">'.$logo.' '.$title.'</a></li>';
-                }
-                else {
+                } else {
                     $href   = '/' . $mod;
                     $active = ($mod == $modActual) ? 'active' : '';
                     $ret .= '<li class="'.$active.'"><a href="'.$href.'">'.$logo.' '.$title.'</a></li>';
@@ -181,8 +162,9 @@ class Navbar
         return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$logo.' '.$title.'</a>';
     }
     //---------------------------------------------------
-    private static function tmpl_navbar($set_inverse, $title, $buttons, $str_right) {
-      return '
+    private static function tmpl_navbar($set_inverse, $title, $buttons, $str_right)
+    {
+        return '
 
       <!-- Navbar -->
       <nav id="WMain_menu" class="navbar navbar-default navbar-static-top ' . $set_inverse . '">
