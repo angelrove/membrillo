@@ -66,10 +66,10 @@ class AppCms extends Application
 
         // >> $CONFIG_SECCIONES -----
         if (!Session::get('CONFIG_SECCIONES')) {
-            require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
+            require PATH_SRC . '/CONFIG_SECC.inc';
 
             // Usuario: cuando se ha cargado el último objeto de sesión
-            require DOCUMENT_ROOT . '/app/onInitSession.inc';
+            require PATH_SRC . '/onInitSession.inc';
         }
         $CONFIG_SECCIONES = Session::get('CONFIG_SECCIONES');
 
@@ -114,8 +114,8 @@ class AppCms extends Application
         require __DIR__ . '/_vendor_cssjs.inc';
         CssJsLoad::set(__DIR__ . '/_themes/_basics.css');
 
-        require DOCUMENT_ROOT . '/_vendor_cssjs.inc';
-        require DOCUMENT_ROOT . '/app/onInitPage.inc';
+        require PATH_APP . '/_vendor_cssjs.inc';
+        require PATH_SRC . '/onInitPage.inc';
 
         // Basics vendor css/js -----
         Vendor::usef('jquery');

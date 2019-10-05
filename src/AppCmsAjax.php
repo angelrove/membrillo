@@ -37,13 +37,13 @@ class AppCmsAjax extends Application
 
         //----------------------------------------------------//
         /* Load on init */
-        require DOCUMENT_ROOT . '/app/onInitPage.inc';
+        require PATH_SRC . '/onInitPage.inc';
 
         //----------------------------------------------------//
         /* User Service */
         $secc_dir = '';
         if (isset($_REQUEST['secc']) && $_REQUEST['secc']) {
-            $secc_dir = DOCUMENT_ROOT . '/app/' . $_REQUEST['secc'];
+            $secc_dir = PATH_SRC . '/' . $_REQUEST['secc'];
         } else {
             $secc_dir = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         }

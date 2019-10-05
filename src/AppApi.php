@@ -44,7 +44,7 @@ class AppApi extends Application
         //----------------------------------------------------
         // >> $CONFIG_SECCIONES -----
         $CONFIG_SECCIONES = new Config_Secciones();
-        require DOCUMENT_ROOT . '/app/CONFIG_SECC.inc';
+        require PATH_SRC . '/CONFIG_SECC.inc';
 
         // >> $seccCtrl -------------
         $seccCtrl = new SeccCtrl($_REQUEST['secc']);
@@ -63,7 +63,7 @@ class AppApi extends Application
         //----------------------------------------------------
         /* Load on init */
         //----------------------------------------------------
-        require DOCUMENT_ROOT . '/app/onInitPage.inc';
+        require PATH_SRC . '/onInitPage.inc';
 
         //----------------------------------------------------
         /* Parse event */

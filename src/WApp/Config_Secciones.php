@@ -172,7 +172,7 @@ class Config_Secciones
     //---------------------------------------------------
     public function getFolder($id)
     {
-        $path_secciones = DOCUMENT_ROOT . '/app/sections/';
+        $path_secciones = PATH_SRC . '/sections/';
 
         // Path section ---
         if ($this->listSections[$id]->path) {

@@ -24,22 +24,23 @@ class Application
 
         //-------------------------------------
         /* Globals */
-        // Document root ---
-        define('DOC_ROOT_MAIN', dirname($document_root));
-        define('DOCUMENT_ROOT', $document_root);
+        define('PATH_MAIN', realpath($document_root.'/../..'));
+        define('PATH_APP', realpath($document_root.'/..'));
+        define('PATH_SRC', PATH_APP.'/src');
+        define('PATH_PUBLIC', PATH_APP.'/public');
 
         // Cache ---
-        define('CACHE_PATH', $document_root.'/_cache');
-        define('CACHE_URL', '/_cache');
+        define('CACHE_PATH', PATH_PUBLIC.'/cache');
+        define('CACHE_URL', '/cache');
 
-        // Logs errors ---
-        define('PATH_LOG', DOC_ROOT_MAIN.'/_logs');
-        define('LOG_FILE_PREF', basename($document_root).'-');
+        // Logs ---
+        define('PATH_LOG', PATH_MAIN.'/_logs');
+        define('LOG_FILE_PREF', basename(PATH_APP).'-');
 
         //-------------------------------------
         /* Config */
         global $CONFIG_APP;
-        require DOC_ROOT_MAIN . '/config/app.php';
+        require PATH_MAIN . '/config/app.php';
 
         //-------
         self::$conf    = & $CONFIG_APP;
@@ -54,7 +55,7 @@ class Application
             }
 
             /* Config */
-            require DOCUMENT_ROOT . '/config.php';
+            require PATH_APP . '/config.php';
 
             /* Database */
             $this->initDatabase(self::$conf_db['default']);

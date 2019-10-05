@@ -38,7 +38,7 @@ class Local
         $dir_lang = 'local_t/'.self::getLang().'.inc';
 
         include_once __DIR__.'/'.$dir_lang;
-        include_once 'app/'.$dir_lang;
+        include_once PATH_SRC.'/'.$dir_lang;
     }
     //------------------------------------------------------
     private static function loadLangFilesSection()

@@ -45,9 +45,9 @@ class WTree2
     //-----------------------------------------------------------------
     public function __construct($idComponent, $dbTable, $width=300, $niveles = 3)
     {
-        CssJsLoad::set(DOCUMENT_ROOT.'/public/app/_libs/jquery-treeview/jquery.treeview.css');
-        CssJsLoad::set(DOCUMENT_ROOT.'/public/app/_libs/jquery-treeview/jquery.treeview.js');
-        CssJsLoad::set(DOCUMENT_ROOT.'/public/app/_libs/jquery-treeview/lib/jquery.cookie.js');
+        CssJsLoad::set(PATH_SRC.'/_libs/jquery-treeview/jquery.treeview.css');
+        CssJsLoad::set(PATH_SRC.'/_libs/jquery-treeview/jquery.treeview.js');
+        CssJsLoad::set(PATH_SRC.'/_libs/jquery-treeview/lib/jquery.cookie.js');
 
         CssJsLoad::set(__DIR__ . '/styles.css');
         CssJsLoad::set(__DIR__ . '/libs2.js');

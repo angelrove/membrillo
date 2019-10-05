@@ -19,7 +19,7 @@ class Session
         session_set_cookie_params($expireSeconds);
 
         // Session folder ---
-        session_save_path(DOC_ROOT_MAIN.'/_session');
+        session_save_path(PATH_MAIN.'/_session');
 
         // start ---
         session_start();
