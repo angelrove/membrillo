@@ -71,6 +71,16 @@ class ObjectsStatus
         return false;
     }
     //----------------------------------------------------------------------------
+    public function parseAjaxEvent($path_secc)
+    {
+        $wObjectStatus = $this->getObject(Event::$CONTROL);
+
+        // flow (view) ------
+        if (Event::$EVENT) {
+            $wObjectStatus->parse_event(Event::$EVENT);
+        }
+    }
+    //----------------------------------------------------------------------------
     public function parseEvent($path_secc)
     {
         // onInitPage
