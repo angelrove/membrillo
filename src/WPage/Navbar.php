@@ -24,26 +24,55 @@ class Navbar
         $set_inverse = self::$set_inverse;
 
         // Right items ---
-        $str_close = '';
-        if (Login::$login) {
-            $str_close = '&nbsp; '.Login::$INFO['name'].
-                         '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
-                            ' <i class="fas fa-sign-out-alt fa-lg"></i>'.
-                         '</a>';
-        }
-
-        // Lang ---
-        $strLang = Local::getSelector();
+        $navRight = self::navBarRightx();
 
         // OUT ---
-        $strRight = $strLang.$str_close;
-
         $title = $CONFIG_APP['data']['TITLE'];
         if ($CONFIG_APP['data']['TITLE_IMG']) {
             $title = '<img class="img-responsive" src="'.$CONFIG_APP['data']['TITLE_IMG'].'">';
         }
 
-        echo self::tmpl_navbar($set_inverse, $title, $buttons, $strRight);
+        echo self::tmpl_navbar($set_inverse, $title, $buttons, $navRight);
+    }
+    //---------------------------------------------------
+    private static function navBarRight()
+    {
+        if (!Login::$login) {
+            return;
+        }
+
+        $myAccountItem = self::myAccountItem();
+
+        $str_user = Login::$INFO['name'].
+                    $myAccountItem.
+                    '<a style="display:inline-block" href="/?APP_EVENT=close" title="Exit">'.
+                       ' <i class="fas fa-sign-out-alt fa-lg"></i>'.
+                    '</a>';
+
+        $strLang = Local::getSelector();
+
+        return $strLang.' &nbsp; '.$str_user;
+    }
+    //---------------------------------------------------
+    private static function navBarRightx()
+    {
+        $strLang = Local::getSelector();
+        // $strLang = '<select></select>';
+
+        return '
+<li><a href="#">'.$strLang.'</a></li>
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user-cog fa-lg"></i> '.Login::$INFO['name'].' <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="/myaccount/mydata"> My data</a></li>
+        <li><a href="/myaccount/updatepasswd"> Change password</a></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="/?APP_EVENT=close"><i class="fas fa-sign-out-alt fa-lg"></i> Loout</a></li>
+    </ul>
+</li>
+        ';
     }
     //---------------------------------------------------
     private static function getButtons()
