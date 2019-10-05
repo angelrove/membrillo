@@ -405,6 +405,13 @@ class WForm extends EventComponent
                 $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
                 break;
 
+            case 'percentage':
+                $type = 'number';
+                $extraHtml = 'min="0" max="100" step=".01"';
+                $extraHtml .= 'style="width:initial"';
+                $htmInput = $this->getInput1($title, $name, $this->datos[$name], $type, $required, false, $extraHtml);
+                break;
+
             case 'price':
                 $extraHtml = $params[0]?? '';
                 $extraHtml .= ' min="0" step=".01" style="width:initial"';
