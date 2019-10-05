@@ -6,6 +6,7 @@ Local::$t['My account'] = 'My account';
 Local::$t['My data'] = 'My data';
 Local::$t['Change password'] = 'Change password';
 Local::$t['Logout'] = 'Logout';
+Local::$t['New password'] = 'New password';
 
 //-----------
 Local::$t['delete'] = 'Delete';
