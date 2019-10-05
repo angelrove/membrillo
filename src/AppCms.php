@@ -114,7 +114,7 @@ class AppCms extends Application
         require __DIR__ . '/_vendor_cssjs.inc';
         CssJsLoad::set(__DIR__ . '/_themes/_basics.css');
 
-        require PATH_APP . '/_vendor_cssjs.inc';
+        require PATH_APP . '/vendor_cssjs.inc';
         require PATH_SRC . '/onInitPage.inc';
 
         // Basics vendor css/js -----
