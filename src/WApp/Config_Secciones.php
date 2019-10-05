@@ -20,6 +20,10 @@ class Config_Secciones
     //---------------------------------------------------
     public function __construct()
     {
+        // System section 'My account' ---
+        $this->setSection("myaccount", Local::$t['My account']);
+        $this->setSubSection("myaccount", "mydata", Local::$t['My data']);
+        $this->setSubSection("myaccount", "updatepasswd", Local::$t['Change password']);
     }
     //---------------------------------------------------
     public function setSections(array $listSections, array $listSubSections = array()): void
