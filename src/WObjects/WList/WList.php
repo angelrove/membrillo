@@ -26,6 +26,7 @@ class WList extends EventComponent
 
     private $htmPaginacion;
     private $listRows;
+    private $height;
 
     // Pagination
     private $paging_showOn  = 'top'; // top, bottom, false

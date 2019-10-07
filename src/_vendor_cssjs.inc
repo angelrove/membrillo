@@ -10,7 +10,7 @@ Vendor::conf('jquery', '//cdnjs.cloudflare.com/ajax/libs/', array(
 ));
 
 // bootstrap ---
-Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/', array(
+Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/', array(
     'js/bootstrap.min.js',
     'css/bootstrap.min.css',
 ));

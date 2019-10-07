@@ -1,8 +1,7 @@
 
 /******* List *******/
 .List .setScroll {
-  overflow: auto;
-  padding-right: 17px; /* quitar scroll horizontal */
+  overflow-y: auto;
   border-top:1px solid #ddd;
   border-bottom:1px solid #ddd;
 }
@@ -30,17 +29,10 @@ div.List_paginacion {
 .List_tuplas tbody td {
   cursor:pointer;
 }
-/* selected */
-table.List_tuplas tbody tr.selected {
-  background-color:#dff0d9;
-}
-table.List_tuplas tbody tr.selected td {
-  border-bottom: 1px solid #66bb66;
-}
 
 /* onClickUser */
 .List_tuplas tbody td.onClickUser {
- color:blue;
+  color:blue;
 }
 
 /******* optionsBar *******/

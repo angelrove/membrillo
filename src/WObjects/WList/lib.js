@@ -62,7 +62,7 @@ $(document).ready(function()
 //-----------------------------------------------------
 $(document).keydown(function(e)
 {
-    var shortcuts_row = $(".List_tuplas tbody tr.selected").index();
+    var shortcuts_row = $(".List_tuplas tbody tr.info").index();
 
     //----------------
     // Ctrl+Up
@@ -72,8 +72,8 @@ $(document).keydown(function(e)
         return;
       }
       shortcuts_row--;
-      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
-      $(".List_tuplas tbody tr").eq(shortcuts_row+1).removeClass("selected");
+      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("info");
+      $(".List_tuplas tbody tr").eq(shortcuts_row+1).removeClass("info");
     }
     //----------------
     // Ctrl+Down
@@ -83,8 +83,8 @@ $(document).keydown(function(e)
         return;
       }
       shortcuts_row++;
-      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("selected");
-      $(".List_tuplas tbody tr").eq(shortcuts_row-1).removeClass("selected");
+      $(".List_tuplas tbody tr").eq(shortcuts_row).addClass("info");
+      $(".List_tuplas tbody tr").eq(shortcuts_row-1).removeClass("info");
     }
     //----------------
     // Ctrl+Insert (new, onRow, delete)
@@ -96,15 +96,15 @@ $(document).keydown(function(e)
     // Ctrl+Enter
     else if(e.keyCode == 13 && e.ctrlKey)
     {
-      var row_id = $(".List_tuplas tr.selected").attr('id');
-      List_onEvent($(".List_tuplas tr.selected"), row_id, 'onRow', '', '');
+      var row_id = $(".List_tuplas tr.info").attr('id');
+      List_onEvent($(".List_tuplas tr.info"), row_id, 'onRow', '', '');
     }
     //----------------
     // Ctrl+Supr
     else if(e.keyCode == 46 && e.ctrlKey)
     {
-      var row_id = $(".List_tuplas tr.selected").attr('id');
-      List_onEvent($(".List_tuplas tr.selected"), row_id, 'delete', CRUD_OPER_DELETE, List_msgConfirmDel);
+      var row_id = $(".List_tuplas tr.info").attr('id');
+      List_onEvent($(".List_tuplas tr.info"), row_id, 'delete', CRUD_OPER_DELETE, List_msgConfirmDel);
     }
     //-----------------------------------
 });

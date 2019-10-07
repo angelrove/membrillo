@@ -95,10 +95,16 @@ header.page-header h1 {
 
 /*----- WList ---------*/
 
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    padding: 7px;
+@media (min-width: 767px) {
+    .table>tbody>tr>td,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>td,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>thead>tr>th {
+        padding: 7px;
+    }
 }
-
 
 /*----- WForm ---------*/
 
