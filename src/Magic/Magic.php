@@ -19,7 +19,7 @@ class Magic extends Application
     {
         parent::__construct($document_root, true);
 
-        $this->document_root = $document_root;
+        $this->document_root = $document_root.'/src';
     }
     //--------------------------------------------------------------
     public function command(array $params)
@@ -110,7 +110,7 @@ class Magic extends Application
     {
         $name_secc = strtolower($name);
 
-        $dest = $this->document_root.'/app/sections/'.$name_secc;
+        $dest = $this->document_root.'/sections/'.$name_secc;
         if (is_dir($dest)) {
             echo("The Section already exists!");
             return;
@@ -134,7 +134,7 @@ class Magic extends Application
         $name_secc  = strtolower($name);
         $name_model = ucfirst($name_secc);
 
-        $dest = $this->document_root.'/app/Models/'.$name_model.'.php';
+        $dest = $this->document_root.'/Models/'.$name_model.'.php';
         if (file_exists($dest)) {
             echo("The Model already exists!\n");
             return $name_model;

@@ -9,6 +9,8 @@ namespace angelrove\membrillo;
 
 use angelrove\utils\Db_mysql;
 use angelrove\utils\MyErrorHandler;
+use angelrove\membrillo\WApp\Session;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 include_once 'print_r2.php';
 
@@ -46,8 +48,7 @@ class Application
         self::$conf    = & $CONFIG_APP;
         self::$conf_db = & $CONFIG_DB;
 
-        //-------------------------------------
-
+        // Web --------------------------------
         if (!$isConsole) {
             /* Error handler */
             if (!$isConsole) {
@@ -62,9 +63,9 @@ class Application
             Db_mysql::debug_sql(DEBUG_SQL);
 
             /* Session start */
-            \angelrove\membrillo\WApp\Session::start(48);
+            Session::start(48);
         }
-        //-------------------------------------
+        // Console ----------------------------
         else {
             /* DDBB */
             $DB_data = self::$conf_db['default'];
@@ -75,13 +76,33 @@ class Application
     //-----------------------------------------------------------------
     private function initDatabase($datosDb)
     {
-        // Db_mysql ---
+        // Db_mysql ----------------
         Db_mysql::getConn(
             $datosDb['HOST'],
             $datosDb['USER'],
             $datosDb['PASSWORD'],
             $datosDb['DBNAME']
         );
+
+        // "illuminate/database" ---
+        $capsule = new Capsule;
+
+        $capsule->addConnection([
+            'driver'    => 'mysql',
+            'host'      => $datosDb['HOST'],
+            'database'  => $datosDb['DBNAME'],
+            'username'  => $datosDb['USER'],
+            'password'  => $datosDb['PASSWORD'],
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ]);
+
+        // Make this Capsule instance available globally via static methods...
+        $capsule->setAsGlobal();
+
+        // Setup the Eloquent ORM...
+        $capsule->bootEloquent();
     }
     //-----------------------------------------------------------------
 }
