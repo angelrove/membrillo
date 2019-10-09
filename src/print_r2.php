@@ -10,3 +10,8 @@ function print_r2($object, $setComment = false)
     echo $ret;
 }
 //------------------------------------------------------------------
+function dd($object, $setComment = false)
+{
+    print_r2($object, $setComment = false);
+}
+//------------------------------------------------------------------

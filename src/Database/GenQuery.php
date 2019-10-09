@@ -540,7 +540,7 @@ class GenQuery
 
         $tableProp = [];
         foreach ($listFields as $field) {
-            $nombreCampo = $field['Field'];
+            $nombreCampo = $field->Field;
             if ($nombreCampo == 'id') {
                 continue;
             }
@@ -549,17 +549,17 @@ class GenQuery
             $tableProp[$nombreCampo]->title = '';
 
             // Propiedades a través de MySql
-            $tableProp[$nombreCampo]->type = ($field['Type'] == 'timestamp' || $field['Type'] == 'datetime') ?
-            $field['Type'] :
-            trim(substr($field['Type'], 0, 7));
+            $tableProp[$nombreCampo]->type = ($field->Type == 'timestamp' || $field->Type == 'datetime') ?
+            $field->Type :
+            trim(substr($field->Type, 0, 7));
 
-            $tableProp[$nombreCampo]->obligatorio = ($field['Null'] == 'NO') ? 'true' : '';
-            $tableProp[$nombreCampo]->unique      = ($field['Key'] == 'UNI') ? 'true' : '';
+            $tableProp[$nombreCampo]->obligatorio = ($field->Null == 'NO') ? 'true' : '';
+            $tableProp[$nombreCampo]->unique      = ($field->Key == 'UNI') ? 'true' : '';
 
             // Propiedades a través del comentario
-            if ($field['Comment']) {
-                $field['Comment'] = str_replace(";", "&", $field['Comment']);
-                parse_str($field['Comment'], $output);
+            if ($field->Comment) {
+                $field->Comment = str_replace(";", "&", $field->Comment);
+                parse_str($field->Comment, $output);
 
                 if (isset($output['title'])) {
                     $tableProp[$nombreCampo]->title = $output['title'];

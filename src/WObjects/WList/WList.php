@@ -535,22 +535,14 @@ EOD;
         return array($htmPaginacion, $rows);
     }
     //--------------------------------------------------------------
+    public function setData(string $data)
+    {
+        $this->sqlQuery = $data;
+    }
+    //--------------------------------------------------------------
     /**
      * For Eloquent data
      */
-    //--------------------------------------------------------------
-    public function paginationGetLink($page)
-    {
-        $urlBase = CrudUrl::get(
-            $this->event_numPage,
-            $this->id_object,
-            '',
-            '',
-            'id_page=[id_page]'
-        );
-
-        return str_replace('[id_page]', $page, $urlBase);
-    }
     //--------------------------------------------------------------
     public function setEloquentData(\Illuminate\Database\Eloquent\Builder $data)
     {
@@ -566,6 +558,19 @@ EOD;
 
         // Illuminate\Pagination\LengthAwarePaginator ---
         $this->sqlQuery = $data->paginate($this->paging_numRows, ['*'], 'id_page', $id_page);
+    }
+    //--------------------------------------------------------------
+    public function paginationGetLink($page)
+    {
+        $urlBase = CrudUrl::get(
+            $this->event_numPage,
+            $this->id_object,
+            '',
+            '',
+            'id_page=[id_page]'
+        );
+
+        return str_replace('[id_page]', $page, $urlBase);
     }
     //--------------------------------------------------------------
     public function getEloquentPagination(\Illuminate\Pagination\LengthAwarePaginator $data)
@@ -731,7 +736,8 @@ EOD;
     {
         $f_value = @$row->{$dbField->name};
 
-        $f_valueCampo = $f_value;
+        $f_valueCampo = (isset($f_value->name))? $f_value->name : $f_value;
+
         $style_align  = ($dbField->align) ? 'text-align:' . $dbField->align . ';' : '';
 
         /** CellEditor **/

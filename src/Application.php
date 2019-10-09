@@ -10,7 +10,7 @@ namespace angelrove\membrillo;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\MyErrorHandler;
 use angelrove\membrillo\WApp\Session;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Capsule\Manager as DB;
 
 include_once 'print_r2.php';
 
@@ -76,16 +76,8 @@ class Application
     //-----------------------------------------------------------------
     private function initDatabase($datosDb)
     {
-        // Db_mysql ----------------
-        Db_mysql::getConn(
-            $datosDb['HOST'],
-            $datosDb['USER'],
-            $datosDb['PASSWORD'],
-            $datosDb['DBNAME']
-        );
-
         // "illuminate/database" ---
-        $capsule = new Capsule;
+        $capsule = new DB;
 
         $capsule->addConnection([
             'driver'    => 'mysql',

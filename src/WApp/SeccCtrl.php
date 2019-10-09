@@ -73,7 +73,7 @@ class SeccCtrl
         ini_set('include_path', $this->include_path);
 
         /** select_db **/
-        mysqli_select_db(Db_mysql::$db_dbconn, $this->SECC_DB);
+        // mysqli_select_db(Db_mysql::$db_dbconn, $this->SECC_DB);
     }
     //----------------------------------------------------------------------------
     public function getSecc()

@@ -4,7 +4,7 @@ namespace angelrove\membrillo\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class ModelPlus extends Model
 {
@@ -14,7 +14,6 @@ class ModelPlus extends Model
         $emptyRow = [];
 
         $columns = self::getTableColumns();
-
         foreach ($columns as $column) {
             $emptyRow[$column] = '';
         }
@@ -27,7 +26,7 @@ class ModelPlus extends Model
     private static function getTableColumns()
     {
         $tableName = self::getTableName();
-        return Capsule::schema()->getColumnListing($tableName);
+        return DB::schema()->getColumnListing($tableName);
     }
 
     private static function getTableName()

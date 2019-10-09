@@ -4,6 +4,7 @@ namespace angelrove\membrillo\Database;
 use angelrove\membrillo\Database\ModelInterface;
 use angelrove\membrillo\Database\GenQuery;
 use angelrove\utils\Db_mysql;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Model implements ModelInterface
 {
@@ -65,14 +66,14 @@ class Model implements ModelInterface
 
     public static function findEmpty(): array
     {
-        $datos = array();
+        $emptyRow = [];
 
-        $columns = Db_mysql::getListOneField("SHOW COLUMNS FROM " . static::CONF['table']);
-        foreach ($columns as $key => $value) {
-            $datos[$key] = '';
+        $columns = Db_mysql::getTableColumns(static::CONF['table']);
+        foreach ($columns as $column) {
+            $emptyRow[$column] = '';
         }
 
-        return $datos;
+        return $emptyRow;
     }
 
     public static function create(array $listValues = array(), $messageAuto = true)
