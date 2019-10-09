@@ -44,15 +44,22 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, ?array $data, $title = '')
+    public function __construct($id_object, $data, $title = '')
     {
+        $this->title = $title;
+
+        // Data ---
         if (!$data) {
             $strErr = 'ERROR: WForm: the requested "id" does not exist';
             include '404.php';
         }
 
-        $this->title = $title;
-        $this->datos = $data;
+        // Data array or Eloquent object
+        if (is_array($data)) {
+            $this->datos = $data;
+        } else {
+            $this->datos = $data->toArray();
+        }
 
         //----------
         CssJsLoad::set(__DIR__ . '/libs.js');
