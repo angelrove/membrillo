@@ -61,15 +61,15 @@ class WList extends EventComponent
     //-------------------------------------------------------
     // PUBLIC
     //-------------------------------------------------------
-    /*
-     * Params: basic, order
+    /**
+     * @param $data_mixed: [string sql, array data, ]
      */
-    public function __construct($id_control, $sqlQ, array $dbFields, array $params = array())
+    public function __construct($id_control, $data_mixed, array $dbFields, array $params = array())
     {
         //------
         parent::__construct($id_control);
 
-        $this->sqlQuery = $sqlQ;
+        $this->sqlQuery = $data_mixed;
         $this->dbFields = $dbFields;
 
         //------
@@ -110,7 +110,8 @@ class WList extends EventComponent
         $datos = $this->wObjectStatus->getDatos();
 
         switch ($WEvent->EVENT) {
-            //----------
+
+            // Order --------
             case $this->event_fOrder:
                 // invertir la ordenación
                 if (isset($datos['param_fieldPrev']) && $datos['param_fieldPrev'] == $datos['param_field']) {
@@ -120,17 +121,16 @@ class WList extends EventComponent
                 }
 
                 $this->wObjectStatus->setDato('param_fieldPrev', $datos['param_field']);
-                $this->wObjectStatus->delDato('id_page'); // reiniciar la paginación
-                break;
-            //----------
-            case CRUD_LIST_SEARCH:
-                // quitar la tupla seleccionada
-                //$this->wObjectStatus->delRowId($this->id_object);
 
                 // reiniciar la paginación
                 $this->wObjectStatus->delDato('id_page');
                 break;
-            //----------
+
+            // Search --------
+            case CRUD_LIST_SEARCH:
+                // reiniciar la paginación
+                $this->wObjectStatus->delDato('id_page');
+                break;
         }
     }
     //-------------------------------------------------------
@@ -277,10 +277,9 @@ class WList extends EventComponent
         $this->paging_numRows = $numRows;
     }
     //-------------------------------------------------------
-    // deprecated !!
-    public function setNumRowsPage($paging_numRows)
+    public function setNumRowsPage($numRows)
     {
-        $this->paging_numRows = $paging_numRows;
+        $this->paging_numRows = $numRows;
     }
     //-------------------------------------------------------
     public function addRows(array $rows)
@@ -295,7 +294,7 @@ class WList extends EventComponent
         $controlID = $this->id_object;
 
         /** >> htmPaginacion, listRows **/
-        list($this->htmPaginacion, $this->listRows) = $this->getData($this->sqlQuery);
+        list($this->htmPaginacion, $this->listRows) = $this->getData();
 
         /** Add row **/
         if ($this->rowsAdd) {
@@ -334,23 +333,29 @@ class WList extends EventComponent
         return ob_get_clean();
     }
     //--------------------------------------------------------------
-    public function getData($sqlQuery)
+    private function getData()
     {
-        $listDatos = array();
         $htmPaginacion = '';
+        $listDatos = [];
 
-        // Array ---
-        if ($sqlQuery && is_array($sqlQuery)) {
-            $listDatos = $sqlQuery;
+        if (!$this->sqlQuery) {
+            return [$htmPaginacion, $listDatos];
         }
-        // SQL -----
-        elseif ($sqlQuery) {
-            $sqlQ = $this->getQuery($sqlQuery);
+
+        // SQL string -----
+        if(is_string($this->sqlQuery)) {
+            $sqlQ = $this->getQuery($this->sqlQuery);
+
             list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
-            // print_r2($sqlQ);
+            return [$htmPaginacion, $listDatos];
+        }
+        // Eloquent ---
+        elseif ($this->sqlQuery instanceof \Illuminate\Pagination\LengthAwarePaginator) {
+            $htmPaginacion = $this->getEloquentPagination($this->sqlQuery);
+            return [$htmPaginacion, $this->sqlQuery];
         }
 
-        return [$htmPaginacion, $listDatos];
+        throw new \Exception("WList: Error Processing data", 1);
     }
     //--------------------------------------------------------------
     public function getDebug()
@@ -438,6 +443,22 @@ EOD;
     {
         echo '&nbsp;<button type="submit" class="btn btn-primary btn-sm">Buscar</button>';
     }
+    //-------------------------------------------------------
+    // Ordenamiento de usuario
+    public function getOrderParams(): array
+    {
+        $param_field = $this->wObjectStatus->getDato('param_field');
+        if (!$param_field) {
+            return ['id', 'asc'];
+        }
+
+        $order_asc = $this->wObjectStatus->getDato('order_asc');
+        if (!$order_asc) {
+            $order_asc = 'asc';
+        }
+
+        return [$param_field, $order_asc];
+    }
     //--------------------------------------------------------------
     // PRIVATE
     //-------------------------------------------------------
@@ -465,7 +486,7 @@ EOD;
         $htmPaginacion = '';
         $rows          = '';
 
-        // Páginas
+        // Páginas ----
         $urlFormat = CrudUrl::get(
             $this->event_numPage,
             $this->id_object,
@@ -487,12 +508,10 @@ EOD;
         }
         $htmPaginacion->setUrlFormat($urlFormat);
 
+        // Data -------
         $rows = $htmPaginacion->getListRows();
-        // if(!$rows) {
-        //    require('404.php');
-        // }
 
-        // HTML
+        // HTML ----
         $listPaginas = $htmPaginacion->get();
 
         $numTotal  = $htmPaginacion->getNumRows();
@@ -514,6 +533,80 @@ EOD;
         }
 
         return array($htmPaginacion, $rows);
+    }
+    //--------------------------------------------------------------
+    /**
+     * For Eloquent data
+     */
+    //--------------------------------------------------------------
+    public function paginationGetLink($page)
+    {
+        $urlBase = CrudUrl::get(
+            $this->event_numPage,
+            $this->id_object,
+            '',
+            '',
+            'id_page=[id_page]'
+        );
+
+        return str_replace('[id_page]', $page, $urlBase);
+    }
+    //--------------------------------------------------------------
+    public function setEloquentData(\Illuminate\Database\Eloquent\Builder $data)
+    {
+        // Order ---
+        $orderParams = $this->getOrderParams();
+        $data->orderBy($orderParams[0], $orderParams[1]);
+
+        // Pagination ---
+        $id_page = $this->wObjectStatus->getDato('id_page');
+        if (!$id_page) {
+            $id_page = 1;
+        }
+
+        // Illuminate\Pagination\LengthAwarePaginator ---
+        $this->sqlQuery = $data->paginate($this->paging_numRows, ['*'], 'id_page', $id_page);
+    }
+    //--------------------------------------------------------------
+    public function getEloquentPagination(\Illuminate\Pagination\LengthAwarePaginator $data)
+    {
+        if ($data->lastPage() < 2) {
+            return '';
+        }
+
+        //----
+        $previous_disabled = ($data->currentPage() == 1) ? ' disabled' : '';
+        $previous_link = $this->paginationGetLink($data->currentPage() - 1);
+
+        //----
+        $listPages = '';
+        for ($i = 1; $i <= $data->lastPage(); $i++) {
+            $active = ($data->currentPage() == $i) ? ' active' : '';
+            $link = $this->paginationGetLink($i);
+
+            $listPages .= "<li class='$active'><a href='$link'>$i</a></li>";
+        }
+
+        //----
+        $next_disabled = ($data->currentPage() == $data->lastPage()) ? ' disabled' : '';
+        $next_link = $this->paginationGetLink($data->currentPage() + 1);
+
+        // Resume ---
+        $numTotal  = $data->total();
+        $str_desde = $data->firstItem();
+        $str_hasta = $data->lastItem();
+
+        // $strResume = "&nbsp; ($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
+        $strResume = "&nbsp; total <b>$numTotal</b>";
+
+        //----
+        return <<<EOD
+            <ul class="pagination pagination-sm" style="margin: 2px 0 -3px 0;">
+                <li class="$previous_disabled"><a href="$previous_link">Previous</a></li>
+                $listPages
+                <li class="$next_disabled"><a href="$next_link">Next</a></li>
+            </ul> $strResume &nbsp;
+            EOD;
     }
     //--------------------------------------------------------------
     // HEAD
@@ -578,7 +671,7 @@ EOD;
     //-------------------------------------------------------
     // Datos
     //-------------------------------------------------------
-    private function getHtmRowsValues(array $rows)
+    private function getHtmRowsValues($rows)
     {
         if (!$rows) {
             return '';
@@ -590,7 +683,9 @@ EOD;
         /** TRs **/
         $htmList = '';
         $count   = 0;
-        foreach ($rows as $id => $row) {
+        foreach ($rows as $row) {
+            $id = $row->id;
+
             /** RowEditor **/
             $row_bgColor = '';
             $row_class   = '';
