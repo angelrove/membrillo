@@ -7,9 +7,9 @@
 
 namespace angelrove\membrillo;
 
-use angelrove\utils\Db_mysql;
-use angelrove\utils\MyErrorHandler;
 use angelrove\membrillo\WApp\Session;
+use angelrove\utils\MyErrorHandler;
+use angelrove\utils\Db_mysql;
 use Illuminate\Database\Capsule\Manager as DB;
 
 include_once 'print_r2.php';
@@ -78,7 +78,6 @@ class Application
     {
         // "illuminate/database" ---
         $capsule = new DB;
-
         $capsule->addConnection([
             'driver'    => 'mysql',
             'host'      => $datosDb['HOST'],
@@ -95,6 +94,9 @@ class Application
 
         // Setup the Eloquent ORM...
         $capsule->bootEloquent();
+
+        // Scape Request vars ---
+        Db_mysql::parseRequest();
     }
     //-----------------------------------------------------------------
 }
