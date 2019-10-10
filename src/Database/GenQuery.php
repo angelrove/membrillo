@@ -12,7 +12,6 @@ use angelrove\membrillo\WInputs\WInputFile\WInputFile_upload;
 use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\membrillo\WObjects\WForm\WForm;
 use angelrove\membrillo\WApp\Local;
-use angelrove\membrillo\DebugTrace;
 use angelrove\membrillo\Messages;
 use angelrove\utils\Db_mysql;
 use angelrove\utils\FileUploaded;
@@ -206,23 +205,17 @@ class GenQuery
                 continue;
             }
 
-            $sqlQ = "SELECT id FROM $DB_TABLE WHERE `$fieldName`='$postValue' AND id <> '$id'";
-            if (Db_mysql::getValue($sqlQ)) {
+            // Value exist? ---
+            $valueExist = \DB::table($DB_TABLE)->where([
+                [$fieldName, '=', $postValue],
+                ['id', '<>', $id],
+            ])->exists();
+
+            if ($valueExist) {
                 $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
                 $listErrors[$fieldName] = $title . ' = ' . $postValue . ' ' . Local::$t['GenQuery_error_unique'];
             }
         }
-
-        // Values --------
-        // foreach($listFields as $fieldName => $fieldProp)
-        // {
-        //    if($fieldProp->type == 'tinyint') {
-        //       if($_POST[$fieldName] > 255) {
-        //          $title = ($fieldProp->title)? $fieldProp->title : $fieldName;
-        //          $listErrors[$fieldName] .= $title.': Out of range value';
-        //       }
-        //    }
-        // }
 
         /** Out errors **/
         WForm::update_setErrors($listErrors);
@@ -306,23 +299,11 @@ class GenQuery
             return $sqlQ->errors;
         }
 
-        // Exec query
-        try {
-            Db_mysql::query($sqlQ);
-        } catch (\Exception $e) {
-            // WForm::update_setErrors(array('SQL', $e->getMessage()));
-            throw $e;
-        }
+        // Insert row ---
+        DB::insert($sqlQ);
 
-        self::$executed_queries[] = $sqlQ;
-        //self::log_updates($sqlQ); // Log
-
-        // Envío el nuevo ROW_ID al evento en curso
+        // Update "Event::ROW_ID" ---
         Event::setRowId(Db_mysql::insert_id());
-
-        DebugTrace::out('GenQuery::insert()', $sqlQ);
-
-        return;
     }
     //------------------------------------------------------------------
     public static function getQueryInsert($DB_TABLE, array $listValuesPers = [])
@@ -392,12 +373,8 @@ class GenQuery
 
             // Envío el nuevo ROW_ID al evento en curso
             Event::setRowId($id);
-
-            self::$executed_queries[] = $sqlQ;
-            self::log_updates($sqlQ); // Log
         }
 
-        DebugTrace::out('GenQuery::update()', $sqlQ);
         return;
     }
     //------------------------------------------------------------------
@@ -443,41 +420,35 @@ class GenQuery
     //------------------------------------------------------------------
     // DELETE
     //------------------------------------------------------------------
-    public static function softDelete($DB_TABLE, $id=''): int
+    public static function softDelete($DB_TABLE, $id = ''): int
     {
+        // Auto get ID ---
         $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
-        $sqlQ = "UPDATE " . $DB_TABLE . " SET deleted_at=NOW() WHERE id='" . Event::$ROW_ID . "'";
-        Db_mysql::query($sqlQ);
-        self::$executed_queries[] = $sqlQ;
-
-        self::log_updates($sqlQ); // Log
-
-        DebugTrace::out('GenQuery::softDelete()', $sqlQ);
-
-        return Event::$ROW_ID;
-    }
-    //-----------
-    /* Delete row and uploaded files */
-    public static function delete($DB_TABLE, $id=''): int
-    {
-        $ROW_ID = ($id)? $id : Event::$ROW_ID;
-
-        $sqlQ = self::getQueryDelete($DB_TABLE, $ROW_ID);
-        Db_mysql::query($sqlQ);
-        self::$executed_queries[] = $sqlQ;
-
-        self::log_updates($sqlQ); // Log
-
-        // Delete in session
-        Event::delRowId();
-
-        DebugTrace::out('GenQuery::delete()', $sqlQ);
+        // Query ---
+        DB::table($DB_TABLE)
+            ->where('id', '=', $ROW_ID)
+            ->update(['deleted_at' => \Carbon::now()]);
 
         return $ROW_ID;
     }
     //-----------
-    public static function getQueryDelete($DB_TABLE, $id): string
+    /* Delete row and uploaded files */
+    public static function delete($DB_TABLE, $id = ''): int
+    {
+        // Auto get ID ---
+        $ROW_ID = ($id)? $id : Event::$ROW_ID;
+
+        // Query ---
+        self::deleteById($DB_TABLE, $ROW_ID);
+
+        // Delete in session ---
+        Event::delRowId();
+
+        return $ROW_ID;
+    }
+    //-----------
+    public static function deleteById($DB_TABLE, $id): string
     {
         global $seccCtrl;
 
@@ -485,28 +456,24 @@ class GenQuery
 
         /** Delete files **/
         foreach ($listFields as $fieldName => $fieldProp) {
-            switch ($fieldProp->type) {
-                case 'file':
-                    $bbdd_file  = Db_mysql::getValue("SELECT $fieldName FROM $DB_TABLE WHERE id='$id'");
-                    if (!$bbdd_file) {
-                        break;
-                    }
+            if ($fieldProp->type != 'file') {
+                continue;
+            }
 
-                    $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
-                    if ($paramsFile['name']) {
-                        DebugTrace::out('getQueryDelete(): unlink 1:', "'$paramsFile[path_completo]'");
-                        DebugTrace::out('getQueryDelete(): unlink 2:', "'$paramsFile[path_completo_th]'");
+            $bbdd_file = DB::table($DB_TABLE)->where('id', $id)->value($fieldName);
+            if (!$bbdd_file) {
+                continue;
+            }
 
-                        unlink($paramsFile['path_completo']); // archivo
-                        @unlink($paramsFile['path_completo_th']); // if thumbnail
-                    }
-                    break;
+            $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
+            if ($paramsFile['name']) {
+                unlink($paramsFile['path_completo']); // archivo
+                @unlink($paramsFile['path_completo_th']); // if thumbnail
             }
         }
 
-        /** Query **/
-        $sqlQ = "DELETE FROM $DB_TABLE WHERE id='$id'";
-        return $sqlQ;
+        /** Delete row **/
+        DB::table($DB_TABLE)->where('id', '=', $id)->delete();
     }
     //------------------------------------------------------------------
     // PRIVATE
@@ -532,7 +499,7 @@ class GenQuery
     //------------------------------------------------------------------
     private static function getTableProperties(string $table): ?array
     {
-        $listFields = Db_mysql::getListNoId("SHOW FULL COLUMNS FROM $table");
+        $listFields = DB::select("SHOW FULL COLUMNS FROM $table");
         if (!$listFields) {
             user_error("DBProperties(): la tabla [$table] no existe", E_USER_WARNING);
             return null;
@@ -545,7 +512,7 @@ class GenQuery
                 continue;
             }
 
-            $tableProp[$nombreCampo]        = new \stdClass();
+            $tableProp[$nombreCampo] = new \stdClass();
             $tableProp[$nombreCampo]->title = '';
 
             // Propiedades a través de MySql
@@ -570,7 +537,6 @@ class GenQuery
             }
         }
 
-        //DebugTrace::out('TableProperties()', $tableProp);
         return $tableProp;
     }
     //------------------------------------------------------------------
