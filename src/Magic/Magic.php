@@ -9,6 +9,7 @@ namespace angelrove\membrillo\Magic;
 use angelrove\membrillo\Application;
 use angelrove\utils\FileSystem;
 use angelrove\utils\Db_mysql;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Magic extends Application
 {
@@ -155,7 +156,7 @@ class Magic extends Application
         echo(" Model '$name_model' ........ OK\n");
 
         // DDBB ----------------
-        $sqlTable = "
+        DB::select("
           CREATE TABLE IF NOT EXISTS `$name_secc` (
               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
               `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -163,9 +164,9 @@ class Magic extends Application
               `name` varchar(250) NOT NULL,
               $sqlCreate
               PRIMARY KEY (`id`)
-            ) DEFAULT CHARSET=utf8;";
+            ) DEFAULT CHARSET=utf8;
+        ");
 
-        Db_mysql::query($sqlTable);
         echo(" DB table '$name_secc' ..... OK\n");
 
         return $name_model;

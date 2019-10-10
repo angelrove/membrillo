@@ -3,6 +3,7 @@ namespace angelrove\membrillo\Database;
 
 use angelrove\membrillo\Database\ModelInterface;
 use angelrove\membrillo\Database\GenQuery;
+use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\utils\Db_mysql;
 use Illuminate\Database\Capsule\Manager as DB;
 
@@ -19,18 +20,28 @@ class Model implements ModelInterface
             'deleted' => "deleted_at IS NOT NULL",
         ];
      */
-    public static function read(array $filter_conditions = array(), array $filter_data = array()): string
+    public static function read(array $filter_conditions = [], array $filter_data = []): string
     {
         if (static::CONF['soft_delete'] && !$filter_conditions) {
             $filter_conditions[] = 'deleted_at IS NULL';
         }
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions, $filter_data);
-        // print_r2($sqlFilters);
 
         $sqlQ = GenQuery::select(static::CONF['table']).$sqlFilters;
-        // print_r2($sqlQ);
 
         return $sqlQ;
+    }
+
+    public static function find(array $filter_conditions): ?array
+    {
+        $listWhere = GenQuery::getStrWhere($filter_conditions);
+
+        $query = DB::table(static::CONF['table']);
+        if ($listWhere) {
+            $query->whereRaw($listWhere);
+        }
+
+        return (array)$query->first();
     }
 
     /**
@@ -38,37 +49,28 @@ class Model implements ModelInterface
      */
     public static function findById($id, $asArray = true, $setHtmlSpecialChars = true)
     {
-        $sql = GenQuery::selectRow(static::CONF['table'], $id);
+        $row = DB::table(static::CONF['table'])->find($id);
 
         if ($asArray) {
-            return Db_mysql::getRow($sql, $setHtmlSpecialChars);
-        } else {
-            return Db_mysql::getRowObject($sql, $setHtmlSpecialChars);
+            $row = (array)$row;
+            if ($setHtmlSpecialChars) {
+                return self::setHtmlSpecialChars($row);
+            }
         }
+
+        return $row;
     }
 
     public static function getValueById($id, $field)
     {
-        $sql = GenQuery::selectRow(static::CONF['table'], $id);
-        $data = Db_mysql::getRow($sql);
-
-        return $data[$field];
-    }
-
-    public static function find(array $filter_conditions): ?array
-    {
-        $sqlFilters = GenQuery::getSqlFilters($filter_conditions);
-
-        $sql = "SELECT * FROM " . static::CONF['table'] . $sqlFilters." LIMIT 1";
-
-        return Db_mysql::getRow($sql);
+        return DB::table(static::CONF['table'])->where('id', $id)->value($field);
     }
 
     public static function findEmpty(): array
     {
         $emptyRow = [];
 
-        $columns = Db_mysql::getTableColumns(static::CONF['table']);
+        $columns = DB::schema()->getColumnListing(static::CONF['table']);
         foreach ($columns as $column) {
             $emptyRow[$column] = '';
         }
@@ -76,17 +78,17 @@ class Model implements ModelInterface
         return $emptyRow;
     }
 
-    public static function create(array $listValues = array(), $messageAuto = true)
+    public static function create(array $listValues = [], $messageAuto = true)
     {
         return GenQuery::helper_insert(static::CONF['table'], $listValues, $messageAuto);
     }
 
-    public static function update(array $listValues = array(), $id = '')
+    public static function update(array $listValues = [], $id = '')
     {
         return GenQuery::helper_update(static::CONF['table'], $listValues, $id);
     }
 
-    public static function delete($id='')
+    public static function delete($id = '')
     {
         $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
@@ -99,33 +101,47 @@ class Model implements ModelInterface
     //-----------------------------------------------------------------
     // Login
     //-----------------------------------------------------------------
-    // $hash = password_hash($inputValue, PASSWORD_BCRYPT);
-    public static function login($email, $passwd, array $conditions = array()): ?array
+    public static function login($email, $passwd, string $conditions = ''): ?array
     {
-        $conditions[] = "email='$email'";
-        $conditions[] = "password='$passwd'";
-        $conditions[] = "deleted_at IS NULL";
+        $query = DB::table(static::CONF['table'])->where([
+                'email' => $email,
+                'password' => $password,
+            ])->whereNull('deleted_at');
 
-        if ($data = Db_mysql::getRow(self::read($conditions))) {
-            return $data;
+        if ($conditions) {
+            $query->whereRaw($conditions);
         }
 
-        return null;
+        return (array)$query->first();
     }
 
-    public static function login_hash($email, $passwd, array $conditions = array()): ?array
+    // $hash = password_hash($inputValue, PASSWORD_BCRYPT);
+    public static function loginHash($email, $passwd, string $conditions = ''): ?array
     {
-        $conditions[] = "email='$email'";
-        $conditions[] = "deleted_at IS NULL";
+        $query = DB::table(static::CONF['table'])->where([
+                'email' => $email,
+            ])->whereNull('deleted_at');
+
+        if ($conditions) {
+            $query->whereRaw($conditions);
+        }
+
+        $data = $query->first();
 
         // Password hash verify ---
-        if ($data = Db_mysql::getRow(self::read($conditions))) {
-            if (password_verify($passwd, $data['password'])) {
-                return $data;
+        if ($data) {
+            if (password_verify($passwd, $data->password)) {
+                return (array)$data;
             }
         }
 
         return null;
+    }
+    //------------------------------------------------------------
+    // Por si se va a mostrar en un input y hay algo de esto: &, ", ', <, >
+    public static function setHtmlSpecialChars(array $data): ?array
+    {
+        return array_map('htmlspecialchars', $data);
     }
     //-----------------------------------------------------------------
 }

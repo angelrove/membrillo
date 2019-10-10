@@ -9,10 +9,10 @@ namespace angelrove\membrillo\WInputs\WInputFile;
 
 use angelrove\membrillo\DebugTrace;
 use angelrove\membrillo\WObjectsStatus\Event;
-use angelrove\utils\Db_mysql;
 use angelrove\utils\FileUpload;
 use angelrove\utils\Images\ImageTransform;
 use angelrove\utils\Images\ImageWatermark;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class WInputFile_upload
 {
@@ -198,7 +198,9 @@ class WInputFile_upload
     private static function getNewFileName($dbTable, $dbField)
     {
         // comprobar tabla
-        $statusTabla = Db_mysql::getRowObject("SHOW TABLE STATUS LIKE '$dbTable'");
+        $row = DB::select("SHOW TABLE STATUS LIKE '$dbTable'");
+        $statusTabla = $row[0];
+
         if (!$statusTabla) {
             user_error("getName(): la tabla '$dbTable' no existe.", E_USER_WARNING);
             return false;
