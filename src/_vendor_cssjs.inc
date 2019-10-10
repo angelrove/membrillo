@@ -19,7 +19,7 @@ Vendor::conf('bootstrap', '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.
 Vendor::conf('font-awesome', '', array(
     'https://use.fontawesome.com/releases/v5.7.0/js/all.js',
 ));
-\angelrove\utils\CssJsLoad::set_script("
+CssJsLoad::set_script("
     window.FontAwesomeConfig.searchPseudoElements = true;
 ");
 

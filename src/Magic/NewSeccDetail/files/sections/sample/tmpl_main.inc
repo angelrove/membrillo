@@ -1,6 +1,4 @@
 <?php
-use angelrove\membrillo\WPage\WPage;
-
 require_once 'ctrl_parent/list_controller.inc';
 require_once 'ctrl_detail/list_controller.inc';
 ?>

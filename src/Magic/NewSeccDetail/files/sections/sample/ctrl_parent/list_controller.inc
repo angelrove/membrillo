@@ -1,5 +1,4 @@
 <?php
-use angelrove\membrillo\WPage\WPage;
 use angelrove\membrillo\WObjects\WList\WList;
 use angelrove\membrillo\WObjects\WList\WListColumn;
 use angelrove\membrillo\WApp\Local;

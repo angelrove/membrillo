@@ -2,7 +2,6 @@
 use angelrove\membrillo\WObjects\WList\WList;
 use angelrove\membrillo\WObjects\WList\WListColumn;
 use angelrove\membrillo\WApp\Local;
-use angelrove\membrillo\Login\Login;
 use App\Models\[Model_detail];
 
 global $objectsStatus;
@@ -44,10 +43,8 @@ if ($filtros['f_deleted']) {
     $listDetail->showDelete();
 }
 
-$url_admin = \angelrove\membrillo\CrudUrl::get(CRUD_EDIT_UPDATE, $controlName, 1);
-
 //---------------------------
-angelrove\utils\CssJsLoad::set_script(
+CssJsLoad::set_script(
 <<<EOD
    $(document).ready(function() {
      // Filtros ----------

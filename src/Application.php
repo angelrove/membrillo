@@ -10,6 +10,7 @@ namespace angelrove\membrillo;
 use angelrove\membrillo\WApp\Session;
 use angelrove\utils\MyErrorHandler;
 use angelrove\utils\Db_mysql;
+use angelrove\membrillo\Laravel\AliasLoader;
 use Illuminate\Database\Capsule\Manager as DB;
 
 include_once 'print_r2.php';
@@ -64,6 +65,9 @@ class Application
 
             /* Session start */
             Session::start(48);
+
+            /* Alias loader */
+            $this->aliases();
         }
         // Console ----------------------------
         else {
@@ -97,6 +101,18 @@ class Application
 
         // Scape Request vars ---
         Db_mysql::parseRequest();
+    }
+    //-----------------------------------------------------------------
+    /**
+     * Get all of the aliases for all packages.
+     *
+     * @return array
+     */
+    private function aliases()
+    {
+        global $CONFIG_APP;
+
+        AliasLoader::getInstance($CONFIG_APP['aliases'])->register();
     }
     //-----------------------------------------------------------------
 }
