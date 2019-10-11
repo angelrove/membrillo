@@ -7,6 +7,8 @@
 
 namespace angelrove\membrillo\Database;
 
+use angelrove\utils\FileUploaded;
+
 trait DbUtils
 {
     //------------------------------------------------------------------

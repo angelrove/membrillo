@@ -7,7 +7,6 @@ use angelrove\membrillo\Messages;
 use angelrove\membrillo\WApp\Local;
 use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\membrillo\WObjects\WForm\WForm;
-use angelrove\utils\Db_mysql;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Model implements ModelInterface
@@ -162,6 +161,7 @@ class Model implements ModelInterface
 
     public static function delete($id = '')
     {
+        // Get id ---
         $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
         // Delete row ---
@@ -176,15 +176,16 @@ class Model implements ModelInterface
 
         return $ROW_ID;
     }
+
     private static function hardDelete($id)
     {
         $DB_TABLE = static::CONF['table'];
 
         // Delete files ---
-        GenQuery::deleteUploadsById($DB_TABLE, $ROW_ID);
+        GenQuery::deleteUploadsById($DB_TABLE, $id);
 
         // Delete row ---
-        \DB::table($DB_TABLE)->where('id', '=', $ROW_ID)->delete();
+        \DB::table($DB_TABLE)->where('id', '=', $id)->delete();
     }
 
     private static function softDelete($id)
@@ -193,7 +194,7 @@ class Model implements ModelInterface
 
         // Delete row ---
         \DB::table($DB_TABLE)
-            ->where('id', '=', $ROW_ID)
+            ->where('id', '=', $id)
             ->update(['deleted_at' => \Carbon::now()]);
     }
     //-----------------------------------------------------------------
