@@ -162,26 +162,39 @@ class Model implements ModelInterface
 
     public static function delete($id = '')
     {
-        $DB_TABLE = static::CONF['table'];
         $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
+        // Delete row ---
         if (static::CONF['soft_delete']) {
-            // Delete row ---
-            \DB::table($DB_TABLE)
-                ->where('id', '=', $ROW_ID)
-                ->update(['deleted_at' => \Carbon::now()]);
+            self::softDelete($ROW_ID);
         } else {
-            // Delete files ---
-            GenQuery::deleteUploadsById($DB_TABLE, $ROW_ID);
-
-            // Delete row ---
-            \DB::table($DB_TABLE)->where('id', '=', $ROW_ID)->delete();
+            self::hardDelete($ROW_ID);
         }
 
         // Remove id from session ---
         Event::delRowId();
 
         return $ROW_ID;
+    }
+    private static function hardDelete($id)
+    {
+        $DB_TABLE = static::CONF['table'];
+
+        // Delete files ---
+        GenQuery::deleteUploadsById($DB_TABLE, $ROW_ID);
+
+        // Delete row ---
+        \DB::table($DB_TABLE)->where('id', '=', $ROW_ID)->delete();
+    }
+
+    private static function softDelete($id)
+    {
+        $DB_TABLE = static::CONF['table'];
+
+        // Delete row ---
+        \DB::table($DB_TABLE)
+            ->where('id', '=', $ROW_ID)
+            ->update(['deleted_at' => \Carbon::now()]);
     }
     //-----------------------------------------------------------------
     // Login
