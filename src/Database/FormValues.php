@@ -68,7 +68,7 @@ trait FormValues
 
             if (\DB::table($DB_TABLE)->where($conditions)->exists()) {
                 $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] = $title . ' = ' . $postValue . ' ' . Local::$t['GenQuery_error_unique'];
+                $listErrors[$fieldName] = $title . ': "' . $postValue . '"" ' . Local::$t['GenQuery_error_unique'];
             }
         }
 
