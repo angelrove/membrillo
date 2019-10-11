@@ -10,7 +10,7 @@ namespace angelrove\membrillo\Database;
 trait DbUtils
 {
     //------------------------------------------------------------------
-    private static function getTableProperties(string $table): ?array
+    public static function getTableProperties(string $table): ?array
     {
         $listFields = \DB::select("SHOW FULL COLUMNS FROM $table");
 
@@ -47,6 +47,30 @@ trait DbUtils
         }
 
         return $tableProp;
+    }
+    //------------------------------------------------------------------
+    /* Delete uploaded files */
+    public static function deleteUploadsById(string $DB_TABLE, $id)
+    {
+        global $seccCtrl;
+        $listFields = self::getTableProperties($DB_TABLE);
+
+        foreach ($listFields as $fieldName => $fieldProp) {
+            if ($fieldProp->type != 'file') {
+                continue;
+            }
+
+            $bbdd_file = \DB::table($DB_TABLE)->where('id', $id)->value($fieldName);
+            if (!$bbdd_file) {
+                continue;
+            }
+
+            $paramsFile = FileUploaded::getInfo($bbdd_file, $seccCtrl->UPLOADS_DIR);
+            if ($paramsFile['name']) {
+                unlink($paramsFile['path_completo']); // archivo
+                @unlink($paramsFile['path_completo_th']); // if thumbnail
+            }
+        }
     }
     //------------------------------------------------------------------
 }

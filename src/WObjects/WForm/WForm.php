@@ -98,7 +98,7 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Static
     //------------------------------------------------------------------
-    public static function update_setErrors(array $listErrors)
+    public static function update_setErrors(array $listErrors, $id = '')
     {
         if (!$listErrors) {
             return;
@@ -109,7 +109,7 @@ class WForm extends EventComponent
         // Continue with edit
         Event::$REDIRECT_AFTER_OPER = false; // para que no se pierdan los datos recibidos por post
 
-        if (Event::$ROW_ID) {
+        if ($id) {
             Event::setEvent(CRUD_EDIT_UPDATE);
         } else {
             Event::setEvent(CRUD_EDIT_NEW);

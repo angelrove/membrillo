@@ -66,7 +66,7 @@ trait SearchFilters
     //------------------------------------------------------------------
     public static function getSqlFilters(array $filter_conditions, array $filter_data = []): string
     {
-        if ($sqlFilters = self::getSqlWhere()) {
+        if ($sqlFilters = self::getSqlWhere($filter_conditions, $filter_data)) {
             return ' WHERE '.$sqlFilters;
         } else {
             return '';

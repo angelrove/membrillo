@@ -3,7 +3,10 @@ namespace angelrove\membrillo\Database;
 
 use angelrove\membrillo\Database\ModelInterface;
 use angelrove\membrillo\Database\GenQuery;
+use angelrove\membrillo\Messages;
+use angelrove\membrillo\WApp\Local;
 use angelrove\membrillo\WObjectsStatus\Event;
+use angelrove\membrillo\WObjects\WForm\WForm;
 use angelrove\utils\Db_mysql;
 use Illuminate\Database\Capsule\Manager as DB;
 
@@ -22,19 +25,43 @@ class Model implements ModelInterface
      */
     public static function read(array $filter_conditions = [], array $filter_data = []): string
     {
+        $DB_TABLE = static::CONF['table'];
+
+        // Sql where ---
         if (static::CONF['soft_delete'] && !$filter_conditions) {
             $filter_conditions[] = 'deleted_at IS NULL';
         }
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions, $filter_data);
 
-        $sqlQ = GenQuery::select(static::CONF['table']).$sqlFilters;
+        // Values format ---
+        $strColumnsFormat = '';
 
-        return $sqlQ;
+        $listFields = GenQuery::getTableProperties($DB_TABLE);
+        foreach ($listFields as $fieldName => $fieldProp) {
+            switch ($fieldProp->type) {
+                case 'date':
+                    $strColumnsFormat .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y') AS " . $fieldName . "_format";
+                    break;
+
+                case 'timestamp':
+                case 'datetime':
+                    $strColumnsFormat .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y %H:%i') AS " . $fieldName . "_format";
+                    $strColumnsFormat .= ",\n UNIX_TIMESTAMP($fieldName) AS " . $fieldName . "_unix";
+                    break;
+
+                case 'file':
+                    $strColumnsFormat .= ",\n SUBSTRING_INDEX($fieldName, '#', 1) AS " . $fieldName . "_format";
+                    break;
+            }
+        }
+
+        // Query ---
+        return "SELECT * $strColumnsFormat \nFROM $DB_TABLE".$sqlFilters;
     }
 
     public static function find(array $filter_conditions): ?array
     {
-        $listWhere = GenQuery::getStrWhere($filter_conditions);
+        $listWhere = GenQuery::getSqlWhere($filter_conditions);
 
         $query = DB::table(static::CONF['table']);
         if ($listWhere) {
@@ -80,23 +107,81 @@ class Model implements ModelInterface
 
     public static function create(array $listValues = [], $messageAuto = true)
     {
-        return GenQuery::helper_insert(static::CONF['table'], $listValues, $messageAuto);
+        $DB_TABLE = static::CONF['table'];
+
+        // Values --------
+        $errors = GenQuery::parseFormValues($DB_TABLE);
+        if ($errors) {
+            WForm::update_setErrors($errors);
+            return $errors;
+        }
+
+        $valuesToInsert = GenQuery::getFormValues($DB_TABLE, $listValues);
+
+        // Insert row ---
+        $id = \DB::table($DB_TABLE)->insertGetId($valuesToInsert);
+
+        // Update "Event::ROW_ID" ---
+        Event::setRowId($id);
+
+        // Output message ---
+        if ($messageAuto) {
+            Messages::set(Local::$t['Saved']);
+        }
+
+        return null;
     }
 
     public static function update(array $listValues = [], $id = '')
     {
-        return GenQuery::helper_update(static::CONF['table'], $listValues, $id);
+        $DB_TABLE = static::CONF['table'];
+
+        if (!$id) {
+            $id = Event::$ROW_ID;
+        }
+
+        // Values --------
+        $errors = GenQuery::parseFormValues($DB_TABLE, $id);
+        if ($errors) {
+            WForm::update_setErrors($errors, $id);
+            return $errors;
+        }
+
+        $valuesToUpdate = GenQuery::getFormValues($DB_TABLE, $listValues);
+
+        // Update row ---
+        if ($valuesToUpdate) {
+            \DB::table($DB_TABLE)->where('id', $id)->update($valuesToUpdate);
+        }
+
+        // Update "Event::ROW_ID" ---
+        Event::setRowId($id);
+
+        return null;
     }
 
     public static function delete($id = '')
     {
+        $DB_TABLE = static::CONF['table'];
         $ROW_ID = ($id)? $id : Event::$ROW_ID;
 
         if (static::CONF['soft_delete']) {
-            return GenQuery::softDelete(static::CONF['table'], $ROW_ID);
+            // Delete row ---
+            \DB::table($DB_TABLE)
+                ->where('id', '=', $ROW_ID)
+                ->update(['deleted_at' => \Carbon::now()]);
         } else {
-            return GenQuery::delete(static::CONF['table'], $ROW_ID);
+            // Delete files ---
+            GenQuery::deleteUploadsById($DB_TABLE, $ROW_ID);
+
+            // Delete row ---
+            \DB::table($DB_TABLE)->where('id', '=', $ROW_ID)->delete();
         }
+
+        // Remove id from session ---
+        Event::delRowId();
+
+        return $ROW_ID;
     }
     //-----------------------------------------------------------------
     // Login
