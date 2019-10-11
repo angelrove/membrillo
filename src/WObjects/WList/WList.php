@@ -29,9 +29,8 @@ class WList extends EventComponent
     private $height;
 
     // Pagination
-    private $paging_showOn  = 'top'; // top, bottom, false
+    private $paging_show  = true;
     private $paging_numRows = 100;
-    private $paging_config  = '';
 
     // Events
     private $event_new    = '';
@@ -266,14 +265,11 @@ class WList extends EventComponent
         $this->onClickRow = $event;
     }
     //-------------------------------------------------------
-    // Paginación
+    // Pagination
     //-------------------------------------------------------
-    // $position: top, bottom, false,
-    // $config:   basic
-    public function showPagination($position, $config = '', $numRows = 100)
+    public function showPagination(bool $show, $numRows = 100)
     {
-        $this->paging_showOn  = $position;
-        $this->paging_config  = $config;
+        $this->paging_show  = $show;
         $this->paging_numRows = $numRows;
     }
     //-------------------------------------------------------
@@ -316,7 +312,7 @@ class WList extends EventComponent
         $this->parseEvents();
 
         /** >> htmPaginacion **/
-        if ($this->paging_showOn === 'false') {
+        if ($this->paging_show === 'false') {
             $this->htmPaginacion = '';
         }
         $htmPaginacion = &$this->htmPaginacion;
@@ -485,7 +481,7 @@ EOD;
         return $sqlQuery;
     }
     //--------------------------------------------------------------
-    private function getPagination($sqlQuery)
+    private function getPagination(string $sqlQuery): array
     {
         $htmPaginacion = '';
         $rows          = '';
@@ -505,38 +501,81 @@ EOD;
         }
 
         $htmPaginacion = new Pagination($sqlQuery, $this->paging_numRows, $id_page, Local::getLang());
-        if ($this->paging_config == 'basic') {
-            $htmPaginacion->setNumPages(3);
-        } else {
-            $htmPaginacion->setNumPages(10);
-        }
+        $htmPaginacion->setNumPages(10);
         $htmPaginacion->setUrlFormat($urlFormat);
 
         // Data -------
         $rows = $htmPaginacion->getListRows();
 
-        // HTML ----
+        // List pages ----
         $listPaginas = $htmPaginacion->get();
+        // $htmPages = <<<EOD
+        //         <li class="$previous_disabled"><a href="$previous_link"><i class="fas fa-angle-left"></i></a></li>
+        //             $listPages
+        //         <li class="$next_disabled"><a href="$next_link"><i class="fas fa-angle-right"></i></a></li>
+        //         EOD;
 
+        // Resume ---
         $numTotal  = $htmPaginacion->getNumRows();
         $str_desde = $htmPaginacion->getItemDesde();
         $str_hasta = $htmPaginacion->getItemHasta();
 
-        $htmPaginacion = '';
-        if ($this->paging_config == 'basic') {
-            $htmPaginacion = $listPaginas;
-        } else {
-            $strPages = "($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
+        $resume = Local::$t['Showing']." $str_desde ".Local::$t['to']." $str_hasta ".Local::$t['of']." <b>$numTotal</b>";
 
-            $htmPaginacion = <<<EOD
-                <div class="center-block2 clearfix">
-                   <div class="pull-left">$listPaginas</div>
-                   <div class="pull-right resumen">&nbsp; $strPages</div>
-                </div>
-                EOD;
+        return [
+            [
+                'pages' => $listPaginas,
+                'resume' => $resume
+            ],
+            $rows
+        ];
+    }
+    //--------------------------------------------------------------
+    public function getEloquentPagination(\Illuminate\Pagination\LengthAwarePaginator $data): ?array
+    {
+        // Prev link ----
+        $previous_link = '#';
+        $previous_disabled = ' disabled';
+        if ($data->currentPage() > 1) {
+            $previous_link = $this->paginationGetLink($data->currentPage() - 1);
+            $previous_disabled = '';
         }
 
-        return array($htmPaginacion, $rows);
+        // Pages ----
+        $listPages = '';
+        for ($i = 1; $i <= $data->lastPage(); $i++) {
+            $active = ($data->currentPage() == $i) ? ' active' : '';
+            $link = $this->paginationGetLink($i);
+
+            $listPages .= "<li class='$active'><a href='$link'>$i</a></li>";
+        }
+
+        // Next link ----
+        $next_link = '#';
+        $next_disabled = ' disabled';
+        if ($data->currentPage() != $data->lastPage()) {
+            $next_link = $this->paginationGetLink($data->currentPage() + 1);
+            $next_disabled = '';
+        }
+
+        // Resume ---
+        $numTotal  = $data->total();
+        $str_desde = $data->firstItem();
+        $str_hasta = $data->lastItem();
+
+        $strResume = Local::$t['Showing']." $str_desde ".Local::$t['to']." $str_hasta ".Local::$t['of']." <b>$numTotal</b>";
+
+        // Pages ---
+        $htmPages = <<<EOD
+                <li class="$previous_disabled"><a href="$previous_link"><i class="fas fa-angle-left"></i></a></li>
+                    $listPages
+                <li class="$next_disabled"><a href="$next_link"><i class="fas fa-angle-right"></i></a></li>
+                EOD;
+
+        return [
+            'pages' => $htmPages,
+            'resume' => $strResume
+        ];
     }
     //--------------------------------------------------------------
     public function setData(string $data)
@@ -575,47 +614,6 @@ EOD;
         );
 
         return str_replace('[id_page]', $page, $urlBase);
-    }
-    //--------------------------------------------------------------
-    public function getEloquentPagination(\Illuminate\Pagination\LengthAwarePaginator $data)
-    {
-        if ($data->lastPage() < 2) {
-            return '';
-        }
-
-        //----
-        $previous_disabled = ($data->currentPage() == 1) ? ' disabled' : '';
-        $previous_link = $this->paginationGetLink($data->currentPage() - 1);
-
-        //----
-        $listPages = '';
-        for ($i = 1; $i <= $data->lastPage(); $i++) {
-            $active = ($data->currentPage() == $i) ? ' active' : '';
-            $link = $this->paginationGetLink($i);
-
-            $listPages .= "<li class='$active'><a href='$link'>$i</a></li>";
-        }
-
-        //----
-        $next_disabled = ($data->currentPage() == $data->lastPage()) ? ' disabled' : '';
-        $next_link = $this->paginationGetLink($data->currentPage() + 1);
-
-        // Resume ---
-        $numTotal  = $data->total();
-        $str_desde = $data->firstItem();
-        $str_hasta = $data->lastItem();
-
-        // $strResume = "&nbsp; ($str_desde ".Local::$t['to']." $str_hasta) ".Local::$t['of']." <b>$numTotal</b>";
-        $strResume = "&nbsp; total <b>$numTotal</b>";
-
-        //----
-        return <<<EOD
-            <ul class="pagination pagination-sm" style="margin: 2px 0 -3px 0;">
-                <li class="$previous_disabled"><a href="$previous_link">Previous</a></li>
-                $listPages
-                <li class="$next_disabled"><a href="$next_link">Next</a></li>
-            </ul> $strResume &nbsp;
-            EOD;
     }
     //--------------------------------------------------------------
     // HEAD

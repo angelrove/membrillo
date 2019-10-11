@@ -17,14 +17,6 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
 </script>
 
 <div class="List" id="List_<?=$this->id_object?>">
-    <?php if ($this->paging_showOn == 'top') : ?>
-      <!-- pagination -->
-      <div class="List_paginacion top well well-sm">
-         <?=$htmPaginacion?>
-      </div>
-      <!-- /pagination -->
-    <?php endif;?>
-
     <div class="table-responsive <?=$class_scroll?>" style="<?=$styleScroll?>">
         <table class="List_tuplas
                       table
@@ -48,12 +40,6 @@ var List_msgConfirmDel = '<?=$this->msgConfirmDel?>';
         </table>
     </div>
 
-    <?php if ($this->paging_showOn == 'bottom') : ?>
-      <!-- paginación -->
-      <div class="List_paginacion bottom">
-          <?=$htmPaginacion?>
-      </div>
-      <!-- /paginación -->
-    <?php endif;?>
+    <?php include 'tmpl_pagination.inc'; ?>
 </div>
 <!-- /Wlist -->

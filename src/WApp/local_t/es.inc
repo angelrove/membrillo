@@ -26,6 +26,7 @@ Local::$t['GenQuery_error_unique'] = 'está siendo utilizado';
 Local::$t['Saved'] = '¡Guardado!';
 
 // Paginacion ---
+Local::$t['Showing'] = 'Mostrando';
 Local::$t['to'] = 'a';
 Local::$t['of'] = 'de';
 

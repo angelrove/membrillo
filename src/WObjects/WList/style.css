@@ -5,25 +5,21 @@
   border-top:1px solid #ddd;
   border-bottom:1px solid #ddd;
 }
-.FormSearch {
-  margin-bottom: 12px;
+.List_tuplas.table { margin-bottom: 0px; }
+
+/****** pagination ***/
+.List .pagination {
+  margin: 2px 0;
 }
 
-div.List_paginacion {
-  padding: 4px;
-}
-.List_paginacion.well {
-  margin-bottom: 0;
-}
+/** Search **/
+.FormSearch { margin-bottom: 12px; }
 
 /****** Order ***/
 .btFieldOrder>.material-icons {
   color: #444;
 }
 
-/****** Paginación ***/
-.List_paginacion.top    { border-bottom:0; }
-.List_paginacion.bottom { border-top:0; }
 
 /******* Data *******/
 .List_tuplas tbody td {
