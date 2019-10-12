@@ -38,7 +38,10 @@ class Event
     public static $EVENT;
     private static $EVENT_PREV;
     public static $OPER;
+
     public static $ROW_ID;
+    public static $row_id;
+
     public static $REQUEST_METHOD;
 
     public static $REDIRECT_AFTER_OPER = true;
@@ -57,7 +60,10 @@ class Event
 
         self::$CONTROL = $_REQUEST['CONTROL'];
         self::$OPER    = (isset($_REQUEST['OPER'])) ? $_REQUEST['OPER'] : '';
-        self::$ROW_ID  = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
+
+        // ROW_ID ----
+        self::$ROW_ID = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
+        self::$row_id = self::$ROW_ID;
 
         //---
         self::$REDIRECT_AFTER_OPER = true;
@@ -67,8 +73,10 @@ class Event
     {
         // Event ----
         self::$REQUEST_METHOD = @$_SERVER["REQUEST_METHOD"];
-        self::$ROW_ID = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
         self::$EVENT  = (isset($_REQUEST['EVENT']))  ? $_REQUEST['EVENT']  : '';
+
+        self::$ROW_ID = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
+        self::$row_id = self::$ROW_ID;
 
         if (!self::$EVENT && self::$REQUEST_METHOD == 'GET') {
             if (self::$ROW_ID) {
@@ -103,6 +111,8 @@ class Event
         global $objectsStatus;
 
         self::$ROW_ID = '';
+        self::$row_id = self::$ROW_ID;
+
         if ($wo = $objectsStatus->getObject(self::$CONTROL)) {
             $wo->delRowId();
         }
@@ -113,6 +123,8 @@ class Event
         global $objectsStatus;
 
         self::$ROW_ID = $value;
+        self::$row_id = self::$ROW_ID;
+
         if ($wo = $objectsStatus->getObject(self::$CONTROL)) {
             $wo->setRowId($value);
         }
