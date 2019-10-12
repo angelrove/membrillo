@@ -18,7 +18,7 @@ class WInputSelect
      */
     public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
     {
-        if (is_array($sqlQ)) {
+        if (!is_string($sqlQ)) {
             return self::getFromArray($sqlQ, $value, $name, $required, '', $placeholder);
         }
 
