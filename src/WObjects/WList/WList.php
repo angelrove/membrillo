@@ -742,15 +742,19 @@ EOD;
     //-------------------------------------------------------
     private function formatValue($type, $value)
     {
-        if ($value === '') {
+        //--------------
+        if ($type == 'boolean') {
+            $value = ($value)? '<i class="fas fa-check fa-lg"></i>' : '';
             return $value;
         }
 
-        switch ($type) {
-            case 'boolean':
-                $value = ($value)? '<i class="fas fa-check fa-lg"></i>' : '';
-                break;
+        //--------------
+        if (!$value) {
+            return $value;
+        }
 
+        //--------------
+        switch ($type) {
             case 'datetime':
                 $value = date('d/m/Y H:i', strtotime($value));
                 break;
