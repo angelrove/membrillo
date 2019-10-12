@@ -88,8 +88,11 @@ class Model implements ModelInterface
         $DB_TABLE = static::CONF['table'];
 
         // Get Form values ---
-        $formValues = GenQuery::getFormValuesX($DB_TABLE, $listValues);
-        if (!$formValues) {
+        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues);
+
+        // WForm show errors ---
+        if (isset($formValues['errors'])) {
+            WForm::update_setErrors($formValues['errors']);
             return false;
         }
 
@@ -116,8 +119,11 @@ class Model implements ModelInterface
         }
 
         // Get Form values ---
-        $formValues = GenQuery::getFormValuesX($DB_TABLE, $listValues, $id);
-        if (!$formValues) {
+        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues, $id);
+
+        // WForm show errors ---
+        if (isset($formValues['errors'])) {
+            WForm::update_setErrors($formValues['errors'], $id);
             return false;
         }
 
