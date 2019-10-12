@@ -156,14 +156,14 @@ trait FormValues
         }
 
         // Value exist? ---
+        $conditions = [
+            [$fieldName, '=', $value],
+        ];
         if ($id) { // on update
-            $conditionCurrent = ['id', '<>', $id];
+             $conditions[] = ['id', '<>', $id];
         }
 
-        $exist = \DB::table($table)->where([
-            [$fieldName, '=', $value],
-            $conditionCurrent
-        ])->exists();
+        $exist = \DB::table($table)->where($conditions)->exists();
 
         if ($exist) {
             $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
