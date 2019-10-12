@@ -46,7 +46,7 @@ trait FormValues
             $value = '';
             if (isset($listValuesPers[$fieldName])) {
                 $value = $listValuesPers[$fieldName];
-                $value = self::parseValue($value, $fieldName, $fieldProp->type);
+                $value = self::parseValueToBd($value, $fieldName, $fieldProp->type);
             } else {
                 $value = self::getValueFromRequest($DB_TABLE, $fieldName, $fieldProp->type);
                 if ($value === false) {
