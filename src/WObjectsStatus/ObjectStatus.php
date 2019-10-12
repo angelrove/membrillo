@@ -143,7 +143,7 @@ class ObjectStatus
         $this->datos[$name] = $value;
     }
     //----------------------------------------------------------------------------
-    public function setDataDefault($name, $value='')
+    public function setDataDefault($name, $value = '')
     {
         if (!isset($this->datos[$name])) {
             $this->datos[$name] = $value;
@@ -152,10 +152,7 @@ class ObjectStatus
     //----------------------------------------------------------------------------
     public function getDato($name)
     {
-        if (isset($this->datos[$name])) {
-            return $this->datos[$name];
-        }
-        return false;
+        return ($this->datos[$name])?? false;
     }
     //----------------------------------------------------------------------------
     public function getDatos()

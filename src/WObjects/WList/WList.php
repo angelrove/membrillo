@@ -16,7 +16,7 @@ use angelrove\utils\Db_mysql;
 class WList extends EventComponent
 {
     private $sqlQuery;
-    private $dbFields;
+    private $dbFields = [];
     private $title;
     private $showScroll;
 
@@ -63,13 +63,13 @@ class WList extends EventComponent
     /**
      * @param $data_mixed: [string sql, array data, ]
      */
-    public function __construct($id_control, $data_mixed, array $dbFields, array $params = array())
+    public function __construct($id_control, $data_mixed = false, array $columns = [], array $params = [])
     {
         //------
         parent::__construct($id_control);
 
         $this->sqlQuery = $data_mixed;
-        $this->dbFields = $dbFields;
+        $this->dbFields = $columns;
 
         //------
         // if (se ejecuta por 1º vez) { // inicializar datos
@@ -77,16 +77,19 @@ class WList extends EventComponent
         // }
 
         //------
-        if (isset($params['basic']) && $params['basic']) {
-            return;
-        }
-
-        //------
         CssJsLoad::set(__DIR__ . '/style.css');
         CssJsLoad::set(__DIR__ . '/lib.js');
 
         //------
         $this->parse_event($this->WEvent);
+    }
+    //--------------------------------------------------------------
+    public function column($name, $title, $type = '')
+    {
+        $column = new WListColumn($name, $title, '', '', $type);
+        $this->dbFields[] = $column;
+
+        return $column;
     }
     //--------------------------------------------------------------
     public function setDefaultOrder($column, $order = 'ASC')
@@ -637,14 +640,21 @@ EOD;
                 continue;
             }
 
-            // Campo de ordenación
+            // Oder ---
             if ($dbField->order) {
                 $simbol = ($param_field == $dbField->order) ? $orderSimbol : $orderSimbols['none'];
                 $link = CrudUrl::get($this->event_fOrder, $this->id_object, '', '', 'param_field='.$dbField->order);
 
                 $dbField->title = '<a class="btFieldOrder" href="'.$link.'">'.$simbol.$dbField->title.'</a>';
             }
-            // OnClick
+
+            // width ---
+            $width = '';
+            if ($dbField->width) {
+                $width = " style='width: $dbField->width;'";
+            }
+
+            // OnClick ---
             if ($dbField->onClick) {
                 $link = CrudUrl::get(
                     $this->event_fOnClick,
@@ -657,12 +667,8 @@ EOD;
                 $dbField->title = '<a class="btFieldOrder" href="' . $link . '">' . $dbField->title . '</a>';
             }
 
-            // width
-            $width = ($dbField->size) ? ' style="min-width:' . $dbField->size . 'px"' : '';
-            // $width = '';
-
             // Out
-            $htmTitles .= '<th id="fieldTitle_' . $dbField->name . '"' . $width . '>' . $dbField->title . '</th>';
+            $htmTitles .= '<th id="fieldTitle_'.$dbField->name.'"'.$width.'>'.$dbField->title.'</th>';
         }
 
         /** Botón 'Nuevo...' **/
@@ -673,7 +679,7 @@ EOD;
                          '</button>';
         }
 
-        return $htmTitles . '<th class="optionsBar" id="List_cabButtons_' . $this->id_object . '">' . $strBt_new . '</th>';
+        return $htmTitles.'<th class="optionsBar" id="List_cabButtons_'.$this->id_object.'">'.$strBt_new.'</th>';
     }
     //-------------------------------------------------------
     // Datos
@@ -734,11 +740,51 @@ EOD;
         return $htmList;
     }
     //-------------------------------------------------------
+    private function formatValue($type, $value)
+    {
+        if ($value === '') {
+            return $value;
+        }
+
+        switch ($type) {
+            case 'boolean':
+                $value = ($value)? '<i class="fas fa-check fa-lg"></i>' : '';
+                break;
+
+            case 'datetime':
+                $value = date('d/m/Y H:i', strtotime($value));
+                break;
+
+            case 'date':
+                $value = date('d/m/Y', strtotime($value));
+                break;
+
+            case 'file':
+                $value = substr($value, 0, strpos($value, "#"));
+                break;
+
+            case 'file_download':
+                $fileData = \angelrove\utils\FileUploaded::getInfo2($value);
+                $value = '<a target="_blank" download href="'.$fileData['url'].'"><i class="fas fa-download fa-lg"></i></a>';
+                break;
+
+            case 'file_image':
+                $fileData = \angelrove\utils\FileUploaded::getInfo2($value);
+                $value = '<img src="'.$fileData['ruta_th'].'">';
+                break;
+
+            default:
+                $value = nl2br($value);
+        }
+
+        return $value;
+    }
+    //-------------------------------------------------------
     private function getHtmField($id, $row, $dbField)
     {
         $f_value = @$row->{$dbField->name};
 
-        $f_valueCampo = (isset($f_value->name))? $f_value->name : $f_value;
+        $f_valueCampo = ($f_value->name)?? $f_value;
 
         $style_align  = ($dbField->align) ? 'text-align:' . $dbField->align . ';' : '';
 
@@ -763,22 +809,13 @@ EOD;
         }
 
         /** Parse data type **/
-        switch ($dbField->type) {
-            case 'boolean':
-                $f_valueCampo = ($f_valueCampo)?'<i class="fas fa-check fa-lg"></i>' : '';
-                break;
-
-            case 'datetime':
-                $f_valueCampo = date('d/m/Y H:i', strtotime($f_valueCampo));
-                break;
-
-            case 'date':
-                $f_valueCampo = date('d/m/Y', strtotime($f_valueCampo));
-                break;
-        }
+        $value_formatted = $this->formatValue($dbField->type, $f_valueCampo);
 
         /** prevent default **/
-        $class_prevDef = ($dbField->preventDefault)? ' preventDefault ' : '';
+        $class_prevDef = '';
+        if ($dbField->preventDefault || $dbField->type == 'file_download') {
+            $class_prevDef = ' preventDefault ';
+        }
 
         /** OUT **/
         $style = '';
@@ -786,7 +823,7 @@ EOD;
             $style = ' style="' . $style_align . $f_bgColor . '"';
         }
 
-        return '<td class="'.$f_onClick.$class_prevDef.' '.$dbField->class.'"' . $style . '>' . nl2br($f_valueCampo) . '</td>';
+        return '<td class="'.$f_onClick.$class_prevDef.' '.$dbField->class.'"'.$style.'>'.$value_formatted.'</td>';
     }
     //-------------------------------------------------------
     // Buttons
@@ -799,7 +836,7 @@ EOD;
         if ($this->bt_delete) {
             $label                   = ''; // $label = <span>Delete</span>
             $htmButtons['bt_delete'] = '<button type="button" class="on_delete btn btn-xs btn-danger">'.
-                                          '<i class="far fa-trash-alt fa-lg"></i>' . $label .
+                                          '<i class="far fa-trash-alt fa-lg"></i>'.$label .
                                        '</button>';
             if ($this->optionsEditor && $this->optionsEditor->showBtDelete($id, $row) === false) {
                 $htmButtons['bt_delete'] = '';

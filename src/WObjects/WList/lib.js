@@ -15,9 +15,6 @@ window.onload = init;
 
 $(document).ready(function()
 {
-  // Focus (buscador) ---
-  // $('.WFrame input[type="text"]').eq(0).focus();
-
   //-----------------------------------------------------
   /** Events **/
   //-----------------------------------------------------

@@ -45,11 +45,9 @@ class Session
     public static function get($key)
     {
         $sessionName = self::getSessionName();
-        if (isset($_SESSION[$sessionName][$key])) {
-            return $_SESSION[$sessionName][$key]; // devuelve una referencia
-        }
 
-        return false;
+        // devuelve una referencia
+        return ($_SESSION[$sessionName][$key])?? false;
     }
     //------------------------------------------------------
     public static function session_destroy()

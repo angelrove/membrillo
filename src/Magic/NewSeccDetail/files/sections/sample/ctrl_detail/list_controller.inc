@@ -1,5 +1,4 @@
 <?php
-use angelrove\membrillo\WObjects\WList\WList;
 use angelrove\membrillo\WObjects\WList\WListColumn;
 use angelrove\membrillo\WApp\Local;
 use App\Models\[Model_detail];
@@ -28,7 +27,7 @@ $columns = array(
 );
 
 if ($filtros['f_deleted']) {
-    $columns[] = new WListColumn('deleted_at_format', 'Deleted at');
+    $columns[] = new WListColumn('deleted_at', 'Deleted at', 130, false, 'datetime');
 }
 
 $listDetail = new WList($controlName, [Model_detail]::list($filtros), $columns);

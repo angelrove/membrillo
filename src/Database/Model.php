@@ -32,30 +32,9 @@ class Model implements ModelInterface
         }
         $sqlFilters = GenQuery::getSqlFilters($filter_conditions, $filter_data);
 
-        // Values format ---
-        $strColumnsFormat = '';
-
-        $listFields = GenQuery::getTableProperties($DB_TABLE);
-        foreach ($listFields as $fieldName => $fieldProp) {
-            switch ($fieldProp->type) {
-                case 'date':
-                    $strColumnsFormat .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y') AS " . $fieldName . "_format";
-                    break;
-
-                case 'timestamp':
-                case 'datetime':
-                    $strColumnsFormat .= ",\n DATE_FORMAT($fieldName, '%d/%m/%Y %H:%i') AS " . $fieldName . "_format";
-                    $strColumnsFormat .= ",\n UNIX_TIMESTAMP($fieldName) AS " . $fieldName . "_unix";
-                    break;
-
-                case 'file':
-                    $strColumnsFormat .= ",\n SUBSTRING_INDEX($fieldName, '#', 1) AS " . $fieldName . "_format";
-                    break;
-            }
-        }
-
         // Query ---
-        return "SELECT * $strColumnsFormat \nFROM $DB_TABLE".$sqlFilters;
+        $sqlQ = "SELECT * FROM $DB_TABLE".$sqlFilters;
+        return $sqlQ;
     }
 
     public static function find(array $filter_conditions): ?array

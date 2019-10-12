@@ -59,10 +59,8 @@ class Event
         self::setEvent($_REQUEST['EVENT']);
 
         self::$CONTROL = $_REQUEST['CONTROL'];
-        self::$OPER    = (isset($_REQUEST['OPER'])) ? $_REQUEST['OPER'] : '';
-
-        // ROW_ID ----
-        self::$ROW_ID = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
+        self::$OPER    = ($_REQUEST['OPER'])?? '';
+        self::$ROW_ID  = ($_REQUEST['ROW_ID'])?? '';
         self::$row_id = self::$ROW_ID;
 
         //---
@@ -73,19 +71,17 @@ class Event
     {
         // Event ----
         self::$REQUEST_METHOD = @$_SERVER["REQUEST_METHOD"];
-        self::$EVENT  = (isset($_REQUEST['EVENT']))  ? $_REQUEST['EVENT']  : '';
+        self::$EVENT = ($_REQUEST['EVENT'])?? '';
 
-        self::$ROW_ID = (isset($_REQUEST['ROW_ID'])) ? $_REQUEST['ROW_ID'] : '';
+        self::$ROW_ID = ($_REQUEST['ROW_ID'])?? '';
         self::$row_id = self::$ROW_ID;
 
         if (!self::$EVENT && self::$REQUEST_METHOD == 'GET') {
             if (self::$ROW_ID) {
                 self::$EVENT = API_GET_FIND;
-            }
-            elseif (isset($_GET['exist'])) {
+            } elseif (isset($_GET['exist'])) {
                 self::$EVENT = API_GET_EXIST;
-            }
-            else {
+            } else {
                 self::$EVENT = API_GET_READ;
             }
         }

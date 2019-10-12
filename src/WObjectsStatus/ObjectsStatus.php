@@ -11,7 +11,7 @@ use angelrove\membrillo\Messages;
 
 class ObjectsStatus
 {
-    private $listObjects = array();
+    private $listObjects = [];
 
     //----------------------------------------------------------------------------
     public function __construct()
@@ -37,12 +37,8 @@ class ObjectsStatus
     //----------------------------------------------------------------------------
     public function getObject($idControl)
     {
-        if (isset($this->listObjects[$idControl])) {
-            return $this->listObjects[$idControl];
-        }
-        return false;
+        return ($this->listObjects[$idControl])?? false;
     }
-    //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
     public function initPage()
     {

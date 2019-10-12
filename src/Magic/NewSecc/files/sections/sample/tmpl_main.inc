@@ -1,12 +1,11 @@
 <?php
-use angelrove\membrillo\WObjects\WList\WList;
 use angelrove\membrillo\WObjects\WList\WListColumn;
 use App\Models\[Sample];
 
 $controlName = 'simple';
 
 //-----------------------------
-$campos = array(new WListColumn('created_at_format', 'Created at', '90', 'center'),
+$campos = array(new WListColumn('created_at', 'Created at', 130, false, 'datetime'),
                 new WListColumn('name',  'Name',  '220'),
                 );
 
