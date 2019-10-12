@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Capsule\Manager as DB;
 use angelrove\membrillo\Database\GenQuery;
-use angelrove\membrillo\WObjects\WForm\WForm;
 
 class ModelPlus extends Model
 {
@@ -27,14 +26,11 @@ class ModelPlus extends Model
     {
         $DB_TABLE = self::getTableName();
 
-        // Get form values --------
-        $errors = GenQuery::parseFormValues($DB_TABLE);
-        if ($errors) {
-            WForm::update_setErrors($errors, $id);
-            return $errors;
+        // Get Form values ---
+        $formValues = GenQuery::getFormValuesX($DB_TABLE);
+        if (!$formValues) {
+            return false;
         }
-
-        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues);
 
         // Create row ---
         $row = self::create($formValues);
@@ -51,14 +47,11 @@ class ModelPlus extends Model
         $DB_TABLE = $this->table;
         $id       = $this->id;
 
-        // Values --------
-        $errors = GenQuery::parseFormValues($DB_TABLE, $id);
-        if ($errors) {
-            WForm::update_setErrors($errors, $id);
-            return $errors;
+        // Get Form values ---
+        $formValues = GenQuery::getFormValuesX($DB_TABLE, $id);
+        if (!$formValues) {
+            return false;
         }
-
-        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues);
 
         // Update row ---
         $this->update($formValues);

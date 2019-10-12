@@ -87,17 +87,14 @@ class Model implements ModelInterface
     {
         $DB_TABLE = static::CONF['table'];
 
-        // Values --------
-        $errors = GenQuery::parseFormValues($DB_TABLE);
-        if ($errors) {
-            WForm::update_setErrors($errors);
-            return $errors;
+        // Get Form values ---
+        $formValues = GenQuery::getFormValuesX($DB_TABLE, $listValues);
+        if (!$formValues) {
+            return false;
         }
 
-        $valuesToInsert = GenQuery::getFormValues($DB_TABLE, $listValues);
-
         // Insert row ---
-        $id = \DB::table($DB_TABLE)->insertGetId($valuesToInsert);
+        $id = \DB::table($DB_TABLE)->insertGetId($formValues);
 
         // Update "Event::ROW_ID" ---
         Event::setRowId($id);
@@ -118,18 +115,15 @@ class Model implements ModelInterface
             $id = Event::$ROW_ID;
         }
 
-        // Values --------
-        $errors = GenQuery::parseFormValues($DB_TABLE, $id);
-        if ($errors) {
-            WForm::update_setErrors($errors, $id);
-            return $errors;
+        // Get Form values ---
+        $formValues = GenQuery::getFormValuesX($DB_TABLE, $listValues, $id);
+        if (!$formValues) {
+            return false;
         }
 
-        $valuesToUpdate = GenQuery::getFormValues($DB_TABLE, $listValues);
-
         // Update row ---
-        if ($valuesToUpdate) {
-            \DB::table($DB_TABLE)->where('id', $id)->update($valuesToUpdate);
+        if ($formValues) {
+            \DB::table($DB_TABLE)->where('id', $id)->update($formValues);
         }
 
         // Update "Event::ROW_ID" ---

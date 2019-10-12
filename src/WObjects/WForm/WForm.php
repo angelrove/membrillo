@@ -44,7 +44,7 @@ class WForm extends EventComponent
     public static $errors = false;
 
     //------------------------------------------------------------------
-    public function __construct($id_object, $data, $title = '')
+    public function __construct($id_object, $data, string $title = '')
     {
         $this->title = $title;
 

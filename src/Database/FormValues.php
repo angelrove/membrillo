@@ -9,74 +9,55 @@ namespace angelrove\membrillo\Database;
 
 use angelrove\membrillo\WInputs\WInputFile\WInputFile_upload;
 use angelrove\membrillo\WApp\Local;
+use angelrove\membrillo\WObjects\WForm\WForm;
 
 trait FormValues
 {
     //------------------------------------------------------------------
-    public static function parseFormValues(string $DB_TABLE, $id = ''): array
+    public static function getFormValuesX(string $DB_TABLE, $listValues, $id = false): ?array
+    {
+        $errors = GenQuery::parseFormValues($DB_TABLE, $id);
+        if ($errors) {
+            WForm::update_setErrors($errors, $id);
+            return null;
+        }
+
+        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues);
+
+        return $formValues;
+    }
+    //------------------------------------------------------------------
+    private static function parseFormValues(string $DB_TABLE, $id = false): array
     {
         $listErrors = [];
 
         $listFields = self::getTableProperties($DB_TABLE);
 
         // Obligatorios ---
-        foreach ($listFields as $fieldName => $fieldProp) {
-            if (!$fieldProp->obligatorio) {
-                continue;
+        foreach ($listFields as $fieldName => $fieldProp)
+        {
+            $ret = self::parseRequired();
+            if ($ret['error']) {
+                $listErrors[$fieldName] = $ret['error'];
             }
-            if (!isset($_POST[$fieldName]) && !isset($_FILES[$fieldName]['name'])) {
-                continue;
-            }
-
-            $value = '';
-
-            // Type: File ---
-            if ($fieldProp->type == 'file') {
-                if ($_POST[$fieldName . '_isDelete'] == 0) {
-                    $value = $_POST[$fieldName . '_prev'];
-                }
-                $value = $value . $_FILES[$fieldName]['name'];
-            } else {
-                $value = $_POST[$fieldName];
-            }
-
-            // Error ---
-            if ($value == '' || $value == '00/00/0000') {
-                $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] = $title . ': ' . Local::$t['GenQuery_error_obliga'];
-            }
+            // $listValues[$fieldName] = $ret['value']
         }
 
         // Unique ---------
-        foreach ($listFields as $fieldName => $fieldProp) {
-            $postValue = (isset($_POST[$fieldName])) ? $_POST[$fieldName] : '';
-
-            if (!$fieldProp->unique) {
-                continue;
+        foreach ($listFields as $fieldName => $fieldProp)
+        {
+            $ret = self::parseUnique($id);
+            if ($ret['error']) {
+                $listErrors[$fieldName] = $ret['error'];
             }
-            if (!$fieldProp->obligatorio && !$postValue) {
-                continue;
-            }
-
-            // Value exist? ---
-            $conditions = [
-                [$fieldName, '=', $postValue],
-            ];
-            if ($id) {
-                $conditions[] = ['id', '<>', $id];
-            }
-
-            if (\DB::table($DB_TABLE)->where($conditions)->exists()) {
-                $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
-                $listErrors[$fieldName] = $title . ': "' . $postValue . '"" ' . Local::$t['GenQuery_error_unique'];
-            }
+            // $listValues[$fieldName] = $ret['value']
         }
 
         /** Out errors **/
         return $listErrors;
     }
     //------------------------------------------------------------------
-    public static function getFormValues(string $DB_TABLE, array $listValuesPers = [])
+    private static function getFormValues(string $DB_TABLE, array $listValuesPers = [])
     {
         $values = [];
 
@@ -158,4 +139,71 @@ trait FormValues
         return $inputValue;
     }
     //------------------------------------------------------------------
+
+function parseRequired($fieldName, $fieldProp)
+{
+    if (!$fieldProp->obligatorio) {
+        return false;
+    }
+    if (!isset($_POST[$fieldName]) && !isset($_FILES[$fieldName]['name'])) {
+        return false;
+    }
+
+    // Parse ------
+    $ret = [];
+    $value = '';
+
+    if ($fieldProp->type == 'file') {
+        if ($_POST[$fieldName . '_isDelete'] == 0) {
+            $value = $_POST[$fieldName . '_prev'];
+        }
+        $value = $value . $_FILES[$fieldName]['name'];
+    } else {
+        $value = $_POST[$fieldName];
+    }
+
+    // Error ---
+    if ($value == '' || $value == '00/00/0000') {
+        $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
+        return [
+            'error' => $title . ': ' . Local::$t['GenQuery_error_obliga'],
+            'value' => $value,
+        ];
+    } else {
+        return [
+            'value' => $value,
+        ];
+    }
+}
+function parseUnique($fieldName, $fieldProp, $id = false)
+{
+    if (!$fieldProp->unique) {
+        return false;
+    }
+
+    $value = ($_POST[$fieldName])?? '';
+
+    if (!$fieldProp->obligatorio && !$value) {
+        return false;
+    }
+
+    // Value exist? ---
+    if ($id) {
+        $conditionCurrent = ['id', '<>', $id];
+    }
+
+    $exist = \DB::table($DB_TABLE)->where([
+        [$fieldName, '=', $value],
+        $conditionCurrent
+    ])->exists();
+
+    if ($exist) {
+        $title = ($fieldProp->title) ? $fieldProp->title : $fieldName;
+
+        return [
+            'error' => $title . ': ' . Local::$t['GenQuery_error_obliga'],
+            'value' => $value,
+        ];
+    }
+}
 }
