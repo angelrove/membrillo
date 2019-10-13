@@ -8,8 +8,7 @@ namespace angelrove\membrillo\WInputs;
 
 class WInputTextarea
 {
-    //----------------------------------------------------------------
-    public static function get($name, $value, $required=false, $title='', $maxlength='', $attributes='')
+    public static function get(string $name, $value, bool $required = false, string $title = '', $maxlength = '', string $attributes = '')
     {
         $required = ($required) ? 'required' : '';
         $placeholder = ($title)? 'placeholder="'.$title.'"' : '';
@@ -21,7 +20,5 @@ class WInputTextarea
                     ' maxlength="'.$maxlength.'" '.
                     $required.
                 '>'.$value.'</textarea>';
-
     }
-    //----------------------------------------------------------------
 }
