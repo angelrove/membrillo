@@ -257,22 +257,38 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Form inputs
     //------------------------------------------------------------------
-    public function fInput(string $type, string $name = '', string $title = '')
-    {
-        return new FormInputs($type, $name, $title, ($this->datos[$name])?? '');
-    }
-    //------------------------------------------------------------------
     public function inputContainer(string $title, string $htmInput, string $name = '')
     {
         return FormInputs::inputContainer($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
+    /**
+     * @param $type string View valid types in 'FormInputs' class:
+     *      const HIDDEN    = 'hidden';
+     *      const TEXT      = 'text';
+     *      const TEXTAREA  = 'textarea';
+     *      const SELECT    = 'select';
+     *      const CHECKBOX  = 'checkbox';
+     *      const RADIOS    = 'radios';
+     *      const FILE      = 'file';
+     *      const NUMBER    = 'number';
+     *      const PRICE     = 'price';
+     *      const DATETIME  = 'datetime';
+     *      const PERCENTAGE = 'percentage';
+     *      const URL       = 'url';
+     *      ...
+     */
+    public function fInput(string $type, string $name = '', string $title = '')
+    {
+        return new FormInputs($type, $name, $title, ($this->datos[$name])?? '');
+    }
+    //------------------------------------------------------------------
+    // DEPRECATED !!
     public function getField($title, $htmInput, $name = '')
     {
         return FormInputs::inputContainer($title, $htmInput, $name);
     }
-    //------------------------------------------------------------------
-    // DEPRECATED !!
+
     public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
     {
         return $this->getInput($name, $title, $required, $type, $params);
@@ -294,6 +310,7 @@ class WForm extends EventComponent
 
         return $formInput->required()->get();
     }
+    //------------------------------------------------------------------
     //------------------------------------------------------------------
     // $flag: '', 'top'
     public function getButtons($flag = '')

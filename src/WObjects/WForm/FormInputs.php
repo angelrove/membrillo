@@ -10,24 +10,43 @@ namespace angelrove\membrillo\WObjects\WForm;
 
 use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\membrillo\WInputs\WInputCheck;
+use angelrove\membrillo\WInputs\WInputRadios;
 use angelrove\membrillo\WInputs\WInputTextarea;
+use angelrove\membrillo\WInputs\WInputFile\WInputFile;
 
 class FormInputs
 {
     private $type;
     private $name;
+    private $title;
     private $value;
-    private $title = '';
+
     private $required = false;
     private $readOnly = false;
     private $placeholder = false;
     private $listData;
-
     private $params = [];
     private $htmlAttributes = '';
 
+    // Valid types ---
+    public const HIDDEN   = 'hidden';
+    public const TEXT     = 'text';
+    public const TEXTAREA = 'textarea';
+    public const SELECT   = 'select';
+    public const CHECKBOX = 'checkbox';
+    public const RADIOS   = 'radios';
+    public const FILE     = 'file';
+    public const DATETIME = 'datetime';
+    public const NUMBER   = 'number';
+    public const PRICE    = 'price';
+    public const PERCENTAGE = 'percentage';
+    public const URL      = 'url';
+
     //-------------------------------------------------------
-    public function __construct(string $type, string $name = '', string $title = '', $value = '')
+    /**
+     * @param $type
+     */
+    public function __construct(string $type, string $name = '', string $title = '', string $value = '')
     {
         $this->type = $type;
         $this->name = $name;
@@ -42,49 +61,49 @@ class FormInputs
     //-------------------------------------------------------
     // Properties
     //-------------------------------------------------------
-    public function title(string $title)
+    public function title(string $title): FormInputs
     {
         $this->title = $title;
         return $this;
     }
 
-    public function value(string $value)
+    public function value(string $value): FormInputs
     {
         $this->value = $value;
         return $this;
     }
 
-    public function required(bool $required = true)
+    public function required(bool $required = true): FormInputs
     {
         $this->required = $required;
         return $this;
     }
 
-    public function listData($listData)
+    public function listData($listData): FormInputs
     {
         $this->listData = $listData;
         return $this;
     }
 
-    public function readOnly(bool $readOnly = true)
+    public function readOnly(bool $readOnly = true): FormInputs
     {
         $this->readOnly = $readOnly;
         return $this;
     }
 
-    public function placeholder(string $placeholder = '')
+    public function placeholder(string $placeholder = ''): FormInputs
     {
         $this->placeholder = ($placeholder)? $placeholder : true;
         return $this;
     }
 
-    public function htmlAttributes(string $htmlAttributes)
+    public function htmlAttributes(string $htmlAttributes): FormInputs
     {
         $this->htmlAttributes = $htmlAttributes;
         return $this;
     }
 
-    public function params(array $params)
+    public function params(array $params): FormInputs
     {
         $this->params = $params;
         return $this;
@@ -95,11 +114,15 @@ class FormInputs
     public function get()
     {
         switch ($this->type) {
-            case 'hidden':
+            case self::HIDDEN:
                 return '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'">';
                 break;
 
-            case 'select':
+            case self::TEXTAREA:
+                $htmInput = $this->getInput('textarea');
+                break;
+
+            case self::SELECT:
                 $htmInput = (new WInputSelect($this->name, $this->listData, $this->value))
                     ->required($this->required)
                     ->placeholder($this->placeholder)
@@ -107,36 +130,47 @@ class FormInputs
                     ->html();
                 break;
 
-            case 'checkbox':
+            case self::CHECKBOX:
                 $htmInput = WInputCheck::get($this->name, '&nbsp;', $this->value, $this->required);
                 break;
 
-            case 'textarea':
-                $htmInput = $this->getInput('textarea');
+            case self::RADIOS:
+                $htmInput = WInputRadios::get(
+                    $this->name,
+                    $this->listData,
+                    $this->value,
+                    $this->required
+                );
                 break;
 
-            case 'datetime':
-            case 'datetime-local':
+            case self::FILE:
+                $input = new WInputFile($this->name, $this->value);
+                $htmInput = $input->set_required($this->required)
+                             ->setReadOnly($this->readOnly)
+                             ->get();
+                break;
+
+            case self::DATETIME:
                 $htmInput = $this->inputDateTimeLocal();
                 break;
 
-            case 'number':
+            case self::NUMBER:
                 $this->htmlAttributes .= 'style="width:initial"';
                 $htmInput = $this->getInput('number');
                 break;
 
-            case 'percentage':
+            case self::PERCENTAGE:
                 $this->htmlAttributes .= ' min="0" max="100" step=".01" style="width:initial"';
                 $this->title .= ' (%)';
                 $htmInput = $this->getInput('number');
                 break;
 
-            case 'price':
+            case self::PRICE:
                 $this->htmlAttributes .= ' min="0" step=".01" style="width:initial"';
                 $htmInput = $this->getInput('number');
                 break;
 
-            case 'url':
+            case self::URL:
                 $htmInput = $this->inputUrl();
                 break;
 
@@ -177,7 +211,7 @@ class FormInputs
 
         return $this->getInput($this->type);
     }
-
+    //-------------------------------------------------------
     private function inputDateTimeLocal()
     {
         // value ---

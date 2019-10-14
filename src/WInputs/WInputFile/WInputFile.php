@@ -42,47 +42,46 @@ class WInputFile
     private $watermark_text = '';
 
     //---------------------------------------------------------------------
-    public function __construct($name, $fileDatos, $label = '', $isTypeImage='auto')
+    public function __construct(string $name, $fileDatos, string $label = '', $isTypeImage='auto')
     {
         $this->name      = $name;
         $this->label     = $label;
         $this->fileDatos = $fileDatos;
 
-        if ($isTypeImage == false) {
-        }
-        else {
-            Vendor::usef('lightbox');
-        }
-
         CssJsLoad::set(__DIR__.'/libs.js');
     }
     //---------------------------------------------------------------------
-    public function set_required($flag)
+    public function set_required(bool $flag)
     {
         $this->required = $flag;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function hiddenBtDelete()
     {
         $this->showDel = false;
+        return $this;
     }
     //---------------------------------------------------------------------
     // $flag: false, true, short
-    public function showFileName($flag)
+    public function showFileName(bool $flag)
     {
         $this->showFileName = $flag;
+        return $this;
     }
     //---------------------------------------------------------------------
-    public function showImg($flag, $width, $height = '')
+    public function showImg(bool $flag, $width, $height = '')
     {
         $this->showImg       = $flag;
         $this->showImgWidth  = $width;
         $this->showImgHeight = $height;
+        return $this;
     }
     //---------------------------------------------------------------------
-    public function setReadOnly($isReadonly)
+    public function setReadOnly(bool $isReadonly)
     {
         $this->isReadonly = $isReadonly;
+        return $this;
     }
     //---------------------------------------------------------------------
     // Propiedades del archivo
@@ -90,6 +89,7 @@ class WInputFile
     public function setValidFiles($listMimes)
     {
         $this->validFiles = $listMimes;
+        return $this;
     }
     //---------------------------------------------------------------------
     /*
@@ -99,11 +99,13 @@ class WInputFile
     public function setSaveAs($saveAs)
     {
         $this->saveAs = $saveAs;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function setMaxSize($setMax)
     {
         $this->setMaxSize = $setMax;
+        return $this;
     }
     //---------------------------------------------------------------------
     // Imagenes
@@ -111,27 +113,32 @@ class WInputFile
     public function img_setMaxWidth($setMaxWidth)
     {
         $this->setMaxWidth = $setMaxWidth;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function img_setMaxHeight($setMaxHeight)
     {
         $this->setMaxHeight = $setMaxHeight;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function img_setCropHeight($setCropHeight, $cropY = 'bottom')
     {
         $this->setCropHeight  = $setCropHeight;
         $this->setCropHeightY = $cropY;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function img_setThumbWidth($setThumbWidth)
     {
         $this->setThumbWidth = $setThumbWidth;
+        return $this;
     }
     //---------------------------------------------------------------------
     public function set_watermark($text)
     {
         $this->watermark_text = $text;
+        return $this;
     }
     //---------------------------------------------------------------------
     // GET

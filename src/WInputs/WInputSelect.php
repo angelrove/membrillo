@@ -36,31 +36,34 @@ class WInputSelect
         }
     }
     //-------------------------------------------------------------
-    public function required(bool $required = true)
+    public function required(bool $required = true): WInputSelect
     {
         $this->required = $required;
         return $this;
     }
 
-    public function readOnly(bool $readOnly = true)
+    public function readOnly(bool $readOnly = true): WInputSelect
     {
         $this->readOnly = $readOnly;
         return $this;
     }
 
-    public function placeholder(string $placeholder)
+    /**
+     * @param mixed[string, true] $placeholder Can be a string or true
+     */
+    public function placeholder($placeholder): WInputSelect
     {
         $this->placeholder = $placeholder;
         return $this;
     }
 
-    public function colors($listColors)
+    public function colors(array $listColors): WInputSelect
     {
         $this->listColors = $listColors;
         return $this;
     }
 
-    public function groups($listGroup)
+    public function groups(array $listGroup): WInputSelect
     {
         $this->listGroup = $listGroup;
         return $this;
@@ -94,14 +97,14 @@ class WInputSelect
         //-----------------
         $htmOptions = '';
         foreach ($this->data as $key => $row) {
-            // $optionLabel = ($row['name'])? $row['name'] : $id;
-
-            // Option data ---
+            // Data ---
             $optionId = '';
             $optionLabel = '';
+
             if (is_array($row)) {
                 $optionId    = $row['id'];
                 $optionLabel = $row['name'];
+                // $optionLabel = ($row['name'])?? $id;
             } elseif (is_object($row)) {
                 $optionId    = $row->id;
                 $optionLabel = $row->name;
@@ -130,7 +133,7 @@ class WInputSelect
                 $htmOptions .= '<optgroup label="' . $this->listGroup[$optionId] . '">';
             }
 
-            // Style -----
+            // Colors -----
             $style = '';
             if ($this->listColors) {
                 $style = 'style="background:' . $this->listColors[$optionId] . '"';

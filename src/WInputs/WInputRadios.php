@@ -12,53 +12,78 @@ class WInputRadios
 {
     //------------------------------------------------------------------
     /* From array */
-    public static function get($name, $listDatos, $id_selected = '', $required = false, $listColors = array(), $is_assoc = '')
-    {
+    public static function get(
+        string $name,
+        $listDatos,
+        $id_selected = '',
+        bool $required = false,
+        array $listColors = [],
+        $is_assoc = ''
+    ) {
         $strSelect = '';
 
         $required = ($required) ? 'required' : '';
 
         // ¿Viene con claves?
-        if ($is_assoc == '') {
-            $isAsociativo = UtilsBasic::array_is_assoc($listDatos);
-        } else {
-            $isAsociativo = $is_assoc;
-        }
+        $isAsociativo = $is_assoc;
+        // if ($is_assoc == '') {
+        //     $isAsociativo = UtilsBasic::array_is_assoc($listDatos);
+        // }
 
-        foreach ($listDatos as $id => $label) {
-            if ($isAsociativo == false) {
-                $id = $label;
+        foreach ($listDatos as $key => $row) {
+            // if ($isAsociativo == false) {
+            //     $id = $label;
+            // }
+
+            // Data ---
+            $optionId = '';
+            $optionLabel = '';
+
+            if (is_array($row)) {
+                $optionId    = $row['id'];
+                $optionLabel = $row['name'];
+                // $optionLabel = ($row['name'])?? $id;
+            } elseif (is_object($row)) {
+                $optionId    = $row->id;
+                $optionLabel = $row->name;
+            } else {
+                $optionId    = $key;
+                $optionLabel = $row;
             }
 
             // Selected
             $SELECTED = '';
-            if (strcmp($id, $id_selected) == 0) {
+            if (strcmp($optionId, $id_selected) == 0) {
                 $SELECTED = ' checked';
             }
 
-            $idCheck = $name . '_' . $id;
+            $idCheck = $name . '_' . $optionId;
 
             // Color
             $style_bg = '';
-            if (isset($listColors[$id])) {
-                $style_bg = 'style="background:' . $listColors[$id] . '"';
-            }
+            // if ($listColors && isset($listColors[$optionId])) {
+            //     $style_bg = 'style="background:' . $listColors[$optionId] . '"';
+            // }
 
             // Option
             $strSelect .= <<<EOD
-         <label class="radio-inline" $style_bg>
-           <input type="radio" $required
-                id="$idCheck"
-                name="$name"
-                value="$id" $SELECTED>
-           $label
-         </label>
-EOD;
+                 <label class="radio-inline" $style_bg>
+                    <input type="radio" $required
+                        id="$idCheck"
+                        name="$name"
+                        value="$optionId" $SELECTED>$optionLabel
+                 </label>\n
+                 EOD;
         }
 
-        return '<div class="WInputRadios" id="WInputRadios_' . $name . '">' .
-            $strSelect .
-            '</div>';
+        return  <<<EOD
+             \n
+             <!-- RADIOS -->
+             <div class="WInputRadios" id="WInputRadios_$name">
+                $strSelect
+             </div>
+             <!-- RADIOS -->\n
+             EOD;
     }
     //------------------------------------------------------------------
     /* Con imagenes */
