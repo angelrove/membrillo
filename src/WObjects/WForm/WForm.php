@@ -267,26 +267,27 @@ class WForm extends EventComponent
         return FormInputs::inputContainer($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
+    public function getField($title, $htmInput, $name = '')
+    {
+        return FormInputs::inputContainer($title, $htmInput, $name);
+    }
+    //------------------------------------------------------------------
     // DEPRECATED !!
     public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
     {
+        $value = ($this->datos[$name])?? '';
+        $formInput = new FormInputs($type, $name, $title, $value);
+
         // Input "select" ---
         if ($type == 'select') {
-            $listData = $params[0];
+            $formInput->listData($params[0]);
 
-            $emptyOption = '';
             if (isset($params[1]) && $params[1]) {
-                $emptyOption = ($params[1] === true)? '-' : $params[1];
+                $formInput->placeholder($params[1]);
             }
         }
 
-        //---------------------
-        $value = ($this->datos[$name])?? '';
-        return (new FormInputs($type, $name, $title, $value))
-            ->required()
-            ->listData($listData)
-            ->placeholder($emptyOption)
-            ->get();
+        return $formInput->required()->get();
     }
     //------------------------------------------------------------------
     // $flag: '', 'top'
