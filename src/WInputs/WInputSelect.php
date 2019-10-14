@@ -15,6 +15,7 @@ class WInputSelect
     private $id_selected;
     private $required;
     private $placeholder;
+    private $readOnly;
     private $listColors;
     private $listGroup;
 
@@ -28,11 +29,22 @@ class WInputSelect
         $this->name = $name;
         $this->data = $data;
         $this->id_selected = $id_selected;
+
+        // Data in SQL format -----
+        if (is_string($this->data)) {
+            $this->data = Db_mysql::getList($this->data);
+        }
     }
     //-------------------------------------------------------------
-    public function required(bool $required)
+    public function required(bool $required = true)
     {
         $this->required = $required;
+        return $this;
+    }
+
+    public function readOnly(bool $readOnly = true)
+    {
+        $this->readOnly = $readOnly;
         return $this;
     }
 
@@ -77,11 +89,6 @@ class WInputSelect
     //-------------------------------------------------------------
     public function html()
     {
-        // Data in SQL format -----
-        if (is_string($this->data)) {
-            $data = Db_mysql::getList($this->data);
-        }
-
         $isMultiSelect = is_array($this->id_selected);
 
         //-----------------
@@ -149,13 +156,22 @@ class WInputSelect
     {
         $required = ($required) ? 'required' : '';
 
+        // Read only ---
+        if ($this->readOnly) {
+            $this->htmlAttributes .= ' disabled ';
+            $this->name = '';
+        }
+
         // Placeholder ---
         $optionPlaceholder = '';
         if ($placeholder) {
-            $value = '';
             $label = $placeholder;
+            $value = '';
+
             if ($placeholder == 'NULL') {
+                $label = '-';
                 $value = 'NULL';
+            } else if ($placeholder === true) {
                 $label = '-';
             }
 

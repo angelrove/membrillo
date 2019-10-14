@@ -19,7 +19,7 @@ class FormInputs
     private $value;
     private $title = '';
     private $required = false;
-    private $readonly = false;
+    private $readOnly = false;
     private $placeholder = false;
     private $listData;
 
@@ -66,9 +66,9 @@ class FormInputs
         return $this;
     }
 
-    public function readonly(bool $readonly = true)
+    public function readOnly(bool $readOnly = true)
     {
-        $this->readonly = $readonly;
+        $this->readOnly = $readOnly;
         return $this;
     }
 
@@ -100,7 +100,11 @@ class FormInputs
                 break;
 
             case 'select':
-                $htmInput = $this->inputSelect();
+                $htmInput = (new WInputSelect($this->name, $this->listData, $this->value))
+                    ->required($this->required)
+                    ->placeholder($this->placeholder)
+                    ->readOnly($this->readOnly)
+                    ->html();
                 break;
 
             case 'checkbox':
@@ -144,10 +148,11 @@ class FormInputs
         // If no title ---
         if ($this->title === false) {
             return $htmInput;
+        } else {
+            // With Bootstrap container ---
+            return self::inputContainer($this->title, $htmInput, $this->name);
         }
 
-        // Bootstrap container ---
-        return self::inputContainer($this->title, $htmInput, $this->name);
     }
     //------------------------------------------------------------------
     public static function inputContainer(string $title, string $htmInput, string $name = ''): string
@@ -162,28 +167,7 @@ class FormInputs
     //-------------------------------------------------------
     // Inputs
     //-------------------------------------------------------
-    public function inputSelect(): string
-    {
-        if ($this->readonly) {
-            $this->htmlAttributes .= ' disabled ';
-            $this->name = '';
-        }
-
-        // Params ---
-        $placeholder = '';
-        if ($this->placeholder) {
-            $placeholder = ($this->placeholder === true)? '-' : $this->placeholder;
-        }
-
-        // Selector ---
-        $selector = new WInputSelect($this->name, $this->listData, $this->value);
-        return $selector
-                 ->required($this->required)
-                 ->placeholder($placeholder)
-                 ->html();
-    }
-
-    public function inputUrl(): string
+    private function inputUrl(): string
     {
         $this->htmlAttributes .= ' style="display:initial;width:95%" ';
 
@@ -194,7 +178,7 @@ class FormInputs
         return $this->getInput($this->type);
     }
 
-    public function inputDateTimeLocal()
+    private function inputDateTimeLocal()
     {
         // value ---
         if (is_integer($this->value)) {
@@ -208,10 +192,10 @@ class FormInputs
     //------------------------------------------------------------------
     // Generic input
     //------------------------------------------------------------------
-    public function getInput(string $type = 'text'): string
+    private function getInput(string $type = 'text'): string
     {
-        // Readonly ---
-        if ($this->readonly) {
+        // ReadOnly ---
+        if ($this->readOnly) {
             $this->htmlAttributes .= ' disabled ';
             $this->name = '';
         }

@@ -21,7 +21,7 @@ use angelrove\membrillo\WObjects\WForm\FormInputs;
 
 class WForm extends EventComponent
 {
-    use WFormInputs; // Deprecated
+    // use WFormInputs; // Deprecated
 
     private $title;
 
@@ -265,6 +265,28 @@ class WForm extends EventComponent
     public function inputContainer(string $title, string $htmInput, string $name = '')
     {
         return FormInputs::inputContainer($title, $htmInput, $name);
+    }
+    //------------------------------------------------------------------
+    // DEPRECATED !!
+    public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
+    {
+        // Input "select" ---
+        if ($type == 'select') {
+            $listData = $params[0];
+
+            $emptyOption = '';
+            if (isset($params[1]) && $params[1]) {
+                $emptyOption = ($params[1] === true)? '-' : $params[1];
+            }
+        }
+
+        //---------------------
+        $value = ($this->datos[$name])?? '';
+        return (new FormInputs($type, $name, $title, $value))
+            ->required()
+            ->listData($listData)
+            ->placeholder($emptyOption)
+            ->get();
     }
     //------------------------------------------------------------------
     // $flag: '', 'top'
