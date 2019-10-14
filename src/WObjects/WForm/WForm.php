@@ -273,6 +273,11 @@ class WForm extends EventComponent
     }
     //------------------------------------------------------------------
     // DEPRECATED !!
+    public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
+    {
+        return $this->getInput($name, $title, $required, $type, $params);
+    }
+
     public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
     {
         $value = ($this->datos[$name])?? '';
