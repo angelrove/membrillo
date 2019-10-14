@@ -175,14 +175,12 @@ class FormInputs
             $placeholder = ($this->placeholder === true)? '-' : $this->placeholder;
         }
 
-        return WInputSelect::getFromArray(
-            $this->listData,
-            $this->value,
-            $this->name,
-            $this->required,
-            '',
-            $placeholder
-        );
+        // Selector ---
+        $selector = new WInputSelect($this->name, $this->listData, $this->value);
+        return $selector
+                 ->required($this->required)
+                 ->placeholder($placeholder)
+                 ->html();
     }
 
     public function inputUrl(): string

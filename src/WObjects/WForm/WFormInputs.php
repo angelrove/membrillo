@@ -67,7 +67,7 @@ trait WFormInputs
                     $emptyOption = ($params[1] === true)? '-' : $params[1];
                 }
 
-                $htmInput = WInputSelect::getFromArray($values, $this->datos[$name], $name, $required, '', $emptyOption);
+                $htmInput = WInputSelect::get($values, $this->datos[$name], $name, $required, '', $emptyOption);
                 break;
 
             case 'checkbox':

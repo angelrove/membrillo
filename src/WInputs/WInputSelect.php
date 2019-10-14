@@ -1,7 +1,7 @@
 <?php
 /**
- * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
 namespace angelrove\membrillo\WInputs;
@@ -10,13 +10,56 @@ use angelrove\utils\Db_mysql;
 
 class WInputSelect
 {
-    //------------------------------------------------------------------
+    private $name;
+    private $data;
+    private $id_selected;
+    private $required;
+    private $placeholder;
+    private $listColors;
+    private $listGroup;
+
+    //-------------------------------------------------------------
     /**
-     * $tipoId: AUTO_INCR, AUTO_VALUE
+     * @param [collection / SQL string] $data
+     * @param int $id_selected: un id o una lista de IDs (selects multiples)
      */
-    public static function getFromArray(
-        $datos,
-        $id_selected,
+    public function __construct($name, $data, $id_selected)
+    {
+        $this->name = $name;
+        $this->data = $data;
+        $this->id_selected = $id_selected;
+    }
+    //-------------------------------------------------------------
+    public function required(bool $required)
+    {
+        $this->required = $required;
+        return $this;
+    }
+
+    public function placeholder(string $placeholder)
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
+
+    public function colors($listColors)
+    {
+        $this->listColors = $listColors;
+        return $this;
+    }
+
+    public function groups($listGroup)
+    {
+        $this->listGroup = $listGroup;
+        return $this;
+    }
+    //-------------------------------------------------------------
+    /**
+     * Static version
+     */
+    public static function get(
+        $data,
+        $id_selected = '',
         string $name = '',
         bool $required = false,
         string $tipoId = '',
@@ -24,143 +67,106 @@ class WInputSelect
         array $listColors = [],
         array $listGroup = []
     ) {
-        $strSelect = '';
+        $selector = new WInputSelect($name, $data, $id_selected);
+        return $selector->required($required)
+                 ->placeholder($placeholder)
+                 ->colors($listColors)
+                 ->groups($listGroup)
+                 ->html();
+    }
+    //-------------------------------------------------------------
+    public function html()
+    {
+        // Data in SQL format -----
+        if (is_string($this->data)) {
+            $data = Db_mysql::getList($this->data);
+        }
 
-        foreach ($datos as $key => $row) {
-            $id = $key;
-            $title_option = $row;
+        $isMultiSelect = is_array($this->id_selected);
 
-            // Object type ---
-            if ($tipoId == 'AUTO_VALUE') {
-                $id = $row;
-            }
+        //-----------------
+        $htmOptions = '';
+        foreach ($this->data as $key => $row) {
+            // $optionLabel = ($row['name'])? $row['name'] : $id;
+
+            // Option data ---
+            $optionId = '';
+            $optionLabel = '';
             if (is_array($row)) {
-                $title_option = $row['name'];
-            }
-            if (is_object($row)) {
-                $id     = $row->id;
-                $title_option = $row->name;
+                $optionId    = $row['id'];
+                $optionLabel = $row['name'];
+            } elseif (is_object($row)) {
+                $optionId    = $row->id;
+                $optionLabel = $row->name;
+            } else {
+                $optionId    = $key;
+                $optionLabel = $row;
             }
 
             // Selected ---
             $SELECTED = '';
-            if ($id == $id_selected) {
-                $SELECTED = ' SELECTED';
-            }
-
-            // optgroup ---
-            if (isset($listGroup[$id])) {
-                if ($strSelect) {
-                    $strSelect .= '</optgroup>';
-                }
-                $strSelect .= '<optgroup label="' . $listGroup[$id] . '">';
-            }
-
-            // Option
-            $style = '';
-            if ($listColors) {
-                $style = 'style="background:' . $listColors[$id] . '"';
-            }
-            $strSelect .= '<option ' . $style . ' value="' . $id . '"' . $SELECTED . '>' . $title_option . '</option>';
-        }
-
-        if ($listGroup) {
-            $strSelect .= '</optgroup>';
-        }
-
-        //------------
-        if ($name) {
-            $required  = ($required) ? 'required' : '';
-
-            // Placeholder ---
-            if ($placeholder) {
-                $value = '';
-                $label = $placeholder;
-                if ($placeholder == 'NULL') {
-                    $value = 'NULL';
-                    $label = '-';
-                }
-
-                $placeholder = '<option value="'.$value.'" class="placeholder">-- '.$label.' --</option>';
-            }
-
-            //----
-            $strSelect =
-                "<select name=\"$name\" class=\"form-control\" $required>" .
-                   $placeholder .
-                   $strSelect .
-                '</select>';
-        }
-
-        return $strSelect;
-    }
-    //------------------------------------------------------------------
-    /**
-     *  from Sql
-     *  Ejem..: $sqlQ = "SELECT id, CONCAT(apellido,' ',name) AS name FROM users";
-     *  $selected: puede ser un id o una lista de IDs (para selects multiples)
-     */
-    public static function get($sqlQ, $value, $name = '', $required = false, $placeholder = '')
-    {
-        if (!is_string($sqlQ)) {
-            return self::getFromArray($sqlQ, $value, $name, $required, '', $placeholder);
-        }
-
-        if (!$sqlQ) {
-            return '';
-        }
-
-        // Default order ---
-        if (stripos($sqlQ, "ORDER BY") === false) {
-            $sqlQ .= " ORDER BY name";
-        }
-
-        $strSelect        = '';
-        $selected_isArray = is_array($value);
-
-        $rows = Db_mysql::getList($sqlQ);
-        foreach ($rows as $id => $row) {
-            $label = ($row['name'])? $row['name'] : $id;
-
-            // Selected
-            $SELECTED = '';
-            if ($selected_isArray) {
-                if (array_search($id, $value) !== false) {
+            if ($isMultiSelect) {
+                if (array_search($optionId, $this->id_selected) !== false) {
                     $SELECTED = 'SELECTED';
                 }
             } else {
-                if ($id == $value) {
+                if ($optionId == $this->id_selected) {
                     $SELECTED = 'SELECTED';
                 }
             }
 
-            // Option
-            $strSelect .= "<option value=\"$id\" $SELECTED>$label</option>";
-        }
-
-        if ($name) {
-            $required = ($required) ? 'required' : '';
-
-            // Placeholder ---
-            if ($placeholder) {
-                $value = '';
-                $label = $placeholder;
-                if ($placeholder == 'NULL') {
-                    $value = 'NULL';
-                    $label = '-';
+            // optgroup ---
+            if ($this->listGroup && isset($this->listGroup[$optionId])) {
+                if ($htmOptions) {
+                    $htmOptions .= '</optgroup>';
                 }
-
-                $placeholder = '<option value="'.$value.'" class="placeholder">-- '.$label.' --</option>';
+                $htmOptions .= '<optgroup label="' . $this->listGroup[$optionId] . '">';
             }
 
-            $strSelect =
-                "<select name=\"$name\" class=\"form-control\" $required>" .
-                    $placeholder .
-                    $strSelect .
-                "</select>";
+            // Style -----
+            $style = '';
+            if ($this->listColors) {
+                $style = 'style="background:' . $this->listColors[$optionId] . '"';
+            }
+
+            // Option ----
+            $htmOptions .= "<option $style value=\"$optionId\" $SELECTED>$optionLabel</option>";
         }
 
-        return $strSelect;
+        if ($this->listGroup) {
+            $htmOptions .= '</optgroup>';
+        }
+
+        //------------
+        if ($this->name) {
+            return self::htmSelect($this->name, $htmOptions, $this->required, $this->placeholder);
+        } else {
+            return $htmOptions;
+        }
     }
-    //------------------------------------------------------------------
+    //--------------------------------------------------------------
+    private function htmSelect($name, $htmOptions, $required, $placeholder)
+    {
+        $required = ($required) ? 'required' : '';
+
+        // Placeholder ---
+        $optionPlaceholder = '';
+        if ($placeholder) {
+            $value = '';
+            $label = $placeholder;
+            if ($placeholder == 'NULL') {
+                $value = 'NULL';
+                $label = '-';
+            }
+
+            $optionPlaceholder = '<option value="'.$value.'" class="placeholder">-- '.$label.' --</option>';
+        }
+
+        // Selector ------
+        return
+        "<select name=\"$name\" class=\"form-control\" $required>" .
+            $optionPlaceholder .
+            $htmOptions .
+        "</select>";
+    }
 }

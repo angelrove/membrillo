@@ -95,7 +95,7 @@ class Local
 EOD
 );
         return "<style>select[name='local'] { padding: 0px 9px; height: initial !important; }</style>".
-                WInputSelect::getFromArray(['es'=>'Español', 'en'=>'English'], $lang, 'local');
+                WInputSelect::get(['es'=>'Español', 'en'=>'English'], $lang, 'local');
     }
     //------------------------------------------------------
     // PRIVATE
