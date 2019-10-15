@@ -44,6 +44,7 @@ class Application
         /* Config */
         global $CONFIG_APP;
         require PATH_MAIN . '/config/app.php';
+        require __DIR__   . '/config_aliases.php';
 
         //-------
         self::$conf    = & $CONFIG_APP;
