@@ -7,7 +7,7 @@
 
 namespace angelrove\membrillo\WInputs\WInputFile;
 
-use angelrove\membrillo\DebugTrace;
+// use angelrove\membrillo\DebugTrace;
 use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\utils\FileUpload;
 use angelrove\utils\Images\ImageTransform;
@@ -63,7 +63,7 @@ class WInputFile_upload
             }
 
             $traza = $trazas . ' >> delete: "' . $file_path . '/' . $fileToDelete . '"';
-            DebugTrace::out('WInputFile', $traza);
+            // DebugTrace::out('WInputFile', $traza);
 
             @unlink($file_path . '/' . $fileToDelete);
             @unlink($file_path . '/' . 'th_' . $fileToDelete); // intenta eliminar un posible thumbnail
@@ -94,8 +94,8 @@ class WInputFile_upload
 
         $resUpload = FileUpload::getFile($fieldName, $saveAs, $uploads_path, $validFiles, $param_maxSize);
         $traza     = "$trazas >> saveAs: '$saveAs', uploads_path: '$uploads_path'";
-        DebugTrace::out('WInputFile', $traza);
-        DebugTrace::out('WInputFile >> resUpload', $resUpload);
+        // DebugTrace::out('WInputFile', $traza);
+        // DebugTrace::out('WInputFile >> resUpload', $resUpload);
 
         if ($resUpload !== true) {
             switch ($resUpload['COD']) {
@@ -144,7 +144,7 @@ class WInputFile_upload
             // Thumbnail ---
             if ($param_thumbWidth > 0) {
                 $traza = $trazas . " >> Thumb: param_thumbWidth=$param_thumbWidth; uploads_path='$uploads_path'";
-                DebugTrace::out('WInputFile', $traza);
+                // DebugTrace::out('WInputFile', $traza);
                 ImageTransform::resize($uploads_path, $nameWidthExt, $param_thumbWidth, '', 'th_');
             }
 

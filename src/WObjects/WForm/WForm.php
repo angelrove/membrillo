@@ -17,7 +17,7 @@ use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;
 use angelrove\membrillo\Login\Login;
 
-use angelrove\membrillo\WObjects\WForm\FormInputs;
+use angelrove\membrillo\WInputs\FormInputs;
 
 class WForm extends EventComponent
 {

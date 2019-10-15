@@ -1,12 +1,11 @@
 <?php
 /**
  * FormInputs
- * <?=$form->fInput('text', 'job_number', 'Job Nº')->required()->get()?>
  *
  * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
-namespace angelrove\membrillo\WObjects\WForm;
+namespace angelrove\membrillo\WInputs;
 
 use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\membrillo\WInputs\WInputCheck;
