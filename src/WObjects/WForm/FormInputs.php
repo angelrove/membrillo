@@ -186,7 +186,6 @@ class FormInputs
             // With Bootstrap container ---
             return self::inputContainer($this->title, $htmInput, $this->name);
         }
-
     }
     //------------------------------------------------------------------
     public static function inputContainer(string $title, string $htmInput, string $name = ''): string
@@ -195,6 +194,23 @@ class FormInputs
         <div class="form-group" id="obj_'.$name.'">
            <label class="col-sm-3 control-label">'.$title.'</label>
            <div class="col-sm-9">'.$htmInput.'</div>
+        </div>
+        ';
+    }
+    //------------------------------------------------------------------
+    public static function inputContainer_start(string $title, string $name = ''): string
+    {
+        return '
+        <div class="form-group" id="obj_'.$name.'">
+           <label class="col-sm-3 control-label">'.$title.'</label>
+           <div class="col-sm-9">
+        ';
+    }
+    //------------------------------------------------------------------
+    public static function inputContainer_end(): string
+    {
+        return '
+           </div>
         </div>
         ';
     }

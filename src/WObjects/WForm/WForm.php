@@ -262,6 +262,16 @@ class WForm extends EventComponent
         return FormInputs::inputContainer($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
+    public function inputContainer_start(string $title, string $name = '')
+    {
+        return FormInputs::inputContainer_start($title, $name);
+    }
+
+    public function inputContainer_end()
+    {
+        return FormInputs::inputContainer_end();
+    }
+    //------------------------------------------------------------------
     /**
      * @param $type string View valid types in 'FormInputs' class:
      *      const HIDDEN    = 'hidden';
