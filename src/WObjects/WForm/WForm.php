@@ -322,7 +322,7 @@ class WForm extends EventComponent
             $formInput->readOnly();
         }
 
-        return $formInput->required()->get();
+        return $formInput->required($required)->get();
     }
     //------------------------------------------------------------------
     //------------------------------------------------------------------
