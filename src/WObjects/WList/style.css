@@ -12,6 +12,10 @@
   margin: 2px 0;
 }
 
+.List_paginacion .pull-left {
+  line-height: 37px;
+}
+
 /** Search **/
 .FormSearch { margin-bottom: 12px; }
 
