@@ -284,6 +284,7 @@ class WForm extends EventComponent
      *      const NUMBER    = 'number';
      *      const PRICE     = 'price';
      *      const DATETIME  = 'datetime';
+     *      const MONTH     = 'month';
      *      const PERCENTAGE = 'percentage';
      *      const URL       = 'url';
      *      ...
@@ -316,6 +317,9 @@ class WForm extends EventComponent
             if (isset($params[1]) && $params[1]) {
                 $formInput->placeholder($params[1]);
             }
+        } else if ($type == 'text_read') {
+            $type == 'text';
+            $formInput->readOnly();
         }
 
         return $formInput->required()->get();

@@ -37,6 +37,7 @@ class FormInputs
     public const RADIOS   = 'radios';
     public const FILE     = 'file';
     public const DATETIME = 'datetime';
+    public const MONTH    = 'month';
     public const NUMBER   = 'number';
     public const PRICE    = 'price';
     public const PERCENTAGE = 'percentage';
@@ -61,7 +62,7 @@ class FormInputs
     //-------------------------------------------------------
     // Properties
     //-------------------------------------------------------
-    public function title(string $title): FormInputs
+    public function title($title): FormInputs
     {
         $this->title = $title;
         return $this;
@@ -111,7 +112,7 @@ class FormInputs
     //-------------------------------------------------------
     // Get input
     //-------------------------------------------------------
-    public function get()
+    public function get(bool $withContainer = true)
     {
         switch ($this->type) {
             case self::HIDDEN:
@@ -154,6 +155,10 @@ class FormInputs
                 $htmInput = $this->inputDateTimeLocal();
                 break;
 
+            case self::MONTH:
+                $htmInput = $this->getInput('month');
+                break;
+
             case self::NUMBER:
                 $this->htmlAttributes .= 'style="width:initial"';
                 $htmInput = $this->getInput('number');
@@ -180,7 +185,7 @@ class FormInputs
         }
 
         // If no title ---
-        if ($this->title === false) {
+        if (!$withContainer || $this->title === false) {
             return $htmInput;
         } else {
             // With Bootstrap container ---
