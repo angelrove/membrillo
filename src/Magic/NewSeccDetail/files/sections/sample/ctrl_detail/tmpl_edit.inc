@@ -1,9 +1,5 @@
 <?php
-use angelrove\membrillo\WObjects\WForm\WForm;
-use angelrove\membrillo\WObjectsStatus\Event;
-use angelrove\membrillo\WApp\Local;
 use angelrove\membrillo\WInputs\WInputFile\WInputFile;
-use angelrove\membrillo\Login\Login;
 use App\Models\[Model_parent];
 use App\Models\[Model_detail];
 

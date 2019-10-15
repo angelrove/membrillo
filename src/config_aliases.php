@@ -11,5 +11,6 @@ $CONFIG_APP['aliases'] = [
     'Event'     => angelrove\membrillo\WObjectsStatus\Event::class,
     'WPage'     => angelrove\membrillo\WPage\WPage::class,
     'WList'     => angelrove\membrillo\WObjects\WList\WList::class,
+    'WForm'     => angelrove\membrillo\WObjects\WForm\WForm::class,
     'CssJsLoad' => angelrove\utils\CssJsLoad::class,
 ];

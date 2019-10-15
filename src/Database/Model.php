@@ -4,9 +4,9 @@ namespace angelrove\membrillo\Database;
 use angelrove\membrillo\Database\ModelInterface;
 use angelrove\membrillo\Database\GenQuery;
 use angelrove\membrillo\Messages;
+use angelrove\membrillo\WObjects\WForm\WForm;
 use angelrove\membrillo\WApp\Local;
 use angelrove\membrillo\WObjectsStatus\Event;
-use angelrove\membrillo\WObjects\WForm\WForm;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Model implements ModelInterface

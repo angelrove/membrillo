@@ -1,22 +1,13 @@
 <?php
-use angelrove\membrillo\WObjects\WForm\WForm;
-use angelrove\membrillo\WObjectsStatus\Event;
 use App\Models\[Sample];
 
 $controlName = 'simple';
 
 // form_data -------
-switch(Event::$EVENT) {
-  case CRUD_EDIT_NEW:
-    $form_data = [Sample]::findEmpty();
-
-    // Default values
-    $form_data['name'] = 'My name';
-  break;
-
-  case CRUD_EDIT_UPDATE:
-    $form_data = [Sample]::findById(Event::$ROW_ID);
-  break;
+$form_data = [];
+$form_data['name'] = 'My name';
+if(Event::$EVENT == CRUD_EDIT_UPDATE) {
+    $form_data = [Sample]::findById(Event::$row_id);
 }
 
 $form = new WForm($controlName, $form_data);
