@@ -53,7 +53,8 @@ class WForm extends EventComponent
         if (is_array($data)) {
             $this->datos = $data;
         } else {
-            $this->datos = $data->toArray();
+            // $this->datos = $data->toArray();
+            $this->datos = $data;
         }
 
         //----------
@@ -88,7 +89,7 @@ class WForm extends EventComponent
         }
 
         // If Errors ----
-        $this->datos = array_merge($this->datos, $_POST);
+        // $this->datos = array_merge($this->datos, $_POST);
     }
     //------------------------------------------------------------------
     // Static
@@ -281,18 +282,28 @@ class WForm extends EventComponent
      *      const CHECKBOX  = 'checkbox';
      *      const RADIOS    = 'radios';
      *      const FILE      = 'file';
-     *      const NUMBER    = 'number';
-     *      const PRICE     = 'price';
      *      const DATETIME  = 'datetime';
      *      const MONTH     = 'month';
-     *      const PERCENTAGE = 'percentage';
+     *      const NUMBER    = 'number';
+     *      const PRICE     = 'price';
+     *      const PERCENT   = 'percent';
      *      const URL       = 'url';
      *      ...
      */
     public function fInput(string $type, string $name = '', string $title = '')
     {
-        return new FormInputs($type, $name, $title, ($this->datos[$name])?? '');
+        $value = ($this->datos[$name])?? '';
+
+        $input = new FormInputs($type, $name, $title, $value);
+
+        // Set default timezone to user browser
+        if ($type == 'datetime') {
+            return $input->timezone(Login::$timezone);
+        } else {
+            return $input;
+        }
     }
+    //------------------------------------------------------------------
     //------------------------------------------------------------------
     // DEPRECATED !!
     public function getField($title, $htmInput, $name = '')
@@ -324,6 +335,7 @@ class WForm extends EventComponent
 
         return $formInput->required($required)->get();
     }
+    // DEPRECATED !!
     //------------------------------------------------------------------
     //------------------------------------------------------------------
     // $flag: '', 'top'

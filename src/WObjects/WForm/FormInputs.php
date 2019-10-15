@@ -8,15 +8,16 @@
 
 namespace angelrove\membrillo\WObjects\WForm;
 
-use angelrove\membrillo\Login\Login;
 use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\membrillo\WInputs\WInputCheck;
 use angelrove\membrillo\WInputs\WInputRadios;
 use angelrove\membrillo\WInputs\WInputTextarea;
+use angelrove\membrillo\WInputs\WInputDatetime;
 use angelrove\membrillo\WInputs\WInputFile\WInputFile;
 
 class FormInputs
 {
+    // general params ---
     private $type;
     private $name;
     private $title;
@@ -25,9 +26,11 @@ class FormInputs
     private $readOnly = false;
     private $placeholder = false;
 
-    private $listData;
-    private $timezone;
+    // particular params ---
+    private $listData; // selectors
+    private $timezone; // datetime
 
+    // Other ----
     private $params = [];
     private $htmlAttributes = '';
 
@@ -43,14 +46,14 @@ class FormInputs
     public const MONTH    = 'month';
     public const NUMBER   = 'number';
     public const PRICE    = 'price';
-    public const PERCENTAGE = 'percentage';
+    public const PERCENT  = 'percent';
     public const URL      = 'url';
 
     //-------------------------------------------------------
     /**
      * @param $type
      */
-    public function __construct(string $type, string $name = '', string $title = '', string $value = '')
+    public function __construct(string $type, string $name = '', string $title = '', $value = '')
     {
         $this->type = $type;
         $this->name = $name;
@@ -162,7 +165,11 @@ class FormInputs
                 break;
 
             case self::DATETIME:
-                $htmInput = $this->inputDateTimeLocal($this->value, $this->timezone);
+                $htmInput = (new WInputDatetime($this->name, $this->value))
+                    ->timezone($this->timezone)
+                    ->readOnly($this->readOnly)
+                    ->required($this->required)
+                    ->get();
                 break;
 
             case self::MONTH:
@@ -174,7 +181,7 @@ class FormInputs
                 $htmInput = $this->getInput('number', $this->value);
                 break;
 
-            case self::PERCENTAGE:
+            case self::PERCENT:
                 $this->htmlAttributes .= ' min="0" max="100" step=".01" style="width:initial"';
                 $this->title .= ' (%)';
                 $htmInput = $this->getInput('number', $this->value);
@@ -239,24 +246,6 @@ class FormInputs
 
         return $this->getInput($this->type, $this->value);
     }
-    //-------------------------------------------------------
-    private function inputDateTimeLocal($value, $timezone = null)
-    {
-        // Timestamp ---
-        if (is_integer($value)) {
-            if (!$timezone) {
-                // Browser timezone (local)
-                $timezone = Login::$timezone;
-            }
-            $value = self::timestampToDate($value, 'Y-m-d\TH:i', $timezone);
-        }
-        // Datetime ---
-        else {
-            $value = str_replace(" ", "T", $value);
-        }
-
-        return $this->getInput('datetime-local', $value);
-    }
     //------------------------------------------------------------------
     // Generic input
     //------------------------------------------------------------------
@@ -299,40 +288,6 @@ class FormInputs
                        ' value="' . $value . '"'.
                    '>';
         }
-    }
-    //---------------------------------------------------
-    // Input datetime helpers
-    //---------------------------------------------------
-    private static function timestampToDate($timestamp, string $toFormat = 'Y-m-d\TH:i', $toTimezone = null)
-    {
-        $datetime = new \DateTime();
-        $datetime->setTimestamp($timestamp);
-
-        if ($toTimezone) {
-            $datetime->setTimeZone(new \DateTimeZone($toTimezone));
-        }
-
-        return $datetime->format($toFormat);
-    }
-    //---------------------------------------------------
-    public static function dateTimeToTimestamp($dateTime)
-    {
-        $time = false;
-
-        // 2018-01-01T22:02 -------
-        if ($date = \DateTime::createFromFormat('Y-m-d\TH:i', $dateTime)) {
-        }
-        // 2018-01-01T22:02:00 -------
-        elseif ($date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime)) {
-        }
-
-        if ($date) {
-            return $date->getTimestamp();
-        } else {
-            throw new \Exception("WForm::dateTimeToTimestamp(): Error processing date!! [$dateTime]");
-        }
-
-        return $time;
     }
     //------------------------------------------------------------------
 }

@@ -10,7 +10,6 @@ namespace angelrove\membrillo\WInputs\WInputFile;
 
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\FileUploaded;
-use angelrove\utils\Vendor;
 
 class WInputFile
 {
