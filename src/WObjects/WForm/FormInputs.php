@@ -8,6 +8,7 @@
 
 namespace angelrove\membrillo\WObjects\WForm;
 
+use angelrove\membrillo\Login\Login;
 use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\membrillo\WInputs\WInputCheck;
 use angelrove\membrillo\WInputs\WInputRadios;
