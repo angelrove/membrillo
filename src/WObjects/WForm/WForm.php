@@ -323,11 +323,20 @@ class WForm extends EventComponent
 
         // Input "select" ---
         if ($type == 'select') {
-            $formInput->listData($params[0]);
+            // Data
+            if (isset($params[0])) {
+                $formInput->listData($params[0]);
+            } else {
+                $formInput->listData($params['query']);
+            }
 
+            // Placeholder
             if (isset($params[1]) && $params[1]) {
                 $formInput->placeholder($params[1]);
+            } else {
+                $formInput->placeholder($params['emptyOption']);
             }
+
         } else if ($type == 'text_read') {
             $type == 'text';
             $formInput->readOnly();

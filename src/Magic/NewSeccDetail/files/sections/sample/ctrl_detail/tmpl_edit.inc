@@ -26,7 +26,7 @@ $form = new WForm($controlName, $form_data);
 <?php WPage::get()?>
     <?php $form->get()?>
         <?=$form->getInput('created_at', 'Created at', false, 'text_read')?>
-        <?=$form->getInput('[parent_id]', '[Model_parent]', false, 'select_query', [[Model_parent]::read()])?>
+        <?=$form->getInput('[parent_id]', '[Model_parent]', false, 'select', [[Model_parent]::read()])?>
         <?=$form->getInput('name', Local::$t['Name'], true)?>
     <?php $form->get_end()?>
 <?php WPage::get_end();
