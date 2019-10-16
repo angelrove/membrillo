@@ -77,17 +77,12 @@ class WInputSelect
         $id_selected = '',
         string $name = '',
         bool $required = false,
-        string $tipoId = '',
-        string $placeholder = '',
-        array $listColors = [],
-        array $listGroup = []
+        string $placeholder = ''
     ) {
-        $selector = new WInputSelect($name, $data, $id_selected);
-        return $selector->required($required)
-                 ->placeholder($placeholder)
-                 ->colors($listColors)
-                 ->groups($listGroup)
-                 ->html();
+        return (new WInputSelect($name, $data, $id_selected))
+            ->required($required)
+            ->placeholder($placeholder)
+            ->html();
     }
     //-------------------------------------------------------------
     public function html()
