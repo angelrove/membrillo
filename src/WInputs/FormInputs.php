@@ -97,7 +97,7 @@ class FormInputs
         return $this;
     }
     //------------------------------------------------
-    public function htmlAttributes(string $htmlAttributes): FormInputs
+    public function attributes(string $htmlAttributes): FormInputs
     {
         $this->htmlAttributes = $htmlAttributes;
         return $this;
@@ -176,18 +176,29 @@ class FormInputs
                 break;
 
             case self::NUMBER:
-                $this->htmlAttributes .= 'style="width:initial"';
-                $htmInput = $this->getInput('number', $this->value);
-                break;
-
-            case self::PERCENT:
-                $this->htmlAttributes .= ' min="0" max="100" step=".01" style="width:initial"';
-                $this->title .= ' (%)';
+                $this->htmlAttributes .= ' style="width:initial;max-width:120px"';
+                if (!$this->value) {
+                    $this->value = '0';
+                }
                 $htmInput = $this->getInput('number', $this->value);
                 break;
 
             case self::PRICE:
-                $this->htmlAttributes .= ' min="0" step=".01" style="width:initial"';
+                $this->htmlAttributes .= ' style="width:initial;max-width:120px"';
+                $this->htmlAttributes .= ' min="0" step=".01"';
+                if (!$this->value) {
+                    $this->value = '0.00';
+                }
+                $htmInput = $this->getInput('number', $this->value);
+                break;
+
+            case self::PERCENT:
+                $this->htmlAttributes .= ' style="width:initial;max-width:100px"';
+                $this->htmlAttributes .= ' min="0" max="100" step=".01"';
+                $this->title .= ' (%)';
+                if (!$this->value) {
+                    $this->value = '0.00';
+                }
                 $htmInput = $this->getInput('number', $this->value);
                 break;
 
@@ -205,18 +216,18 @@ class FormInputs
             return $htmInput;
         } else {
             // With Bootstrap container ---
-            return self::inputContainer($this->title, $htmInput, $this->name);
+            return self::container($this->title, $htmInput, $this->name);
         }
     }
     //------------------------------------------------------------------
-    public static function inputContainer(string $title, string $htmInput, string $name = ''): string
+    public static function container(string $title, string $htmInput, string $name = ''): string
     {
-        return self::inputContainer_start($title, $name).
+        return self::container_start($title, $name).
                   $htmInput.
-               self::inputContainer_end();
+               self::container_end();
     }
     //------------------------------------------------------------------
-    public static function inputContainer_start(string $title, string $name = ''): string
+    public static function container_start(string $title, string $name = ''): string
     {
         return '
         <div class="form-group" id="obj_'.$name.'">
@@ -225,7 +236,7 @@ class FormInputs
         ';
     }
     //------------------------------------------------------------------
-    public static function inputContainer_end(): string
+    public static function container_end(): string
     {
         return '
            </div>

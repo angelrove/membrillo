@@ -260,17 +260,17 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     public function inputContainer(string $title, string $htmInput, string $name = '')
     {
-        return FormInputs::inputContainer($title, $htmInput, $name);
+        return FormInputs::container($title, $htmInput, $name);
     }
     //------------------------------------------------------------------
     public function inputContainer_start(string $title, string $name = '')
     {
-        return FormInputs::inputContainer_start($title, $name);
+        return FormInputs::container_start($title, $name);
     }
 
     public function inputContainer_end()
     {
-        return FormInputs::inputContainer_end();
+        return FormInputs::container_end();
     }
     //------------------------------------------------------------------
     /**
@@ -308,7 +308,7 @@ class WForm extends EventComponent
     // DEPRECATED !!
     public function getField($title, $htmInput, $name = '')
     {
-        return FormInputs::inputContainer($title, $htmInput, $name);
+        return FormInputs::container($title, $htmInput, $name);
     }
 
     public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
