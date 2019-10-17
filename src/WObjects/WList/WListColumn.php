@@ -14,6 +14,7 @@ class WListColumn
     public $max_width;
     public $align;
     public $type;
+    public $param1;
     public $order;
     public $class;
     public $onClick;
@@ -37,9 +38,10 @@ class WListColumn
         return $this;
     }
     //-------------------------------------------------------
-    public function type(string $type)
+    public function type(string $type, $param1 = null)
     {
         $this->type = $type;
+        $this->param1 = $param1;
         return $this;
     }
     //-------------------------------------------------------

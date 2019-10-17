@@ -12,6 +12,7 @@ use angelrove\membrillo\WObjectsStatus\EventComponent;
 use angelrove\membrillo\WApp\Local;
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\Db_mysql;
+use angelrove\membrillo\WInputs\WInputDatetime;
 
 class WList extends EventComponent
 {
@@ -740,7 +741,7 @@ EOD;
         return $htmList;
     }
     //-------------------------------------------------------
-    private function formatValue($type, $value)
+    private function formatValue($type, $value, $param1 = null)
     {
         //--------------
         if ($type == 'boolean') {
@@ -756,11 +757,13 @@ EOD;
         //--------------
         switch ($type) {
             case 'datetime':
-                $value = date('d/m/Y H:i', strtotime($value));
+                $timezone = ($param1)? $param1 : \Login::$timezone;
+                $value = \Carbon::parse($value)->setTimezone($timezone)->format('d/m/Y H:i');
                 break;
 
             case 'date':
-                $value = date('d/m/Y', strtotime($value));
+                $timezone = ($param1)? $param1 : \Login::$timezone;
+                $value = \Carbon::parse($value)->setTimezone($timezone)->format('d/m/Y');
                 break;
 
             case 'file':
@@ -813,7 +816,7 @@ EOD;
         }
 
         /** Parse data type **/
-        $value_formatted = $this->formatValue($dbField->type, $f_valueCampo);
+        $value_formatted = $this->formatValue($dbField->type, $f_valueCampo, $dbField->param1);
 
         /** prevent default **/
         $class_prevDef = '';

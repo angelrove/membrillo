@@ -82,13 +82,15 @@ class WInputDatetime
     //---------------------------------------------------
     // Helpers
     //---------------------------------------------------
-    private static function timestampToDate($timestamp, string $toFormat = 'Y-m-d H:i', $toTimezone = null)
+    public static function timestampToDate($timestamp, string $toFormat = 'Y-m-d H:i', $timezone = null)
     {
+        // return \Carbon::parse($timestamp)->setTimezone($timezone)->format($toFormat);
+
         $datetime = new \DateTime();
         $datetime->setTimestamp($timestamp);
 
-        if ($toTimezone) {
-            $datetime->setTimeZone(new \DateTimeZone($toTimezone));
+        if ($timezone) {
+            $datetime->setTimeZone(new \DateTimeZone($timezone));
         }
 
         return $datetime->format($toFormat);
@@ -103,6 +105,9 @@ class WInputDatetime
         }
         // 2018-01-01T22:02:00 -------
         elseif ($date = \DateTime::createFromFormat('Y-m-d\TH:i:s', $dateTime)) {
+        }
+        // 2018-01-01 22:02:00 -------
+        elseif ($date = \DateTime::createFromFormat('Y-m-d H:i:s', $dateTime)) {
         }
 
         if ($date) {
