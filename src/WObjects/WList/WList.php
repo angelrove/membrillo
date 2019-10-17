@@ -758,7 +758,7 @@ EOD;
         switch ($type) {
             case 'datetime':
                 $timezone = ($param1)? $param1 : \Login::$timezone;
-                $value = \Carbon::parse($value)->setTimezone($timezone)->format('d/m/Y H:i');
+                $value = \Carbon::parse($value)->timezone($timezone)->format('d/m/Y H:i');
                 break;
 
             case 'date':

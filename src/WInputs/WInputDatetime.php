@@ -69,32 +69,17 @@ class WInputDatetime
     /**
      * @param $value mixed [int timestamp, Carbon object, string datetime]
      */
-    private static function parseValue($value, $timezone): string
+    private static function parseValue($value, string $timezone = null): string
     {
-        if (is_integer($value)) {
-            $value = self::timestampToDate($value, 'Y-m-d\TH:i', $timezone);
-        } else if ($value instanceof \Illuminate\Support\Carbon) {
-            $value = $value->timezone($timezone);
+        if ($value instanceof \Illuminate\Support\Carbon) {
+        } else {
+            $value = \Carbon::parse($value);
         }
 
-        return str_replace(" ", "T", $value);
+        return $value->timezone($timezone)->format('Y-m-d\TH:i');
     }
     //---------------------------------------------------
-    // Helpers
-    //---------------------------------------------------
-    public static function timestampToDate($timestamp, string $toFormat = 'Y-m-d H:i', $timezone = null)
-    {
-        // return \Carbon::parse($timestamp)->setTimezone($timezone)->format($toFormat);
-
-        $datetime = new \DateTime();
-        $datetime->setTimestamp($timestamp);
-
-        if ($timezone) {
-            $datetime->setTimeZone(new \DateTimeZone($timezone));
-        }
-
-        return $datetime->format($toFormat);
-    }
+    // Helper to DB insert
     //---------------------------------------------------
     public static function dateTimeToTimestamp($dateTime)
     {
