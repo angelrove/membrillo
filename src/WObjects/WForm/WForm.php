@@ -17,12 +17,11 @@ use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;
 use angelrove\membrillo\Login\Login;
 
-use angelrove\membrillo\WInputs\FormInputs;
+use angelrove\FormInputs\FormInputs;
+use angelrove\FormInputs\InputContainer;
 
 class WForm extends EventComponent
 {
-    // use WFormInputs; // Deprecated
-
     private $title;
 
     private $datos = array();
@@ -258,59 +257,49 @@ class WForm extends EventComponent
     //------------------------------------------------------------------
     // Form inputs
     //------------------------------------------------------------------
-    public function inputContainer(string $title, string $htmInput, string $name = '')
+    public function fInput(string $type, string $name = '', string $title = '')
     {
-        return FormInputs::container($title, $htmInput, $name);
+        // Value ---
+        $value = ($this->datos[$name])?? '';
+
+        // Compatibilidad (!!)
+        $typePrev = '';
+        if ($type == 'text_read') {
+            $typePrev = $type;
+            $type = 'text';
+        } else if ($type == 'checkbox') {
+            $type = 'check';
+        }
+
+        // Input ---
+        $input = FormInputs::{$type}($name, $value)->title($title);
+
+        // Compatibilidad (!!)
+        if ($typePrev == 'text_read') {
+            $input->readonly();
+        }
+
+        // Set default timezone to user browser
+        if ($type == 'datetime') {
+            $input->timezone(Login::$timezone);
+        }
+
+        // Set container ---
+        return $input->container('horizontal');
     }
-    //------------------------------------------------------------------
+
     public function inputContainer_start(string $title, string $name = '')
     {
-        return FormInputs::container_start($title, $name);
+        return InputContainer::start($title, $name);
     }
 
     public function inputContainer_end()
     {
-        return FormInputs::container_end();
+        return InputContainer::end();
     }
-    //------------------------------------------------------------------
-    /**
-     * @param $type string View valid types in 'FormInputs' class:
-     *      const HIDDEN    = 'hidden';
-     *      const TEXT      = 'text';
-     *      const TEXTAREA  = 'textarea';
-     *      const SELECT    = 'select';
-     *      const CHECKBOX  = 'checkbox';
-     *      const RADIOS    = 'radios';
-     *      const FILE      = 'file';
-     *      const DATETIME  = 'datetime';
-     *      const MONTH     = 'month';
-     *      const NUMBER    = 'number';
-     *      const PRICE     = 'price';
-     *      const PERCENT   = 'percent';
-     *      const URL       = 'url';
-     *      ...
-     */
-    public function fInput(string $type, string $name = '', string $title = '')
-    {
-        $value = ($this->datos[$name])?? '';
-
-        $input = new FormInputs($type, $name, $title, $value);
-
-        // Set default timezone to user browser
-        if ($type == 'datetime') {
-            return $input->timezone(Login::$timezone);
-        } else {
-            return $input;
-        }
-    }
-    //------------------------------------------------------------------
     //------------------------------------------------------------------
     // DEPRECATED !!
-    public function getField($title, $htmInput, $name = '')
-    {
-        return FormInputs::container($title, $htmInput, $name);
-    }
-
+    //------------------------------------------------------------------
     public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
     {
         return $this->getInput($name, $title, $required, $type, $params);
@@ -319,15 +308,23 @@ class WForm extends EventComponent
     public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
     {
         $value = ($this->datos[$name])?? '';
-        $formInput = new FormInputs($type, $name, $title, $value);
+
+        // Compatibilidad (!!)
+        $typePrev = '';
+        if ($type == 'text_read' || $type == 'readonly') {
+            $typePrev = $type;
+            $type = 'text';
+        }
+
+        $formInput = $this->fInput($type, $name, $title)->required($required);
 
         // Input "select" ---
         if ($type == 'select') {
             // Data
             if (isset($params[0])) {
-                $formInput->listData($params[0]);
+                $formInput->data($params[0]);
             } else {
-                $formInput->listData($params['query']);
+                $formInput->data($params['query']);
             }
 
             // Placeholder
@@ -337,14 +334,17 @@ class WForm extends EventComponent
                 $formInput->placeholder($params['emptyOption']);
             }
 
-        } else if ($type == 'text_read') {
-            $type == 'text';
-            $formInput->readOnly();
+        } else if ($typePrev == 'text_read' || $typePrev == 'readonly') {
+            $formInput->readonly();
         }
 
-        return $formInput->required($required)->get();
+        return $formInput->get();
     }
-    // DEPRECATED !!
+    //------------------------------------------------------------------
+    public function getField($title, $htmInput, $name = '')
+    {
+        return InputContainer::horizontal($htmInput, $title, $name);
+    }
     //------------------------------------------------------------------
     //------------------------------------------------------------------
     // $flag: '', 'top'
