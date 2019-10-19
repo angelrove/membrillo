@@ -98,7 +98,7 @@ class WForm extends EventComponent
         );
     }
     //------------------------------------------------------------------
-    public function set_title($title)
+    public function title($title)
     {
         $this->title = $title;
     }
