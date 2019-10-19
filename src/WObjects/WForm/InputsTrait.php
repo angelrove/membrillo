@@ -47,21 +47,12 @@ trait InputsTrait
         $value = ($this->datos[$name])?? '';
 
         // Compatibilidad (!!)
-        $typePrev = '';
-        if ($type == 'text_read') {
-            $typePrev = $type;
-            $type = 'text';
-        } else if ($type == 'checkbox') {
+        if ($type == 'checkbox') {
             $type = 'check';
         }
 
         // Input ---
         $input = FormInputs::{$type}($name, $value)->title($title);
-
-        // Compatibilidad (!!)
-        if ($typePrev == 'text_read') {
-            $input->readonly();
-        }
 
         // Set default timezone to user browser
         if ($type == 'datetime') {
@@ -84,26 +75,9 @@ trait InputsTrait
     //------------------------------------------------------------------
     // DEPRECATED !!
     //------------------------------------------------------------------
-    public function getField($title, $htmInput, $name = '')
-    {
-        return InputContainer::horizontal($htmInput, $title, $name);
-    }
-
-    public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
-    {
-        return $this->getInput($name, $title, $required, $type, $params);
-    }
-
     public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
     {
         $value = ($this->datos[$name])?? '';
-
-        // Compatibilidad (!!)
-        $typePrev = '';
-        if ($type == 'text_read' || $type == 'readonly') {
-            $typePrev = $type;
-            $type = 'text';
-        }
 
         $formInput = $this->fInput($type, $name, $title)->required($required);
 
@@ -122,9 +96,6 @@ trait InputsTrait
             } else if (isset($params['emptyOption'])) {
                 $formInput->placeholder($params['emptyOption']);
             }
-
-        } else if ($typePrev == 'text_read' || $typePrev == 'readonly') {
-            $formInput->readonly();
         }
 
         return $formInput->get();

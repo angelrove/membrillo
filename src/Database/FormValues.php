@@ -7,7 +7,7 @@
 
 namespace angelrove\membrillo\Database;
 
-use angelrove\membrillo\WInputs\WInputFile\WInputFile_upload;
+use angelrove\FormInputs\Components\File\FileUpload;
 use angelrove\membrillo\WApp\Local;
 
 trait FormValues
@@ -81,7 +81,7 @@ trait FormValues
                 throw new \Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
             }
 
-            $inputValue = WInputFile_upload::getFile($DB_TABLE, $fieldName);
+            $inputValue = FileUpload::getFile($DB_TABLE, $fieldName);
             if (isset($inputValue->errors)) {
                 throw new \Exception("ERROR [upload] with column '$fieldName'", E_USER_ERROR);
             }
