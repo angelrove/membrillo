@@ -119,7 +119,7 @@ trait InputsTrait
             // Placeholder
             if (isset($params[1]) && $params[1]) {
                 $formInput->placeholder($params[1]);
-            } else {
+            } else if (isset($params['emptyOption'])) {
                 $formInput->placeholder($params['emptyOption']);
             }
 
