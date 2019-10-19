@@ -373,51 +373,45 @@ class WList extends EventComponent
     //--------------------------------------------------------------
     // Form search
     //--------------------------------------------------------------
-    public static function searcher($id_object)
+    public function searcher()
     {
-        $action = CrudUrl::get(CRUD_LIST_SEARCH, $id_object);
+        $action = CrudUrl::get(CRUD_LIST_SEARCH, $this->id_object);
+
+        CssJsLoad::set_script(<<<EOD
+            $(document).ready(function() {
+               $(".FormSearch input").change(function() {
+                  $(".FormSearch").submit();
+               });
+            });
+            EOD
+        );
 
         return <<<EOD
-<form class="FormSearch form-inline well well-sm"
-      role="search"
-      name="search_form"
-      method="get"
-      action="$action">
-EOD;
+            <form class="FormSearch form-inline well well-sm"
+                  role="search"
+                  name="search_form"
+                  method="get"
+                  action="$action">
+            EOD;
     }
     //--------------------------------------------------------------
-    public static function searcher_END()
+    public function searcher_END()
     {
         return '</form>';
     }
-    //--------------------------------------------------------------
-    public static function searcher_complet($id_object)
-    {
-        return
-           self::searcher($id_object).
-           self::inputSearch($id_object).
-           self::searcher_END();
-    }
     //-------------------------------------------------------
-    public function getInputSearch($placeholder = '')
-    {
-        return self::inputSearch($this->id_object, $placeholder);
-    }
-    //-------------------------------------------------------
-    public static function inputSearch($id_object, $placeholder = '')
+    public function inputSearch(string $placeholder = '')
     {
         $placeholder = ($placeholder)? $placeholder : Local::$t['Search'];
+        $value = $this->wObjectStatus->getDato('f_text');
 
         //---
-        global $objectsStatus;
-        $value = $objectsStatus->getDato($id_object, 'f_text');
-
-        //---
-        $deltext = ($value)? '<a href="#" class="clear_search"><i class="fas fa-times-circle fa-lg" style="color:dimgray"></i></a>' : '';
+        $deltext = ($value)? '<a href="#" class="clear_search"><i class="fas fa-times fa-lg" style="color:#999"></i></a>' : '';
 
         //---
         return <<<EOD
         <input type="text"
+               autocomplete="off"
                class="form-control input-sm"
                name="f_text"
                placeholder="$placeholder"
@@ -425,28 +419,20 @@ EOD;
         &nbsp;
         EOD;
     }
-    //--------------------------------------------------------------
-    //--------------------------------------------------------------
-    public function formSearch()
+    //-------------------------------------------------------
+    public function searcher_button()
     {
-        echo self::searcher($this->id_object);
+        echo '&nbsp;<button type="submit" class="btn btn-primary btn-sm">'.Local::$t['Search'].'</button>';
     }
     //--------------------------------------------------------------
-    public function formSearch_END()
+    public function searcher_complet()
     {
-        echo self::searcher_END();
+        return
+           $this->searcher().
+           $this->inputSearch().
+           $this->searcher_END();
     }
-    //--------------------------------------------------------------
-    public function formSearch_complet()
-    {
-        $f_text = $this->wObjectStatus->getDato('f_text');
-        echo self::searcher_complet($this->id_object, $f_text);
-    }
-    //--------------------------------------------------------------
-    public function formSearch_btBuscar()
-    {
-        echo '&nbsp;<button type="submit" class="btn btn-primary btn-sm">Buscar</button>';
-    }
+    //-------------------------------------------------------
     //-------------------------------------------------------
     // Ordenamiento de usuario
     public function getOrderParams(): array
