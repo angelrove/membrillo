@@ -46,11 +46,6 @@ trait InputsTrait
         // Value ---
         $value = ($this->datos[$name])?? '';
 
-        // Compatibilidad (!!)
-        if ($type == 'checkbox') {
-            $type = 'check';
-        }
-
         // Input ---
         $input = FormInputs::{$type}($name, $value)->title($title);
 
