@@ -15,6 +15,8 @@ abstract class EventComponent
     protected $WEvent;
     protected $objectStatus;
 
+    abstract public function parseEvent($WEvent);
+
     //------------------------------------------------
     public function __construct($id_object)
     {
@@ -25,7 +27,7 @@ abstract class EventComponent
         $this->WEvent        = $this->get_event($id_object);
         $this->wObjectStatus = $objectsStatus->setNewObject($id_object);
 
-        // $this->parse_event($this->WEvent); // se llama desde el propio objeto
+        // $this->parseEvent($this->WEvent); // se llama desde el propio objeto
     }
     //----------------------------------------------------------------------------
     private function get_event($id_object)
@@ -43,7 +45,5 @@ abstract class EventComponent
 
         return $event;
     }
-    //------------------------------------------------
-    abstract public function parse_event($WEvent);
     //------------------------------------------------
 }

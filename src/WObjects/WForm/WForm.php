@@ -7,30 +7,23 @@
 
 namespace angelrove\membrillo\WObjects\WForm;
 
-use angelrove\membrillo\Messages;
-use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\membrillo\WObjectsStatus\EventComponent;
 use angelrove\membrillo\WPage\WPage;
 use angelrove\membrillo\WApp\Local;
-
 use angelrove\utils\CssJsLoad;
 use angelrove\utils\UtilsBasic;
-use angelrove\membrillo\Login\Login;
-
-use angelrove\FormInputs\FormInputs;
-use angelrove\FormInputs\InputContainer;
 
 class WForm extends EventComponent
 {
+    use InputsTrait;
+    use ErrorsTrait;
+
     private $title;
-
-    private $datos = array();
-
-    private $onSubmit;
     private $readOnly = false;
     private $eventDefault = false;
 
     // Buttons
+    private $setButtons_top = false;
     private $bt_ok       = true;
     private $bt_ok_label = '';
     private $bt_cancel   = true;
@@ -39,114 +32,47 @@ class WForm extends EventComponent
     private $bt_del      = false;
     private $bt_saveNext = false;
 
-    private $setButtons_top = false;
-
-    public static $errors = false;
-
     //------------------------------------------------------------------
-    public function __construct($id_object, $data, string $title = '')
+    public function __construct($id_object, $inputData = [], string $title = '')
     {
-        $this->title = $title;
-
-        // Data array or Eloquent object
-        if (is_array($data)) {
-            $this->datos = $data;
-        } else {
-            // $this->datos = $data->toArray();
-            $this->datos = $data;
-        }
-
-        //----------
-        CssJsLoad::set(__DIR__ . '/libs.js');
         parent::__construct($id_object);
+        $this->title = $title;
+        $this->parseEvent($this->WEvent);
+
+        // Data ----
+        $this->setData($inputData);
+
+        //-----
         WPage::add_pagekey('WForm');
-        $this->parse_event($this->WEvent);
+        CssJsLoad::set(__DIR__ . '/libs.js');
     }
     //--------------------------------------------------------------
-    public function setData(array $data)
-    {
-        return $this->datos = $data;
-    }
+    // Events
     //--------------------------------------------------------------
-    public function getData()
-    {
-        return $this->datos;
-    }
-    //--------------------------------------------------------------
-    public function parse_event($WEvent)
+    public function parseEvent($WEvent)
     {
         switch ($WEvent->EVENT) {
-            //----------
             case CRUD_EDIT_UPDATE:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'Update']);
                 break;
-            //----------
+
             case CRUD_EDIT_NEW:
                 $this->title = UtilsBasic::implode(' - ', [$this->title, 'New']);
                 break;
-            //----------
         }
-
-        // If Errors ----
-        // $this->datos = array_merge($this->datos, $_POST);
     }
-    //------------------------------------------------------------------
-    // Static
-    //------------------------------------------------------------------
-    public static function update_setErrors(array $listErrors, $id = '')
-    {
-        if (!$listErrors) {
-            return;
-        }
-
-        self::$errors = $listErrors;
-
-        // Continue with edit
-        Event::$REDIRECT_AFTER_OPER = false; // para que no se pierdan los datos recibidos por post
-
-        if ($id) {
-            Event::setEvent(CRUD_EDIT_UPDATE);
-        } else {
-            Event::setEvent(CRUD_EDIT_NEW);
-        }
-
-        // Highlight errors
-        self::update_showErrors($listErrors);
-    }
-    //------------------------------------------------------------------
-    private static function update_showErrors(array $listErrors)
-    {
-        $js = '';
-
-        // resaltar campos ---
-        foreach ($listErrors as $name => $err) {
-            Messages::set($err, 'danger');
-            $js .= '$("[name=' . $name . ']").css("border", "2px solid red");';
-        }
-
-        // foco en el primer input erroneo
-        end($listErrors);
-        // $js .= '$("[name='.key($listErrors).']").focus();'."\n";
-
-        // Out
-        CssJsLoad::set_script('
-  $(document).ready(function() {' . $js . '});
-    ');
-    }
-    //------------------------------------------------------------------
-    // NO STATIC
     //------------------------------------------------------------------
     public function isUpdate($row_id)
     {
         $this->WEvent->EVENT  = CRUD_EDIT_UPDATE;
         $this->WEvent->ROW_ID = $row_id;
-        $this->parse_event($this->WEvent);
+        $this->parseEvent($this->WEvent);
     }
     //------------------------------------------------------------------
     public function isInsert()
     {
         $this->WEvent->EVENT = CRUD_EDIT_NEW;
-        $this->parse_event($this->WEvent);
+        $this->parseEvent($this->WEvent);
     }
     //------------------------------------------------------------------
     public function getFormEvent()
@@ -254,98 +180,6 @@ class WForm extends EventComponent
     {
         include 'tmpl_end.inc';
     }
-    //------------------------------------------------------------------
-    // Form inputs
-    //------------------------------------------------------------------
-    public function fInput(string $type, string $name = '', string $title = '')
-    {
-        // Value ---
-        $value = ($this->datos[$name])?? '';
-
-        // Compatibilidad (!!)
-        $typePrev = '';
-        if ($type == 'text_read') {
-            $typePrev = $type;
-            $type = 'text';
-        } else if ($type == 'checkbox') {
-            $type = 'check';
-        }
-
-        // Input ---
-        $input = FormInputs::{$type}($name, $value)->title($title);
-
-        // Compatibilidad (!!)
-        if ($typePrev == 'text_read') {
-            $input->readonly();
-        }
-
-        // Set default timezone to user browser
-        if ($type == 'datetime') {
-            $input->timezone(Login::$timezone);
-        }
-
-        // Set container ---
-        return $input->container('horizontal');
-    }
-
-    public function inputContainer_start(string $title, string $name = '')
-    {
-        return InputContainer::start($title, $name);
-    }
-
-    public function inputContainer_end()
-    {
-        return InputContainer::end();
-    }
-    //------------------------------------------------------------------
-    // DEPRECATED !!
-    //------------------------------------------------------------------
-    public function input($name, $type = 'text', $title = '', $required = false, array $params = [])
-    {
-        return $this->getInput($name, $title, $required, $type, $params);
-    }
-
-    public function getInput($name, $title = '', $required = false, $type = 'text', array $params = [])
-    {
-        $value = ($this->datos[$name])?? '';
-
-        // Compatibilidad (!!)
-        $typePrev = '';
-        if ($type == 'text_read' || $type == 'readonly') {
-            $typePrev = $type;
-            $type = 'text';
-        }
-
-        $formInput = $this->fInput($type, $name, $title)->required($required);
-
-        // Input "select" ---
-        if ($type == 'select') {
-            // Data
-            if (isset($params[0])) {
-                $formInput->data($params[0]);
-            } else {
-                $formInput->data($params['query']);
-            }
-
-            // Placeholder
-            if (isset($params[1]) && $params[1]) {
-                $formInput->placeholder($params[1]);
-            } else {
-                $formInput->placeholder($params['emptyOption']);
-            }
-
-        } else if ($typePrev == 'text_read' || $typePrev == 'readonly') {
-            $formInput->readonly();
-        }
-
-        return $formInput->get();
-    }
-    //------------------------------------------------------------------
-    public function getField($title, $htmInput, $name = '')
-    {
-        return InputContainer::horizontal($htmInput, $title, $name);
-    }
-    //------------------------------------------------------------------
     //------------------------------------------------------------------
     // $flag: '', 'top'
     public function getButtons($flag = '')

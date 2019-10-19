@@ -73,7 +73,7 @@ class ObjectsStatus
 
         // flow (view) ------
         if (Event::$EVENT) {
-            $wObjectStatus->parse_event(Event::$EVENT);
+            $wObjectStatus->parseEvent(Event::$EVENT);
         }
     }
     //----------------------------------------------------------------------------
@@ -118,7 +118,7 @@ class ObjectsStatus
 
         // flow (view) ------
         if (Event::$EVENT) {
-            $wObjectStatus->parse_event(Event::$EVENT);
+            $wObjectStatus->parseEvent(Event::$EVENT);
         }
     }
     //----------------------------------------------------------------------------

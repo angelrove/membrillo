@@ -82,7 +82,7 @@ class WList extends EventComponent
         CssJsLoad::set(__DIR__ . '/lib.js');
 
         //------
-        $this->parse_event($this->WEvent);
+        $this->parseEvent($this->WEvent);
     }
     //--------------------------------------------------------------
     public function column($name, $title, $type = '')
@@ -108,7 +108,7 @@ class WList extends EventComponent
         $objectsStatus->setDato($this->id_object, 'order_asc', $order);
     }
     //--------------------------------------------------------------
-    public function parse_event($WEvent)
+    public function parseEvent($WEvent)
     {
         $datos = $this->wObjectStatus->getDatos();
 

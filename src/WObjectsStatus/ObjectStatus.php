@@ -70,7 +70,7 @@ class ObjectStatus
     }
     //----------------------------------------------------------------------------
     // Flow
-    public function parse_event($event)
+    public function parseEvent($event)
     {
         global $objectsStatus;
 

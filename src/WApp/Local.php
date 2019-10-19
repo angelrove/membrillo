@@ -6,8 +6,8 @@
 
 namespace angelrove\membrillo\WApp;
 
+use angelrove\FormInputs\FormInputs;
 use angelrove\membrillo\WApp\Session;
-use angelrove\membrillo\WInputs\WInputSelect;
 use angelrove\utils\CssJsLoad;
 
 class Local
@@ -94,8 +94,9 @@ class Local
   });
 EOD
 );
-        return "<style>select[name='local'] { padding: 0px 9px; height: initial !important; }</style>".
-                WInputSelect::get(['es'=>'Español', 'en'=>'English'], $lang, 'local');
+        $selectLang = FormInputs::select('local', $lang)->data(['es'=>'Español', 'en'=>'English'])->get();
+
+        return "<style>select[name='local'] { padding: 0px 9px; height: initial !important; }</style>".$selectLang;
     }
     //------------------------------------------------------
     // PRIVATE

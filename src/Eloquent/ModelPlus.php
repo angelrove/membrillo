@@ -32,7 +32,7 @@ class ModelPlus extends Model
 
         // WForm show errors ---
         if (isset($formValues['errors'])) {
-            WForm::update_setErrors($formValues['errors']);
+            WForm::setValueError($formValues['errors']);
             return false;
         }
 
@@ -56,7 +56,7 @@ class ModelPlus extends Model
 
         // WForm show errors ---
         if (isset($formValues['errors'])) {
-            WForm::update_setErrors($formValues['errors'], $id);
+            WForm::setValueError($formValues['errors'], $id);
             return false;
         }
 

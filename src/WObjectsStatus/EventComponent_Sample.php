@@ -15,10 +15,10 @@ class _SampleComponent extends EventComponent
         parent::__construct($id_object);
 
         //---------------
-        $this->parse_event($this->WEvent);
+        $this->parseEvent($this->WEvent);
     }
     //--------------------------------------------------------------
-    public function parse_event($WEvent)
+    public function parseEvent($WEvent)
     {
         switch ($WEvent->EVENT) {
             //----------
