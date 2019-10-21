@@ -1,5 +1,4 @@
 <?php
-use angelrove\membrillo\WInputs\WInputFile\WInputFile;
 use App\Models\[Model_parent];
 use App\Models\[Model_detail];
 
@@ -9,7 +8,6 @@ $controlName_padre = 'parent';
 // form_data -------
 switch (Event::$EVENT) {
     case CRUD_EDIT_NEW:
-        $form_data = [Model_detail]::findEmpty();
         $form_data['[parent_id]'] = $objectsStatus->getRowId($controlName_padre);
         break;
 
@@ -26,6 +24,6 @@ $form = new WForm($controlName, $form_data);
     <?php $form->get()?>
         <?=$form->fInput('datetime', 'created_at', 'Created at')->readonly()->get()?>
         <?=$form->getInput('[parent_id]', '[Model_parent]', false, 'select', [[Model_parent]::read()])?>
-        <?=$form->getInput('name', Local::$t['Name'], true)?>
+        <?=$form->fInput('text', 'name', Local::$t['Name'])->required()->get()?>
     <?php $form->get_end()?>
 <?php WPage::get_end();
