@@ -785,6 +785,10 @@ class WList extends EventComponent
 
         $f_valueCampo = ($f_value->name)?? $f_value;
 
+        // Align ------
+        if ($dbField->type == 'boolean') {
+            $dbField->align = 'center';
+        }
         $style_align  = ($dbField->align) ? 'text-align:' . $dbField->align . ';' : '';
 
         /** CellEditor **/
