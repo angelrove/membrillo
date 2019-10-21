@@ -149,12 +149,12 @@ class WList extends EventComponent
     //--------------------------------------------------------------
     // Setter
     //-------------------------------------------------------
-    public function set_title($title)
+    public function title($title)
     {
         $this->title = $title;
     }
     //-------------------------------------------------------
-    public function setListFields(array $dbFields)
+    public function setColumns(array $dbFields): void
     {
         $this->dbFields = $dbFields;
     }
