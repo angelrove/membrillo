@@ -335,7 +335,10 @@ class WList extends EventComponent
     //--------------------------------------------------------------
     private function getData()
     {
-        $htmPaginacion = '';
+        $htmPaginacion = [
+            'resume' => '',
+            'pages' => '',
+        ];
         $listDatos = [];
 
         if (!$this->sqlQuery) {
@@ -343,7 +346,7 @@ class WList extends EventComponent
         }
 
         // SQL string -----
-        if(is_string($this->sqlQuery)) {
+        if (is_string($this->sqlQuery)) {
             $sqlQ = $this->getQuery($this->sqlQuery);
 
             list($htmPaginacion, $listDatos) = $this->getPagination($sqlQ);
@@ -683,8 +686,9 @@ class WList extends EventComponent
         /** TRs **/
         $htmList = '';
         $count   = 0;
-        foreach ($rows as $row) {
-            $id = $row->id;
+        foreach ($rows as $key => $row) {
+            // Row id ---
+            $id = ($row->id)?? $key;
 
             /** RowEditor **/
             $row_bgColor = '';
@@ -716,12 +720,14 @@ class WList extends EventComponent
             $strButtons = $this->getHtmButtons($id, $row, ++$count);
 
             /** Color de la tupla **/
-            $styleSelected = ($id == $id_selected) ? ' class="success"' : '';
             $styleColor    = ($row_bgColor) ? " style=\"background:$row_bgColor\"" : '';
-            $styleSelected = ($row_class) ? " class=\"$row_class\"" : $styleSelected;
+
+            /** Sucess **/
+            $styleSucess = ($id_selected && $id_selected == $id)? ' class="success"' : '';
+            $styleSucess = ($row_class)? " class=\"$row_class\"" : $styleSucess;
 
             /** Tupla **/
-            $htmList .= "\n<tr id='$id'" . $styleSelected . $styleColor . ">\n$strCols $strButtons\n</tr>";
+            $htmList .= "<tr id='$id'" . $styleSucess . $styleColor . ">$strCols $strButtons</tr>";
         }
 
         return $htmList;

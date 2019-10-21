@@ -18,7 +18,7 @@ class ObjectsStatus
     {
     }
     //----------------------------------------------------------------------------
-    public function setNewObject($idControl, $path = '')
+    public function setNewObject(string $idControl, string $path = '')
     {
         if (!isset($this->listObjects[$idControl])) {
             $this->listObjects[$idControl] = new ObjectStatus($idControl, $path);
@@ -35,7 +35,7 @@ class ObjectsStatus
     //   return $this->listObjects[$idControl];
     // }
     //----------------------------------------------------------------------------
-    public function getObject($idControl)
+    public function getObject(string $idControl)
     {
         return ($this->listObjects[$idControl])?? false;
     }
@@ -59,7 +59,7 @@ class ObjectsStatus
         }
     }
     //----------------------------------------------------------------------------
-    public function getPath($idControl)
+    public function getPath(string $idControl)
     {
         if (isset($this->listObjects[$idControl])) {
             return $this->listObjects[$idControl]->getPath();
@@ -67,7 +67,7 @@ class ObjectsStatus
         return false;
     }
     //----------------------------------------------------------------------------
-    public function parseAjaxEvent($path_secc)
+    public function parseAjaxEvent(string $path_secc)
     {
         $wObjectStatus = $this->getObject(Event::$CONTROL);
 
@@ -77,7 +77,7 @@ class ObjectsStatus
         }
     }
     //----------------------------------------------------------------------------
-    public function parseEvent($path_secc)
+    public function parseEvent(string $path_secc)
     {
         // onInitPage
         @include $path_secc . '/onInitPage.inc';
@@ -122,7 +122,7 @@ class ObjectsStatus
         }
     }
     //----------------------------------------------------------------------------
-    public function parseEvent_api($path_secc)
+    public function parseEvent_api(string $path_secc)
     {
         $wObjectStatus = $this->setNewObject(Event::$CONTROL); // if no exist
         $wObjectStatus->updateDatos();
@@ -132,14 +132,14 @@ class ObjectsStatus
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
-    public function setDato($idControl, $name, $value)
+    public function setDato(string $idControl, string $name, $value)
     {
         $this->setNewObject($idControl);
         $this->listObjects[$idControl]->setDato($name, $value);
     }
     //----------------------------------------------------------------------------
     /* Get object data or create new */
-    public function getDatos($idControl, $defaults = array())
+    public function getDatos(string $idControl, array $defaults = [])
     {
         if (!isset($this->listObjects[$idControl])) {
             $this->setNewObject($idControl);
@@ -153,22 +153,22 @@ class ObjectsStatus
         return $this->listObjects[$idControl]->getDatos();
     }
     //----------------------------------------------------------------------------
-    public function getDato($idControl, $name)
+    public function getDato(string $idControl, string $name)
     {
         if (isset($this->listObjects[$idControl])) {
             return $this->listObjects[$idControl]->getDato($name);
         }
-        return false;
+        return null;
     }
     //----------------------------------------------------------------------------
     // ROW_ID
     //----------------------------------------------------------------------------
-    public function getRowId($idControl)
+    public function getRowId(string $idControl)
     {
         if (isset($this->listObjects[$idControl])) {
             return $this->listObjects[$idControl]->getRowId();
         }
-        return false;
+        return null;
     }
     //----------------------------------------------------------------------------
 }

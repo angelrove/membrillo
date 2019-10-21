@@ -5,13 +5,13 @@ if (!$this->paging_show) {
 ?>
 
 <div class="List_paginacion well well-sm clearfix">
-     <div class="pull-left">
+    <div class="pull-left">
         <?=$htmPaginacion['resume']?>
-     </div>
+    </div>
 
-     <div class="pull-right">
+    <div class="pull-right">
         <ul class="pagination">
             <?=$htmPaginacion['pages']?>
         </ul>
-     </div>
+    </div>
 </div>
