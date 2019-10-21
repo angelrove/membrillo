@@ -40,7 +40,7 @@ trait SearchFilters
 
             /* Viene de Buscador ($condition contiene "[VALUE]") */
             elseif (strpos($condition, '[VALUE]') !== false) {
-                if (isset($filter_data[$key]) && $filter_data[$key]) {
+                if (isset($filter_data[$key]) && $filter_data[$key] != '') {
                     $replaceVal = $filter_data[$key];
                     $listWhere[] = str_replace('[VALUE]', $replaceVal, $condition);
                 }
