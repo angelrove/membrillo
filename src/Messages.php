@@ -29,7 +29,7 @@ class Messages
     /*
      * $type: 'success', 'danger', 'debug'
      */
-    public static function set($msg, $type = 'success')
+    public static function set(string $msg, string $type = 'success')
     {
         // Max size ---
         if (strlen($_SESSION['Messages_msg'][$type]) > self::$max_size) {
@@ -40,7 +40,7 @@ class Messages
         $_SESSION['Messages_msg'][$type] .= '<div>' . $msg . '</div>';
     }
     //----------------------------------------------------
-    public static function set_debug($msg)
+    public static function set_debug(string $msg)
     {
         if (IS_LOCALHOST) {
             self::set('<pre>' . $msg . '</pre>', 'debug');

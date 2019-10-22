@@ -89,7 +89,7 @@ class Event
     //----------------------------------------------------------------------------
     // EVENT
     //----------------------------------------------------------------------------
-    public static function setEvent($event)
+    public static function setEvent(string $event)
     {
         //---
         Session::set('WEvent_EVENT_PREV', Session::get('WEvent_EVENT'));

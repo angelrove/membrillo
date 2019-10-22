@@ -9,8 +9,14 @@ namespace angelrove\membrillo;
 class CrudUrl
 {
     //-------------------------------------------------------------
-    public static function get($event = '', $control = 0, $id = '', $oper = '', $other_params = '')
-    {
+    public static function get(
+        string $event = '',
+        string $control = '0',
+        string $id = '',
+        string $oper = '',
+        $other_params = ''
+    ): string {
+
         $params = array();
 
         // Params ----

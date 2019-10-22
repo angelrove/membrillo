@@ -12,7 +12,7 @@ use angelrove\utils\FileContent;
 class Frame
 {
     //------------------------------------------------------------------
-    public static function get($title = '', $showClose = false, $linkClose = '')
+    public static function get(string $title = '', bool $showClose = false, string $linkClose = '')
     {
         if (!$linkClose) {
             $linkClose = '"/"+main_secc';

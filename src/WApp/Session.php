@@ -9,7 +9,7 @@ namespace angelrove\membrillo\WApp;
 class Session
 {
     //------------------------------------------------------
-    public static function start($expireHours)
+    public static function start(int $expireHours)
     {
         $expireSeconds = $expireHours*60*60;
 
@@ -26,7 +26,7 @@ class Session
         // self::sessionExpireAt($expireAfter);
     }
     //------------------------------------------------------
-    public static function set($key, $obj)
+    public static function set(string $key, $obj)
     {
         $sessionName = self::getSessionName();
         $_SESSION[$sessionName][$key] = $obj;
@@ -34,7 +34,7 @@ class Session
         return $_SESSION[$sessionName][$key]; // devuelve una referencia
     }
     //------------------------------------------------------
-    public static function unset($key)
+    public static function unset(string $key)
     {
         $sessionName = self::getSessionName();
         if (isset($_SESSION[$sessionName][$key])) {
@@ -42,7 +42,7 @@ class Session
         }
     }
     //------------------------------------------------------
-    public static function get($key)
+    public static function get(string $key)
     {
         $sessionName = self::getSessionName();
 
@@ -75,7 +75,7 @@ class Session
     /**
      * Expire the session if user is inactive for $expireAfter min.
      */
-    public static function sessionExpireAt($expireAfter)
+    public static function sessionExpireAt(int $expireAfter)
     {
         // Check to see if our "last action" session variable has been set.
         if (isset($_SESSION['last_action'])) {

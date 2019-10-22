@@ -90,12 +90,12 @@ class Navbar
         return $ret;
     }
     //---------------------------------------------------
-    public static function setSep($secc)
+    public static function setSep(string $secc)
     {
         self::$listSep[$secc] = true;
     }
     //---------------------------------------------------
-    private static function getButton($sc_id, $title, $logo, $link, $modActual, $mod_padre = '')
+    private static function getButton($sc_id, string $title, ?string $logo, ?string $link, $modActual, $mod_padre = '')
     {
         global $CONFIG_SECCIONES;
 
@@ -152,12 +152,12 @@ class Navbar
     //---------------------------------------------------
     // Bootstrap 3
     //---------------------------------------------------
-    public static function setInverse($flag)
+    public static function setInverse(bool $flag)
     {
         self::$set_inverse = ($flag) ? 'navbar-inverse' : '';
     }
     //---------------------------------------------------
-    private static function tmpl_item($li_active, $href, $logo, $sc_id, $title)
+    private static function tmpl_item(string $li_active, string $href, string $logo, string $sc_id, string $title)
     {
         return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$logo.' '.$title.'</a>';
     }

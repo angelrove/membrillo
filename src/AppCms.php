@@ -1,7 +1,5 @@
 <?php
 /**
- * @author José A. Romero Vegas <jangel.romero@gmail.com>
- *
  * Globals: $CONFIG_APP
  *          $CONFIG_DB
  *          $CONFIG_SECCIONES
@@ -11,6 +9,8 @@
  *          $objectsStatus
  *          Event
  *          Local
+ *
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
  */
 
@@ -29,10 +29,10 @@ use angelrove\utils\Vendor;
 
 class AppCms extends Application
 {
-    public static $t = array();
+    public static $t = [];
 
     //-----------------------------------------------------------------
-    public function __construct($document_root)
+    public function __construct(string $document_root)
     {
         parent::__construct($document_root);
 
@@ -46,7 +46,7 @@ class AppCms extends Application
 
         //----------------------------------------------------
         /* System Events */
-        $this->system_services();
+        $this->systemServices();
 
         //----------------------------------------------------
         /* Local */
@@ -58,7 +58,7 @@ class AppCms extends Application
 
         //----------------------------------------------------
         /* System Events */
-        $this->system_services_postlogin();
+        $this->systemServices_postlogin();
 
         //----------------------------------------------------
         /* System objects */
@@ -134,10 +134,10 @@ class AppCms extends Application
         $objectsStatus->parseEvent($path_secc);
     }
     //-----------------------------------------------------------------
-    private function system_services()
+    private function systemServices(): void
     {
         if (!isset($_REQUEST['APP_EVENT'])) {
-            return true;
+            return;
         }
 
         switch ($_REQUEST['APP_EVENT']) {
@@ -167,10 +167,10 @@ class AppCms extends Application
         }
     }
     //-----------------------------------------------------------------
-    private function system_services_postlogin()
+    private function systemServices_postlogin(): void
     {
         if (!isset($_REQUEST['APP_EVENT'])) {
-            return true;
+            return;
         }
 
         switch ($_REQUEST['APP_EVENT']) {

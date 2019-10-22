@@ -9,12 +9,12 @@ namespace angelrove\membrillo\WApp;
 class Config_Secciones_Item
 {
     public $id;
-    public $title;
+    public $title = '';
     public $logo;
-    public $hide;
-    public $folder;
-    public $path;
     public $link;
+    public $hide;
+    public $folder = '';
+    public $path = '';
     public $uploads_default;
     public $uploads_dir;
 

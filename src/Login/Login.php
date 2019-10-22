@@ -17,7 +17,7 @@ class Login
     public static $INFO = array();
 
     //------------------------------------------------
-    public function __construct($user_id, $login, array $INFO)
+    public function __construct($user_id, string $login, array $INFO)
     {
         self::set_data($user_id, $login, $INFO);
     }
@@ -44,7 +44,7 @@ class Login
         self::$timezone = Session::get('Login_timezone');
     }
     //------------------------------------------------
-    public static function set_timezone($timezone)
+    public static function set_timezone(string $timezone)
     {
         self::$timezone = $timezone;
         Session::set('Login_timezone', Login::$timezone);

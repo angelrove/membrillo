@@ -18,7 +18,7 @@ abstract class EventComponent
     abstract public function parseEvent($WEvent);
 
     //------------------------------------------------
-    public function __construct($id_object)
+    public function __construct(string $id_object)
     {
         global $objectsStatus;
 
@@ -30,7 +30,7 @@ abstract class EventComponent
         // $this->parseEvent($this->WEvent); // se llama desde el propio objeto
     }
     //----------------------------------------------------------------------------
-    private function get_event($id_object)
+    private function get_event(string $id_object)
     {
         $event         = new \stdClass();
         $event->EVENT  = '';

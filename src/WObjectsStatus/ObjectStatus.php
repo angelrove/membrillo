@@ -18,7 +18,7 @@ class ObjectStatus
     private $datos  = array();
 
     //----------------------------------------------------------------------------
-    public function __construct($id, $path = '')
+    public function __construct(string $id, string $path = '')
     {
         $this->id = $id;
 
@@ -50,7 +50,7 @@ class ObjectStatus
     }
     //----------------------------------------------------------------------------
     // Operations
-    public function parse_oper($oper, $row_id)
+    public function parse_oper(string $oper, $row_id)
     {
         global $objectsStatus;
 
@@ -70,7 +70,7 @@ class ObjectStatus
     }
     //----------------------------------------------------------------------------
     // Flow
-    public function parseEvent($event)
+    public function parseEvent(string $event)
     {
         global $objectsStatus;
 
@@ -89,7 +89,7 @@ class ObjectStatus
         throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
     }
     //----------------------------------------------------------------------------
-    public function parse_event_api($event)
+    public function parse_event_api(string $event)
     {
         global $objectsStatus;
 
@@ -117,17 +117,17 @@ class ObjectStatus
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
-    public function setPath($path)
+    public function setPath(string $path)
     {
         return $this->path = $path;
     }
     //----------------------------------------------------------------------------
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
     //----------------------------------------------------------------------------
-    public function setPersistent($flag = true)
+    public function setPersistent(bool $flag = true)
     {
         return $this->persistent = $flag;
     }
@@ -138,19 +138,19 @@ class ObjectStatus
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
-    public function setDato($name, $value)
+    public function setDato(string $name, $value)
     {
         $this->datos[$name] = $value;
     }
     //----------------------------------------------------------------------------
-    public function setDataDefault($name, $value = '')
+    public function setDataDefault(string $name, $value = '')
     {
         if (!isset($this->datos[$name])) {
             $this->datos[$name] = $value;
         }
     }
     //----------------------------------------------------------------------------
-    public function getDato($name)
+    public function getDato(string $name)
     {
         return ($this->datos[$name])?? false;
     }
@@ -160,7 +160,7 @@ class ObjectStatus
         return $this->datos;
     }
     //----------------------------------------------------------------------------
-    public function delDato($name)
+    public function delDato(string $name)
     {
         $this->datos[$name] = '';
     }

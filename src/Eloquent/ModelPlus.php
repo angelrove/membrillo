@@ -72,13 +72,13 @@ class ModelPlus extends Model
     //--------------------------------------------------
     // PRIVATE
     //--------------------------------------------------
-    private static function getTableColumns()
+    private static function getTableColumns(): array
     {
         $tableName = self::getTableName();
         return DB::schema()->getColumnListing($tableName);
     }
-
-    private static function getTableName()
+    //--------------------------------------------------
+    private static function getTableName(): string
     {
         return (new static)->getTable();
     }

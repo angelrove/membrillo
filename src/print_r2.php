@@ -1,6 +1,6 @@
 <?php
 //------------------------------------------------------------------
-function print_r2($object, $setComment = false)
+function print_r2($object, bool $setComment = false)
 {
     if ($setComment === true) {
         $ret = "\n<!--\n" . print_r($object, true) . "\n-->\n";
@@ -10,7 +10,7 @@ function print_r2($object, $setComment = false)
     echo $ret;
 }
 //------------------------------------------------------------------
-function dd($object, $setComment = false)
+function dd($object, bool $setComment = false)
 {
     print_r2($object, $setComment = false);
 }

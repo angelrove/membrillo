@@ -34,7 +34,7 @@ class Notifications
     }
     //----------------------------------------------------
     // !!>> Guardar en BBDD
-    public static function set($notification)
+    public static function set(string $notification)
     {
         $_SESSION['notifications'][] = $notification;
     }

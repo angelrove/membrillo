@@ -18,7 +18,7 @@ class WPage
     private static $pagekey = '';
 
     //----------------------------------------------------
-    public static function add_pagekey($key)
+    public static function add_pagekey(string $key)
     {
         self::$pagekey .= $key . ' ';
     }

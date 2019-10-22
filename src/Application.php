@@ -21,7 +21,7 @@ class Application
     public static $conf_db = array();
 
     //-----------------------------------------------------------------
-    public function __construct($document_root, $isConsole = false)
+    public function __construct(string $document_root, bool $isConsole = false)
     {
         ini_set('display_errors', 1);
 
@@ -79,7 +79,7 @@ class Application
         }
     }
     //-----------------------------------------------------------------
-    private function initDatabase($datosDb)
+    private function initDatabase(array $datosDb): void
     {
         // "illuminate/database" ---
         $capsule = new DB;
@@ -109,7 +109,7 @@ class Application
      *
      * @return array
      */
-    private function aliases()
+    private function aliases(): void
     {
         global $CONFIG_APP;
 

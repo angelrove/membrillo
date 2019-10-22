@@ -14,7 +14,7 @@ use angelrove\membrillo\WObjectsStatus\Event;
 class AppCmsAjax extends Application
 {
     //-----------------------------------------------------------------
-    public function __construct($document_root)
+    public function __construct(string $document_root)
     {
         parent::__construct($document_root);
 
@@ -33,7 +33,7 @@ class AppCmsAjax extends Application
 
         //----------------------------------------------------
         /* System services */
-        $this->system_services();
+        $this->systemServices();
 
         //----------------------------------------------------//
         /* Load on init */
@@ -46,7 +46,7 @@ class AppCmsAjax extends Application
         $objectsStatus->parseEvent($path_secc);
     }
     //-----------------------------------------------------------------
-    private function system_services()
+    private function systemServices()
     {
         if (!isset($_REQUEST['sys_ajaxsv'])) {
             return true;

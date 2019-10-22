@@ -19,7 +19,7 @@ class LoginCtrl
         self::init(true);
     }
     //----------------------------------------------------------
-    public static function init($isAjax = false)
+    public static function init(bool $isAjax = false)
     {
         global $CONFIG_APP;
 

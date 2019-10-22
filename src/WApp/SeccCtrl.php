@@ -24,7 +24,7 @@ class SeccCtrl
     public $include_path;
 
     //----------------------------------------------------------------------------
-    public function __construct($secc)
+    public function __construct(string $secc)
     {
         global $CONFIG_SECCIONES;
 
@@ -76,7 +76,7 @@ class SeccCtrl
         // mysqli_select_db(Db_mysql::$db_dbconn, $this->SECC_DB);
     }
     //----------------------------------------------------------------------------
-    public function getSecc()
+    public function getSecc(): string
     {
         return $this->secc;
     }
