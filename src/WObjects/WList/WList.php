@@ -357,12 +357,17 @@ class WList extends EventComponent
             $htmPaginacion = $this->getEloquentPagination($this->sqlQuery);
             return [$htmPaginacion, $this->sqlQuery];
         }
-        // Eloquent ---
+        elseif ($this->sqlQuery instanceof \Illuminate\Database\Eloquent\Builder) {
+            $this->setEloquentData($this->sqlQuery);
+            $htmPaginacion = $this->getEloquentPagination($this->sqlQuery);
+            return [$htmPaginacion, $this->sqlQuery];
+        }
+        // Array ---
         elseif (is_array($this->sqlQuery)) {
             return [$htmPaginacion, $this->sqlQuery];
         }
 
-        throw new \Exception("WList: Error Processing data tipe", 1);
+        throw new \Exception("WList: Error Processing data type", 1);
     }
     //--------------------------------------------------------------
     public function getDebug()
