@@ -157,7 +157,7 @@ class Navbar
         self::$set_inverse = ($flag) ? 'navbar-inverse' : '';
     }
     //---------------------------------------------------
-    private static function tmpl_item(string $li_active, string $href, string $logo, string $sc_id, string $title)
+    private static function tmpl_item(string $li_active, string $href, ?string $logo, string $sc_id, string $title)
     {
         return '<li class="'.$li_active.'"><a href="'.$href.'" id="bt_'.$sc_id.'">'.$logo.' '.$title.'</a>';
     }

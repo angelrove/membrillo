@@ -37,7 +37,7 @@ class Config_Secciones
         $this->setSubSections($listSubSections);
     }
     //---------------------------------------------------
-    public function setSection($key, $title = '', bool $isDefault = false): Config_Secciones_Item
+    public function setSection(string $key, string $title = '', bool $isDefault = false): Config_Secciones_Item
     {
         if (!$title) {
             $title = $key;
@@ -62,7 +62,7 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setSubSection($id_padre, $id, $title = ''): Config_Secciones_Item
+    public function setSubSection($id_padre, $id, string $title = ''): Config_Secciones_Item
     {
         if (!$title) {
             $title = $id;
@@ -85,7 +85,7 @@ class Config_Secciones
     //---------------------------------------------------
     // SET
     //---------------------------------------------------
-    public function setSection_logo($id_section, $logo): void
+    public function setSection_logo($id_section, string $logo): void
     {
         if (isset($this->listSections[$id_section])) {
             $this->listSections[$id_section]->logo($logo);
@@ -99,35 +99,35 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setSection_path($id_section, $path): void
+    public function setSection_path($id_section, string $path): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->path = $path;
         }
     }
     //---------------------------------------------------
-    public function setSection_folder($id_section, $folder): void
+    public function setSection_folder($id_section, string $folder): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->folder = $folder;
         }
     }
     //---------------------------------------------------
-    public function setSection_db($id_section, $db): void
+    public function setSection_db($id_section, string $db): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->db = $db;
         }
     }
     //---------------------------------------------------
-    public function setSection_link($id_section, $link): void
+    public function setSection_link($id_section, string $link): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->link = $link;
         }
     }
     //---------------------------------------------------
-    public function setSection_upload($id_section, $uploads_dir, $uploads_dir_default): void
+    public function setSection_upload(string $id_section, string $uploads_dir, string $uploads_dir_default): void
     {
         if ($this->listSections[$id_section]) {
             $this->listSections[$id_section]->uploads_dir     = $uploads_dir; // personalizado para la sección
@@ -135,7 +135,7 @@ class Config_Secciones
         }
     }
     //---------------------------------------------------
-    public function setDefault($id_secc): void
+    public function setDefault(string $id_secc): void
     {
         $this->defaultSecc = $id_secc;
     }
