@@ -49,9 +49,16 @@ trait InputsTrait
         // Input ---
         $input = FormInputs::{$type}($name, $value)->title($title);
 
-        // Set default timezone to user browser
+        // Datetime ---
         if ($type == 'datetime') {
+            // Set default timezone to user browser
             $input->timezone(Login::$timezone);
+        }
+
+        // Autocomplete ---
+        if ($type == 'autocomplete') {
+            $urlAjax = \CrudUrl::get('ajax-'.$name, $this->id_object);
+            $input->setUrlAjax($urlAjax);
         }
 
         // Set container ---
