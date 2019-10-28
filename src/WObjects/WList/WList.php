@@ -387,7 +387,7 @@ class WList extends EventComponent
 
         CssJsLoad::set_script(<<<EOD
             $(document).ready(function() {
-               $(".FormSearch input").change(function() {
+               $(".FormSearch input, .FormSearch select").change(function() {
                   $(".FormSearch").submit();
                });
             });
