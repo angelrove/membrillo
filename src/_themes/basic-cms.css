@@ -134,3 +134,7 @@ body.pagekey_WForm>main>.page-header {
 input.form-control.type_datetime-local {
     width: initial;
 }
+
+/*----- Checkbox ---------*/
+
+.big-checkbox { width: 18px; height: 18px; }
