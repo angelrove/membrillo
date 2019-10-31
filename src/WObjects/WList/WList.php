@@ -419,7 +419,6 @@ class WList extends EventComponent
         //---
         return <<<EOD
         <input type="text"
-               autocomplete="off"
                class="form-control input-sm"
                name="f_text"
                placeholder="$placeholder"
