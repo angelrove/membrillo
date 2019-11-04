@@ -11,7 +11,6 @@ hr {
     margin-bottom: 7px;
 }
 
-
 /* ---- Material Icons ----- */
 
 .material-icons {
@@ -103,6 +102,16 @@ header.page-header h1 {
     .table>thead>tr>td,
     .table>thead>tr>th {
         padding: 7px;
+    }
+}
+
+@media print {
+    a[href]:after {
+      content: none !important;
+    }
+
+    .optionsBar {
+        display: none;
     }
 }
 
