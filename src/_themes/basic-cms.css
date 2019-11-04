@@ -110,7 +110,8 @@ header.page-header h1 {
       content: none !important;
     }
 
-    .optionsBar {
+    .List th i,
+    .List .optionsBar {
         display: none;
     }
 }
