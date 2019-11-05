@@ -52,18 +52,21 @@ $(document).ready(function()
     // {
     //    WForm_enter();
     // });
+
     // Save -------------------------------------
     $(".WForm_btUpdate").click(function()
     {
        var scut_id_object = $(this).attr("scut_id_object");
        WForm_save(scut_id_object);
     });
+
     // Save and new -----------------------------
     $(".WForm_btInsert").click(function()
     {
        var scut_id_object = $(this).attr("scut_id_object");
        WForm_insert(scut_id_object);
     });
+
     // Delete -----------------------------------
     $(".WForm_btDelete").click(function()
     {

@@ -129,7 +129,7 @@ class WForm extends EventComponent
     public function set_bt_delete($label = '')
     {
         $label = ($label)? $label : '<i class="far fa-trash-alt"></i> '.Local::$t['delete'];
-        $this->bt_del = '<button type="button" class="WForm_btDelete btn btn-danger"> '.$label.'</button> ';
+        $this->bt_del = '<button type="button" class="WForm_btDelete btn btn-danger" scut_id_object="'.$this->id_object.'"> '.$label.'</button> ';
     }
     //------------------------------------------------------------------
     public function show_bt_saveNext($label = '')
