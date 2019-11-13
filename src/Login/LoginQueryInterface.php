@@ -5,7 +5,6 @@
 
 namespace angelrove\membrillo\Login;
 
-
 interface LoginQueryInterface
 {
    public function get(string $user, string $passwd, $params);
