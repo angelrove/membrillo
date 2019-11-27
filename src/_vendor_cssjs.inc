@@ -1,5 +1,6 @@
 <?php
 use angelrove\utils\Vendor;
+use angelrove\utils\CssJsLoad;
 
 // jquery ---
 Vendor::conf('jquery', '//cdnjs.cloudflare.com/ajax/libs/', array(
