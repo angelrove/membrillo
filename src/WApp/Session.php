@@ -1,7 +1,7 @@
 <?php
 /**
- * @author José A. Romero Vegas <jangel.romero@gmail.com>
  *
+ * @author José A. Romero Vegas <jangel.romero@gmail.com>
  */
 
 namespace angelrove\membrillo\WApp;

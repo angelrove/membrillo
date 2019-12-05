@@ -16,6 +16,7 @@ class WPage
 {
     public static $title    = false;
     private static $pagekey = '';
+    private static $headerEditor;
 
     //----------------------------------------------------
     public static function add_pagekey(string $key)
@@ -150,14 +151,26 @@ class WPage
             return;
         }
 
+        if (self::$headerEditor) {
+            self::$headerEditor->get();
+            return;
+        }
+
         ?>
-      <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
-      <?php
+        <div class="page-header"><h2 id="forms"><?=self::$title?></h1></div>
+        <?php
     }
     //----------------------------------------------------
     public static function get_footer()
     {
         include 'tmpl_page_footer.inc';
+    }
+    //----------------------------------------------------
+    // Editors
+    //----------------------------------------------------
+    public static function set_headerEditor(iWPageEditor $headerEditor)
+    {
+        self::$headerEditor = $headerEditor;
     }
     //----------------------------------------------------
 }
