@@ -183,7 +183,7 @@ class Model implements ModelInterface
     {
         $query = DB::table(static::CONF['table'])->where([
                 'email' => $email,
-                'password' => $password,
+                'password' => $passwd,
             ])->whereNull('deleted_at');
 
         if ($conditions) {
