@@ -83,12 +83,12 @@ class Model implements ModelInterface
         return $emptyRow;
     }
 
-    public static function create(array $listValues = [], $messageAuto = true)
+    public static function create(array $listValues = [], $messageAuto = true, $copyFile = false)
     {
         $DB_TABLE = static::CONF['table'];
 
         // Get Form values ---
-        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues);
+        $formValues = GenQuery::getFormValues($DB_TABLE, $listValues, false, $copyFile);
 
         // WForm show errors ---
         if (isset($formValues['errors'])) {

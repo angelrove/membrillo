@@ -13,7 +13,7 @@ use angelrove\membrillo\WApp\Local;
 trait FormValues
 {
     //------------------------------------------------------------------
-    public static function getFormValues(string $DB_TABLE, array $listValuesPers = [], $id = false)
+    public static function getFormValues(string $DB_TABLE, array $listValuesPers = [], $id = false, $copyFile = false)
     {
         $listFields = self::getTableProperties($DB_TABLE);
 
@@ -48,7 +48,7 @@ trait FormValues
                 $value = $listValuesPers[$fieldName];
                 $value = self::parseValueToBd($value, $fieldName, $fieldProp->type);
             } else {
-                $value = self::getValueFromRequest($DB_TABLE, $fieldName, $fieldProp->type);
+                $value = self::getValueFromRequest($DB_TABLE, $fieldName, $fieldProp->type, $copyFile);
                 if ($value === false) {
                     continue;
                 }
@@ -63,7 +63,7 @@ trait FormValues
     //------------------------------------------------------------------
     // Get values
     //------------------------------------------------------------------
-    private static function getValueFromRequest($DB_TABLE, $fieldName, $fieldType)
+    private static function getValueFromRequest($DB_TABLE, $fieldName, $fieldType, $copyFile = false)
     {
         $inputValue = '';
 
@@ -81,9 +81,9 @@ trait FormValues
                 throw new \Exception("ERROR [upload], Make sure the form have 'enctype=\"multipart/form-data\"'", E_USER_ERROR);
             }
 
-            $inputValue = FileUpload::getFile($DB_TABLE, $fieldName);
+            $inputValue = FileUpload::getFile($DB_TABLE, $fieldName, $copyFile);
             if (isset($inputValue->errors)) {
-                throw new \Exception("ERROR [upload] with column '$fieldName'", E_USER_ERROR);
+                throw new \Exception("Upload error with column '$fieldName': ".$inputValue->errors[$fieldName], E_USER_ERROR);
             }
         }
 
