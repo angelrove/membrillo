@@ -800,6 +800,9 @@ class WList extends EventComponent
         $f_onClick = '';
         if (isset($this->cellEditor)) {
             $f_valueCampo = $this->cellEditor->getValueAt($id, $dbField->name, $f_value, $row);
+            if (!isset($row->{$dbField->name})) {
+                $row->{$dbField->name} = $f_valueCampo;
+            }
 
             // getBgColorAt
             if ($f_bgColor = $this->cellEditor->getBgColorAt($id, $dbField->name, $f_value, $row)) {
