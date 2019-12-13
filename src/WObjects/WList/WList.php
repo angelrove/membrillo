@@ -724,7 +724,7 @@ class WList extends EventComponent
             $strButtons = $this->getHtmButtons($id, $row, ++$count);
 
             /** Color de la tupla **/
-            $styleColor    = ($row_bgColor) ? " style=\"background:$row_bgColor\"" : '';
+            $styleColor = ($row_bgColor) ? " style=\"background:$row_bgColor\"" : '';
 
             /** Sucess **/
             $styleSucess = ($id_selected && $id_selected == $id)? ' class="success"' : '';
