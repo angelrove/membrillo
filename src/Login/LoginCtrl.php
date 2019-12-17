@@ -86,8 +86,7 @@ class LoginCtrl
         // Database update
         $user = \DB::table('users')->where('email', '=', $LOGIN_USER)->first();
         if (!$user) {
-            header("Location: /?message='xxx'");
-            exit();
+            self::view("Check your email");
         }
 
         \DB::table('users')
@@ -110,7 +109,7 @@ class LoginCtrl
         ';
 
         UtilsBasic::sendEMail($from, $mailto, $bcc, $subject, $body);
-       header("Location: /"); exit();
+        self::view("Check your email inbox");
     }
     //------------------------------------------------
     public static function initPage()
@@ -127,15 +126,21 @@ class LoginCtrl
         // Authenticate view -------
         if (!Login::$user_id) {
             $msg = (isset($_REQUEST['LOGIN_USER']))? 'Username or password is incorrect' : '';
-
-            if ($CONFIG_APP['login']['LOGIN_VIEW']) {
-                include $CONFIG_APP['login']['LOGIN_VIEW'];
-            } else {
-                include 'tmpl_form.php';
-            }
-
-            exit();
+            self::view($msg);
         }
+    }
+    //------------------------------------------------
+    private static function view($msg)
+    {
+        global $CONFIG_APP;
+
+        if ($CONFIG_APP['login']['LOGIN_VIEW']) {
+            include $CONFIG_APP['login']['LOGIN_VIEW'];
+        } else {
+            include 'tmpl_form.php';
+        }
+
+        exit();
     }
     //-----------------------------------------------------------------
 }
