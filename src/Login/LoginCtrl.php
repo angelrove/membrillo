@@ -96,17 +96,17 @@ class LoginCtrl
             ]);
 
         // Send mail with new password
-        $from = 'noreply@'.$CONFIG_APP['data']['domain'];
+        $from = EMAIL_NOREPLY;
         $mailto = $LOGIN_USER;
         $bcc = '';
         $subject = 'Restore password';
-        $body = '
+        $body = "
             Hello.
-            Here you have your new pass: '.$pass.'
+            Here you have your new pass: ".$pass."
 
             <hr>
-            Please dont reply to this email.
-        ';
+            Please don't reply to this email.
+        ";
 
         UtilsBasic::sendEMail($from, $mailto, $bcc, $subject, $body);
         self::view("Check your email inbox");
