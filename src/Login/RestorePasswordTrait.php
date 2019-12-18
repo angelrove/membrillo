@@ -49,7 +49,12 @@ trait RestorePasswordTrait
         $message = "
             Hello.
             <br>
-            here is your new password: ".$newPass."
+            Here is your new password:<br>
+
+            <div style='font-family: monospace; padding:3px 5px; background:#fff; border:1px solid #ddd; display:table;'>
+                $newPass
+            </div>
+
             <p></p>
             <hr>
             Please don't reply to this email.<br>
