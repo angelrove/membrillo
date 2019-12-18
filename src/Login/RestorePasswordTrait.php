@@ -51,7 +51,7 @@ trait RestorePasswordTrait
             <br>
             Here is your new password:<br>
 
-            <div style='font-family: monospace; padding:3px 5px; background:#fff; border:1px solid #ddd; display:table;'>
+            <div style='font-family: monospace; padding:5px; background-color:#eee; border:1px solid #ddd; display:table;'>
                 $newPass
             </div>
 
