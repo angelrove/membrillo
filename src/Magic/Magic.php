@@ -18,7 +18,7 @@ class Magic extends Application
     //--------------------------------------------------------------
     public function __construct($document_root)
     {
-        parent::__construct($document_root, true);
+        parent::__construct($document_root.'/src', true);
 
         $this->document_root = $document_root.'/src';
     }
@@ -103,7 +103,7 @@ class Magic extends Application
         $name_secc = strtolower($name);
 
         $str = "\n".'$CONFIG_SECCIONES->setSection("'.$name_secc.'", "'.$name.'");';
-        file_put_contents('./app/CONFIG_SECC.inc', $str, FILE_APPEND);
+        file_put_contents(PATH_APP.'/src/CONFIG_SECC.inc', $str, FILE_APPEND);
         echo(" Nav item ..... OK\n");
     }
     //--------------------------------------------------------------
