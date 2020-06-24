@@ -11,7 +11,12 @@
         "angelrove/utils": "dev-master",
         "angelrove/front-components": "dev-master",
         "angelrove/form-inputs": "dev-master",
+
         "illuminate/database": "^6.2",
+        "illuminate/console": "^6.2",
+        "illuminate/filesystem": "^6.2",
+        "symfony/finder": "^5.1",
+
         "illuminate/pagination": "^6.2",
         "robmorgan/phinx": "^0.11.1"
     },
