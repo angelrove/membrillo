@@ -40,10 +40,39 @@ class AppCmsAjax extends Application
         require PATH_SRC . '/onInitPage.inc';
 
         //----------------------------------------------------
-        /* Parse event */
-        Event::initPage();
+        /* Load service old version */
+        if (isset($_REQUEST['service'])) {
+            $this->loadService_old($seccCtrl);
+        }
+        /* Load service */
+        else {
+            Event::initPage();
+            if (!Event::$EVENT) {
+                throw new \Exception("membrillo error: Service not found");
+            }
+
+            $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+            $objectsStatus->parseEvent($path_secc);
+        }
+    }
+    //-----------------------------------------------------------------
+    private function loadService_old($seccCtrl)
+    {
+        global $CONFIG_SECCIONES;
         $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-        $objectsStatus->parseEvent($path_secc);
+
+        // Load service ----
+        try {
+            $service_path = $path_secc . '/ajax-' . $_REQUEST['service'] . '.inc';
+            if (file_exists($service_path)) {
+                include $service_path;
+            } else {
+                throw new \Exception("membrillo error: Service not found [$service_path]");
+            }
+        } catch (\Exception $e) {
+            throw $e;
+        }
+
     }
     //-----------------------------------------------------------------
     private function systemServices()
