@@ -2,10 +2,12 @@
 //------------------------------------------------------------------
 function print_r2($object, bool $setComment = false)
 {
+    $varDump = htmlspecialchars(print_r($object, true));
+
     if ($setComment === true) {
-        $ret = "\n<!--\n" . print_r($object, true) . "\n-->\n";
+        $ret = "\n<!--\n" . $varDump . "\n-->\n";
     } else {
-        $ret = '<span style="font-size:10px"><pre style="text-align:left">' . print_r($object, true) . '</pre></span>';
+        $ret = '<span style="font-size:10px"><pre style="text-align:left">' . $varDump . '</pre></span>';
     }
     echo $ret;
 }
