@@ -5,7 +5,7 @@
 
 namespace angelrove\membrillo\WObjects\WList;
 
-use angelrove\front_components\Pagination;
+use angelrove\utils\Pagination;
 use angelrove\membrillo\CrudUrl;
 use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\membrillo\WObjectsStatus\EventComponent;
