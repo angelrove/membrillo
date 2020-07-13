@@ -43,6 +43,11 @@ class Application
         //-------------------------------------
         /* Config */
         global $CONFIG_APP;
+
+        if (!file_exists(PATH_MAIN . '/config/app.php')) {
+            die("Unable to load configuration file: './config/app.php'");
+        }
+
         require PATH_MAIN . '/config/app.php';
         require __DIR__   . '/config_aliases.php';
 

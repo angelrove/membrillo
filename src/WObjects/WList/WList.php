@@ -11,8 +11,6 @@ use angelrove\membrillo\WObjectsStatus\Event;
 use angelrove\membrillo\WObjectsStatus\EventComponent;
 use angelrove\membrillo\WApp\Local;
 use angelrove\utils\CssJsLoad;
-use angelrove\utils\Db_mysql;
-use angelrove\membrillo\WInputs\WInputDatetime;
 
 class WList extends EventComponent
 {
@@ -62,11 +60,15 @@ class WList extends EventComponent
     // PUBLIC
     //-------------------------------------------------------
     /**
-     * @param $data_mixed: [string sql, array data, ]
+     * @param $data_mixed: [
+     *          string sql, 
+     *          array data,
+     *          \Illuminate\Database\Eloquent\Builder object
+     *          \Illuminate\Pagination\LengthAwarePaginator object
+     *        ]
      */
     public function __construct($id_control, $data_mixed = false, array $columns = [], array $params = [])
     {
-        //------
         parent::__construct($id_control);
 
         $this->sqlQuery = $data_mixed;
@@ -368,15 +370,6 @@ class WList extends EventComponent
         }
 
         throw new \Exception("WList: Error Processing data type", 1);
-    }
-    //--------------------------------------------------------------
-    public function getDebug()
-    {
-        $sqlQ = $this->getQuery($this->sqlQuery);
-        print_r2($sqlQ);
-
-        $listDatos = Db_mysql::getList($sqlQ);
-        print_r2($listDatos);
     }
     //--------------------------------------------------------------
     // Form search
