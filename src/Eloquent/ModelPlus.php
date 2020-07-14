@@ -11,6 +11,33 @@ use angelrove\membrillo\WObjects\WForm\WForm;
 class ModelPlus extends Model
 {
     //--------------------------------------------------
+    /*
+     * $hash = password_hash($inputValue, PASSWORD_BCRYPT);
+     */
+    public static function loginHash($email, $passwd, string $conditions = ''): ?array
+    {
+        $DB_TABLE = self::getTableName();
+
+        $query = DB::table($DB_TABLE)->where([
+                'email' => $email,
+            ])->whereNull('deleted_at');
+
+        if ($conditions) {
+            $query->whereRaw($conditions);
+        }
+
+        $data = $query->first();
+
+        // Password hash verify ---
+        if ($data) {
+            if (password_verify($passwd, $data->password)) {
+                return (array)$data;
+            }
+        }
+
+        return null;
+    }
+    //--------------------------------------------------
     public static function emptyRow(): array
     {
         $emptyRow = [];
