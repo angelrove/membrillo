@@ -90,16 +90,20 @@ class AppCms extends Application
             $seccCtrl->initPage();
         }
 
-        // >> $objectsStatus --------
+        /** 
+         * Objects status 
+         */
+
+        // $objectsStatus
         $objectsStatus = Session::get('objectsStatus');
         if (!$objectsStatus) {
             $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
         }
         $objectsStatus->initPage();
 
-        //----------------------------------------------------
-        /* Config front */
-        //----------------------------------------------------
+        /*
+         * Config front 
+         */
 
         // Local ---------------------
         Local::_init_sections();
@@ -125,13 +129,30 @@ class AppCms extends Application
         Vendor::usef('lightbox');
         // Vendor::usef('datatables');
 
-        //----------------------------------------------------
-        /* Parse event */
-        //----------------------------------------------------
+        //---------------------------------
+        // Parse event (get object_id, event, oper, item_id) ---
         Event::initPage();
 
+        // onInitPage
         $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-        $objectsStatus->parseEvent($path_secc);
+        @include $path_secc . '/onInitPage.inc';
+
+        // Default view
+        if (!Event::$EVENT) {
+            include $path_secc . '/tmpl_main.inc';
+            return;
+        }
+
+        //---------------------------------
+        // Object status
+        $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
+
+        // Update status
+        $wObjectStatus->updateDatos();
+
+        // Load Oper and Event
+        $objectsStatus->parseEvent($wObjectStatus);
+        //---------------------------------
     }
     //-----------------------------------------------------------------
     private function systemServices(): void

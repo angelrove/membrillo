@@ -20,6 +20,10 @@ class ObjectsStatus
     //----------------------------------------------------------------------------
     public function setNewObject(string $idControl, string $path = '')
     {
+        if (!$idControl) {
+            throw new \Exception("membrillo error: Event is empty");
+        }
+
         if (!isset($this->listObjects[$idControl])) {
             $this->listObjects[$idControl] = new ObjectStatus($idControl, $path);
         }
@@ -67,36 +71,19 @@ class ObjectsStatus
         return false;
     }
     //----------------------------------------------------------------------------
-    public function parseAjaxEvent(string $path_secc)
+    public function parseEvent($wObjectStatus)
     {
-        $wObjectStatus = $this->getObject(Event::$CONTROL);
-
-        // flow (view) ------
-        if (Event::$EVENT) {
-            $wObjectStatus->parseEvent(Event::$EVENT);
-        }
-    }
-    //----------------------------------------------------------------------------
-    public function parseEvent(string $path_secc)
-    {
-        // onInitPage
-        @include $path_secc . '/onInitPage.inc';
-
-        // Default view
+        // No event ---
         if (!Event::$EVENT) {
-            include $path_secc . '/tmpl_main.inc';
             return;
         }
 
-        $wObjectStatus = $this->setNewObject(Event::$CONTROL); // if no exist
-        $wObjectStatus->updateDatos();
-
-        // oper ------
         if (Event::$OPER) {
-            Messages::set_empty();
+
+            // Oper ------
             $wObjectStatus->parse_oper(Event::$OPER, Event::$ROW_ID);
 
-            // redirect
+            // redirect ---
             if (!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
                 // Messages::set_debug('>> Redirected ---');
 
@@ -116,19 +103,10 @@ class ObjectsStatus
             }
         }
 
-        // flow (view) ------
+        // Flow (view) ------
         if (Event::$EVENT) {
             $wObjectStatus->parseEvent(Event::$EVENT);
         }
-    }
-    //----------------------------------------------------------------------------
-    public function parseEvent_api(string $path_secc)
-    {
-        $wObjectStatus = $this->setNewObject(Event::$CONTROL); // if no exist
-        $wObjectStatus->updateDatos();
-
-        // flow (view) ------
-        $wObjectStatus->parse_event_api(Event::$EVENT);
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------

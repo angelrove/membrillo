@@ -46,13 +46,26 @@ class AppCmsAjax extends Application
         }
         /* Load service */
         else {
+            // Parse event (get object_id, event, oper, item_id) ---
             Event::initPage();
             if (!Event::$EVENT) {
                 throw new \Exception("membrillo error: Service not found");
             }
 
+            // onInitPage
             $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-            $objectsStatus->parseEvent($path_secc);
+            @include $path_secc . '/onInitPage.inc';
+
+            //---------------------------------
+            // Object status
+            $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
+    
+            // Update status
+            $wObjectStatus->updateDatos();
+
+            // Load Oper and Event
+            $objectsStatus->parseEvent($wObjectStatus);
+            //---------------------------------
         }
     }
     //-----------------------------------------------------------------

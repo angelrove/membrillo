@@ -72,8 +72,14 @@ class AppApi extends Application
 
         Event::initPage_api();
 
-        $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-        $objectsStatus->parseEvent_api($path_secc);
+        // Object status
+        $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
+
+        // Update status
+        $wObjectStatus->updateDatos();
+
+        // Load Event
+        $wObjectStatus->parse_event_api(Event::$EVENT);
     }
     //-----------------------------------------------------------------
 }

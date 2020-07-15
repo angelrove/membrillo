@@ -54,6 +54,8 @@ class ObjectStatus
     {
         global $objectsStatus;
 
+        Messages::set_empty();
+        
         $path = $this->path;
         if (is_dir($this->path)) {
             include $this->path . '/oper.inc';
