@@ -49,7 +49,7 @@ class AppCmsAjax extends Application
             // Parse event (get object_id, event, oper, item_id) ---
             Event::initPage();
             if (!Event::$EVENT) {
-                throw new \Exception("membrillo error: Service not found");
+                throw new \Exception("membrillo ajax error: Service not found");
             }
 
             // onInitPage
@@ -59,13 +59,10 @@ class AppCmsAjax extends Application
             //---------------------------------
             // Object status
             $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
-    
-            // Update status
             $wObjectStatus->updateDatos();
 
-            // Load Oper and Event
-            $objectsStatus->parseEvent($wObjectStatus);
-            //---------------------------------
+            // Main controller
+            MainController::parseEvent($wObjectStatus);
         }
     }
     //-----------------------------------------------------------------

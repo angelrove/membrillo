@@ -90,8 +90,8 @@ class AppCms extends Application
             $seccCtrl->initPage();
         }
 
-        /** 
-         * Objects status 
+        /**
+         * Objects status
          */
 
         // $objectsStatus
@@ -102,7 +102,7 @@ class AppCms extends Application
         $objectsStatus->initPage();
 
         /*
-         * Config front 
+         * Config front
          */
 
         // Local ---------------------
@@ -146,13 +146,11 @@ class AppCms extends Application
         //---------------------------------
         // Object status
         $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
-
-        // Update status
         $wObjectStatus->updateDatos();
 
-        // Load Oper and Event
-        $objectsStatus->parseEvent($wObjectStatus);
-        //---------------------------------
+        // Main controller
+        MainController::parseOper($wObjectStatus);
+        MainController::parseEvent($wObjectStatus);
     }
     //-----------------------------------------------------------------
     private function systemServices(): void

@@ -72,14 +72,13 @@ class AppApi extends Application
 
         Event::initPage_api();
 
+        //---------------------------------
         // Object status
         $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
-
-        // Update status
         $wObjectStatus->updateDatos();
 
-        // Load Event
-        $wObjectStatus->parse_event_api(Event::$EVENT);
+        // Main controller
+        MainController::parseApiEvent($wObjectStatus);
     }
     //-----------------------------------------------------------------
 }

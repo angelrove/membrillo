@@ -71,45 +71,6 @@ class ObjectsStatus
         return false;
     }
     //----------------------------------------------------------------------------
-    public function parseEvent($wObjectStatus)
-    {
-        // No event ---
-        if (!Event::$EVENT) {
-            return;
-        }
-
-        if (Event::$OPER) {
-
-            // Oper ------
-            $wObjectStatus->parse_oper(Event::$OPER, Event::$ROW_ID);
-
-            // redirect ---
-            if (!error_get_last() && Event::$REDIRECT_AFTER_OPER) {
-                // Messages::set_debug('>> Redirected ---');
-
-                if (Event::$REDIRECT_AFTER_OPER_CLEAN) {
-                    header('Location:' . CrudUrl::get('', '', '', ''));
-                } else {
-                    header('Location:' . CrudUrl::get(
-                        Event::$EVENT,
-                        Event::$CONTROL,
-                        Event::$ROW_ID,
-                        '',
-                        'OPERED=' . Event::$OPER
-                    ));
-                }
-
-                exit();
-            }
-        }
-
-        // Flow (view) ------
-        if (Event::$EVENT) {
-            $wObjectStatus->parseEvent(Event::$EVENT);
-        }
-    }
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
     public function setDato(string $idControl, string $name, $value)
     {
         $this->setNewObject($idControl);

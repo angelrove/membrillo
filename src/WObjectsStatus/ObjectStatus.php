@@ -11,11 +11,13 @@ use angelrove\membrillo\WObjectsStatus\Event;
 class ObjectStatus
 {
     private $id         = '';
-    private $persistent = false;
     private $path       = '';
+    private $path_secc  = '';
 
     private $ROW_ID = '';
     private $datos  = array();
+
+    private $persistent = false;
 
     //----------------------------------------------------------------------------
     public function __construct(string $id, string $path = '')
@@ -49,76 +51,6 @@ class ObjectStatus
         }
     }
     //----------------------------------------------------------------------------
-    // Operations
-    public function parse_oper(string $oper, $row_id)
-    {
-        global $objectsStatus;
-
-        Messages::set_empty();
-        
-        $path = $this->path;
-        if (is_dir($this->path)) {
-            include $this->path . '/oper.inc';
-            return;
-        }
-
-        $path2 = $this->path_secc.'/ctrl_global';
-        if (is_dir($path2)) {
-            include $path2.'/oper.inc';
-            return;
-        }
-
-        throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
-    }
-    //----------------------------------------------------------------------------
-    // Flow
-    public function parseEvent(string $event)
-    {
-        global $objectsStatus;
-
-        $path = $this->path;
-        if (is_dir($path)) {
-            include $path . '/flow.inc';
-            return;
-        }
-
-        $path2 = $this->path_secc.'/ctrl_global';
-        if (is_dir($path2)) {
-            include $path2.'/flow.inc';
-            return;
-        }
-
-        throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
-    }
-    //----------------------------------------------------------------------------
-    public function parse_event_api(string $event)
-    {
-        global $objectsStatus;
-
-        switch (EVENT::$REQUEST_METHOD) {
-            case 'GET':
-                include $this->path_secc . '/get.inc';
-            break;
-
-            case 'POST':
-                include $this->path_secc . '/post.inc';
-            break;
-
-            case 'DELETE':
-                include $this->path_secc . '/delete.inc';
-            break;
-
-            case 'PUT':
-                include $this->path_secc . '/put.inc';
-            break;
-
-            default:
-                header("HTTP/1.0 405 Method Not Allowed");
-                exit();
-        }
-    }
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
     public function setPath(string $path)
     {
         return $this->path = $path;
@@ -127,6 +59,11 @@ class ObjectStatus
     public function getPath(): string
     {
         return $this->path;
+    }
+    //----------------------------------------------------------------------------
+    public function getPathSecc(): string
+    {
+        return $this->path_secc;
     }
     //----------------------------------------------------------------------------
     public function setPersistent(bool $flag = true)
