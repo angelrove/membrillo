@@ -76,6 +76,30 @@ class MainController
     }
     //----------------------------------------------------------------------------
     // Flow
+    static public function parseAjaxEvent($wObjectStatus)
+    {
+        // No event ---
+        if (!Event::$EVENT) {
+            throw new \Exception("membrillo Ajax MainControler error: Event not exists!");
+        }
+
+        global $objectsStatus;
+
+        $path  = $wObjectStatus->getPath();
+        $path2 = $wObjectStatus->getPathSecc().'/ctrl_global';
+
+        if (is_dir($path)) {
+            include $path . '/flow.inc';
+        }
+        elseif (is_dir($path2)) {
+            include $path2.'/flow.inc';
+        }
+        else {
+            throw new \Exception("Error accessing to control dir: \n $path \n or\n $path2 \n", 1);
+        }
+    }
+    //----------------------------------------------------------------------------
+    // Flow
     static public function parseApiEvent($wObjectStatus)
     {
         // No event ---

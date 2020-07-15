@@ -35,10 +35,6 @@ class AppCmsAjax extends Application
         /* System services */
         $this->systemServices();
 
-        //----------------------------------------------------//
-        /* Load on init */
-        require PATH_SRC . '/onInitPage.inc';
-
         //----------------------------------------------------
         /* Load service old version */
         if (isset($_REQUEST['service'])) {
@@ -46,24 +42,36 @@ class AppCmsAjax extends Application
         }
         /* Load service */
         else {
+            //---------------------------------
             // Parse event (get object_id, event, oper, item_id) ---
             Event::initPage();
             if (!Event::$EVENT) {
                 throw new \Exception("membrillo ajax error: Service not found");
             }
 
-            // onInitPage
-            $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-            @include $path_secc . '/onInitPage.inc';
-
-            //---------------------------------
             // Object status
             $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
             $wObjectStatus->updateDatos();
 
+
+            //----------------------------------------------------
             // Main controller
-            MainController::parseEvent($wObjectStatus);
+            $this->mainController($wObjectStatus);
         }
+    }
+    //-----------------------------------------------------------------
+    private function mainController($wObjectStatus): void
+    {
+        global $CONFIG_SECCIONES, $seccCtrl;
+
+        // onInitPage ---
+        require PATH_SRC . '/onInitPage.inc';
+
+        // onInitPage
+        $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+        @include $path_secc . '/onInitPage.inc';
+
+        MainController::parseAjaxEvent($wObjectStatus);
     }
     //-----------------------------------------------------------------
     private function loadService_old($seccCtrl)

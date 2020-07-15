@@ -94,12 +94,21 @@ class AppCms extends Application
          * Objects status
          */
 
-        // $objectsStatus
+        // $objectsStatus ---
         $objectsStatus = Session::get('objectsStatus');
         if (!$objectsStatus) {
             $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
         }
         $objectsStatus->initPage();
+
+        // Parse event (get object_id, event, oper, item_id) ---
+        Event::initPage();
+
+        // Object status
+        if (Event::$EVENT) {
+            $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
+            $wObjectStatus->updateDatos();
+        }
 
         /*
          * Config front
@@ -113,44 +122,47 @@ class AppCms extends Application
         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
 
         //----------------------------------------------------
-        /* Load on init */
-        //----------------------------------------------------
+        // Vendor
         require __DIR__ . '/_vendor_cssjs.inc';
+
+        // Theme
         CssJsLoad::set(__DIR__ . '/_themes/_basics.css');
 
+        // Vendor user
         require PATH_APP . '/vendor_cssjs.inc';
-        require PATH_SRC . '/onInitPage.inc';
 
-        // Basics vendor css/js -----
+        // Basics vendor css/js
         Vendor::usef('jquery');
         Vendor::usef('bootstrap');
         Vendor::usef('font-awesome');
         Vendor::usef('material-icons');
         Vendor::usef('lightbox');
-        // Vendor::usef('datatables');
 
-        //---------------------------------
-        // Parse event (get object_id, event, oper, item_id) ---
-        Event::initPage();
+        //----------------------------------------------------
+        // Main controller
+        $this->mainController($wObjectStatus);
+    }
+    //-----------------------------------------------------------------
+    private function mainController($wObjectStatus): void
+    {
+        global $CONFIG_SECCIONES, $seccCtrl;
 
-        // onInitPage
+        // onInitPage ---
+        require PATH_SRC . '/onInitPage.inc';
+
+        // onInitPage ---
         $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         @include $path_secc . '/onInitPage.inc';
 
-        // Default view
-        if (!Event::$EVENT) {
-            include $path_secc . '/tmpl_main.inc';
-            return;
+        // Event ---
+        if (Event::$EVENT) {
+            MainController::parseOper($wObjectStatus);
+            MainController::parseEvent($wObjectStatus);
         }
-
-        //---------------------------------
-        // Object status
-        $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
-        $wObjectStatus->updateDatos();
-
-        // Main controller
-        MainController::parseOper($wObjectStatus);
-        MainController::parseEvent($wObjectStatus);
+        // Default ---
+        else {
+            include $path_secc . '/tmpl_main.inc';
+        }
     }
     //-----------------------------------------------------------------
     private function systemServices(): void
