@@ -9,7 +9,7 @@ $campos = array(new WListColumn('created_at', 'Created at', 130, false, 'datetim
                 new WListColumn('name',  'Name',  '220'),
                 );
 
-$htmList = new WList($controlName, [Sample]::read(), $campos);
+$htmList = new WList($controlName, [Sample]::select(), $campos);
 $htmList->setDefaultOrder('name');
 
 $htmList->showNew();
