@@ -14,8 +14,14 @@ class ObjectsStatus
     private $listObjects = [];
 
     //----------------------------------------------------------------------------
-    public function __construct()
+    public function initPage()
     {
+        global $seccCtrl;
+
+        // If a new secc: delete data from non-persistent objets
+        if ($seccCtrl->isNewSecc) {
+            self::clearObjects();
+        }
     }
     //----------------------------------------------------------------------------
     public function setNewObject(string $idControl, string $path = '')
@@ -31,27 +37,9 @@ class ObjectsStatus
         return $this->listObjects[$idControl];
     }
     //----------------------------------------------------------------------------
-    // public function setNewObject2($idControl, $component)
-    // {
-    //   if(!isset($this->listObjects[$idControl])) {
-    //       $this->listObjects[$idControl] = $component;
-    //   }
-    //   return $this->listObjects[$idControl];
-    // }
-    //----------------------------------------------------------------------------
     public function getObject(string $idControl)
     {
         return ($this->listObjects[$idControl])?? false;
-    }
-    //----------------------------------------------------------------------------
-    public function initPage()
-    {
-        global $seccCtrl;
-
-        // If a new secc: delete data from non-persistent objets
-        if ($seccCtrl->isNewSecc) {
-            self::clearObjects();
-        }
     }
     //----------------------------------------------------------------------------
     public function clearObjects()

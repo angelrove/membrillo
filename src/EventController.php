@@ -4,11 +4,11 @@ namespace angelrove\membrillo;
 
 use angelrove\membrillo\WObjectsStatus\Event;
 
-class MainController
+class EventController
 {
     //----------------------------------------------------------------------------
     // Operations
-    static public function parseOper($wObjectStatus)
+    static public function parseOper()
     {
         if (!Event::$OPER) {
             return;
@@ -18,6 +18,8 @@ class MainController
 
         //---
         global $objectsStatus;
+
+        $wObjectStatus = $objectsStatus->getObject(Event::$CONTROL);
 
         $path  = $wObjectStatus->getPath();
         $path2 = $wObjectStatus->getPathSecc().'/ctrl_global';
@@ -52,7 +54,7 @@ class MainController
     }
     //----------------------------------------------------------------------------
     // Flow
-    static public function parseEvent($wObjectStatus)
+    static public function parseEvent()
     {
         // No event ---
         if (!Event::$EVENT) {
@@ -61,6 +63,8 @@ class MainController
 
         global $objectsStatus;
 
+        $wObjectStatus = $objectsStatus->getObject(Event::$CONTROL);
+
         $path  = $wObjectStatus->getPath();
         $path2 = $wObjectStatus->getPathSecc().'/ctrl_global';
 
@@ -76,7 +80,7 @@ class MainController
     }
     //----------------------------------------------------------------------------
     // Flow
-    static public function parseAjaxEvent($wObjectStatus)
+    static public function parseAjaxEvent()
     {
         // No event ---
         if (!Event::$EVENT) {
@@ -85,6 +89,8 @@ class MainController
 
         global $objectsStatus;
 
+        $wObjectStatus = $objectsStatus->getObject(Event::$CONTROL);
+
         $path  = $wObjectStatus->getPath();
         $path2 = $wObjectStatus->getPathSecc().'/ctrl_global';
 
@@ -100,7 +106,7 @@ class MainController
     }
     //----------------------------------------------------------------------------
     // Flow
-    static public function parseApiEvent($wObjectStatus)
+    static public function parseApiEvent()
     {
         // No event ---
         // if (!Event::$EVENT) {
@@ -108,6 +114,7 @@ class MainController
         // }
 
         // View ------
+        $wObjectStatus = $objectsStatus->getObject(Event::$CONTROL);
         $pathSecc = $wObjectStatus->getPathSecc();
 
         switch (EVENT::$REQUEST_METHOD) {

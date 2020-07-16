@@ -67,6 +67,16 @@ class Event
         self::$REDIRECT_AFTER_OPER = true;
     }
     //----------------------------------------------------------------------------
+    /*
+     * Events:
+     * create, read, update, delete
+     * edit_update, edit_new
+     */
+    public static function initPage_laravel()
+    {
+
+    }
+    //----------------------------------------------------------------------------
     public static function initPage_api()
     {
         // Event ----

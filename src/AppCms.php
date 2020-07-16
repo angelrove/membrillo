@@ -94,14 +94,14 @@ class AppCms extends Application
          * Objects status
          */
 
-        // $objectsStatus ---
+        // Objects status ---
         $objectsStatus = Session::get('objectsStatus');
         if (!$objectsStatus) {
             $objectsStatus = Session::set('objectsStatus', new ObjectsStatus());
         }
         $objectsStatus->initPage();
 
-        // Parse event (get object_id, event, oper, item_id) ---
+        // Parse event (get objectId, event, oper, itemId) ---
         Event::initPage();
 
         // Object status
@@ -117,11 +117,11 @@ class AppCms extends Application
         // Local ---------------------
         Local::_init_sections();
 
-        // CssJsLoad -----------------
+        //----------------------------------------------------
+        // CssJsLoad
         CssJsLoad::__init(CACHE_PATH, CACHE_URL, CSSJSLOAD_MINIFY, CACHE_VERSION);
         CssJsLoad::set_cache_disabled(CACHE_CSSJS_DISABLED);
 
-        //----------------------------------------------------
         // Vendor
         require __DIR__ . '/_vendor_cssjs.inc';
 
@@ -139,27 +139,19 @@ class AppCms extends Application
         Vendor::usef('lightbox');
 
         //----------------------------------------------------
-        // Main controller
-        $this->mainController($wObjectStatus);
-    }
-    //-----------------------------------------------------------------
-    private function mainController($wObjectStatus): void
-    {
-        global $CONFIG_SECCIONES, $seccCtrl;
-
-        // onInitPage ---
+        // onInitPage
         require PATH_SRC . '/onInitPage.inc';
 
-        // onInitPage ---
+        // onInitPage
         $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
         @include $path_secc . '/onInitPage.inc';
 
-        // Event ---
+        //----------------------------------------------------
+        // Main controller
         if (Event::$EVENT) {
-            MainController::parseOper($wObjectStatus);
-            MainController::parseEvent($wObjectStatus);
+            EventController::parseOper();
+            EventController::parseEvent();
         }
-        // Default ---
         else {
             include $path_secc . '/tmpl_main.inc';
         }

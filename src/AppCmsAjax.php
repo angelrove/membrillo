@@ -53,25 +53,18 @@ class AppCmsAjax extends Application
             $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
             $wObjectStatus->updateDatos();
 
+            //----------------------------------------------------
+            // onInitPage ---
+            require PATH_SRC . '/onInitPage.inc';
+
+            // onInitPage
+            $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+            @include $path_secc . '/onInitPage.inc';
 
             //----------------------------------------------------
             // Main controller
-            $this->mainController($wObjectStatus);
+            EventController::parseAjaxEvent($wObjectStatus);
         }
-    }
-    //-----------------------------------------------------------------
-    private function mainController($wObjectStatus): void
-    {
-        global $CONFIG_SECCIONES, $seccCtrl;
-
-        // onInitPage ---
-        require PATH_SRC . '/onInitPage.inc';
-
-        // onInitPage
-        $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-        @include $path_secc . '/onInitPage.inc';
-
-        MainController::parseAjaxEvent($wObjectStatus);
     }
     //-----------------------------------------------------------------
     private function loadService_old($seccCtrl)

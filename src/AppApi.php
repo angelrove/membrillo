@@ -56,18 +56,14 @@ class AppApi extends Application
 
         //----------------------------------------------------
         /* Config front */
-        //----------------------------------------------------
-        // Lang ----------------------
         include_once 'lang/es.inc';
 
         //----------------------------------------------------
         /* Load on init */
-        //----------------------------------------------------
         require PATH_SRC . '/onInitPage.inc';
 
         //----------------------------------------------------
         /* Parse event */
-        //----------------------------------------------------
         header('Content-Type: application/json');
 
         Event::initPage_api();
@@ -78,7 +74,7 @@ class AppApi extends Application
         $wObjectStatus->updateDatos();
 
         // Main controller
-        MainController::parseApiEvent($wObjectStatus);
+        EventController::parseApiEvent();
     }
     //-----------------------------------------------------------------
 }
