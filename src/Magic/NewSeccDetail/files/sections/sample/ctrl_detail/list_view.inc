@@ -1,5 +1,5 @@
 <?php
-use angelrove\LaraCrud\FormInputs\FormInputs;
+use angelrove\CrudCore\FormInputs\FormInputs;
 use angelrove\membrillo\WApp\Local;
 ?>
 

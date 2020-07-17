@@ -7,7 +7,7 @@
 
 namespace angelrove\membrillo\Database;
 
-use angelrove\LaraCrud\FormInputs\Components\File\FileUpload;
+use angelrove\CrudCore\FormInputs\Components\File\FileUpload;
 use angelrove\membrillo\WApp\Local;
 
 trait FormValues
