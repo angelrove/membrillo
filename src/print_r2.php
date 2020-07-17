@@ -11,7 +11,7 @@ function print_r2($object, bool $setComment = false)
     }
 }
 //------------------------------------------------------------------
-function dd($object, bool $setComment = false)
+function ddx($object, bool $setComment = false)
 {
     print_r2($object, $setComment = false);
 }

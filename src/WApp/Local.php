@@ -6,7 +6,7 @@
 
 namespace angelrove\membrillo\WApp;
 
-use angelrove\FormInputs\FormInputs;
+use angelrove\LaraCrud\FormInputs\FormInputs;
 use angelrove\membrillo\WApp\Session;
 use angelrove\utils\CssJsLoad;
 

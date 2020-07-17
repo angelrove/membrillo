@@ -8,8 +8,8 @@
 namespace angelrove\membrillo\WObjects\WForm;
 
 use angelrove\membrillo\Login\Login;
-use angelrove\FormInputs\FormInputs;
-use angelrove\FormInputs\InputContainer;
+use angelrove\LaraCrud\FormInputs\FormInputs;
+use angelrove\LaraCrud\FormInputs\InputContainer;
 
 trait InputsTrait
 {
