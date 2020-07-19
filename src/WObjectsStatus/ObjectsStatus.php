@@ -61,12 +61,6 @@ class ObjectsStatus
         return false;
     }
 
-    public function setDato(string $idControl, string $name, $value)
-    {
-        $this->setNewObject($idControl);
-        $this->listObjects[$idControl]->setDato($name, $value);
-    }
-
     /* Get object data or create new */
     public function getDatos(string $idControl, array $defaults = [])
     {
@@ -80,6 +74,12 @@ class ObjectsStatus
         }
 
         return $this->listObjects[$idControl]->getDatos();
+    }
+
+    public function setDato(string $idControl, string $name, $value)
+    {
+        $this->setNewObject($idControl);
+        $this->listObjects[$idControl]->setDato($name, $value);
     }
 
     public function getDato(string $idControl, string $name)

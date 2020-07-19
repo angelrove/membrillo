@@ -110,6 +110,12 @@ class AppCms extends Application
             $wObjectStatus->updateDatos();
         }
 
+        // DEBUG --------------
+        // \angelrove\CrudCore\EventStatus\EventStatus::init();
+        // \angelrove\CrudCore\EventStatus\EventStatus::dd();
+        // exit();
+        //----------------------
+
         /*
          * Config front
          */

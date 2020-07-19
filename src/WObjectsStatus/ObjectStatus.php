@@ -74,9 +74,9 @@ class ObjectStatus
         return $this->persistent;
     }
 
-    public function setDato(string $name, $value)
+    public function getDatos()
     {
-        $this->datos[$name] = $value;
+        return $this->datos;
     }
 
     public function setDataDefault(string $name, $value = '')
@@ -86,14 +86,14 @@ class ObjectStatus
         }
     }
 
+    public function setDato(string $name, $value)
+    {
+        $this->datos[$name] = $value;
+    }
+
     public function getDato(string $name)
     {
         return ($this->datos[$name])?? false;
-    }
-
-    public function getDatos()
-    {
-        return $this->datos;
     }
 
     public function delDato(string $name)
