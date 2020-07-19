@@ -6,24 +6,22 @@
 
 namespace angelrove\membrillo\WObjectsStatus;
 
-use angelrove\membrillo\CrudUrl;
-use angelrove\membrillo\Messages;
 
 class ObjectsStatus
 {
     private $listObjects = [];
 
-    //----------------------------------------------------------------------------
+
     public function initPage()
     {
         global $seccCtrl;
 
-        // If a new secc: delete data from non-persistent objets
+        // New section: clear data from non-persistent objets
         if ($seccCtrl->isNewSecc) {
             self::clearObjects();
         }
     }
-    //----------------------------------------------------------------------------
+
     public function setNewObject(string $idControl, string $path = '')
     {
         if (!$idControl) {
@@ -36,12 +34,12 @@ class ObjectsStatus
 
         return $this->listObjects[$idControl];
     }
-    //----------------------------------------------------------------------------
+
     public function getObject(string $idControl)
     {
         return ($this->listObjects[$idControl])?? false;
     }
-    //----------------------------------------------------------------------------
+
     public function clearObjects()
     {
         foreach ($this->listObjects as $key => $object) {
@@ -50,7 +48,11 @@ class ObjectsStatus
             }
         }
     }
-    //----------------------------------------------------------------------------
+
+    /*
+     * ObjectStatus
+     */
+
     public function getPath(string $idControl)
     {
         if (isset($this->listObjects[$idControl])) {
@@ -58,13 +60,13 @@ class ObjectsStatus
         }
         return false;
     }
-    //----------------------------------------------------------------------------
+
     public function setDato(string $idControl, string $name, $value)
     {
         $this->setNewObject($idControl);
         $this->listObjects[$idControl]->setDato($name, $value);
     }
-    //----------------------------------------------------------------------------
+
     /* Get object data or create new */
     public function getDatos(string $idControl, array $defaults = [])
     {
@@ -79,7 +81,7 @@ class ObjectsStatus
 
         return $this->listObjects[$idControl]->getDatos();
     }
-    //----------------------------------------------------------------------------
+
     public function getDato(string $idControl, string $name)
     {
         if (isset($this->listObjects[$idControl])) {
@@ -87,9 +89,7 @@ class ObjectsStatus
         }
         return null;
     }
-    //----------------------------------------------------------------------------
-    // ROW_ID
-    //----------------------------------------------------------------------------
+
     public function getRowId(string $idControl)
     {
         if (isset($this->listObjects[$idControl])) {
@@ -97,5 +97,4 @@ class ObjectsStatus
         }
         return null;
     }
-    //----------------------------------------------------------------------------
 }

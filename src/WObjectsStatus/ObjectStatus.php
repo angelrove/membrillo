@@ -6,7 +6,6 @@
 
 namespace angelrove\membrillo\WObjectsStatus;
 
-use angelrove\membrillo\WObjectsStatus\Event;
 
 class ObjectStatus
 {
@@ -19,7 +18,6 @@ class ObjectStatus
 
     private $persistent = false;
 
-    //----------------------------------------------------------------------------
     public function __construct(string $id, string $path = '')
     {
         $this->id = $id;
@@ -34,7 +32,7 @@ class ObjectStatus
             $this->path = $this->path_secc . '/ctrl_' . $id;
         }
     }
-    //----------------------------------------------------------------------------
+
     public function updateDatos()
     {
         foreach ($_REQUEST as $name => $value) {
@@ -50,75 +48,74 @@ class ObjectStatus
             }
         }
     }
-    //----------------------------------------------------------------------------
+
     public function setPath(string $path)
     {
         return $this->path = $path;
     }
-    //----------------------------------------------------------------------------
+
     public function getPath(): string
     {
         return $this->path;
     }
-    //----------------------------------------------------------------------------
+
     public function getPathSecc(): string
     {
         return $this->path_secc;
     }
-    //----------------------------------------------------------------------------
+
     public function setPersistent(bool $flag = true)
     {
         return $this->persistent = $flag;
     }
-    //----------------------------------------------------------------------------
+
     public function isPersistent()
     {
         return $this->persistent;
     }
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
+
     public function setDato(string $name, $value)
     {
         $this->datos[$name] = $value;
     }
-    //----------------------------------------------------------------------------
+
     public function setDataDefault(string $name, $value = '')
     {
         if (!isset($this->datos[$name])) {
             $this->datos[$name] = $value;
         }
     }
-    //----------------------------------------------------------------------------
+
     public function getDato(string $name)
     {
         return ($this->datos[$name])?? false;
     }
-    //----------------------------------------------------------------------------
+
     public function getDatos()
     {
         return $this->datos;
     }
-    //----------------------------------------------------------------------------
+
     public function delDato(string $name)
     {
         $this->datos[$name] = '';
     }
-    //----------------------------------------------------------------------------
+
     // ROW_ID
-    //----------------------------------------------------------------------------
+
     public function setRowId($value)
     {
         $this->ROW_ID = $value;
     }
-    //----------------------------------------------------------------------------
+
     public function getRowId()
     {
         return $this->ROW_ID;
     }
-    //----------------------------------------------------------------------------
+
     public function delRowId()
     {
         $this->ROW_ID = '';
     }
-    //----------------------------------------------------------------------------
+
 }
