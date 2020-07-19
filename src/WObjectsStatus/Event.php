@@ -47,7 +47,7 @@ class Event
     public static $REDIRECT_AFTER_OPER = true;
     public static $REDIRECT_AFTER_OPER_CLEAN = false;
 
-    //----------------------------------------------------------------------------
+
     public static function initPage()
     {
         // No hay evento ---
@@ -66,17 +66,7 @@ class Event
         //---
         self::$REDIRECT_AFTER_OPER = true;
     }
-    //----------------------------------------------------------------------------
-    /*
-     * Events:
-     * create, read, update, delete
-     * edit_update, edit_new
-     */
-    public static function initPage_laravel()
-    {
 
-    }
-    //----------------------------------------------------------------------------
     public static function initPage_api()
     {
         // Event ----
@@ -98,7 +88,6 @@ class Event
     }
     //----------------------------------------------------------------------------
     // EVENT
-    //----------------------------------------------------------------------------
     public static function setEvent(string $event)
     {
         //---
@@ -111,19 +100,6 @@ class Event
     }
     //----------------------------------------------------------------------------
     // ROW_ID
-    //----------------------------------------------------------------------------
-    public static function delRowId()
-    {
-        global $objectsStatus;
-
-        self::$ROW_ID = '';
-        self::$row_id = self::$ROW_ID;
-
-        if ($wo = $objectsStatus->getObject(self::$CONTROL)) {
-            $wo->delRowId();
-        }
-    }
-    //----------------------------------------------------------------------------
     public static function setRowId($value)
     {
         global $objectsStatus;
@@ -135,5 +111,16 @@ class Event
             $wo->setRowId($value);
         }
     }
-    //----------------------------------------------------------------------------
+
+    public static function delRowId()
+    {
+        global $objectsStatus;
+
+        self::$ROW_ID = '';
+        self::$row_id = self::$ROW_ID;
+
+        if ($wo = $objectsStatus->getObject(self::$CONTROL)) {
+            $wo->delRowId();
+        }
+    }
 }
