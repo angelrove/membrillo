@@ -1,7 +1,7 @@
 <?php
 namespace angelrove\membrillo\WObjectsStatus;
 
-abstract class EventComponent2
+abstract class EventComponentDev
 {
     //----------------------------------------------------------------------------
     public function __construct($id_component)

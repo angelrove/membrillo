@@ -7,7 +7,7 @@
 
 namespace angelrove\membrillo\WObjectsStatus;
 
-class _SampleComponent extends EventComponent
+class EventComponentSample extends EventComponent
 {
     //------------------------------------------------
     public function __construct($id_object)
