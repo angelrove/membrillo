@@ -49,7 +49,7 @@
 
 namespace angelrove\membrillo;
 
-class WMessages
+class WMessagesDev
 {
   //----------------------------------------------------
     public static function setInstantMsg($tag)
