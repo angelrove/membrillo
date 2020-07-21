@@ -4,6 +4,7 @@ $CONFIG_APP['aliases'] = [
     'DB'        => Illuminate\Database\Capsule\Manager::class,
     'Carbon'    => Illuminate\Support\Carbon::class,
     'CrudUrl'   => angelrove\membrillo\CrudUrl::class,
+    'App'       => angelrove\membrillo\Application::class,
     'Login'     => angelrove\membrillo\Login\Login::class,
     'Messages'  => angelrove\membrillo\Messages::class,
     'Session'   => angelrove\membrillo\WApp\Session::class,

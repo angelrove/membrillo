@@ -174,9 +174,8 @@ class Config_Secciones
     //---------------------------------------------------
     public function getDb($id)
     {
-        global $CONFIG_DB;
         if (!isset($this->listSections[$id]->db)) {
-            return $CONFIG_DB['default']['DBNAME'];
+            return \App::$conf_db['default']['DBNAME'];
         }
         return $this->listSections[$id]->db;
     }
