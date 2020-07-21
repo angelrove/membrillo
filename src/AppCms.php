@@ -165,13 +165,31 @@ class AppCms extends Application
     //-----------------------------------------------------------------
     private function systemServices(): void
     {
+        global $CONFIG_APP;
+
         if (!isset($_REQUEST['APP_EVENT'])) {
             return;
         }
 
         switch ($_REQUEST['APP_EVENT']) {
             case 'close':
+
+                $loginUrl = '/';
+                if ($CONFIG_APP['login']['LOGIN_URL']) {
+                    $loginUrl = $CONFIG_APP['login']['LOGIN_URL'];
+                }
+
+                // Session destroy ---
                 Session::session_destroy();
+
+                // Redirect to login ---
+                if (isset($_GET['LOGIN_USER'])) {
+                    header("Location: $loginUrl?LOGIN_USER=$_GET[LOGIN_USER]&LOGIN_PASSWD=$_GET[LOGIN_PASSWD]");
+                } else {
+                    header("Location: $loginUrl");
+                }
+                exit();
+
                 break;
 
             case 'local':

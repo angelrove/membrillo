@@ -72,7 +72,8 @@ class Application
             Db_mysql::debug_sql(DEBUG_SQL);
 
             /* Session start */
-            Session::start(48);
+            $sessionId = $CONFIG_DB['default']['DBNAME'];
+            Session::start($sessionId, 48);
 
             /* Alias loader */
             $this->aliases();

@@ -8,9 +8,12 @@ namespace angelrove\membrillo\WApp;
 
 class Session
 {
+    static private $sessionId;
+
     //------------------------------------------------------
-    public static function start(int $expireHours)
+    public static function start($sessionId, int $expireHours)
     {
+        self::$sessionId = $sessionId;
         $expireSeconds = $expireHours*60*60;
 
         // Session lifetime ---
@@ -28,7 +31,7 @@ class Session
     //------------------------------------------------------
     public static function set(string $key, $obj)
     {
-        $sessionName = self::getSessionName();
+        $sessionName = self::getSessionId();
         $_SESSION[$sessionName][$key] = $obj;
 
         return $_SESSION[$sessionName][$key]; // devuelve una referencia
@@ -36,7 +39,7 @@ class Session
     //------------------------------------------------------
     public static function unset(string $key)
     {
-        $sessionName = self::getSessionName();
+        $sessionName = self::getSessionId();
         if (isset($_SESSION[$sessionName][$key])) {
             unset($_SESSION[$sessionName][$key]);
         }
@@ -44,7 +47,7 @@ class Session
     //------------------------------------------------------
     public static function get(string $key)
     {
-        $sessionName = self::getSessionName();
+        $sessionName = self::getSessionId();
 
         // devuelve una referencia
         return ($_SESSION[$sessionName][$key])?? false;
@@ -52,24 +55,8 @@ class Session
     //------------------------------------------------------
     public static function session_destroy()
     {
-        global $CONFIG_APP;
-
-        $loginUrl = '/';
-        if ($CONFIG_APP['login']['LOGIN_URL']) {
-            $loginUrl = $CONFIG_APP['login']['LOGIN_URL'];
-        }
-
-      // Destroy session
         session_unset();
         session_destroy();
-
-      // Redirect (login)
-        if (isset($_GET['LOGIN_USER'])) {
-            header("Location: $loginUrl?LOGIN_USER=$_GET[LOGIN_USER]&LOGIN_PASSWD=$_GET[LOGIN_PASSWD]");
-        } else {
-            header("Location: $loginUrl");
-        }
-        exit();
     }
     //------------------------------------------------------
     /**
@@ -98,11 +85,9 @@ class Session
     //------------------------------------------------------
     // Private
     //------------------------------------------------------
-    private static function getSessionName()
+    private static function getSessionId()
     {
-        global $CONFIG_DB;
-
-        return $CONFIG_DB['default']['DBNAME'];
+        return self::$sessionId;
     }
     //------------------------------------------------------
 }
