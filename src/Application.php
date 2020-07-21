@@ -66,7 +66,9 @@ class Application
             require PATH_APP . '/config.php';
 
             /* Database */
-            $this->initDatabase(self::$conf_db['default']);
+            foreach (self::$conf_db as $key => $dbData) {
+                $this->initDatabase($dbData, $key);
+            }
             Db_mysql::debug_sql(DEBUG_SQL);
 
             /* Session start */
@@ -80,11 +82,11 @@ class Application
             /* DDBB */
             $DB_data = self::$conf_db['default'];
             $DB_data['HOST'] = 'localhost';
-            $this->initDatabase($DB_data);
+            $this->initDatabase($DB_data, 'default');
         }
     }
     //-----------------------------------------------------------------
-    private function initDatabase(array $datosDb): void
+    private function initDatabase(array $datosDb, $key='default'): void
     {
         // "illuminate/database" ---
         $capsule = new DB;
@@ -97,7 +99,7 @@ class Application
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
-        ]);
+        ], $key);
 
         // Make this Capsule instance available globally via static methods...
         $capsule->setAsGlobal();
