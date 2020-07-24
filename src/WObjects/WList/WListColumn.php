@@ -63,11 +63,6 @@ class WListColumn
         return $this;
     }
     //-------------------------------------------------------
-    public function setOrder(string $field = '')
-    {
-        $this->order($field);
-    }
-    //-------------------------------------------------------
     public function onClick()
     {
         $this->onClick = $this->name;
