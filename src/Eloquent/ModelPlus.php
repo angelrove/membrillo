@@ -20,7 +20,11 @@ class ModelPlus extends Model
 
         $query = DB::table($DB_TABLE)->where([
                 'email' => $email,
-            ])->whereNull('deleted_at');
+            ]);
+
+        if (isset(self::$conf_softdelete) && self::$conf_softdelete) {
+            $query->whereNull('deleted_at');
+        }
 
         if ($conditions) {
             $query->whereRaw($conditions);
