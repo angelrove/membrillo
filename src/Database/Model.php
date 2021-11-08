@@ -204,12 +204,12 @@ class Model implements ModelInterface
             $query->whereRaw($conditions);
         }
 
-        $data = $query->first();
+        $user = $query->first();
 
         // Password hash verify ---
-        if ($data) {
-            if (password_verify($passwd, $data->password)) {
-                return (array)$data;
+        if ($user) {
+            if (password_verify($passwd, $user->password)) {
+                return (array)$user;
             }
         }
 
