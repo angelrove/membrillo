@@ -24,7 +24,7 @@ class ObjectsStatus
 
     public function setNewObject(string $idControl, string $path = '')
     {
-        if (!$idControl) {
+        if (!$idControl && $idControl != 0) {
             throw new \Exception("membrillo error: Event is empty");
         }
 

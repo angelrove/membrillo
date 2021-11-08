@@ -80,16 +80,12 @@ class EventController
     }
     //----------------------------------------------------------------------------
     // Flow
-    static public function parseAjaxEvent()
+    static public function parseAjaxEvent($wObjectStatus)
     {
         // No event ---
         if (!Event::$EVENT) {
             throw new \Exception("membrillo Ajax MainControler error: Event not exists!");
         }
-
-        global $objectsStatus;
-
-        $wObjectStatus = $objectsStatus->getObject(Event::$CONTROL);
 
         $path  = $wObjectStatus->getPath();
         $path2 = $wObjectStatus->getPathSecc().'/ctrl_global';
