@@ -13,8 +13,6 @@ use angelrove\utils\Db_mysql;
 use angelrove\membrillo\Laravel\AliasLoader;
 use Illuminate\Database\Capsule\Manager as DB;
 
-include_once 'print_r2.php';
-
 class Application
 {
     public static $conf    = array();
