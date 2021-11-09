@@ -36,54 +36,28 @@ class AppCmsAjax extends Application
         $this->systemServices();
 
         //----------------------------------------------------
-        /* Load service old version */
-        if (isset($_REQUEST['service'])) {
-            $this->loadService_old($seccCtrl);
-        }
         /* Load service */
-        else {
-            //---------------------------------
-            // Parse event (get object_id, event, oper, item_id) ---
-            Event::initPage();
-            if (!Event::$EVENT) {
-                throw new \Exception("membrillo ajax error: Service not found");
-            }
-
-            // Object status
-            $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
-            $wObjectStatus->updateDatos();
-
-            //----------------------------------------------------
-            // onInitPage ---
-            require PATH_SRC . '/onInitPage.inc';
-
-            // onInitPage
-            $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
-            @include $path_secc . '/onInitPage.inc';
-
-            //----------------------------------------------------
-            // Main controller
-            EventController::parseAjaxEvent($wObjectStatus);
+        // Parse event (get object_id, event, oper, item_id) ---
+        Event::initPage();
+        if (!Event::$EVENT) {
+            throw new \Exception("membrillo ajax error: Service not found");
         }
-    }
-    //-----------------------------------------------------------------
-    private function loadService_old($seccCtrl)
-    {
-        global $CONFIG_SECCIONES;
+
+        // Object status
+        $wObjectStatus = $objectsStatus->setNewObject(Event::$CONTROL); // if no exist
+        $wObjectStatus->updateDatos();
+
+        //----------------------------------------------------
+        // onInitPage ---
+        require PATH_SRC . '/onInitPage.inc';
+
+        // onInitPage
         $path_secc = $CONFIG_SECCIONES->getFolder($seccCtrl->secc);
+        @include $path_secc . '/onInitPage.inc';
 
-        // Load service ----
-        try {
-            $service_path = $path_secc . '/ajax-' . $_REQUEST['service'] . '.inc';
-            if (file_exists($service_path)) {
-                include $service_path;
-            } else {
-                throw new \Exception("membrillo error: Service not found [$service_path]");
-            }
-        } catch (\Exception $e) {
-            throw $e;
-        }
-
+        //----------------------------------------------------
+        // Main controller
+        EventController::parseAjaxEvent($wObjectStatus);
     }
     //-----------------------------------------------------------------
     private function systemServices()
