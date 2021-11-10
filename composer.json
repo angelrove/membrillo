@@ -7,16 +7,17 @@
         { "name": "Jose Angel Romero", "email": "jangel.romero@gmail.com" }
     ],
     "require": {
-        "angelrove/utils": "dev-master",
-        "angelrove/crud-core": "dev-master",
+        "illuminate/database": "^8.70",
+        "illuminate/console": "^8.70",
+        "illuminate/filesystem": "^8.70",
+        "illuminate/pagination": "^8.70",
+        "fzaninotto/faker": "^1.5",
+        "symfony/finder": "^5.3",
+        "robmorgan/phinx": "^0.12.9",
+        "laravel/framework": "^8.70",
 
-        "illuminate/database": "^7.7.0",
-        "illuminate/console": "^7.7.0",
-        "illuminate/filesystem": "^7.7.0",
-        "illuminate/pagination": "^7.7.0",
-        "fzaninotto/faker": "^1.9.1",
-        "symfony/finder": "^5.1.0",
-        "robmorgan/phinx": "^0.11.1"
+        "angelrove/utils": "dev-master",
+        "angelrove/crud-core": "dev-master"
     },
     "autoload": {
         "psr-4": {
