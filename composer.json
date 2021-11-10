@@ -14,7 +14,6 @@
         "fzaninotto/faker": "^1.5",
         "symfony/finder": "^5.3",
         "robmorgan/phinx": "^0.12.9",
-        "laravel/framework": "^8.70",
 
         "angelrove/utils": "dev-master",
         "angelrove/crud-core": "dev-master"

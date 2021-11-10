@@ -45,6 +45,11 @@ class Magic extends Application
      * Commands
      */
     //--------------------------------------------------------------
+    private function puassets($name)
+    {
+        // FileSystem::recurse_copy($source, $dest);
+    }
+    //--------------------------------------------------------------
     private function comm_newsecc($name)
     {
         // Model ---
